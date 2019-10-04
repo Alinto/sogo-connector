@@ -1,0 +1,11 @@
+<!ENTITY roles-dialog.title "Felhasználói jogok szerkesztése">
+<!ENTITY roles-dialog.default-roles.label "Alapvető jogok">
+<!ENTITY roles-dialog.user-roles.label "Jogok ennek a felhasználónak:">
+
+<!ENTITY roles-dialog.roles.object-creator.label "Ez a személy felvehet a címjegyzékbe új kapcsolatot.">
+<!ENTITY roles-dialog.roles.object-viewer.label "Ez a személy megnézheti a kapcsolatokat a címjegyzékben.">
+<!ENTITY roles-dialog.roles.object-editor.label "Ez a személy szerkesztheti a kapcsolatokat a címjegyzékben.">
+<!ENTITY roles-dialog.roles.object-eraser.label "Ez a személy törölhet kapcsolatokat a címjegyzékből.">
+
+<!ENTITY roles-dialog.update-button.label "Frissít">
+<!ENTITY roles-dialog.cancel-button.label "Mégsem">

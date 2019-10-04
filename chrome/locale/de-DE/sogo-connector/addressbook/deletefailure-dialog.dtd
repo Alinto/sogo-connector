@@ -1,0 +1,2 @@
+<!ENTITY deletefailure.title        "Fehler beim Löschen von Elementen">
+<!ENTITY deletefailure.description  "Ein oder mehrere Elemente dieses Adressbuchs konnten nicht gelöscht werden. Eventuell haben Sie nicht die erforderlichen Benutzerrechte für diese Operation.">

@@ -1,0 +1,19 @@
+<!ENTITY roles-dialog.title "Felhasználói jogok szerkesztése">
+<!ENTITY roles-dialog.default-roles.label "Alapvető jogok">
+<!ENTITY roles-dialog.user-roles.label "Ezen felhasználó jogai:">
+
+<!ENTITY roles-dialog.roles-choice.view-all.label "Mutsad mind">
+<!ENTITY roles-dialog.roles-choice.view-d-a-t.label "Dátum és idő látható">
+<!ENTITY roles-dialog.roles-choice.modify.label "Módosítás">
+<!ENTITY roles-dialog.roles-choice.respond-to.label "Válasz neki:">
+<!ENTITY roles-dialog.roles-choice.none.label "Nincs">
+
+<!ENTITY roles-dialog.public.label "Közös">
+<!ENTITY roles-dialog.confidential.label "Bizalmas">
+<!ENTITY roles-dialog.private.label "Személyes">
+
+<!ENTITY roles-dialog.roles.object-creator.label "Ez a személy létrehozhat bejegyzést a naptáramban.">
+<!ENTITY roles-dialog.roles.object-eraser.label "Ez a személy törölhet bejegyzéseket a naptáramból.">
+
+<!ENTITY roles-dialog.update-button.label "Frissítés">
+<!ENTITY roles-dialog.cancel-button.label "Mégsem">

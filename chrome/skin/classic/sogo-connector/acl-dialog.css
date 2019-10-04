@@ -1,0 +1,49 @@
+#aclDialog
+{ width: 400px;
+  height: 200px;
+  padding: 0px;
+  margin: 5px; }
+
+#throbber-box image
+{
+  visibility: hidden;
+  width: 16px;
+  height: 16px;
+  margin-right: 10px;
+}
+
+#throbber-box[busy="true"] image
+{
+  visibility: visible;
+}
+
+#acl-toolbox separator
+{ width: 2px; }
+
+#addUserBtn
+{ overflow: visible;
+  -moz-appearance: button;
+  padding: 0px;
+  margin: 0px;
+  list-style-image: url("chrome://sogo-connector/skin/add-contact.gif"); }
+
+#removeUserBtn
+{ overflow: visible;
+  -moz-appearance: button;
+  padding: 0px;
+  margin: 0px;
+  list-style-image: url("chrome://sogo-connector/skin/remove-contact.gif"); }
+
+#entriesToolbar
+{ height: 36px;
+  margin-left: 5px; }
+
+.normal-user
+{ list-style-image: url("chrome://messenger/skin/addressbook/icons/abcard.png"); }
+
+.any-user
+{ list-style-image: url("chrome://sogo-connector/skin/abcard-anyone.png");
+  border-top: 1px dotted #555; }
+
+.anonymous-user
+{ list-style-image: url("chrome://sogo-connector/skin/abcard-anonymous.png"); }

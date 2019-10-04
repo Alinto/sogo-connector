@@ -1,0 +1,77 @@
+<?xml version="1.0"?>
+
+<!DOCTYPE overlay [
+    <!ENTITY % SCPreferencesDTD SYSTEM "chrome://sogo-connector/locale/preferences/preferences.dtd">
+    %SCPreferencesDTD;
+]>
+
+<?xml-stylesheet href="chrome://sogo-connector/skin/preferences/preferences.css"?>
+
+<overlay xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
+  <prefwindow id="MailPreferences">
+    <script type="application/javascript"
+      src="chrome://sogo-connector/content/preferences/preferences-overlay.js"/>
+    <prefpane id="paneSOGoConnector"
+      label="SOGo"
+      onpaneload="gSOGoConnectorPane.init();">
+
+      <tabbox id="SOGoConnectorPreferencesTabbox" 
+        flex="1" 
+        onselect="gSOGoConnectorPane.tabSelectionChanged();">
+        <tabs>
+          <tab id="SOGoConnectorPreferencesTabCategories"
+            label="&sogo-connector.preferences.panes.contacts.categories.title;"/>
+        </tabs>
+
+        <tabpanels flex="1">
+          <tabpanel orient="vertical">
+            <vbox id="SOGoConnectorPreferencesBoxCategories">
+              <preferences>
+                <preference id="sogo-connector.contacts.categories"
+                  name="sogo-connector.contacts.categories"
+                  type="string"/>
+              </preferences>
+
+              <script type="application/javascript"
+                src="chrome://calendar/content/preferences/categories.js"/>
+
+              <!-- Get the localized text for use in the .js -->
+              <script type="application/javascript">
+                var noneLabel = "&sogo-connector.preferences.contacts.categories.none.label;";
+                var addTitle = "&sogo-connector.preferences.contacts.categories.add.title;";
+                var editTitle = "&sogo-connector.preferences.contacts.categories.edit.title;";
+                var overwrite = "&sogo-connector.preferences.contacts.categories.overwrite;";
+                var overwriteTitle = "&sogo-connector.preferences.contacts.categories.overwrite.title;";
+                var noBlankCategories = "&sogo-connector.preferences.contacts.categories.noBlankCategories;";
+              </script>
+
+              <listbox id="SOGoConnectorContactCategoriesList"
+                flex="1"
+                seltype="multiple"
+                onselect="gSOGoConnectorPane.contactCategoriesPane.updateButtons()"
+                ondblclick="gSOGoConnectorPane.contactCategoriesPane.onEditCategory()">
+                <listcols id="categoryColumns">
+                  <listcol flex="3"/>
+                </listcols>
+              </listbox>
+              <hbox pack="end">
+                <button id="SOGoConnectorAddContactCategoryButton"
+                  label="&sogo-connector.preferences.contacts.categories.addButton.label;"
+                  accesskey="&sogo-connector.preferences.contacts.categories.addButton.accesskey;"
+                  oncommand="gSOGoConnectorPane.contactCategoriesPane.onAddCategory()"/>
+                <button id="SOGoConnectorEditContactCategoryButton"
+                  label="&sogo-connector.preferences.contacts.categories.editButton.label;"
+                  accesskey="&sogo-connector.preferences.contacts.categories.editButton.accesskey;"
+                  oncommand="gSOGoConnectorPane.contactCategoriesPane.onEditCategory()"/>
+                <button id="SOGoConnectorDeleteContactCategoryButton"
+                  label="&sogo-connector.preferences.contacts.categories.removeButton.label;"
+                  accesskey="&sogo-connector.preferences.contacts.categories.removeButton.accesskey;"
+                  oncommand="gSOGoConnectorPane.contactCategoriesPane.onDeleteCategory()"/>
+              </hbox>
+            </vbox>
+          </tabpanel>
+        </tabpanels>
+      </tabbox>
+    </prefpane>
+  </prefwindow>
+</overlay>

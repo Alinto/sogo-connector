@@ -1,0 +1,4 @@
+component {868e510b-d758-4f6f-8cba-c223347ab644} CardDAVDirectoryFactory.js
+contract @mozilla.org/addressbook/directory-factory;1?name=carddav {868e510b-d758-4f6f-8cba-c223347ab644}
+contract @mozilla.org/addressbook/directory-factory;1?name=carddavs {868e510b-d758-4f6f-8cba-c223347ab644}
+contract @mozilla.org/addressbook/directory-factory;1?name=moz-abdavdirectory {868e510b-d758-4f6f-8cba-c223347ab644}

@@ -1,0 +1,287 @@
+NEWS
+====
+60.0.2  Fixed invitations dialog being always blank
+
+60.0.0  Thunderbird 60 support
+
+31.0.6  Fixed card editing from account preferences
+	Fixed deletion of local address books
+	Fixed server-side deletes from ownCloud (#4094)
+	Assume jpeg when no photo type is specified (PR#29)
+	Correctly check multistatus response before using it
+	Fixed handling of modifications from "All Address Books" (PR#27)
+	Fixed search by categories (#4359)
+	Commit preferences immediately after creating an address book (#3894)
+
+31.0.5  Fixed DnD of cards under Thunderbird v52
+        Also support jpeg filenames for contact photos (#4197)
+
+31.0.4	Handle 412 (precondition failed) when sync'ing cards (server always win) (#3072)
+        Fixed editing of categories from context menu (#3770)
+        Better handle primary/secondary email addresses (#2570)
+	Fixed contact categories editing
+	Thunderbird 52 support
+        SeaMonkey support
+
+31.0.3	Fixed autocomplete issue with Thunderbird 45
+	Now perform PUT and DELETE ops synchronously (PR#13)
+	Set the "If-None-Match" when adding a contact
+
+31.0.2  Completed German translation - patch from Johann Tree
+        Fix notification in case of server side deletes
+        Add version to localCardVersionHash for new card
+        Set groupDavKey before uploading card 
+        Strip off header lines downloading cards or lists
+        Fix warnings in strict mode
+
+31.0.1  Fix for bug #3042
+
+31.0.0  Initial import for Thunderbird 31 and applied fix for bug #2870
+	Added patch from bug #2922
+	Fixed Hungarian translation (#2888)
+	
+24.0.6  We now correctly detect ACL changes on calendar components and
+        refresh the cache if necessary.
+        We also no longer require a Thunderbird restart when reloading
+        the cache from the server.
+
+24.0.5  We now ask for a confirmation when deleting cards (#1706)
+        Fixed handling of 403 error codes when uploading cards (#2714)
+        Added missing translation for hu-HU
+	Fixed major issue in passwords handling (#2739). SOGo Connector
+        now depends on Lightning (as it reuses it password handling code)
+	Fixed URL comparisons to avoid sync issues when the SOGo configuration
+	is broken regarding the UIDFielName vs. login used (foo vs foo@example.com)
+
+24.0.4	Improved etag handling (#1411 and #1624)
+	Handle periodic syncing of address books
+	Provide basic visual feedback when syncing is occuring (#2328)
+	Fixed encoding for contact categories (#2420)
+
+For later changes see ChangeLog.old
+
+0.92
+	Fixed unescaping of special characters (\r, \n, ...) from VCARD content
+
+0.90
+	Added a new provider for freebusy over HTTP (fburl)
+	Searches on CardDAV addressbooks would see their spaces "url-escaped".
+	Added support for returning a pre-configurable comment to put on autocomplete records
+	Removed dependency on Lightning
+	Restored support for the GroupDAV PUT "location" header
+	Added dutch translation from roel.van.os@humanitech.nl
+	Overwritten the isCalendarWritble() fonction in Lighting to consider WebDAV ACLs
+	We now properly manage identities of CalDAV calendars vs. identities within Thunderbird
+	We now properly handle servers that don't support ACLs
+	Fixed many bugs there and there
+
+0.81
+	Check the response from the server to avoid inconsistencies and loss of data
+	Take the ACL into account when changing the calendar of the edited event
+	Accept local calendars
+
+0.80
+	Added support for Lightning 0.8
+	CardDAV addressbooks now appear in the compose window
+	Added support for DAV acls (with work-around for incomplete implementations of the WebDAV ACL)
+	A bug would attempt to synchronize the vcard of the user's signature to when created or modified
+
+0.67
+	drag and dropping a card from a GroupDAV directory would not delete the card on th server
+	using the German translation would prevent the groupdav addressbook dialog to appear properly
+	the synchronize button would no longer be activated
+	deleting cards in GroupDAV directories would delete them on the server before the confirmation window was answered
+	the creation window for remote DAV addressbooks would no longer be accepted
+	added handling of personal mailing lists, using a versit-style format named "VLIST"
+	drag and dropping contacts from one groupdav directory to another, and back, would generate an exception and drop the card
+
+0.66
+	rewrite of the CardDAV addressbook implementation
+	  fixes the situation where one was not able to write to a mailing list
+	  fixes the duplicate entries for such addressbooks
+	  fixes the autocompletion working only one time per two tries
+	improved the performance and the reliability of the freebusy resolution in the attendees window
+	added a hook to give up the startup process to the SOGo Integrator if present
+
+0.65.1
+	fixed support for freebusy entries containing multiple intervals on
+	the same line
+
+0.65
+	added asynchronous autocompletion
+	added the handling of organizers for whom the user id IS an email address
+	fixed a crash occuring during autocompletion operations on LDAP addressbooks
+	reenabled the ability to download cards from OGo (upload still doesn't work)
+	added patch from https://bugzilla.mozilla.org/show_bug.cgi?id=408727
+	to speedup the display of the monthly view in lightning
+
+0.64
+	rewrote the upload mechanism to use the Mozilla webdav library
+	generate better identifiers for new vCards
+	code cleanup
+
+0.63
+	rewrite of the vcard parsing to accept more variations and encodings
+	enhancements to the autocompletion algorithm to avoid doubles
+	rewrite of some algorithms to use Mozilla's webdav library
+
+0.62.1
+	added missing German translations for calendar
+
+0.62	
+	CardDAV Autocomplete now works. fbURL is available in the mail
+	composition window and in the meeting attendees window
+	fixed bug 1616: Drag and drop from Directories
+	fixed bug 1642: Problem deleting & editing CardDAV Directory	
+
+0.61
+	fix for an error in chrome/local for de-DE	
+
+0.60
+	German Local dialog
+	Patch for "N;CHARSET=" bug for vcard 2.1 (eGroupware)
+
+0.59
+ 	Fix to the conversion into UTF-8 charset when uploading cards
+	Fixed support for Lightning 0.7 and up
+	Added support for duration-based notation of freebusy entries
+
+0.58
+	Fix for card duplication during creation and synchronization of cards
+	in thunderbird 2.0 (492)
+	Better error message on upload errors (883)
+	Now support text/vcard as the content-type of the response (864)
+	Fix bug (869)	
+	Now support HTTP Response 200 as a successful response code (for OGo)
+	Overhaul of vcard 3.0 support: UTF-8 is now fully supported(non
+	ascii-characters), Note on multi-lines is properly parsed and sent
+	(852-866-867-900)
+
+0.56
+	fix error message on synchronize cancel
+	handlings of vcards fields that are not part of Thunderbird card
+	schema
+
+0.55
+	drag & drop automatically uploads card to server
+	function getServerVcardHrefList(doc) now accepts charset specification
+	in "getcontenttype" which is now specified by OGo
+
+0.54.1
+	Removed user and password from Preference dialog, Now Thunderbird
+	HTTPConnection and password manager handle that.
+
+0.53
+	bug corrections that were created in 0.51 at merging
+
+0.51
+	Fields custom3 and custom4 are not used as synchronization fields
+	anymore.  To avoid synchronization problems, it is better to create a
+	new addressbook and synchronize the data.
+  	Now supports 2.0b2!
+
+0.50
+	removed host from preferences
+	fixed updated/added totals	
+	fix delete and edit (Overwrite local card: there must be a cleaner way
+	to delete)
+	0000445: fixed "ENCODING=QUOTED-PRINTABLE" 
+  	0000491 & 0000513 & 0000487 : Creation of new cards outside the
+	addressbook now works french version of the GUI,  messages are still
+	in english
+
+0.47
+	ameliorations in implementors.addressbook.groupdav.js
+
+0.46
+	bug fix for port support in URL
+
+0.41
+	added logging for upload errors
+
+0.4
+	Compatible with 2.0
+
+0.37
+	bug fixes delete folder error message		
+
+0.36
+	icon added
+
+0.35
+	auto update test
+
+0.34
+	auto update support
+
+0.33
+	Bug Fixes:
+		preference dialog (throws error)
+		url accesskey
+		delete non-groupdav throwing exception
+
+0.32
+	compatible with 2.0a1 (max version)
+
+0.31
+	Bug fix for Conflicts
+
+0.3
+	Delete Card (local)
+	optional 
+
+0.26
+	button enable disable work on Windows and linux and Mac.
+
+0.24
+	More info dumped into the log file
+
+0.23
+	Logging in log file	
+
+0.22
+	Bug fixes
+
+0.21
+	Automatic upload of card addition when online
+
+0.2
+	Automatic upload of card modification  when online
+	Synchronization completed dialog
+	Disable Groupdav menu (not Groupdav directory)
+	GroupDAV menu by server
+
+0.1
+	Other server Preferences (Ogo) DONE (BUG)
+
+
+====  PLANNED =======================================
+	Work Offline, Online triggers a synchronize
+	Public folder contacts???
+	catch the directory delete and delete preferences
+	Editing one card online or offline  and editing another one before the
+	transaction is completed is not supported yet
+
+	0000492: creation et mise a jour de cartes ne fonctionne pas avec thunderbird 2
+	0000490: Ajouter support pour les contacts Read-Only	
+	0000418: validation des champs d'entree 
+	
+	Conflicts dialog (currently conflicts are simply overwritten by the server version)
+	Delete server = conflicts
+
+	Propfind rewrite [charset in the content-type]
+
+	BUG: OGO does not accept put
+
+Todos in code
+=============
+	fix Get accept Header (GET should list the text/x-vcard )
+	function uploadEditCard(): TODO verify if there is a conflict whith the server's version
+	isWebdavConnectionUp //TODO:optimize the propfind to return a smaller response
+	PUT: refetch the card as recommended by Helge
+	complete vCardDownloadObserver
+	complete uploadListener 
+
+Local variables:
+mode: text
+End:

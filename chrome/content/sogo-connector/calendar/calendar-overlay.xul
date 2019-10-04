@@ -1,0 +1,71 @@
+<?xml version="1.0"?>
+<!--
+ Copyright:     Inverse inc., 2007-2019
+ Email:            support@inverse.ca
+ URL:              http://inverse.ca
+  -->
+
+<?xml-stylesheet type="text/css" href="chrome://global/skin/global.css"?>
+<?xml-stylesheet type="text/css" href="chrome://sogo-connector/skin/calendar-overlay.css"?>
+<?xml-stylesheet type="text/css" href="chrome://sogo-connector/content/calendar/calendar-overlay.css"?>
+
+<!DOCTYPE overlay SYSTEM "chrome://sogo-connector/locale/calendar/calendar-overlay.dtd">
+
+<overlay id="inverseCalendarOverlay"
+         xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
+  <script type="application/x-javascript"
+          src="chrome://sogo-connector/content/calendar/calendar-overlay.js"/>
+  
+  <stringbundleset id="stringbundleset">
+    <stringbundle id="bundle_integrator_calendar"
+		  src="chrome://sogo-connector/locale/calendar/calendar-overlay.properties"/>
+  </stringbundleset>
+  
+  <commandset id="calendar_commands">
+    <command id="calendar_create_calendar_command"
+      oncommand="openCalendarCreationDialog()"/>
+    <command id="calendar_subscribe_calendar_command"
+      oncommand="openCalendarSubcriptionDialog()"/>
+    <command id="calendar_unsubscribe_calendar_command"
+      oncommand="openCalendarUnsubscriptionDialog()"/>
+    <command id="calendar_manage_sogo_acls_command"
+      oncommand="manageCalendarACL()"/>
+    <command id="calendar_sogo_showonly_command"
+      oncommand="toggleShowOnlyCalendar()"/>
+    <command id="calendar_sogo_showall_command"
+      oncommand="toggleShowAllCalendars()"/>
+  </commandset>
+
+ <!-- Get the localized text for use in the .js -->
+ <script type="application/javascript">
+   var addTooltipText = "&calendar-overlay.susbcription.tooltips.add;";
+   var subscribeTooltipText = "&calendar-overlay.susbcription.tooltips.subscribe;";
+   var removeTooltipText = "&calendar-overlay.susbcription.tooltips.remove;";
+
+   var exportTaskText = "&calendar.context.exporttask.label;";
+
+   var  deleteLabel ="&calendar.context.sogo-delete.label;";
+   var unsubscribeLabel ="&calendar.context.sogo-unsubscribe.label;";
+   var manageLabel ="&calendar.context.sogo-acls.label;";
+   var reloadLabel ="&calendar.context.sogo-reload-acls.label;";
+ </script>
+<!--
+  <modevbox id="calendar-listtree-pane">
+    <hbox id="subscriptionToolbar" insertbefore="calendar-list-tree-widget" collapsed="false">
+      <toolbarbutton id="addCalendarBtn"
+	image="chrome://sogo-connector/skin/calendar/add-calendar.png"
+	command="calendar_create_calendar_command"
+	tooltiptext="&calendar-overlay.susbcription.tooltips.add;"/>
+      <toolbarbutton id="subscribeCalendarBtn"
+	image="chrome://sogo-connector/skin/calendar/add-user-calendar.png"
+	command="calendar_subscribe_calendar_command"
+	tooltiptext="&calendar-overlay.susbcription.tooltips.subscribe;"/>
+      <toolbarbutton id="removeCalendarBtn"
+	image="chrome://sogo-connector/skin/calendar/remove-calendar.png"
+	command="calendar_unsubscribe_calendar_command"
+	tooltiptext="&calendar-overlay.susbcription.tooltips.remove;"/>
+    </hbox>
+  </modevbox>
+  -->
+  
+</overlay>

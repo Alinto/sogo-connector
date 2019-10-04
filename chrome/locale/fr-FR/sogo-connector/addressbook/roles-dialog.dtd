@@ -1,0 +1,11 @@
+<!ENTITY roles-dialog.title "Édition des droits">
+<!ENTITY roles-dialog.default-roles.label "Droits par défaut">
+<!ENTITY roles-dialog.user-roles.label "Autorisations pour :">
+
+<!ENTITY roles-dialog.roles.object-creator.label "Cette personne peut ajouter des fiches à ce carnet d'adresses.">
+<!ENTITY roles-dialog.roles.object-viewer.label "Cette personne peut visionner les fiches de ce carnet d'adresses.">
+<!ENTITY roles-dialog.roles.object-editor.label "Cette personne peut éditer des fiches de ce carnet d'adresses.">
+<!ENTITY roles-dialog.roles.object-eraser.label "Cette personne peut effacer des fiches de ce carnet d'adresses.">
+
+<!ENTITY roles-dialog.update-button.label "Mettre à jour">
+<!ENTITY roles-dialog.cancel-button.label "Annuler">

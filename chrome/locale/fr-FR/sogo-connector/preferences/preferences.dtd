@@ -1,0 +1,14 @@
+<!ENTITY sogo-connector.preferences.panes.contacts.categories.title "Catégories de contact">
+<!ENTITY sogo-connector.preferences.contacts.categories.none.label "Aucune">
+<!ENTITY sogo-connector.preferences.contacts.categories.add.title "Ajouter une catégorie">
+<!ENTITY sogo-connector.preferences.contacts.categories.addButton.label "Ajouter...">
+<!ENTITY sogo-connector.preferences.contacts.categories.addButton.accesskey "A">
+<!ENTITY sogo-connector.preferences.contacts.categories.edit.title "Modifier la catégorie">
+<!ENTITY sogo-connector.preferences.contacts.categories.editButton.label "Modifier...">
+<!ENTITY sogo-connector.preferences.contacts.categories.editButton.accesskey "MM">
+<!ENTITY sogo-connector.preferences.contacts.categories.removeButton.label "Supprimer">
+<!ENTITY sogo-connector.preferences.contacts.categories.removeButton.accesskey "S">
+
+<!ENTITY sogo-connector.preferences.contacts.categories.overwrite "Une catégorie portant le même nom existe déjà. \n Voulez-vous la remplacer ?">
+<!ENTITY sogo-connector.preferences.contacts.categories.overwrite.title "Attention : nom en double">
+<!ENTITY sogo-connector.preferences.contacts.categories.noBlankCategories "Vous devez saisir un nom de catégorie.">

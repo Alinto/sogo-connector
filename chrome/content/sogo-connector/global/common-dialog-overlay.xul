@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<!--
+ Copyright:     Inverse inc., 2008-2019
+ Email:         support@inverse.ca
+ URL:           http://inverse.ca
+ -->
+
+<!DOCTYPE overlay>
+
+<overlay id="SICommonDialogOverlay"
+  xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
+  <dialog id="commonDialog">
+    <stringbundle id="SICDStrings"
+      src="chrome://sogo-connector/locale/global/common-dialog-overlay.properties"/>
+    <script type="application/x-javascript"
+      src="chrome://sogo-connector/content/global/common-dialog-overlay.js"/>
+  </dialog>
+</overlay>

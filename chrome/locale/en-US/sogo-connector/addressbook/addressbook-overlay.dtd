@@ -1,0 +1,9 @@
+<!ENTITY addressbook-overlay.acl-menu.label "Sharing...">
+
+<!ENTITY addressbook-overlay.susbcription.tooltips.add
+ "New Addressbook...">
+<!ENTITY addressbook-overlay.susbcription.tooltips.subscribe
+ "Subscribe to an Addressbook...">
+<!ENTITY addressbook-overlay.susbcription.tooltips.remove
+ "Remove the selected Addressbook">
+<!ENTITY addressbook-overlay.subscription.menu.unsubscribe "Unsubscribe">

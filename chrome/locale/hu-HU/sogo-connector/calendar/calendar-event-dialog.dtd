@@ -1,0 +1,6 @@
+<!ENTITY  attendee.toolbar.accept.label "Elfogad">
+<!ENTITY  attendee.toolbar.decline.label "Eldob">
+<!ENTITY  attendee.toolbar.close.label "Bezár">
+<!ENTITY  event.organizers.label                           "Szervező:">
+<!ENTITY  event.menu.options.privacy.confidential.label    "Bizalmas esemény">
+<!ENTITY  event.confidential.label                         "Bizalmas esemény">

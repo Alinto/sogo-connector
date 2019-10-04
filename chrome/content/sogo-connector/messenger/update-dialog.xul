@@ -1,0 +1,33 @@
+<?xml version="1.0"?>
+<!--
+ Copyright:     Inverse inc., 2007
+ Author:        Wolfgang Sourdeau <wsourdeau@inverse.ca>
+ Email:         support@inverse.ca
+ URL:           http://inverse.ca
+  -->
+
+<?xml-stylesheet href="chrome://global/skin/global.css" type="text/css"?>
+<?xml-stylesheet href="chrome://sogo-connector/skin/update-dialog.css"
+ type="text/css"?>
+
+<!DOCTYPE dialog [
+<!ENTITY % updatedialogDTD
+    SYSTEM "chrome://sogo-connector/locale/messenger/update-dialog.dtd">
+%updatedialogDTD;
+]>
+
+<dialog xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"
+  id="inverseMessengerUpdateDlg" ondialogaccept="return onAcceptClick();"
+  ondialogcancel="return onCancelClick();"
+  width="380px" height="130px" buttons="accept"
+  title="&sogo-connector.title;">
+  <script type="application/x-javascript"
+    src="chrome://sogo-connector/content/messenger/update-dialog.js"/>
+  <vbox>
+    <hbox>
+      <description id="message">&sogo-connector.message;</description>
+      <image id="spinner" src="chrome://global/skin/throbber/Throbber-small.gif"/>
+    </hbox>
+    <description id="restartMessage" value="&sogo-connector.restart-message;" collapsed="true"/>
+  </vbox>
+</dialog>

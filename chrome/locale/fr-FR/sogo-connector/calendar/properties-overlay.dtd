@@ -1,0 +1,3 @@
+<!ENTITY properties-overlay.notify-on-personal-modifications.label "Emettre un courrier quand je modifie mon agenda">
+<!ENTITY properties-overlay.notify-on-external-modifications.label "Emettre un courrier quand quelqu'un d'autre modifie mon agenda">
+<!ENTITY properties-overlay.notify-user-on-personal-modifications.label "Quand je modifie mon agenda, emettre un courrier a :">

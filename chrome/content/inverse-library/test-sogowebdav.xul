@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+
+<!DOCTYPE overlay>
+
+<?xul-overlay href="chrome://communicator/content/contentAreaContextOverlay.xul"?>
+
+<overlay id="ca.inverse.messenger.testwebdav"
+  xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
+  <window id="messengerWindow">
+    <button label="Test SOGoWebDAV" onclick="window.openDialog('chrome://inverse-library/content/tests-dialog.xul', '', 'chrome,modal=no,resizable=no,centerscreen');"/>
+  </window>
+</overlay>

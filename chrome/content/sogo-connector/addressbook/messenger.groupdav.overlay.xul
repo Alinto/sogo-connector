@@ -1,0 +1,41 @@
+<?xml version="1.0"?>
+<!--
+ Overlay	for chrome://messenger/content/messenger.xul
+ This overlay adds observers to the messenger Overlay
+ -->
+<!--
+ Copyright:	Inverse inc., 2007-2019
+ Email:		support@inverse.ca 
+ URL:			http://inverse.ca
+  
+ This file is part of "SOGo Connector" a Thunderbird extension.
+
+    "SOGo Connector" is free software; you can redistribute it and/or modify
+    it under the terms of the GNU General Public License version 2 as published by
+    the Free Software Foundation;
+
+    "SOGo Connector" is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with "SOGo Connector"; if not, write to the Free Software
+    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA	
+-->
+
+<!DOCTYPE overlay SYSTEM "chrome://sogo-connector/locale/addressbook/ca.inverse.abMainWindow.groupdav.dtd">
+
+<overlay id="ca.inverse.messenger.groupdav" xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
+  <script type="application/x-javascript"
+          src="chrome://sogo-connector/content/addressbook/messenger.groupdav.overlay.js"/>
+
+    <!-- 
+    MUST USE THE EXISTING id OF BUNDLESET OF ORIGINAL XUL FILE 
+      ===> it means we add the stringbundle to the existing stringbundleset
+    -->
+    <stringbundleset id="stringbundleset">
+        <stringbundle id="sogoStringBundle" src="chrome://sogo-connector/locale/addressbook/messenger.groupdav.overlay.properties"/>
+    </stringbundleset>
+
+</overlay>

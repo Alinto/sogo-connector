@@ -1,0 +1,6 @@
+<!ENTITY calendar.preferences.general.classification.caption
+"Alapértelmezett besorolás">
+<!ENTITY calendar.preferences.general.default-events-classification.label
+"Esemény besorolása:">
+<!ENTITY calendar.preferences.general.default-todos-classification.label
+"Teendő besorolása:">

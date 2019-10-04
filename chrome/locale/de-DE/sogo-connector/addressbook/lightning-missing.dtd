@@ -1,0 +1,4 @@
+<!ENTITY lightning-missing.title "Fehlende Erweiterung">
+<!ENTITY lightning-missing.text  "SOGo Connector benötigt die Mozilla
+Lightning Erweiterung. Folgen Sie dem Link, um diese zu installieren.
+Ansonsten sind keine Operationen zur Synchronisierung verfügbar.">

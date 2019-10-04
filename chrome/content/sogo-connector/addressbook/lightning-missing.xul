@@ -1,0 +1,55 @@
+<?xml version="1.0"?>
+<!--
+ Copyright:	Inverse inc., 2008
+ Author: 	Wolfgang Sourdeau
+ Email:		support@inverse.ca 
+ URL:		http://inverse.ca
+
+ This file is part of "SOGo Connector" a Thunderbird extension.
+
+ "SOGo Connector" is free software; you can redistribute it and/or modify
+ it under the terms of the GNU General Public License version 2 as published by
+ the Free Software Foundation;
+
+ "SOGo Connector" is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ GNU General Public License for more details.
+
+ You should have received a copy of the GNU General Public License
+ along with "SOGo Connector"; if not, write to the Free Software
+ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA	
+-->
+
+
+<!DOCTYPE dialog [
+<!ENTITY % subscriptionDTD SYSTEM "chrome://sogo-connector/locale/addressbook/lightning-missing.dtd">
+%subscriptionDTD;
+]>
+
+<?xml-stylesheet type="text/css" href="chrome://sogo-connector/skin/addressbook/lightning-missing.css"?>
+<?xml-stylesheet type="text/css" href="chrome://global/content/xul.css"?>
+<?xml-stylesheet type="text/css" href="chrome://global/skin/global.css"?>
+<?xml-stylesheet type="text/css" href="chrome://global/skin/popup.css"?>
+<?xml-stylesheet type="text/css" href="chrome://global/skin/textbox.css"?>
+
+<dialog xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"
+  id="inverseLightningMissingDialog"
+  type="dialog"
+  buttons="accept"
+  title="&lightning-missing.title;">
+  <script type="application/x-javascript"
+    src="chrome://glboal/content/globalOverlay.js"/>
+  <script type="application/x-javascript"
+    src="chrome://glboal/content/contentAreaUtils.js"/>
+  <script type="application/x-javascript"
+    src="chrome://mozapps/content/extensions/extensions.js"/>
+  <vbox flex="1">
+    <hbox flex="1">
+      <label flex="1">&lightning-missing.text;</label>
+    </hbox>
+    <hbox>
+      <label onclick="openURL(this.childNodes[0].nodeValue);" class="text-link">http://www.mozilla.org/projects/calendar/lightning/</label>
+    </hbox>
+  </vbox>
+</dialog>

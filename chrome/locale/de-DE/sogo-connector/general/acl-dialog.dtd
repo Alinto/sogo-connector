@@ -1,0 +1,10 @@
+<!ENTITY acl-dialog.title "Benutzerrechte">
+
+<!ENTITY acl.toolbar.close.label "Schließen">
+<!ENTITY acl.toolbar.edit.label "Benutzerrechte bearbeiten">
+
+<!ENTITY acl.owner.label "Besitzer:">
+<!ENTITY acl.defaultRoles.label "Standardrechte">
+
+<!ENTITY acl.addUser.label "Hinzufügen...">
+<!ENTITY acl.removeUser.label "Löschen">

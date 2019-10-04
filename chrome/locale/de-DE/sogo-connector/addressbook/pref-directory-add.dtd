@@ -1,0 +1,72 @@
+<!--
+ Copyright:	Inverse inc., 2006-2007 
+ Author: 	Robert Bolduc
+ Email:		support@inverse.ca 
+ URL:			http://inverse.ca
+
+ Translated to German by Raffael Luthiger and Johann Kayßer
+	
+ This file is part of "SOGo Connector" a Thunderbird extension.
+
+    "SOGo Connector" is free software; you can redistribute it and/or modify
+    it under the terms of the GNU General Public License version 2 as published by
+    the Free Software Foundation;
+
+    "SOGo Connector" is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with "SOGo Connector"; if not, write to the Free Software
+    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA	
+-->
+
+<!ENTITY newDirectoryTitle.label          "Remote-Adressbuch Einstellungen">
+<!ENTITY groupdavName.label               "Adressbuch-Name: ">
+<!ENTITY groupdavName.accesskey           "A">
+<!ENTITY groupdavURL.label                "URL: ">
+<!ENTITY groupdavURL.accesskey            "l">
+<!ENTITY groupdavHostname.label           "Host: ">
+<!ENTITY groupdavHostname.accesskey       "h">
+<!ENTITY groupdavSecure.label             "Sichere Verbindung verwenden (SSL)">
+<!ENTITY groupdavSecure.accesskey         "S">
+
+<!ENTITY groupdavUser.label               "Benutzer:">
+<!ENTITY groupdavUser.accesskey           "r">
+
+<!ENTITY groupdavPassword.label            "Passwort:">
+<!ENTITY groupdavPassword.accesskey       "p">
+
+<!ENTITY groupDavServerType.label         "GroupDAV Server Typ:">
+<!ENTITY groupDavServerType.accesskey     "G">
+
+<!ENTITY groupdavPeriodicSync.label       "Synchronisations-Intervall" >
+<!ENTITY groupdavPeriodicSync5m.label     "5 min" >
+<!ENTITY groupdavPeriodicSync15m.label    "15 min" >
+<!ENTITY groupdavPeriodicSync1h.label     "1 h" >
+<!ENTITY groupdavPeriodicSync2h.label     "2 h" >
+<!ENTITY groupdavNotifications.label      "Benachrichtigungen anzeigen" >
+
+<!ENTITY groupdavNotificationsOINE.label  "Nur bei erfolgter Synchronsation benachrichtigen" >
+<!ENTITY groupdavNotificationsRestart.label "Änderungen des 'Synchronisations-Intervalls' erfordern einen Neusart von Thunderbird." >
+<!ENTITY groupdavNotificationsManual.label "Benachrichtigungen bei manueller Synchronsation anzeigen" >
+<!ENTITY groupdavNotificationsManual.info  "Wenn die Synchronsation über die Symbolleiste oder das Kontextmenü gestartet wurde." >
+<!ENTITY groupdavNotificationsSave.label   "Benachrichtigungen beim Speichern eines Kontakts anzeigen" >
+<!ENTITY groupdavNotificationsSave.info    "Standardmäßig wird ein Fortschrittsbalken in der Statusleiste angezeigt. Bei Auswahl dieser Option wird eine Benachrichtigung angezeigt." >
+<!ENTITY groupdavNotificationsStart.label  "Benachrichtigungen beim Starten anzeigen" >
+
+<!ENTITY General.tab                       "Allgemein">
+<!ENTITY Offline.tab                       "Offline">
+<!ENTITY offlineText.label                 "Sie können eine lokale Kopie von diesem Verzeichnis erstellen. Dann ist es auch verfügbar, wenn Sie offline arbeiten.">
+
+<!ENTITY downloadNowButton.label           "Jetzt herunterladen">
+<!ENTITY downloadNowButton.accesskey       "D">
+<!-- Localization note: this is here because the width of the dialog 
+     is determined by the width of the base DN box; and that is likely
+     to vary somewhat with the language.
+-->
+<!ENTITY newDirectoryWidth                 "40em">
+
+<!ENTITY ReadOnly.label                   "Nur lesbar">
+<!ENTITY ReadOnly.accesskey           		"N">

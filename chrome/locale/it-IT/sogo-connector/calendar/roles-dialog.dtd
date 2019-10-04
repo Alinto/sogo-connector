@@ -1,0 +1,19 @@
+<!ENTITY roles-dialog.title "Modifica permessi">
+<!ENTITY roles-dialog.default-roles.label "Permessi predefiniti">
+<!ENTITY roles-dialog.user-roles.label "Permessi per:">
+
+<!ENTITY roles-dialog.roles-choice.view-all.label "Mostra tutti">
+<!ENTITY roles-dialog.roles-choice.view-d-a-t.label "Mostra data e ora">
+<!ENTITY roles-dialog.roles-choice.modify.label "Modifica">
+<!ENTITY roles-dialog.roles-choice.respond-to.label "Rispondi a">
+<!ENTITY roles-dialog.roles-choice.none.label "Nessuno">
+
+<!ENTITY roles-dialog.public.label "Pubblico">
+<!ENTITY roles-dialog.confidential.label "Confidenziale">
+<!ENTITY roles-dialog.private.label "Privato">
+
+<!ENTITY roles-dialog.roles.object-creator.label "Questo utente può creare oggetti nel calendario.">
+<!ENTITY roles-dialog.roles.object-eraser.label "Questo utente può eliminare oggetti nel calendario.">
+
+<!ENTITY roles-dialog.update-button.label "Salva">
+<!ENTITY roles-dialog.cancel-button.label "Annulla">

@@ -1,0 +1,10 @@
+<!ENTITY addressbook-overlay.acl-menu.label "Benutzerrechte...">
+
+<!ENTITY addressbook-overlay.susbcription.tooltips.add
+ "Neues Adressbuch...">
+<!ENTITY addressbook-overlay.susbcription.tooltips.subscribe
+ "Ein Adressbuch abonnieren...">
+<!ENTITY addressbook-overlay.susbcription.tooltips.remove
+ "Gewähltes Adressbuch löschen">
+<!ENTITY addressbook-overlay.subscription.menu.unsubscribe
+ "Abonnement für Adressbuch kündigen">

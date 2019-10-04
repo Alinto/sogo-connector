@@ -1,0 +1,10 @@
+<!ENTITY acl-dialog.title "Gestion des droits">
+
+<!ENTITY acl.toolbar.close.label "Fermer">
+<!ENTITY acl.toolbar.edit.label "Édition des droits">
+
+<!ENTITY acl.owner.label "Propriétaire :">
+<!ENTITY acl.defaultRoles.label "Rôles par défaut">
+
+<!ENTITY acl.addUser.label "Ajouter...">
+<!ENTITY acl.removeUser.label "Enlever">

@@ -1,0 +1,3 @@
+<!ENTITY properties-overlay.notify-on-personal-modifications.label "Eine Mail erhalten, wenn ich meinen Kalender verändere">
+<!ENTITY properties-overlay.notify-on-external-modifications.label "Eine Mail erhalten, wenn jemand anderes meinen Kalender verändert">
+<!ENTITY properties-overlay.notify-user-on-personal-modifications.label "Wenn ich meinen Kalender verändere, eine Mail schicken an:">

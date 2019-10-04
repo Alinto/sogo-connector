@@ -1,0 +1,11 @@
+<!ENTITY roles-dialog.title "Editing User Rights">
+<!ENTITY roles-dialog.default-roles.label "Default Rights">
+<!ENTITY roles-dialog.user-roles.label "Rights for:">
+
+<!ENTITY roles-dialog.roles.object-creator.label "This person can add cards to this addressbook.">
+<!ENTITY roles-dialog.roles.object-viewer.label "This person can read the cards of this addressbook.">
+<!ENTITY roles-dialog.roles.object-editor.label "This person can edit the cards of this addressbook.">
+<!ENTITY roles-dialog.roles.object-eraser.label "This person can erase cards from this addressbook.">
+
+<!ENTITY roles-dialog.update-button.label "Update">
+<!ENTITY roles-dialog.cancel-button.label "Cancel">

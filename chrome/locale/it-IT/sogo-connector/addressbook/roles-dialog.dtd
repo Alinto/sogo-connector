@@ -1,0 +1,11 @@
+<!ENTITY roles-dialog.title "Modifica permessi">
+<!ENTITY roles-dialog.default-roles.label "Permessi predefiniti">
+<!ENTITY roles-dialog.user-roles.label "Permessi per:">
+
+<!ENTITY roles-dialog.roles.object-creator.label "Questo utente può aggiungere contatti nella rubrica.">
+<!ENTITY roles-dialog.roles.object-viewer.label "Questo utente può leggere contatti dalla rubrica.">
+<!ENTITY roles-dialog.roles.object-editor.label "Questo utente può modifcare contatti dalla rubrica.">
+<!ENTITY roles-dialog.roles.object-eraser.label "Questo utente può eliminare contatti dalla rubrica.">
+
+<!ENTITY roles-dialog.update-button.label "Salva">
+<!ENTITY roles-dialog.cancel-button.label "Annulla">

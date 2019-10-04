@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<!--
+ Copyright:	Inverse inc., 2006-2019
+ Email:		support@inverse.ca 
+ URL:		http://inverse.ca
+  -->
+<overlay id="inverseAddressbookCommonCardOverlay"
+         xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
+
+  <script type="application/x-javascript"
+          src="chrome://sogo-connector/content/addressbook/common-card-overlay.js"/>
+
+</overlay>

@@ -1,0 +1,15 @@
+<!ENTITY calendar.context.exporttask.label "Teendő exportálása...">
+<!ENTITY calendar-overlay.susbcription.tooltips.add
+ "Új naptár...">
+<!ENTITY calendar-overlay.susbcription.tooltips.subscribe
+ "Feliratkozás egy naptárra...">
+<!ENTITY calendar-overlay.susbcription.tooltips.remove
+ "A kijelölt naptár törlése">
+<!ENTITY calendar.context.reinit-cache.label "Naptár gyorsítótár törlése">
+<!ENTITY calendar.context.properties.label "Módosítás">
+<!ENTITY calendar.context.sogo-reload-acls.label "Jogok frissítése">
+<!ENTITY calendar.context.sogo-acls.label "Megosztás...">
+<!ENTITY calendar.context.showonly.label "Csak ezt a naptárat mutasd">
+<!ENTITY calendar.context.showall.label "Minden naptárat mutass">
+<!ENTITY calendar.context.sogo-delete.label "Naptár törlése">
+<!ENTITY calendar.context.sogo-unsubscribe.label "Leiratkozás a naptárról">

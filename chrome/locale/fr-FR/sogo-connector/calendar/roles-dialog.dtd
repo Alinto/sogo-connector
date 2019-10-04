@@ -1,0 +1,19 @@
+<!ENTITY roles-dialog.title "Droits d'accès">
+<!ENTITY roles-dialog.default-roles.label "Droits par défaut">
+<!ENTITY roles-dialog.user-roles.label "Autorisations pour :">
+
+<!ENTITY roles-dialog.roles-choice.view-all.label "Voir tout">
+<!ENTITY roles-dialog.roles-choice.view-d-a-t.label "Voir la date &amp; l'heure">
+<!ENTITY roles-dialog.roles-choice.modify.label "Modifier">
+<!ENTITY roles-dialog.roles-choice.respond-to.label "Répondre">
+<!ENTITY roles-dialog.roles-choice.none.label "Aucun">
+
+<!ENTITY roles-dialog.public.label "Public">
+<!ENTITY roles-dialog.confidential.label "Confidentiel">
+<!ENTITY roles-dialog.private.label "Privé">
+
+<!ENTITY roles-dialog.roles.object-creator.label "Cette personne peut ajouter des objets à mon agenda.">
+<!ENTITY roles-dialog.roles.object-eraser.label "Cette personne peut effacer des objets de mon agenda.">
+
+<!ENTITY roles-dialog.update-button.label "Mettre à jour">
+<!ENTITY roles-dialog.cancel-button.label "Annuler">

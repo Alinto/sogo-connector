@@ -1,0 +1,899 @@
+2013-12-09 Jonathan deBoer
+
+	* Fix Bug 1624 (etags ignored during vcard put) enabling proper protection against overwriting 
+	* Connector should now work with rfc compliant carddav servers (such as radicale)
+
+2013-12-06  Jonathan deBoer
+
+	* Fix Bug 1411 (duplicate entries in vcard sync) by ignoring collections in carddav responses.
+
+2013-04-08  Luke Owncloud
+
+	* support charset definition in content-type of vcard (making compatiable with owncloud 5)
+
+
+2012-12-05  Luke Owncloud
+
+	* Removed escaping of colons of VCARDs (not required according to http://tools.ietf.org/html/rfc2426#page-37)
+	* add GIT version to XPI
+	* fixed incompatability with Windows during handling contact photo files.
+	* added option: "abot sync". Useful if sync does not finish on its on (usually indicates some internals error)
+	* error output to Thunderbird's error console for severe errors.
+	* force full sync on next sync cycle (checkServerUpdates) after a contact was deleted.
+	* allow user to remove properties from contact in contact list
+
+2012-04-20  Wolfgang Sourdeau  <wsourdeau@inverse.ca>
+
+	* components/SOGoConnectorAutocompleteSearch.js: restored and
+	slightly adapted component for TB 10.
+
+	* chrome/content/sogo-connector/common/common-dav.js: removed
+	obsolete module.
+
+2012-04-13  Wolfgang Sourdeau  <wsourdeau@inverse.ca>
+
+	* chrome/content/sogo-connector/calendar/calendars-list-overlay.js:
+	new module.
+	(reinitCalendarCache): new function enabling the emptying of the
+	calendar cache, followed by a restart of Thunderbird.
+
+2012-03-06  Wolfgang Sourdeau  <wsourdeau@inverse.ca>
+
+	* chrome/content/sogo-connector/general/vcards.utils.js
+	(photoContent): instantiate the file from the URI in a way that is
+	platform independent, by creating and using an nsIURI object.
+
+2012-02-22  Wolfgang Sourdeau  <wsourdeau@inverse.ca>
+
+	* chrome/content/sogo-connector/calendar/calendar-event-dialog-overlay.js:
+	new overlay for calendar-event-dialog, that automatically sets the
+	event or task classification based on the preferences defined in
+	the preferences mentionned below.
+
+	* chrome/content/sogo-connector/calendar/preferences/general-overlay.xul:
+	new preference overlay (overrides calendar.general) that adds
+	preference widgets for the default classification of events and todos.
+
+2012-02-10  Wolfgang Sourdeau  <wsourdeau@inverse.ca>
+
+	* components/CalDAVACLManager.js (_queryCalendarEntry): use
+	"this_" instead of "this" as acl as "manager" argument, since
+	"this" is actually the listener object being used.
+
+	* chrome/content/sogo-connector/general/vcards.utils.js
+	(saveImportedPhoto): photo files are now saved twice: in the
+	thunderbird photo cache and in another directory. This is to
+	prevent Thunderbird from displaying an empty picture when editing
+	a card and to prevent it from deleting the cache file when in it
+	is used as an alternative url.
+
+2012-02-09  Wolfgang Sourdeau  <wsourdeau@inverse.ca>
+
+	* components/CalDAVACLManager.js (CalDAVAclCalendarEntry.refresh):
+	hackishly flush our calendar item caches, in order to make sure no
+	item ACL entry remains active.
+
+	* chrome/content/sogo-connector/general/sync.addressbook.groupdav.js:
+	fixed old-/new-style webdav sync.
+
+	* components/CalDAVACLManager.js (CalDAVAclCalendarEntry.refresh):
+	nullify all address and identity array to make sure they are
+	properly refreshed.
+	(CalDAVACLManager._queryCalendarEntry): pass this.wrappedJSObject
+	to generated entries.
+
+2012-02-08  Wolfgang Sourdeau  <wsourdeau@inverse.ca>
+
+	* chrome/content/sogo-connector/addressbook/addressbook.groupdav.overlay.js
+	(abDirTreeObserver.SCOnDrop): adapted to new addressbook view API.
+
+	* chrome/content/sogo-connector/general/sync.addressbook.groupdav.js
+	(onCardUploadComplete): when the etag is not returned with the PUT
+	response, we fetch it explicitly with a PROPFIND.
+
+2012-02-07  Wolfgang Sourdeau  <wsourdeau@inverse.ca>
+
+	* chrome/content/sogo-connector/calendar/creation-overlay.js:
+	removed obsolete overlay.
+
+	* components/CardDAVDirectory.js: declare class using the
+	new-style API. Removed the nsIRDFResource interface, updated
+	missing (and equivalent) methods from nsIAbDirectory.
+
+	* chrome/content/sogo-connector/addressbook/messenger.groupdav.overlay.js
+	(startFolderSync): the ab root is now accessed exclusively by the
+	ab manager service, modified function accordingly.
+
+	* chrome/content/sogo-connector/general/mozilla.utils.inverse.ca.js:
+	removed all logging methods, that have not been used for ages now.
+
+	* components/CardDAVDirectoryFactory.js,
+	components/ContextManager.js, components/NotificationManager.js,
+	components/SOGoFBURLFreeBusyProvider.js,
+	components/SyncProgressManager.js: updated to new module
+	registration API.
+
+	* components/CalDAVACLManager.js: restored CalDAVACLManager, now
+	in compliance with the calICalendarACLProvider interface from
+	Lightning.
+
+	* chrome/content/sogo-connector/addressbook/contactspanel-overlay.js,
+	chrome/content/sogo-connector/addressbook/contactspanel-overlay.xul,
+	chrome/content/sogo-connector/addressbook/messengercompose-overlay.xul,
+	chrome/content/sogo-connector/calendar/calendar-event-dialog-attendees.xml,
+	chrome/content/sogo-connector/calendar/calendar-event-dialog-attendees.xul,
+	chrome/content/sogo-connector/calendar/calendar-event-dialog.css,
+	chrome/content/sogo-connector/calendar/calendar-event-dialog.js,
+	chrome/content/sogo-connector/calendar/calendar-event-dialog.xul,
+	chrome/skin/classic/sogo-connector/calendar/calendar-event-dialog.css,
+	components/cardDAVAutocompleteSession.xpt,
+	components/componentRegistry.js,
+	components/nsISOGoConnectorACSessionWrapper.xpt,
+	js/CardDAVAutoCompleteSession.js,
+	js/SOGoConnectorACSessionWrapper.js,
+	js/SOGoConnectorAutocompleteSearch.js: removed obsolete modules.
+
+2012-01-05  Wolfgang Sourdeau  <wsourdeau@inverse.ca>
+
+	* chrome/content/inverse-library/sogoWebDAV.js:
+	(sogoWebDAV._sendHTTPRequest): ensure that all available bytes are
+	read into the "result" string, until inStream.available() returns
+	0. Otherwise we sometimes get an incomplete body.
+
+2011-12-07  Wolfgang Sourdeau  <wsourdeau@inverse.ca>
+
+	* chrome/content/inverse-library/sogoWebDAV.js
+	(sogoWebDAV._getInterface): provide a stub for
+	Components.interfaces.nsIProgressEventSink.
+
+2011-11-14  Wolfgang Sourdeau  <wsourdeau@inverse.ca>
+
+	* chrome/content/inverse-library/sogoWebDAV.js (sogoWebDAV): no
+	longer use xmlHttpRequest.
+
+2011-03-11  Wolfgang Sourdeau  <wsourdeau@inverse.ca>
+
+	* chrome/content/sogo-connector/general/vcards.utils.js
+	(_insertCardMethods:) added empty entries for "prodid" and
+	"version" to avoid letting them put in the "unprocessed:"
+	properties.
+
+2011-03-09  Wolfgang Sourdeau  <wsourdeau@inverse.ca>
+
+	* chrome/content/sogo-connector/general/vcards.utils.js
+	(escapeForCards): added escaping of ":", fixed handling of "\n" while ignoring "\r"
+	at all in the output and removed double escaping of ",".
+	(unescapedFromCard): double the "\" chars in the regexps.
+	(versitParse): added handling of Apple-style "grouped" tags by
+	ignoring the group label.
+	(CreateCardFromVCF): if the current tag is "photo" and no encoding
+	was specified, we must be receiving something from an Apple app...
+	(deducePhotoExtFromTypes): if the photo type is "BASE64", it must
+	come from an Apple app...
+	(decodedValues): "quoted-printable"-encoded values where sanitized
+	for base64 decoding, a confusion that prevented atob() from
+	working properly sometimes.
+	(saveImportedPhoto): force the creation of the photo file to
+	ensure all the parent hierarchy exists, enabling the saving of the
+	real data right after.
+	(InsertCardData): keep unprocessed tag values under a key
+	attribute prefixed with "unprocessed:".
+	(card2vcard): use the above keys to reconstruct the card with the
+	unhandled properties.
+	(_insertCardMethods.adr): added hack to fix bad address encoding
+	from iOS devices.
+
+2011-03-08  Wolfgang Sourdeau  <wsourdeau@inverse.ca>
+
+	* chrome/content/sogo-connector/general/vcards.utils.js
+	(escapedForCard): removed one excessive escaping of commas.
+
+	* chrome/content/sogo-connector/addressbook/addressbook.groupdav.overlay.js
+	(SCAbDelete): add handling of the case where a card is deleted
+	from a contacts list from the addressbook window rather than the
+	list editor.
+
+	* chrome/content/sogo-connector/general/sync.addressbook.groupdav.js
+	(GroupDavSynchronizer.uploadCards): upload cards with mime type
+	"text/vcard" instead of "text/x-vcards" since Apple does not give
+	a crap about standards.
+
+	* chrome/content/inverse-library/sogoWebDAV.js (xmlEscape):
+	restored escaping of "<" and "&" characters.
+
+2011-03-04  Ludovic Marcotte  <lmarcotte@inverse.ca>
+
+	* js/CardDAVDirectory.js (cardForEmailAddress): We disable
+	the search in CardDAV based address books when displaying
+	emails - this is just too slow for now.
+
+2011-02-17  Francis Lachapelle  <flachapelle@inverse.ca>
+
+	* chrome/content/inverse-library/sogoWebDAV.js (xmlEscape): We now
+	encode all non-ascii characters with their HTML entity number representation.
+
+2011-02-02  Ludovic Marcotte  <lmarcotte@inverse.ca>
+
+	* chrome/content/sogo-connector/calendar/creation-overlay.js
+	We check if the ACL manager exists before trying to use it.
+
+2010-11-16  Wolfgang Sourdeau  <wsourdeau@inverse.ca>
+
+	* chrome/content/sogo-connector/addressbook/addressbook.groupdav.overlay.js:
+	(SCOnDrop): set the card and list groupdav version to "-1" to
+	force their upload after the drop has happened.
+	Mark target lists with version "-1" and synchronize their parent.
+
+	* chrome/content/sogo-connector/addressbook/autocomplete-common.js:
+	(SCACLoad): fixed typo.
+
+2010-11-03  Wolfgang Sourdeau  <wsourdeau@inverse.ca>
+
+	* chrome/content/sogo-connector/addressbook/folder-handling.js:
+	(SCCopyAddressBook): removed useless method.
+
+2010-11-02  Wolfgang Sourdeau  <wsourdeau@inverse.ca>
+
+	* chrome/content/sogo-connector/addressbook/autocomplete-common.js:
+	(SCACLoad): added the ability to specify an autocomplete delay via
+	"sogo-connector.autoComplete.delay".
+
+2010-11-01  Wolfgang Sourdeau  <wsourdeau@inverse.ca>
+
+	* chrome/content/sogo-connector/addressbook/addressbook.groupdav.overlay.js:
+	(SCOnResultsTreeContextMenuPopup, SCResetCategoriesContextMenu)
+	(SCOnCategoriesContextMenuPopup)
+	(SCOnCategoriesContextMenuItemCommand): new functions needed to
+	handle categories from the new categories popup on the contact
+	entries.
+
+2010-10-27  Wolfgang Sourdeau  <wsourdeau@inverse.ca>
+
+	* chrome/content/sogo-connector/addressbook/cardview-overlay.xul:
+	new overlay for modifying the card view. Added code to display the
+	card categories.
+
+	* chrome/content/sogo-connector/general/vcards.utils.js: enhanced
+	handling of comma-separated values in the "CATEGORIES" vcard field.
+
+	* chrome/content/sogo-connector/addressbook/common-card-overlay.js:
+	add a load "pre" hook, caught by defining
+	SCOnCommonCardOverlayLoadPreHook as a function.
+
+	* chrome/content/inverse-library/sogoWebDAV.js: ensure the
+	content-type is set to "application/xml; charset=utf8" for
+	PROPPATCH operations.
+
+2010-10-22  Wolfgang Sourdeau  <wsourdeau@inverse.ca>
+
+	* chrome/content/sogo-connector/preferences/preferences-overlay.js:
+	solved a bug where the listcols element would be removed.
+
+	* chrome/content/sogo-connector/addressbook/categories.js:
+	(setCategoriesAsArray): save categories even if the array is void.
+
+	* chrome/content/sogo-connector/preferences/preferences-overlay.js:
+	new overlay module that adds a tab for SOGo preferences. This
+	currently only enables the edition of contacts categories but
+	might be enhanced in the future.
+
+	* chrome/content/sogo-connector/addressbook/common-card-overlay.js:
+	new module that replaces and extend the removed
+	"cardedit-overlay-common.js". The additional code handles the
+	search on categories as well as the criteria menu button.
+
+	* chrome/content/sogo-connector/addressbook/categories.js: new
+	module that handles the saving and retrieving of contact
+	categories.
+
+2010-10-18  Wolfgang Sourdeau  <wsourdeau@inverse.ca>
+
+	* js/CardDAVDirectory.js: (CardDAVDirectory.getCardFromProperty):
+	added support for searches on attributes named "PrimaryEmail" and
+	"SecondEmail", which are redirected to this.cardForEmailAddress.
+
+2010-10-18  Ludovic Marcotte  <lmarcotte@inverse.ca>
+
+	* chrome/content/sogo-connector/addressbook/folder-handling.js
+	Wrapped around calls to the prefService in a try/catch block
+	in case we get exceptions
+
+2010-10-12  Ludovic Marcotte  <lmarcotte@inverse.ca>
+
+        * chrome/content/sogo-connector/general/sync.addressbook.groupdav.js
+	Removed workarounds for eGroupware.
+
+2010-10-08  Wolfgang Sourdeau  <wsourdeau@inverse.ca>
+
+	* chrome/content/sogo-connector/general/vcards.utils.js:
+	(card2VCard): properly escape each vcard value using
+	"escapedForCard".
+
+2010-10-05  Wolfgang Sourdeau  <wsourdeau@inverse.ca>
+
+	* js/CardDAVDirectory.js: (_extractCriteria): search for
+	""(DisplayName,c," prefix and then for "(DisplayName,bw," in order
+	to fix the directory searches. Also, the parameter end needs to be
+	search from the prefix start rather than 0.
+
+2010-10-05  Ludovic Marcotte  <lmarcotte@inverse.ca>
+
+	* chrome/content/sogo-connector/general/sync.addressbook.groupdav.js
+	and chrome/content/sogo-connector/general/vcards.utils.js
+	Added workarounds for eGroupware and bumped version number to 3.103pre1
+
+2010-09-27  Wolfgang Sourdeau  <wsourdeau@inverse.ca>
+
+	* js/CardDAVDirectory.js: (childCards) replaced the current
+	regexp-based method with one that relies on expected parts in the
+	request string, to avoid messed up results when the expression
+	changes between versions of Thunderbird.
+
+2010-09-20  Wolfgang Sourdeau  <wsourdeau@inverse.ca>
+
+	* reenabled autocomplete comment in composition window and
+	calendar invitation dialog
+
+2010-08-12  Ludovic Marcotte  <lmarcotte@inverse.ca>
+
+	* chrome/content/sogo-connector/addressbook/addressbook.groupdav.overlay.js
+	Fixed a typo that would make list non-deletable.
+
+2010-08-12  Wolfgang Sourdeau  <wsourdeau@inverse.ca>
+
+	* js/CardDAVAutoCompleteSession.js:
+	(CardDAVAutoCompleteSession.onDAVQueryComplete): same as below.
+
+	* js/CardDAVDirectory.js: (CardDAVDirectory._serverQuery):
+	requests "address-data" instead of "addressbook-data".
+
+2010-07-29  Wolfgang Sourdeau  <wsourdeau@inverse.ca>
+
+	* chrome/content/sogo-connector/general/sync.addressbook.groupdav.js:
+	(GroupDavSynchronizer.importCard): added code to drop the old
+	image cache when a photo is present in the old card and is being
+	replaced in the new card.
+
+	* chrome/content/sogo-connector/general/vcards.utils.js:
+	(card2vcard): added code to export the contact photo when
+	available.
+	(importFromVCard): added code import a contact photo when one is
+	present in the vcard.
+
+2010-07-28  Wolfgang Sourdeau  <wsourdeau@inverse.ca>
+
+	* chrome/content/sogo-connector/general/vcards.utils.js:
+	(_insertCardMethods.tel): the "PAGER" vcard type must be mapped to
+	the "PagerNumber" attribute rather than "FaxNumber".
+	Also, "WorkState" was simply ignored.
+	(decodedValues): added code to sanitize and prevent any character
+	conversion with base64 values.
+	(foldedLine): new function that properly fold the line passed as
+	parameter.
+	(card2vcard): make use of the new function above.
+
+	* js/CardDAVDirectory.js: (CardDAVDirectory.cardForEmailAddress):
+	implemented method, along with a caching mechanism to avoid
+	fetching the same card more than once from the server.
+
+2010-07-27  Wolfgang Sourdeau  <wsourdeau@inverse.ca>
+
+	* js/CardDAVDirectory.js: (CardDAVDirectory._load): added
+	migration code from old to new CardDAV uris.
+
+	* chrome/content/sogo-connector/addressbook/abEditCardDialog.groupdav.overlay.js:
+	(LoadFBUrl): typo.
+
+	* chrome/content/sogo-connector/calendar/calendar-event-dialog-attendees.xml:
+	removed "setupAutocompleteCardDAV", made obsolete by the following change.
+
+	* chrome/content/sogo-connector/addressbook/messengercompose-overlay.{js,xul}:
+	overlay made obsolete by the following change.
+
+	* js/CardDAVDirectory.js: (CardDAVDirectory.useForAutocomplete):
+	implemented method to enable autocomplete in the composition
+	window.
+
+2010-07-26  Wolfgang Sourdeau  <wsourdeau@inverse.ca>
+
+	* js/CardDAVDirectory.js: adjusted code to handle the change below.
+
+	* chrome/content/sogo-connector/addressbook/folder-handling.js:
+	(SCCreateCardDAVDirectory): directories are now created with the
+	"carddav" scheme rather that the hackish "carddav://http" scheme.
+
+	* chrome/content/sogo-connector/addressbook/addressbook.groupdav.overlay.js:
+	(SCAbDeleteDirectory) now take the ab URI as argument, to match AbDeleteDirectory.
+
+	* chrome/content/sogo-connector/addressbook/preferences.addressbook.groupdav.js:
+	(onAcceptCardDAV): cleaned up code.
+	(onLoad): cleaned up code.
+
+	* chrome/content/sogo-connector/addressbook/addressbook.groupdav.overlay.js:
+	(openGroupdavPreferences): now mimicks the behaviour of
+	Thunderbird, so that the pref-editdirectories overlay could be
+	adapted for handling via nsIAbDirectory::propertiesChromeURI.
+
+2010-07-23  Wolfgang Sourdeau  <wsourdeau@inverse.ca>
+
+	* js/SOGoConnectorACSessionWrapper.js:
+	(SOGoConnectorACSessionWrapper.initSessions): disabled the
+	"addrbook" ac source since it's no longer available (what a
+	mess!).
+
+2010-07-22  Wolfgang Sourdeau  <wsourdeau@inverse.ca>
+
+	* chrome/content/sogo-connector/calendar/calendars-list-overlay.{js,xul}:
+	modifications migrated to Lightning, making this module useless.
+
+	* chrome/content/sogo-connector/general/vcards.utils.js:
+	(decodedValues) catch the exception occuring when a wrong base64
+	content is being decoded.
+
+	* chrome/content/sogo-connector/addressbook/pref-editdirectories.overlay.{xul,js}:
+	removed module, obsoleted by the use of "propertiesChromeURI" to
+	edit directory properties.
+
+	* chrome/content/sogo-connector/addressbook/pref-editdirectories.overlay.js:
+	(SCEditDirectory) updated to last version of AbEditDirectory.
+
+	* chrome/content/sogo-connector/lightning/lightning-calendar-properties-overlay.js:
+	modifications migrated to Lightning, making this module useless.
+
+	* chrome/content/sogo-connector/calendar/utils.js:
+	(isCalendarWriteable): acl modifications migrated to Lightning,
+	making this implementation useless.
+
+	* chrome/content/sogo-connector/lightning/messenger-overlay-sidebar.js:
+	removed module, made useless by direct inclusion of
+	calendar/utils.js in the template.
+
+	* chrome/content/sogo-connector/calendar/calendar-invitations-list.xml:
+	repatched from version in Lightning 1.0rc2.
+
+	* js/CalDAVAclManager.js: migrated to lightning 1.0b2 (Inverse
+	edition).
+
+	* js/CardDAVDirectory.js: added and implemented the
+	nsISecurityCheckedComponent and nsIClassInfo interfaces.
+
+	* js/CardDAVDirectoryFactory.js:
+	(CardDAVDirectoryFactory.getDirectories): updated method to use
+	the abmanager rather than the rdf service.
+
+2010-07-20  Wolfgang Sourdeau  <wsourdeau@inverse.ca>
+
+	* js/CalDAVAclManager.js: (CalDAVAclManager._appendIdentity):
+	the "newIdentity" pushed in the array would keep its null value
+	because it would not be redefined properly (double use of "let" in
+	the conditional block).
+
+	* chrome/content/sogo-connector/general/vcards.utils.js:
+	(InsertCardData): ignore properties with a value of "undefined" to
+	avoid an exception during conversion.
+
+2010-07-16  Ludovic Marcotte  <lmarcotte@inverse.ca>
+
+	* chrome/content/sogo-connector/general/vcards.utils.js
+	(_insertCardMethods.email): assign the "home" emails as the
+	secondary email.
+
+2010-07-01  Ludovic Marcotte  <lmarcotte@inverse.ca>
+
+	* chrome/content/sogo-connector/general/vcards.utils.js
+	We not only consider the "PREF" parameter when setting
+	the primary email but also the "WORK" value.
+	* chrome/content/sogo-connector/general/vcards.utils.js
+	in the adr function, we correctly consider the "extended"
+	address attribute by using index 1 and not 0
+	* chrome/content/sogo-connector/general/vcards.utils.js
+	in the tel function, we now overwrite the fax number only
+	if it's a WORK fax or if the value isn't already set
+	* chrome/content/sogo-connector/general/vcards.utils.js
+	in the card2vcard function, we correctly set the pobox
+	attribute (to none) instead of setting the street address
+	geographical attribute to none
+
+2010-07-15  Wolfgang Sourdeau  <wsourdeau@inverse.ca>
+
+	* js/CalDAVAclManager.js: (_parseCalendarUserAddressSet): fixed
+	invocation getElementsByTagNameNS by using the
+	"urn:ietf:params:xml:ns:caldav" namespace without braces...
+
+2010-06-24  Wolfgang Sourdeau  <wsourdeau@inverse.ca>
+
+	* chrome/content/sogo-connector/addressbook/folder-handling.js:
+	adapted to make use of the new nsIAbManager API.
+
+	* chrome/content/sogo-connector/addressbook/cardedit-overlay-common.js:
+	removed the reference to "gSynchIsRunning", which has been made
+	useless a long time ago.
+
+	* chrome/content/sogo-connector/general/vcards.utils.js:
+	(list2vlist): the "list" argument is now passed as a nsIAbCard.
+	(card2vcard): adapted to make use of getAttribute.
+	(importFromVcard): no longer take the "customFields" argument, as
+	it's no longer needed thanks to the new nsIAbCard API.
+
+	* chrome/content/sogo-connector/addressbook/contactspanel-overlay.js:
+	temporarily disabled.
+
+	* chrome/content/sogo-connector/addressbook/autocomplete-common.js:
+	renamed to messengercompose-overlay.js.
+
+	* chrome/content/sogo-connector/general/sync.addressbook.groupdav.js:
+	make use of the new API provided by nsIAbDirectory and nsIAbCard.
+	The latter obsoletes the SOGoConnectorVolatileABCard
+	implementation.
+
+	* js/CalDAVAclManager.js: adapted code to new interfaces. We now
+	make use of getElementsByTagNameNS where we used to use
+	getElementsByTagName. Otherwise, most elements would not be found.
+
+	* js/SOGoConnectorVolatileABCard.js: dropped obsolete class
+	module.
+
+	* js/CardDAVAutoCompleteSession.js: same as below.
+
+	* js/CardDAVDirectory.js: renamed from abdavdirectory.js. Adapted
+	code to new interfaces.
+
+	* js/CardDAVDirectoryFactory.js: renamed from
+	abdavdirectoryfactory.js
+	(CardDAVDirectoryFactory.prototype.getDirectories:) remove useless
+	exception handling.
+
+	* chrome/content/inverse-library/sogoWebDAV.js: (sogoWebDAV:)
+	added a new "synchronous" parameter for triggering synchronous
+	requests. By default, this.synchronous is set to false, when not
+	specified.
+	(onXMLRequestReadyStateChange:) handle synchronous requests. The
+	XMLHttpRequest implementation of Mozilla now triggers an exception
+	when the request could not complete and "getAllResponseHeaders" is
+	invoked. We now treat this exception as was already done with
+	"status". We also check if the new ivar "requestXMLResponse" is
+	set on the client so that we can return a proper XML response
+	without needing for reparsing it in the callbacks.
+	(sogoWebDAV.prototype.post:) we now explicitly set the
+	content-type to appXXX/xml.
+
+	* chrome/content/sogo-connector/general/webdav.inverse.ca.js:
+	dropped file.
+
+	* chrome/content/sogo-connector/general/webdav_lib/*.js: dropped
+	all files, made useless by the changes in sogoWebDAV.js.
+
+	* Initial TB3.1 code
+
+2010-06-07  Wolfgang Sourdeau  <wsourdeau@inverse.ca>
+
+	* chrome/content/inverse-library/sogoWebDAV.js: added the
+	"OPTIONS" operation.
+
+2010-05-28  Wolfgang Sourdeau  <wsourdeau@inverse.ca>
+
+	* chrome/content/inverse-library/sogoWebDAV.js:
+	(onXMLRequestReadyStateChange) we now attempt to deduce the
+	content length from the response text when the "content-length"
+	header is not present. This enables us to support the "chunked"
+	transfer encoding.
+
+2010-05-11  Wolfgang Sourdeau  <wsourdeau@inverse.ca>
+
+	* components/componentRegistry.js: disbabled
+	""@inverse.ca/calendar/fburl-freebusy-provider;1" as it seems to
+	cause a problem in certain configurations.
+
+2010-04-20  Wolfgang Sourdeau  <wsourdeau@inverse.ca>
+
+	* chrome/content/sogo-connector/general/vcards.utils.js
+	(_insertCardMethods.tel): we no longer loop around the whole list
+	of types. Instead we search for certain known types and try to
+	popupate the card accordingly.
+	(_insertCardMethods.adr): we privilege the "HOME" type when the
+	"WORK" type is not specified.
+
+2010-04-07  Wolfgang Sourdeau  <wsourdeau@inverse.ca>
+
+	* js/CalDAVAclManager.js (_userAddressSetCallback): take
+	identities with empty displayname into account. In JS, "" = false,
+	therefore we need to test it against "null" to achieve this.
+
+2010-03-24  Ludovic Marcotte  <lmarcotte@inverse.ca>
+
+	* chrome/content/sogo-connector/calendar/calendar-event-dialog.xul
+	We correctly overlay the menuitem for the "confidential" label
+
+2010-03-15  Wolfgang Sourdeau  <wsourdeau@inverse.ca>
+
+	* chrome/content/inverse-library/sogoWebDAV.js
+	(onXMLRequestReadyStateChange): we check the content-type for
+	"text/xml" or "application/xml" return types before requesting the
+	"responseXML" member of the request object. We also check for a
+	content-length > 0. This avoids a "no content found" error with
+	empty responses.
+
+2010-03-11  Wolfgang Sourdeau  <wsourdeau@inverse.ca>
+
+	* js/CalDAVAclManager.js (_initAccountMgr): it may happen that
+	identities referenced in the account manager are ghost identities.
+	We work-around this, at least for the moment, by explicitly
+	removing those from the default account.
+
+2010-02-02  Wolfgang Sourdeau  <wsourdeau@inverse.ca>
+
+	* js/CalDAVAclManager.js (onDAVQueryComplete:) ensure that the
+	returned entries exists in the cache before deleting them, to
+	avoid an exception.
+
+2010-01-20  Wolfgang Sourdeau  <wsourdeau@inverse.ca>
+
+	* chrome/skin/classic/sogo-connector/addressbook/addressbook.groupdav.overlay.css:
+	added classes and icons from Mac and non-Mac platforms. (Closes: #51)
+
+2010-01-15  Wolfgang Sourdeau  <wsourdeau@inverse.ca>
+
+	* chrome/content/sogo-connector/general/sync.addressbook.groupdav.js:
+	fixed support for webdav-sync, which didn't take the intermediary
+	"supported-report" element into account.
+	Fixed a bug in the intepretation of the DAV resourcetype property.
+
+2009-12-23  Wolfgang Sourdeau  <wsourdeau@inverse.ca>
+
+	* chrome/content/sogo-connector/general/vcards.utils.js: ensure
+	that the "type" parameter is available when reconstructing the
+	array of types for the "TEL", "WORK", "URL" and "EMAIL" tags.
+
+2009-08-21  Wolfgang Sourdeau  <wsourdeau@inverse.ca>
+
+	* chrome/content/sogo-connector/calendar/calendar-common-sets.xul:
+	added an "Export Task" menu item to the task context menu, that
+	triggers the export of the selected tasks.
+
+	* install.rdf: version number set to 0.97pre1
+
+	* chrome/content/sogo-connector/calendar/utils.js: slightly
+	modified to override modifyEventWithDialog rather than openDialog.
+	Fixed to take the recurrence state of the selected item into
+	account.
+
+2009-08-17  Wolfgang Sourdeau  <wsourdeau@inverse.ca>
+
+	* chrome/content/sogo-connector/calendar/utils.js: if an item
+	changes during a calendar refresh, we must fetch the new item from
+	the calendar and bind it to the editing/summary dialog. Otherwise
+	the old version is still used.
+
+2009-08-10  Wolfgang Sourdeau  <wsourdeau@inverse.ca>
+
+	* chrome/content/sogo-connector/general/sync.addressbook.groupdav.js:
+	modified to handle "valid-sync-token" synchronization errors.
+
+	* chrome/content/sogo-connector/calendar/calendar-summary-dialog.xul:
+	new version of the overlay, only for including utils.js and
+	thereby have access to our version of isCalendarWritable.
+
+	* js/CalDAVAclManager.js: we remove the entries pertaining to
+	subitems when a refresh occurs on a calendar entry.
+
+2009-08-07  Wolfgang Sourdeau  <wsourdeau@inverse.ca>
+
+	*
+	chrome/content/sogo-connector/calendar/calendar-summary-dialog.{js,xul}:
+	removed overlays, modified code put back in Lightning (inverse edition).
+
+2009-07-21  Ludovic Marcotte  <lmarcotte@inverse.ca>
+
+	* chrome/content/sogo-connector/general/vcards.utils.js
+	We now keep custom fields between roundtrips.
+	See http://www.scalableogo.org/bugs/view.php?id=32
+
+2009-07-19  Wolfgang Sourdeau  <wsourdeau@inverse.ca>
+
+	* chrome/content/sogo-connector/calendar/utils.js: overriden
+	"openDialog" to force a refresh of the item calendar before
+	displaying the dialog IF the item is an invitation or is read-only.
+
+2009-07-17  Wolfgang Sourdeau  <wsourdeau@inverse.ca>
+
+	*
+	chrome/content/sogo-connector/calendar/calendars-list-overlay.js:
+	fixed an exception occuring when no calendar is selected.
+
+	* chrome/content/inverse-library/sogoWebDAV.js: fixed a bug
+	occuring in the XML to JSON converter when the parsed response is
+	not flattened.
+
+	* js/CalDAVAclManager.js: we trigger the
+	"caldav-component-acl-loaded" or "caldav-component-acl-reset" to
+	notify observers that the event entries are ready.
+
+2009-07-15  Wolfgang Sourdeau  <wsourdeau@inverse.ca>
+
+	*
+	chrome/content/sogo-connector/calendar/calendar-event-dialog.xul:
+	fix the privacy label of the privacy statusbar item.
+
+2009-07-09  Wolfgang Sourdeau  <wsourdeau@inverse.ca>
+
+	* chrome/content/sogo-connector/calendar/calendars-list-overlay.js:
+	don't enable the "new items" buttons when the selected calendar is
+	marked as read-only.
+
+2009-07-08  Wolfgang Sourdeau  <wsourdeau@inverse.ca>
+
+	* js/CalDAVAclManager.js: we pass the url of the calendar as data
+	argument on every request, for error management. For errors >= 498,
+	we remove the entry but for errors > 399, we keep it and mark it
+	as lacking ACL support.
+
+2009-07-07  Wolfgang Sourdeau  <wsourdeau@inverse.ca>
+
+	* js/CalDAVAclManager.js: trigger a "caldav-acl-reset"
+	notification where the status code returned by the server is >
+	399. This enables listeners to take action when the request chain
+	is aborted.
+
+2009-07-06  Wolfgang Sourdeau  <wsourdeau@inverse.ca>
+
+	* js/CalDAVAclManager.js: trigger the "caldav-acl-loaded"
+	notification only when the second address set is received.
+
+2009-07-02  Wolfgang Sourdeau  <wsourdeau@inverse.ca>
+
+	*chrome/content/sogo-connector/addressbook/addressbook.groupdav.overlay.js,
+	chrome/content/sogo-connector/general/sync.addressbook.groupdav.js:
+	save preferences as soon as a list has been modified to avoid
+	duplication when a crash occurs.
+
+2009-07-01  Wolfgang Sourdeau  <wsourdeau@inverse.ca>
+
+	*
+	chrome/content/sogo-connector/general/sync.addressbook.groupdav.js:
+	it may happen that we are returned a card we already have "as new"
+	and with a different version number than the one we have. In and
+	only in that case, we update the card/list so that we don't lose
+	updates.
+	* chrome/content/sogo-connector/general/preference.service.addressbook.groupdav.js:
+	removed obsolete preferences
+
+	* js/CalDAVAclManager.js: we become a bit more foolprop when an
+	XMLHttpRequest fails for a reason or another and delete the
+	corresponding entry so that the request can happen again.
+
+2009-06-30  Wolfgang Sourdeau  <wsourdeau@inverse.ca>
+
+	*chrome/content/sogo-connector/addressbook/preferences.addressbook.groupdav.js:
+	removed "display synchronization dialog" from groupdav addressbook
+	settings window.
+	chrome/content/sogo-connector/general/sync.addressbook.groupdav.js:
+	fixed a bug where list downloads would tranmis the tag
+	"vcard-download" instead of "list-download", preventing the
+	downloaded lists from being created or updated.
+
+2009-06-23  Wolfgang Sourdeau  <wsourdeau@inverse.ca>
+
+	* chrome/content/sogo-connector/general/sync.addressbook.groupdav.js:
+	refactored code and added support for webdav sync spec.
+
+2009-06-22  Wolfgang Sourdeau  <wsourdeau@inverse.ca>
+
+	* chrome/content/inverse-library/sogoWebDAV.js: modified to
+	convert a result set returned as XML to a javascript structure of
+	objects.
+
+2009-06-10  Francis Lachapelle  <flachapelle@inverse.ca>
+
+	* chrome/content/sogo-connector/general/vcards.utils.js: fixed the
+	telephone attribute mapping.
+
+2009-06-10  Wolfgang Sourdeau  <wsourdeau@inverse.ca>
+
+	* chrome/content/sogo-connector/addressbook/addressbook.groupdav.overlay.js:
+	restored the ability to synchronize addressbook while the
+	selection is currently in the results pane (right list).
+
+	* chrome/content/sogo-connector/general/sync.addressbook.groupdav.js:
+	refactored the code and added support for ctag-based synchronisation.
+
+	* chrome/content/sogo-connector/general/preference.service.addressbook.groupdav.js:
+	added methods for saving and retrieving the ctag of ab collections.
+
+	* chrome/content/sogo-connector/general/implementors.addressbook.groupdav.js:
+	removed obsolete module.
+
+2009-04-06  Ludovic Marcotte <lmarcotte@inverse.ca>
+
+        * Bumped version number to 0.93
+
+2009-03-18  Wolfgang Sourdeau  <wsourdeau@inverse.ca>
+
+	* chrome/content/sogo-connector/general/sync.addressbook.groupdav.js:
+	reset the status of pending connections if an error occurs during
+	a collection operation.
+
+2009-03-17  Wolfgang Sourdeau  <wsourdeau@inverse.ca>
+
+	* chrome/content/sogo-connector/addressbook/addressbook.groupdav.overlay.js
+	(deleteManager): we invoke "deleteDirectory" after
+	deletedSelectedCards, to ensure the list is deleted properly.
+
+2009-03-16  Wolfgang Sourdeau  <wsourdeau@inverse.ca>
+
+	* chrome/content/sogo-connector/general/vcards.utils.js: properly
+	decode fields with base64 encoding.
+	Work-around a bug of qp encoders which fold lines without escaping
+	their crlf.
+
+2009-02-23  Ludovic Marcotte <lmarcotte@inverse.ca>
+
+        * Updated German translation. Patch from
+	Alexander Greiner-Baer <sogo-algb@freenet.de>
+	* Added Italian translation. Patch from
+	Marco Lertora <marco.lertora@infoporto.it>
+
+2009-01-13  Ludovic Marcotte  <lmarcotte@inverse.ca>
+
+        * js/CalDAVAclManager.js
+	We now correctly handle the deletion of identities
+	with the "caldav_*" key from the user's preferences. 
+	We also correctly reinitialize our ivars prior
+	to perform a refresh of the ACLs.
+
+2008-12-19  Ludovic Marcotte  <lmarcotte@inverse.ca>
+
+	* js/CalDAVAclManager.js
+	Reidented the code. Also modified _appendIdentity()
+	to NOT set any imip.identity to the corresponding
+	calendar. This is not reliable and the code has
+	been moved directly to getProperty() in
+	calDavCalendar.js from Lightning.
+	* chrome/content/sogo-connector/addressbook/autocomplete-common.js
+	We now override ComposeLoad() so that we correctly show
+	the "comment" field even when we first compose a message
+	See https://bugzilla.mozilla.org/show_bug.cgi?id=227903.
+
+2008-12-03  Ludovic Marcotte  <lmarcotte@inverse.ca>	
+
+	* Added the possibility to refresh CalDAV ACLs
+	* Removed the "supportsACLs" variable - we now
+	entirely use hasAccessControl.
+
+2008-11-28  Ludovic Marcotte  <lmarcotte@inverse.ca>
+
+	* chrome/content/sogo-connector/calendar/calendars-list-overlay.js
+	We now correctly enable the new task / event upon startup
+	once the ACLs are loaded.
+	* chrome/content/sogo-connector/lightning/messenger-overlay-sidebar.js
+	Removed all the unused code. The whole overlay should be
+	eventually removed.
+	* js/CalDAVAclManager.js 
+	We now force them imip.identity once the ACLs are loaded.
+	* Bumped the version number to to.90pre22.
+
+2008-11-26  Ludovic Marcotte  <lmarcotte@inverse.ca>
+
+        * js/CalDAVAclManager.js remove unnecessary calls
+	to dump() and we now correctly set the identity
+	of all calendars, even for those we don't own.
+	* Bumped the version number to 0.90pre21
+
+2008-11-24  Ludovic Marcotte  <lmarcotte@inverse.ca>
+
+	* chrome/content/sogo-connector/addressbook/edit-list-overlay.js
+	We fallback to the messenger window if the ab window isn't available
+
+2008-11-23  Ludovic Marcotte  <lmarcotte@inverse.ca>	
+
+	* chrome/content/sogo-connector/lightning/lightning-calendar-properties-overlay.js
+	We now correctly select the menupopup item (first one)
+	* Bumped the version number to 0.90pre19
+
+2008-11-16  Ludovic Marcotte  <lmarcotte@inverse.ca>
+
+	* /content/sogo-connector/addressbook/addressbook.groupdav.overlay.js
+	Replaced calls to deleteCards() / deleteDirector() with
+	deleteSelectedCards() to avoid refresh problems
+	* chrome/content/sogo-connector/addressbook/edit-list-overlay.js
+	We really get the address book window before trying to perform
+	a DAV operation.

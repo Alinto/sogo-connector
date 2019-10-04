@@ -1,0 +1,8 @@
+<!ENTITY calendar-overlay.susbcription.tooltips.add
+ "Nouvel agenda">
+<!ENTITY calendar-overlay.susbcription.tooltips.subscribe
+ "S'inscrire à un agenda">
+<!ENTITY calendar-overlay.susbcription.tooltips.remove
+ "Enlever l'agenda sélectionné">
+<!ENTITY calendar.context.reinit-cache.label "Réinitialiser le cache">
+<!ENTITY calendar.context.exporttask.label "Exporter la tache...">

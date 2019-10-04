@@ -1,0 +1,45 @@
+<?xml version="1.0"?>
+<!--
+ Copyright:     Inverse inc., 2007-2019
+ Email:         support@inverse.ca
+ URL:           http://inverse.ca
+  -->
+
+<!DOCTYPE dialog [
+<!ENTITY % subscriptionDTD SYSTEM "chrome://sogo-connector/locale/general/subscription-dialog.dtd">
+%subscriptionDTD;
+]>
+
+<?xml-stylesheet type="text/css" href="chrome://sogo-connector/skin/subscription-dialog.css"?>
+<?xml-stylesheet type="text/css" href="chrome://global/skin/global.css"?>
+<?xml-stylesheet type="text/css" href="chrome://messenger/skin/messenger.css"?>
+
+<dialog xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"
+  id="inverseSubscriptionDialog"
+  type="dialog"
+  buttons="none"
+  title="&subscription.title;">
+  <stringbundle id="subscription-dialog-strings"
+    src="chrome://sogo-connector/locale/general/subscription-dialog.properties"/>
+  <script type="application/x-javascript"
+    src="chrome://sogo-connector/content/general/subscription-dialog.js"/>
+  <vbox id="subscriptionWidgets" flex="1">
+    <hbox id="searchBox">
+      <textbox id="peopleSearchInput" class="searchBox" flex="1"
+               placeholder="&subscription.searchcriteria.label;"/>
+      <vbox id="throbber-box" busy="false" pack="center">
+         <image src="chrome://global/skin/media/throbber.png"/>
+      </vbox>
+    </hbox>
+    <tree flex="1" searching="clean" id="subscriptionTree" seltype="single" hidecolumnpicker="true">
+      <treecols>
+	<treecol hideheader="true" id="userColumn" flex="1" primary="true"/>
+      </treecols>
+      <treechildren/>
+    </tree>
+    <hbox>
+      <spacer flex="1"/>
+      <button id="addButton" label="&subscription.button.add.label;"/>
+    </hbox>
+  </vbox>
+</dialog>

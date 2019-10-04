@@ -1,0 +1,11 @@
+<!ENTITY roles-dialog.title "Benutzerrechte bearbeiten">
+<!ENTITY roles-dialog.default-roles.label "Standardrechte">
+<!ENTITY roles-dialog.user-roles.label "Benutzerrechte für:">
+
+<!ENTITY roles-dialog.roles.object-creator.label "Diese Person kann Adresskarten zu diesem Adressbuch hinzufügen.">
+<!ENTITY roles-dialog.roles.object-viewer.label "Diese Person kann Adresskarten dieses Adressbuches anzeigen.">
+<!ENTITY roles-dialog.roles.object-editor.label "Diese Person kann Adresskarten in diesem Adressbuch verändern.">
+<!ENTITY roles-dialog.roles.object-eraser.label "Diese Person kann Adresskarten aus diesem Adressbuch löschen.">
+
+<!ENTITY roles-dialog.update-button.label "Speichern">
+<!ENTITY roles-dialog.cancel-button.label "Abbrechen">

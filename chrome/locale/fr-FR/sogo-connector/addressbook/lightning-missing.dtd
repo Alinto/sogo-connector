@@ -1,0 +1,5 @@
+<!ENTITY lightning-missing.title "Extension manquante">
+<!ENTITY lightning-missing.text  "SOGo Connector requiert la présence de
+Lightning pour fonctionner correctement. Pour l'installer, veuillez suivre le
+lien suivant. Jusque là, aucune opération de synchronisation ne sera
+disponible.">

@@ -1,0 +1,10 @@
+<!ENTITY acl-dialog.title "Jogok felügyelete">
+
+<!ENTITY acl.toolbar.close.label "Bezár">
+<!ENTITY acl.toolbar.edit.label "Jogok szerkesztése">
+
+<!ENTITY acl.owner.label "Tulajdonos:">
+<!ENTITY acl.defaultRoles.label "Alapvető szerepek">
+
+<!ENTITY acl.addUser.label "Hozzáad...">
+<!ENTITY acl.removeUser.label "Eltávolít">

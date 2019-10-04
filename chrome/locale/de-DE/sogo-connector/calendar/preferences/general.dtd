@@ -1,0 +1,6 @@
+<!ENTITY calendar.preferences.general.classification.caption
+"Standardklassifikation für Einträge">
+<!ENTITY calendar.preferences.general.default-events-classification.label
+"Terminklassifikation:">
+<!ENTITY calendar.preferences.general.default-todos-classification.label
+"Aufgabenklassifikation:">

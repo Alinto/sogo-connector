@@ -1,0 +1,17 @@
+#spinner
+{ margin-left: 1em;
+  margin-top: 1em;
+  width: 16px;
+  max-width: 16px;
+  height: 16px;
+  max-height: 16px; }
+
+#message
+{ width: 300px;
+  max-width: 300px;
+  max-height: 30px;
+  height: 30px; }
+
+DIALOG
+{ margin: 0px;
+  padding: .5em;  }

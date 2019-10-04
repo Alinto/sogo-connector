@@ -1,0 +1,47 @@
+<!--
+ Copyright:		Infoporto La Spezia Srl, 2008
+ Author: 		Marco Lertora
+ Email:			marco.lertora@infoporto.it
+ URL:			http://www.infoporto.it
+  
+ This file is part of "SOGo Connector" a Thunderbird extension.
+
+    "SOGo Connector" is free software; you can redistribute it and/or modify
+    it under the terms of the GNU General Public License version 2 as published by
+    the Free Software Foundation;
+
+    "SOGo Connector" is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with "SOGo Connector"; if not, write to the Free Software
+    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA	
+-->
+
+<!ENTITY inverse.CalDAV.tab "CalDAV">
+<!ENTITY inverse.FbUrl.label "Freebusy URL:">
+
+<!--
+  NAME 'calFBURL'
+  DESC 'URI of the uses free and busy information'
+
+  NAME 'calCAPURI'
+  DESC 'URI used to communicate with the users calendar'
+
+  NAME 'calCalAdrURI'
+  DESC 'URI to which event requests should be sent for the user'
+
+  NAME 'calOtherCalURIs'
+  DESC 'URIs to non-default calendars belonging to the user'
+
+  NAME 'calOtherFBURLs'
+  DESC 'URIs to non-default free and busy information files'
+
+  NAME 'calOtherCAPURIs'
+  DESC 'URIs for communicating with non-default calendars'
+
+  NAME 'calOtherCalAdrURIs'
+  DESC 'Destinations for event requests to non-default calendars'
+-->

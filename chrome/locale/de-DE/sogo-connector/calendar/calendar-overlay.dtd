@@ -1,0 +1,15 @@
+<!ENTITY calendar-overlay.susbcription.tooltips.add
+ "Neuer Kalender...">
+<!ENTITY calendar-overlay.susbcription.tooltips.subscribe
+ "Einen Kalender abonnieren...">
+<!ENTITY calendar-overlay.susbcription.tooltips.remove
+ "Gewählten Kalender löschen">
+<!ENTITY calendar.context.reinit-cache.label "Kalender-Cache zurücksetzen">
+<!ENTITY calendar.context.exporttask.label "Aufgabe exportieren...">
+<!ENTITY calendar.context.properties.label "Ändern">
+<!ENTITY calendar.context.sogo-reload-acls.label "Benutzerrechte neu laden">
+<!ENTITY calendar.context.sogo-acls.label "Benutzerrechte...">
+<!ENTITY calendar.context.showonly.label "Nur diesen Kalender zeigen">
+<!ENTITY calendar.context.showall.label "Alle Kalender zeigen">
+<!ENTITY calendar.context.sogo-delete.label "Kalender löschen">
+<!ENTITY calendar.context.sogo-unsubscribe.label "Abonnement für Kalender kündigen">

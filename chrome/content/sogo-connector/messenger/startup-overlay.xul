@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<!--
+ Copyright:     Inverse inc., 2007-2013
+ Email:         support@inverse.ca
+ URL:           http://inverse.ca
+  -->
+
+<!DOCTYPE overlay>
+
+<overlay id="inverseMessengerStartupOverlay"
+         xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
+  <script type="application/x-javascript"
+          src="chrome://sogo-connector/content/messenger/startup-overlay.js"/>
+  
+</overlay>

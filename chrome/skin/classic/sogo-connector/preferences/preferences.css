@@ -1,0 +1,7 @@
+radio[pane=paneSOGoConnector] {
+    list-style-image: url("chrome://sogo-connector/skin/preferences/sogo-48.png");
+}
+
+#MailPreferences[arch="mac"] radio[pane=paneSOGoConnector] {
+    list-style-image: url("chrome://sogo-connector/skin/preferences/sogo-mac.png");
+}

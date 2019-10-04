@@ -1,0 +1,4 @@
+<!ENTITY lightning-missing.title "Chybějící doplněk">
+<!ENTITY lightning-missing.text  "SOGo Connector požaduje doplněk Mozilla
+Lightning. K jeho instalaci následujte prosím odkaz uvedený níže.
+Do té doby nebude synchronizace dostupná.">

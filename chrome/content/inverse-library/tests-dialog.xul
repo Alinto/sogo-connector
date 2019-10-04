@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+
+<!DOCTYPE dialog>
+
+<?xml-stylesheet href="chrome://messenger/skin/" type="text/css"?>
+
+<dialog id="ca.inverse.inverse-library.tests-dialog"
+  xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"
+  style="width: 300px;"
+  title="WebDAV Tests">
+  <script type="application/javascript"
+    src="chrome://inverse-library/content/tests-dialog.js"/>
+  <vbox id="buttons" style="width: 280px;">
+    <!-- space -->
+  </vbox>
+</dialog>

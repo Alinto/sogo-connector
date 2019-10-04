@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<!DOCTYPE overlay>
+<overlay id="inverseCalendarEventOverlay"
+  xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
+  <script type="application/x-javascript"
+    src="chrome://sogo-connector/content/calendar/utils.js"/>
+  <textbox id="item-delegate" searchSessions="sogo-connector"/>
+    <dialog id="calendar-summary-dialog">
+    <hbox id="item-calendar-box" insertbefore="item-general-box" flex="1">
+      <spacer flex="1"/>
+      <label style="font-size: smaller" id="calendar-name-label"/>
+    </hbox>
+  </dialog>
+</overlay>

@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<!DOCTYPE overlay>
+
+<overlay id="ca.inverse.messenger.compose.carddav"
+  xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
+  <window id="msgcomposeWindow">
+    <script type="text/javascript">
+      var autocompleteWidgetPrefix = "addressCol2";
+    </script>
+    <script type="application/javascript"
+      src="chrome://sogo-connector/content/addressbook/autocomplete-common.js"/>
+  </window>
+</overlay>

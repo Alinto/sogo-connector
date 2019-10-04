@@ -1,0 +1,9 @@
+<!ENTITY addressbook-overlay.acl-menu.label "Megosztás...">
+
+<!ENTITY addressbook-overlay.susbcription.tooltips.add
+ "Új címjegyzék...">
+<!ENTITY addressbook-overlay.susbcription.tooltips.subscribe
+ "Feliratkozás egy címjegyzékre...">
+<!ENTITY addressbook-overlay.susbcription.tooltips.remove
+ "Kijelölt címjegyzék törlése">
+<!ENTITY addressbook-overlay.subscription.menu.unsubscribe "Leiratkozás">

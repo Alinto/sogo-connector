@@ -1,0 +1,7 @@
+<?xml version="1.0"?>
+<!DOCTYPE overlay>
+<overlay id="caInverseSogoConnectorCalendarEventDialog"
+  xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
+  <script type="application/x-javascript"
+           src="chrome://sogo-connector/content/calendar/calendar-event-dialog-overlay.js"/>
+</overlay>

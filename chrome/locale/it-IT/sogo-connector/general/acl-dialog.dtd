@@ -1,0 +1,10 @@
+<!ENTITY acl-dialog.title "Configura permessi">
+
+<!ENTITY acl.toolbar.close.label "Chiudi">
+<!ENTITY acl.toolbar.edit.label "Modifica permessi">
+
+<!ENTITY acl.owner.label "Proprietario:">
+<!ENTITY acl.defaultRoles.label "Permessi predefiniti">
+
+<!ENTITY acl.addUser.label "Aggiungi...">
+<!ENTITY acl.removeUser.label "Rimuovi">

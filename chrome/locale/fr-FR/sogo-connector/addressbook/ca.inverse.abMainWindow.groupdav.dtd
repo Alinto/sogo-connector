@@ -1,0 +1,40 @@
+<!--
+ Copyright:	Inverse inc., 2006 
+ Author: 		Robert Bolduc
+ Email:		support@inverse.ca 
+ URL:			http://inverse.ca
+  
+ This file is part of "SOGo Connector" a Thunderbird extension.
+
+    "SOGo Connector" is free software; you can redistribute it and/or modify
+    it under the terms of the GNU General Public License version 2 as published by
+    the Free Software Foundation;
+
+    "SOGo Connector" is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with "SOGo Connector"; if not, write to the Free Software
+    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA	
+-->
+
+<!ENTITY newGroupDavCmd.label                      	"Carnet d'adresses distant">
+<!ENTITY newGroupDavCmd.accesskey                  	"C">
+
+<!ENTITY GroupDavSync.label                          "Synchroniser">
+<!ENTITY GroupDavSync.accesskey                  		"S">
+<!ENTITY GroupDavSync.tooltip                      	"Synchronise les fiches locales avec celles du serveur">
+
+<!ENTITY GroupDavSyncAbort.label                      		"Abort Synchronization">
+<!ENTITY GroupDavSyncAbort.accesskey                  		"A">
+<!ENTITY GroupDavSyncAbort.tooltip                      	"Abort ongoing Synchronization (try if nothing happens)"> 
+
+<!ENTITY GroupDavConf.label                      		"Configurer">
+<!ENTITY GroupDavConf.accesskey                  		"C">
+
+<!ENTITY addressbook.synchronize.label	"Synchronisation :">
+
+<!ENTITY SearchCriteriaButton.label "Critère">
+<!ENTITY SearchCategory.label "La catégorie">

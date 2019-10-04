@@ -1,0 +1,15 @@
+<!ENTITY sogo-connector.preferences.panes.contacts.categories.title "Kontaktkategorien">
+<!ENTITY sogo-connector.preferences.contacts.categories.none.label "(keine)">
+<!ENTITY sogo-connector.preferences.contacts.categories.add.title "Kategorie hinzufügen">
+<!ENTITY sogo-connector.preferences.contacts.categories.addButton.label "Hinzufügen…">
+<!ENTITY sogo-connector.preferences.contacts.categories.addButton.accesskey "H">
+<!ENTITY sogo-connector.preferences.contacts.categories.edit.title "Kategorie bearbeiten">
+<!ENTITY sogo-connector.preferences.contacts.categories.editButton.label "Bearbeiten…">
+<!ENTITY sogo-connector.preferences.contacts.categories.editButton.accesskey "B">
+<!ENTITY sogo-connector.preferences.contacts.categories.removeButton.label "Entfernen">
+<!ENTITY sogo-connector.preferences.contacts.categories.removeButton.accesskey "E">
+
+<!ENTITY sogo-connector.preferences.contacts.categories.overwrite "Eine Kategorie mit diesem Namen existiert bereits. \n Wollen Sie diese überschreiben?">
+<!ENTITY sogo-connector.preferences.contacts.categories.overwrite.title "Warnung: Doppelter Name">
+<!ENTITY sogo-connector.preferences.contacts.categories.noBlankCategories "Sie müssen einen Kategorienamen eingeben.">
+

@@ -1,0 +1,48 @@
+@namespace url("http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul");
+
+#button-groupdavSync
+{
+  list-style-image: url(chrome://sogo-connector/skin/addressbook/sync-24.png);
+}
+
+#button-groupdavSync[disabled="true"]
+{
+  list-style-image: url(chrome://sogo-connector/skin/addressbook/sync-24-disabled.png);
+}
+
+toolbar[iconsize="small"] #button-groupdavSync
+{
+  list-style-image: url(chrome://sogo-connector/skin/addressbook/sync-16.png);
+}
+
+toolbar[iconsize="small"] #button-groupdavSync[disabled="true"]
+{
+  list-style-image: url(chrome://sogo-connector/skin/addressbook/sync-16-disabled.png);
+}
+
+toolbar[arch="mac"] #button-groupdavSync
+{
+  list-style-image: url(chrome://sogo-connector/skin/addressbook/sync-32.png);
+}
+
+toolbar[arch="mac"] #button-groupdavSync[disabled="true"]
+{
+  list-style-image: url(chrome://sogo-connector/skin/addressbook/sync-32-disabled.png);
+}
+
+toolbar[arch="mac"][iconsize="small"] #button-groupdavSync
+{
+  list-style-image: url(chrome://sogo-connector/skin/addressbook/sync-24.png);
+}
+
+toolbar[arch="mac"][iconsize="small"] #button-groupdavSync[disabled="true"]
+{
+  list-style-image: url(chrome://sogo-connector/skin/addressbook/sync-24-disabled.png);
+}
+
+#SCSearchCriteriaButton
+{
+  list-style-image: url("chrome://sogo-connector/skin/addressbook/search-filter.png");
+  min-width: 16px;
+  min-height: 16px;
+}
