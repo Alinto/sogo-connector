@@ -2,8 +2,6 @@ see: https://developer.thunderbird.net/add-ons/updates/tb68
 
 - bring back custom build
 - autocomplete broken?
-- merge calendars-list-overlay.dtd from Integrator into the Connector one and move to calendar-overlay.dtd
-  and do the same thing with calendar-common-set
 - fix Sharing button in calendar-overlay.xul
 - remove buttons from creation-overlay.xul
 - review nsIScriptableUnicodeConverter
