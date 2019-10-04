@@ -64,10 +64,6 @@ overlay chrome://messenger/content/addressbook/abCardOverlay.xul chrome://sogo-c
 # Support for commentAttribute in composition window
 overlay chrome://messenger/content/messengercompose/messengercompose.xul chrome://sogo-connector/content/messengercompose/messengercompose-overlay.xul
 
-# Exporting tasks
-# TO REMOVE - merged with chrome://sogo-connector/content/calendar/calendar-overlay.xul
-overlay chrome://calendar/content/calendar-common-sets.xul chrome://sogo-connector/content/calendar/calendar-common-sets.xul
-
 # Force refresh of event before displaying it
 # NOK
 overlay chrome://calendar/content/calendar-summary-dialog.xul chrome://sogo-connector/content/calendar/calendar-summary-dialog.xul
@@ -99,9 +95,6 @@ overlay chrome://messenger/content/preferences/preferences.xul chrome://sogo-con
 #
 # Overlay from SOGo Integrator
 #
-# REMOVE - migrated into calendar-overlay.xul
-#overlay chrome://lightning/content/messenger-overlay-sidebar.xul chrome://sogo-connector/content/calendar/calendars-list-overlay.xul
-
 # ?? - for the password propagation
 overlay chrome://global/content/commonDialog.xul chrome://sogo-connector/content/global/common-dialog-overlay.xul
 
