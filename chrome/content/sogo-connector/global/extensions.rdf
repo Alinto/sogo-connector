@@ -4,7 +4,7 @@
   xmlns:isi="http://inverse.ca/sogo-integrator/"
   xmlns:em="http://www.mozilla.org/2004/em-rdf#"
   xmlns:NC="http://home.netscape.com/NC-rdf#">
-  <!-- Make sure to change the updateURL for your environment --!>
+  <!-- Make sure to change the updateURL for your environment -->
   <Seq about="http://inverse.ca/sogo-integrator/extensions"
     isi:updateURL="http://sogohostname/path/to/updates.php?app_version=%APP_VERSION%&amp;plugin=%ITEM_ID%&amp;version=%ITEM_VERSION%&amp;platform=%PLATFORM%">
 <!--
