@@ -2,6 +2,7 @@
 	To package the extension 
 =====================================================
 edit <em:version> in install.rdf
+edit <isi:updateURL> in chrome/content/sogo-connector/global/extensions.rdf
 run make
 
 ========================================================
