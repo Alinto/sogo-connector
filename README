@@ -1,32 +1,31 @@
-=====================================================	
-	To package the extension 
-=====================================================
+# To package the extension 
 
 First create a directory structure in custom/ that corresponds to your site
 name. Use "sogo-demo" as an example. You can do so by doing:
 
-cp -a custom/sogo-demo custom/mysite
+```
+% cp -a custom/sogo-demo custom/mysite
+```
 
 Then customize the following files:
 
-custom/mysite/defaults/preferences/site.js
-custom/mysite/chrome/content/sogo-connector/global/extensions.rdf
+* custom/mysite/defaults/preferences/site.js
+* custom/mysite/chrome/content/sogo-connector/global/extensions.rdf
 
 If you want to force-push preferences upon each startup, modify:
 
-custom/mysite//chrome/content/sogo-connector/general/custom-preferences.js
+* custom/mysite//chrome/content/sogo-connector/general/custom-preferences.js
 
 To build the extension, do:
 
+```
 % make distclean
 % make build=mysite
+```
 
-========================================================
-	Logging
-========================================================
+# Logging
 
-For development enable debug messages
--------------------------------------
+## For development enable debug messages
 
 Taken from: http://brainflush.wordpress.com/2008/01/17/mozilla-thunderbird-extension-development-environment-setup/
 
@@ -44,23 +43,20 @@ javascript.options.strict = true.
 
 You can do so automatically by setting these preferences in site.js:
 
+```javascript
 pref("javascript.options.showInConsole", true);
 pref("nglayout.debug.disable_xul_cache", true);
 pref("browser.dom.window.dump.enabled", true);
 pref("javascript.options.strict", true);
+```
 
-
-Making the standard output console visible
--------------------------------------------
+## Making the standard output console visible
 
 Taken from: https://developer.mozilla.org/en-US/docs/DOM/window.dump?redirectlocale=en-US&redirectslug=DOM%3Awindow.dump
 
 On Windows, you will need a console to actually see anything. If you don't have one already, closing the application and re-opening it with the command line parameter -console should create the console. On other operating systems, it's enough to launch the application from a terminal.
 
-
-
-Debugging and changing code without restart Thunderbird
--------------------------------------------------------
+## Debugging and changing code without restart Thunderbird
 
 Setting breakpoints to stop inside JS code of a plugin using JavaScript Debugger Venkman does not work.
 Instead, install plugin Workspace for Thunderbird -> http://antennasoft.net/robcee/
@@ -68,54 +64,41 @@ Instead, install plugin Workspace for Thunderbird -> http://antennasoft.net/robc
 Place all your code, you want to test, there and execute it. You can even defined functions there.
 If you cannot override an existing JS function, you have to rename it.
 
-
-
-Other notes
------------
+## Other notes
 
 Command line parameter for starting Thunderbird in DEVEL mode:  -purgecaches -console -no-remote -P dev
 
 More useful hints for developers: https://developer.mozilla.org/en/docs/Setting_up_extension_development_environment
 
+# Migrating to Thunderbird v68 from previous versions
 
-
-========================================================
-	Lightning Modifications
-========================================================
-
-Modifications to Lightning (such as methods overwrite) are done within
-
-// INVERSE - BEGIN
-
-// INVERSE - END
-
-
-========================================================
-     Migrating to Thunderbird v68
-========================================================
-
-First of all, SOGo Integrator is no longer needed.
-
-All SOGo Integrator preferences have been renamed to
+First of all, SOGo Integrator is no longer needed. All SOGo Integrator preferences have been renamed to
 "sogo-connector". For example:
 
+```
 sogo-integrator.disable-calendaring
+```
 
 was renamed to:
 
+```
 sogo-connector.disable-calendaring
+```
 
 Here is the list of renamed preference keys:
 
+```
 sogo-integrator.autocomplete.server.urlid
 sogo-integrator.disable-calendaring
 sogo-integrator.disable-send-invitations-checkbox
-
+```
 
 All SOGo Connector preferences:
 
+```
 sogo-connector.autoComplete.commentAttribute
 sogo-connector.autoComplete.delay
 sogo-connector.contacts.categories
 sogo-connector.identification.use_email_address
 sogo-connector.sogo-prefix
+```
