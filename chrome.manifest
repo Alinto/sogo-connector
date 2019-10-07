@@ -85,10 +85,6 @@ overlay chrome://lightning/content/messenger-overlay-preferences.xul chrome://so
 # REMOVE??
 # overlay chrome://lightning/content/imip-delegate-dialog.xul chrome://sogo-connector/content/lightning/imip-delegate-dialog.xul
 
-# fix for https://bug718386.bugzilla.mozilla.org
-# REMOVE???
-#overlay chrome://lightning/content/messenger-overlay-messageWindow.xul chrome://sogo-connector/content/lightning/messagewindow-overlay.xul
-
 # preferences
 overlay chrome://messenger/content/preferences/preferences.xul chrome://sogo-connector/content/preferences/preferences-overlay.xul
 
