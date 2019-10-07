@@ -1,6 +1,6 @@
 /* -*- Mode: java; tab-width: 2; c-tab-always-indent: t; indent-tabs-mode: t; c-basic-offset: 2 -*- */
 
-Components.utils.import("resource://gre/modules/Services.jsm");
+var { Services } = ChromeUtils.import("resource://gre/modules/Services.jsm");
 
 var sogoConfig = { username: null, baseURL: null };
 
@@ -8,8 +8,7 @@ function sogoUserName() {
 	if (!sogoConfig['username']) {
 		var mgr = Components.classes["@mozilla.org/messenger/account-manager;1"]
 			.getService(Components.interfaces.nsIMsgAccountManager);
-		//var prefService = (Components.classes["@mozilla.org/preferences-service;1"]
-		//								 .getService(Components.interfaces.nsIPrefBranch));
+
 		var useEmail = false;
 		try {
 			useEmail = Services.prefs.getBoolPref("sogo-connector.identification.use_email_address");
@@ -59,13 +58,13 @@ function sogoBaseURL() {
 				var updateURL = urlNode.Value;
 				updateArray = updateURL.split("/");
 			}
+			else
+				throw new Error('');
 		}
 		catch (e) {
-			dump("sogoBaseURL - unable to obtain baseURL from extensions.rdf file: " + e);
+			dump("sogoBaseURL - unable to obtain updateURL from extensions.rdf file: " + e + "\n");
 		}
 
-		//var prefService = (Components.classes["@mozilla.org/preferences-service;1"]
-		//														 .getService(Components.interfaces.nsIPrefBranch));
 		var sogoPrefix;
 		try {
 			sogoPrefix = "/" + Services.prefs.getCharPref("sogo-connector.sogo-prefix");

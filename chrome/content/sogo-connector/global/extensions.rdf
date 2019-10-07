@@ -1,12 +1,12 @@
 <?xml version="1.0"?>
 <!DOCTYPE RDF>
 <RDF xmlns="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
-  xmlns:isi="http://inverse.ca/sogo-integrator/"
+  xmlns:isi="http://inverse.ca/sogo-connector/"
   xmlns:em="http://www.mozilla.org/2004/em-rdf#"
   xmlns:NC="http://home.netscape.com/NC-rdf#">
   <!-- Make sure to change the updateURL for your environment -->
-  <Seq about="http://inverse.ca/sogo-integrator/extensions"
-    isi:updateURL="http://sogohostname/path/to/updates.php?app_version=%APP_VERSION%&amp;plugin=%ITEM_ID%&amp;version=%ITEM_VERSION%&amp;platform=%PLATFORM%">
+  <Seq about="http://inverse.ca/sogo-connector/extensions"
+    isi:updateURL="https://sogohostname/path/to/updates.php?app_version=%APP_VERSION%&amp;plugin=%ITEM_ID%&amp;version=%ITEM_VERSION%&amp;platform=%PLATFORM%">
 <!--
     <li>
       <Description
