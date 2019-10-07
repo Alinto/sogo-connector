@@ -115,3 +115,7 @@ sogo-integrator.disable-send-invitations-checkbox
 All SOGo Connector preferences:
 
 sogo-connector.autoComplete.commentAttribute
+sogo-connector.autoComplete.delay
+sogo-connector.contacts.categories
+sogo-connector.identification.use_email_address
+sogo-connector.sogo-prefix
