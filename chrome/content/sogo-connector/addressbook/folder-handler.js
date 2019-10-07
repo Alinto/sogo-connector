@@ -1,4 +1,4 @@
-Components.utils.import("resource://gre/modules/Services.jsm");
+var { Services } = ChromeUtils.import("resource://gre/modules/Services.jsm");
 
 function jsInclude(files, target) {
     let loader = Components.classes["@mozilla.org/moz/jssubscript-loader;1"]
@@ -15,8 +15,6 @@ function jsInclude(files, target) {
     }
 }
 
-//jsInclude(["chrome://sogo-connector/content/global/sogo-config.js",
-//           "chrome://sogo-connector/content/general/preference.service.addressbook.groupdav.js"]);
 jsInclude(["chrome://sogo-connector/content/general/preference.service.addressbook.groupdav.js",
            "chrome://sogo-connector/content/addressbook/folder-handling.js"]);
 
@@ -221,8 +219,6 @@ AddressbookHandler.prototype = {
         Services.prefs.setCharPref("mail.collect_addressbook", personalAB.URI);
     },
     ensureAutoComplete: function() {
-        //let prefService = (Components.classes["@mozilla.org/preferences-service;1"]
-        //                   .getService(Components.interfaces.nsIPrefBranch));
         let prefACURL;
         try {
             let prefACURLID = Services.prefs.getCharPref("sogo-connector.autocomplete.server.urlid");
