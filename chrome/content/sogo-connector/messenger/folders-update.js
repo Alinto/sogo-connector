@@ -19,7 +19,6 @@ function jsInclude(files, target) {
 jsInclude(["chrome://sogo-connector/content/general/mozilla.utils.inverse.ca.js",
            "chrome://inverse-library/content/sogoWebDAV.js",
            "chrome://sogo-connector/content/addressbook/folder-handler.js",
-           "chrome://sogo-connector/content/addressbook/categories.js",
            "chrome://sogo-connector/content/calendar/folder-handler.js",
            "chrome://sogo-connector/content/calendar/default-classifications.js",
            "chrome://sogo-connector/content/messenger/mails-labels.js",]);
