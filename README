@@ -1,8 +1,25 @@
 =====================================================	
 	To package the extension 
 =====================================================
-edit <em:version> in install.rdf
-run make
+
+First create a directory structure in custom/ that corresponds to your site
+name. Use "sogo-demo" as an example. You can do so by doing:
+
+cp -a custom/sogo-demo custom/mysite
+
+Then customize the following files:
+
+custom/mysite/defaults/preferences/site.js
+custom/mysite/chrome/content/sogo-connector/global/extensions.rdf
+
+If you want to force-push preferences upon each startup, modify:
+
+custom/mysite//chrome/content/sogo-connector/general/custom-preferences.js
+
+To build the extension, do:
+
+% make distclean
+% make build=mysite
 
 ========================================================
 	Logging
@@ -11,8 +28,7 @@ run make
 For development enable debug messages
 -------------------------------------
 
-Taken from:
-http://brainflush.wordpress.com/2008/01/17/mozilla-thunderbird-extension-development-environment-setup/
+Taken from: http://brainflush.wordpress.com/2008/01/17/mozilla-thunderbird-extension-development-environment-setup/
 
 javascript.options.showInConsole = true.
   Logs errors in chrome files to the Error Console.
@@ -26,13 +42,18 @@ browser.dom.window.dump.enabled = true.
 javascript.options.strict = true.
   Enables strict JavaScript warnings in the Error Console. Note that since many people have this setting turned off when developing, you will see lots of warnings for problems with their code in addition to warnings for your own extension. You can filter those with Console2.
 
+You can do so automatically by setting these preferences in site.js:
+
+pref("javascript.options.showInConsole", true);
+pref("nglayout.debug.disable_xul_cache", true);
+pref("browser.dom.window.dump.enabled", true);
+pref("javascript.options.strict", true);
 
 
 Making the standard output console visible
 -------------------------------------------
 
-Taken from:
-https://developer.mozilla.org/en-US/docs/DOM/window.dump?redirectlocale=en-US&redirectslug=DOM%3Awindow.dump
+Taken from: https://developer.mozilla.org/en-US/docs/DOM/window.dump?redirectlocale=en-US&redirectslug=DOM%3Awindow.dump
 
 On Windows, you will need a console to actually see anything. If you don't have one already, closing the application and re-opening it with the command line parameter -console should create the console. On other operating systems, it's enough to launch the application from a terminal.
 
@@ -67,3 +88,30 @@ Modifications to Lightning (such as methods overwrite) are done within
 // INVERSE - BEGIN
 
 // INVERSE - END
+
+
+========================================================
+     Migrating to Thunderbird v68
+========================================================
+
+First of all, SOGo Integrator is no longer needed.
+
+All SOGo Integrator preferences have been renamed to
+"sogo-connector". For example:
+
+sogo-integrator.disable-calendaring
+
+was renamed to:
+
+sogo-connector.disable-calendaring
+
+Here is the list of renamed preference keys:
+
+sogo-integrator.autocomplete.server.urlid
+sogo-integrator.disable-calendaring
+sogo-integrator.disable-send-invitations-checkbox
+
+
+All SOGo Connector preferences:
+
+sogo-connector.autoComplete.commentAttribute
