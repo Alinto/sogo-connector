@@ -1,8 +1,5 @@
 see: https://developer.thunderbird.net/add-ons/updates/tb68
 
-- bring back custom build
-- autocomplete broken?
-- fix Sharing button in calendar-overlay.xul
 - remove buttons from creation-overlay.xul
 - review nsIScriptableUnicodeConverter
 - review nsIStringBundleService
