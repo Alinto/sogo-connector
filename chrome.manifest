@@ -72,10 +72,6 @@ overlay chrome://calendar/content/calendar-summary-dialog.xul chrome://sogo-conn
 # REMOVE??
 overlay chrome://calendar/content/calendar-invitations-dialog.xul chrome://sogo-connector/content/calendar/calendar-invitations-dialog.xul
 
-# default classification (events)
-# TO REMOVE - merged with chrome://sogo-connector/content/calendar/calendar-event-dialog.xul
-#overlay chrome://calendar/content/calendar-event-dialog.xul chrome://sogo-connector/content/calendar/calendar-event-dialog-overlay.xul
-
 # autocomplete in delegation dialog
 # REMOVE??
 # overlay chrome://lightning/content/imip-delegate-dialog.xul chrome://sogo-connector/content/lightning/imip-delegate-dialog.xul
