@@ -11,9 +11,7 @@
 
 <dialog id="SICategoryEditor"
   xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"
-  buttons="accept,cancel"
-  onload="editCategoryLoad();"
-  ondialogaccept="return doOK();">
+  buttons="accept,cancel">
   <script type="application/javascript"
     src="chrome://sogo-connector/content/preferences/edit-category.js"/>
   <vbox id="dialog-box">

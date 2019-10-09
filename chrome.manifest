@@ -76,17 +76,12 @@ overlay chrome://calendar/content/calendar-invitations-dialog.xul chrome://sogo-
 # TO REMOVE - merged with chrome://sogo-connector/content/calendar/calendar-event-dialog.xul
 #overlay chrome://calendar/content/calendar-event-dialog.xul chrome://sogo-connector/content/calendar/calendar-event-dialog-overlay.xul
 
-# default classification in Preferences > Calendar > General
-#overlay chrome://calendar/content/preferences/general.xul chrome://sogo-connector/content/preferences/general-overlay.xul
-#overlay chrome://lightning/content/suite-overlay-preferences.xul chrome://sogo-connector/content/preferences/general-overlay.xul
-overlay chrome://lightning/content/messenger-overlay-preferences.xul chrome://sogo-connector/content/preferences/general-overlay.xul
-
 # autocomplete in delegation dialog
 # REMOVE??
 # overlay chrome://lightning/content/imip-delegate-dialog.xul chrome://sogo-connector/content/lightning/imip-delegate-dialog.xul
 
-# preferences
-overlay chrome://messenger/content/preferences/preferences.xul chrome://sogo-connector/content/preferences/preferences-overlay.xul
+# Preferences overlay. Display > Contact Catogries and default classifications in Calendar > General
+overlay about:preferences chrome://sogo-connector/content/preferences/preferences-overlay.xul
 
 #
 # Overlay from SOGo Integrator

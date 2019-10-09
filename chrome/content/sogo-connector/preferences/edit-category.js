@@ -13,3 +13,9 @@ function doOK()
         saveObject.setCategoryName(document.getElementById("categoryName").value);
     }
 }
+
+window.addEventListener("load", editCategoryLoad, false);
+
+document.addEventListener("dialogaccept", function(event) {
+  doOK();
+});
