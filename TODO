@@ -7,5 +7,3 @@ see: https://developer.thunderbird.net/add-ons/updates/tb68
 - review all usage of ondialogaccept
 - review common-card-overlay.js for menulist's editable
 - remove progressmeter and statusbar/statusbarpanel
-- review calendar-invitations-list.xml as it's XBL based
-

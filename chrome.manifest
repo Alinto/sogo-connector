@@ -65,9 +65,8 @@ overlay chrome://messenger/content/addressbook/abCardOverlay.xul chrome://sogo-c
 # ??
 overlay chrome://messenger/content/messengercompose/messengercompose.xul chrome://sogo-connector/content/messengercompose/messengercompose-overlay.xul
 
-# Name of current calendar in title (calendar-invitations-list.xml)
-# REMOVE??
-#overlay chrome://calendar/content/calendar-invitations-dialog.xul chrome://sogo-connector/content/calendar/calendar-invitations-dialog.xul
+# Name of current calendar in title in the invitations list
+overlay chrome://calendar/content/calendar-invitations-dialog.xul chrome://sogo-connector/content/calendar/calendar-invitations-dialog.xul
 
 # autocomplete in delegation dialog
 # REMOVE??
