@@ -50,7 +50,7 @@ overlay chrome://messenger/content/addressbook/addressbook.xul chrome://sogo-con
 # OK
 overlay chrome://messenger/content/addressbook/addressbook.xul chrome://sogo-connector/content/addressbook/cardview-overlay.xul
 
-# OK beside the fact that creating contact categories (editable list) does not work
+# OK
 overlay chrome://messenger/content/addressbook/abNewCardDialog.xul chrome://sogo-connector/content/addressbook/abNewCardDialog.groupdav.overlay.xul
 overlay chrome://messenger/content/addressbook/abEditCardDialog.xul chrome://sogo-connector/content/addressbook/abEditCardDialog.groupdav.overlay.xul
 
@@ -62,15 +62,12 @@ overlay chrome://messenger/content/addressbook/abEditListDialog.xul chrome://sog
 overlay chrome://messenger/content/addressbook/abCardOverlay.xul chrome://sogo-connector/content/addressbook/common-card-overlay.xul
 
 # Support for commentAttribute in composition window
+# ??
 overlay chrome://messenger/content/messengercompose/messengercompose.xul chrome://sogo-connector/content/messengercompose/messengercompose-overlay.xul
-
-# Force refresh of event before displaying it
-# NOK
-overlay chrome://calendar/content/calendar-summary-dialog.xul chrome://sogo-connector/content/calendar/calendar-summary-dialog.xul
 
 # Name of current calendar in title (calendar-invitations-list.xml)
 # REMOVE??
-overlay chrome://calendar/content/calendar-invitations-dialog.xul chrome://sogo-connector/content/calendar/calendar-invitations-dialog.xul
+#overlay chrome://calendar/content/calendar-invitations-dialog.xul chrome://sogo-connector/content/calendar/calendar-invitations-dialog.xul
 
 # autocomplete in delegation dialog
 # REMOVE??
