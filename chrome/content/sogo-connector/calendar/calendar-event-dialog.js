@@ -69,8 +69,6 @@ function SIOnAccept(event) {
     event.preventDefault(); // Prevent the dialog closing.
     return;
   }
-
-  window.acceptDialog();
 }
 
 function SISaveItem() {
