@@ -994,10 +994,9 @@ function openDeletePersonalDirectoryForbiddenDialog() {
       .getService(Components.interfaces.nsIPromptService);
   let bundle = document.getElementById("bundle_integrator_addressbook");
 
-  promptService.confirm(window,
+  promptService.alert(window,
                         deleteAbCmdLlabel,
-                        bundle.getString("deletePersonalABError"),
-                        {});
+                        bundle.getString("deletePersonalABError"));
 }
 
 function openDeletePublicDirectoryForbiddenDialog() {
@@ -1005,10 +1004,9 @@ function openDeletePublicDirectoryForbiddenDialog() {
       .getService(Components.interfaces.nsIPromptService);
   let bundle = document.getElementById("bundle_integrator_addressbook");
 
-  promptService.confirm(window,
+  promptService.alert(window,
                         deleteAbCmdLlabel,
-                        bundle.getString("deletePublicABError"),
-                        {});
+                        bundle.getString("deletePublicABError"));
 }
 
 function SIAbDeleteDirectory(aURI) {

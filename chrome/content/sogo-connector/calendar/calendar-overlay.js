@@ -74,10 +74,9 @@ function openDeletePersonalDirectoryForbiddenDialog() {
       .getService(Components.interfaces.nsIPromptService);
   let bundle = document.getElementById("bundle_integrator_calendar");
 
-  promptService.confirm(window,
+  promptService.alert(window,
                         bundle.getString("deleteCalendarTitle"),
-                        bundle.getString("deletePersonalCalendarError"),
-                        {});
+                        bundle.getString("deletePersonalCalendarError"));
 }
 
 function openCalendarUnsubscriptionDialog() {
