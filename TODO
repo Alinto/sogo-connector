@@ -1,6 +1,5 @@
 see: https://developer.thunderbird.net/add-ons/updates/tb68
 
 - document startup.js
-- review all usage of ondialogaccept
 - review common-card-overlay.js for menulist's editable
 - remove progressmeter and statusbar/statusbarpanel

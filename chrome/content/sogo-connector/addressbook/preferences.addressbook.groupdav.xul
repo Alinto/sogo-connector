@@ -69,9 +69,7 @@ Modifications by
   xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"
   title="&newDirectoryTitle.label;"
   onload="onLoad();"
-  buttons="accept,cancel"
-  ondialogaccept="return onOverlayAccept();"
-  ondialogcancel="return onCancel();">
+  buttons="accept,cancel">
   
   <script type="application/x-javascript" src="chrome://sogo-connector/content/addressbook/preferences.addressbook.groupdav.js"/>
   <!--	<script type="application/x-javascript" src="chrome://sogo-connector/content/addressbook/preference.service.addressbook.groupdav.js"/>

@@ -115,17 +115,12 @@ function restartIfPossible() {
     }
 }
 
-function onAcceptClick() {
+function onAcceptClick(event) {
     var appStartup = iCc["@mozilla.org/toolkit/app-startup;1"]
                      .getService(iCi.nsIAppStartup);
     appStartup.quit(iCi.nsIAppStartup.eRestart
                     | iCi.nsIAppStartup.eAttemptQuit);
-
-    return false;
-}
-
-function onCancelClick() {
-    return false;
+    event.preventDefault();
 }
 
 function updateDialogOnReload() {
@@ -156,6 +151,10 @@ function updateDialogOnLoad () {
             window.opener.deferredCheckFolders();
         window.close();
     }
+
+    document.addEventListener("dialogaccept", function(event) {
+            onAcceptClick(event);
+        });
 }
 
 window.addEventListener("load", updateDialogOnLoad, false);

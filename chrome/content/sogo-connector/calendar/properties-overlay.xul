@@ -19,8 +19,7 @@
   <stringbundle id="propertiesMessages" src="chrome://sogo-connector/locale/calendar/properties-overlay.properties"/>
   <script type="application/x-javascript" src="chrome://sogo-connector/content/calendar/properties-overlay.js"/>
 
-  <dialog id="calendar-properties-dialog-2"
-    ondialogaccept="return onOverlayAccept();">
+  <dialog id="calendar-properties-dialog-2">
 
     <vbox id="sogo-calendar-properties" collapsed="true">
       <checkbox id="sogo-notify-on-personal-modifications"

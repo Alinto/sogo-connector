@@ -17,8 +17,7 @@
 ]>
 
 <dialog xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"
-  id="inverseMessengerUpdateDlg" ondialogaccept="return onAcceptClick();"
-  ondialogcancel="return onCancelClick();"
+  id="inverseMessengerUpdateDlg"
   width="380px" height="130px" buttons="accept"
   title="&sogo-connector.title;">
   <script type="application/x-javascript"

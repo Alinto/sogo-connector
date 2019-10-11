@@ -207,10 +207,6 @@ function onShowRestart() {
 
 //TODO:catch the directory delete and delete preferences
 
-function onCancel() {
-    window.close();
-}
-
 // From SOGo Integrator
 var folderURL = "";
 var originalName = "";
@@ -277,3 +273,6 @@ renameTarget.prototype = {
 	}
 };
 
+document.addEventListener("dialogaccept", function(event) {
+  onOverlayAccept();
+});
