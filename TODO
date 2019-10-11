@@ -1,7 +1,6 @@
 see: https://developer.thunderbird.net/add-ons/updates/tb68
 
 - document startup.js
-- review nsIScriptableUnicodeConverter
 - review nsIStringBundleService
 - review all usage of ondialogaccept
 - review common-card-overlay.js for menulist's editable

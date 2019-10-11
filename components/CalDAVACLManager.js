@@ -1397,13 +1397,6 @@ CalDAVACLManager.prototype = {
                         responseText = aResult;
                     }
                     else {
-                        //let resultConverter = Components.classes["@mozilla.org/intl/scriptableunicodeconverter"]
-                        //                                .createInstance(Components.interfaces.nsIScriptableUnicodeConverter);
-                        //resultConverter.charset ="UTF-8";
-                        // dump("aResultLength: " + aResultLength + "\n");
-                        // dump("aResult: " + aResult + "\n");
-                        // dump("STACK(): " + cal.STACK() + "\n");
-                        //responseText = resultConverter.convertFromByteArray(aResult, aResultLength);
                         let byteArray = new Uint8Array(aResult);
                         responseText = (new TextDecoder("UTF-8")).decode(byteArray);
                     }
