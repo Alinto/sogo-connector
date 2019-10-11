@@ -1,4 +1,0 @@
-<!ENTITY lightning-missing.title "Hiányzó kiterjesztés">
-<!ENTITY lightning-missing.text  "A SOGo Connector szükséges ahhoz, hogy
-a Lightning kiterjesztés jól működjön. A telepítéshez kövesd az alábbi
-linket. Amíg ez nincs meg, a szinkronizálás nem működik.">

@@ -1,4 +1,0 @@
-<!ENTITY lightning-missing.title "Missing extension">
-<!ENTITY lightning-missing.text  "SOGo Connector requires the Mozilla
-Lightning extension to work properly. To install it, please follow the link
-below. Until then, no synchronisation operation will be available.">
