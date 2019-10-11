@@ -93,14 +93,6 @@ function SOGO_GetString(key) {
         return bundle.getString(key);
     else
         return key;
-    /*
-     * Alternate way
-     * 
-    let bundleService = Components.classes["@mozilla.org/intl/stringbundle;1"].getService(Components.interfaces.nsIStringBundleService);
-    let bundle = bundleService.createBundle("chrome://mrc_compose/locale/mrc_compose.properties");
-    let str = bundle.GetStringFromName(key);
-    return str;
-    */
 }
 
 let sCounter = 0;

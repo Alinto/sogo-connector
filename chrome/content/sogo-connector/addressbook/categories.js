@@ -1,4 +1,4 @@
-Components.utils.import("resource://gre/modules/Services.jsm");
+var { Services } = ChromeUtils.import("resource://gre/modules/Services.jsm");
 
 function jsInclude(files, target) {
     let loader = Components.classes["@mozilla.org/moz/jssubscript-loader;1"]
@@ -21,25 +21,19 @@ let SCContactCategories = {
     getCategoriesAsString: function SCCC_getCategoriesAsString() {
         let cats = null;
 
-        //let prefService = Components.classes["@mozilla.org/preferences-service;1"]
-        //                            .getService(Components.interfaces.nsIPrefBranch);
         try {
             cats = Services.prefs.getCharPref("sogo-connector.contacts.categories");
             cats = decodeURIComponent(escape(cats));
         }
         catch(e) {
-            let strService = Components.classes["@mozilla.org/intl/stringbundle;1"]
-                                       .getService(Components.interfaces.nsIStringBundleService);
-            let bundle = strService.createBundle("chrome://sogo-connector/locale/preferences/categories.properties");
-            cats = bundle.GetStringFromName("contacts.categories");
+          let bundle = Services.strings.createBundle("chrome://sogo-connector/locale/preferences/categories.properties");
+          cats = bundle.GetStringFromName("contacts.categories");
         }
 
         return cats;
     },
 
     setCategoriesAsString: function SCCC_setCategoriesAsString(cats) {
-        //let prefService = Components.classes["@mozilla.org/preferences-service;1"]
-        //                            .getService(Components.interfaces.nsIPrefBranch);
         Services.prefs.setCharPref("sogo-connector.contacts.categories", unescape(encodeURIComponent(cats)));
     },
 
