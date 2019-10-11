@@ -1,7 +1,6 @@
 /* simpleLdapQuery.js - This file is part of "SOGo Connector", a Thunderbird extension.
  *
  * Copyright: Inverse inc., 2006-2010
- *    Author: Robert Bolduc, Wolfgang Sourdeau
  *     Email: support@inverse.ca
  *       URL: http://inverse.ca
  *
