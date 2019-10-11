@@ -81,10 +81,10 @@ function downloadMissingExtensions(dlExtensions) {
         dlExtensions.forEach(function(extension) {
                 dump("update-dialogs.js: downloading " + extension["name"]
                      + " from " + extension["url"] + "\n");
-                AddonManager.getInstallForURL(extension["url"], installCallback,
-                                              "application/x-xpinstall", null,
-                                              extension["name"]);
-            });
+                //AddonManager.getInstallForURL(extension["url"], installCallback,
+                //                              "application/x-xpinstall", null,
+                //                              extension["name"]);
+                AddonManager.getInstallForURL(extension["url"]).then(installCallback);
     }
 }
 
