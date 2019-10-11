@@ -13,8 +13,10 @@
 <?xul-overlay href="chrome://sogo-connector/content/general/creation-overlay.xul"?>
 
 <dialog xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"
-  id="inverseCreationDialog"
-  title="&creation.title;">
+        id="inverseCreationDialog"
+        type="dialog"
+        buttons=","
+        title="&creation.title;">
 
   <script type="application/x-javascript" src="chrome://sogo-connector/content/general/creation-overlay.js"/>
 

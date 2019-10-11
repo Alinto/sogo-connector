@@ -17,7 +17,7 @@
 <dialog xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"
   id="inverseSubscriptionDialog"
   type="dialog"
-  buttons="none"
+  buttons=","
   title="&subscription.title;">
   <stringbundle id="subscription-dialog-strings"
     src="chrome://sogo-connector/locale/general/subscription-dialog.properties"/>
