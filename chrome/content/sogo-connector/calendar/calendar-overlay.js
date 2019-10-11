@@ -70,8 +70,14 @@ function _confirmDelete(name) {
 }
 
 function openDeletePersonalDirectoryForbiddenDialog() {
-    let bundle = document.getElementById("bundle_integrator_calendar");
-    alert(bundle.getString("deletePersonalCalendarError"));
+  let promptService = Components.classes["@mozilla.org/embedcomp/prompt-service;1"]
+      .getService(Components.interfaces.nsIPromptService);
+  let bundle = document.getElementById("bundle_integrator_calendar");
+
+  promptService.confirm(window,
+                        bundle.getString("deleteCalendarTitle"),
+                        bundle.getString("deletePersonalCalendarError"),
+                        {});
 }
 
 function openCalendarUnsubscriptionDialog() {

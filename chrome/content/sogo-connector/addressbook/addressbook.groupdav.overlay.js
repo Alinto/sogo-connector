@@ -990,13 +990,25 @@ function openABACLDialog() {
 }
 
 function openDeletePersonalDirectoryForbiddenDialog() {
-	let strings = document.getElementById("bundle_integrator_addressbook");
-	alert(strings.getString("deletePersonalABError"));
+  let promptService = Components.classes["@mozilla.org/embedcomp/prompt-service;1"]
+      .getService(Components.interfaces.nsIPromptService);
+  let bundle = document.getElementById("bundle_integrator_addressbook");
+
+  promptService.confirm(window,
+                        deleteAbCmdLlabel,
+                        bundle.getString("deletePersonalABError"),
+                        {});
 }
 
 function openDeletePublicDirectoryForbiddenDialog() {
-	let strings = document.getElementById("bundle_integrator_addressbook");
-	alert(strings.getString("deletePublicABError"));
+  let promptService = Components.classes["@mozilla.org/embedcomp/prompt-service;1"]
+      .getService(Components.interfaces.nsIPromptService);
+  let bundle = document.getElementById("bundle_integrator_addressbook");
+
+  promptService.confirm(window,
+                        deleteAbCmdLlabel,
+                        bundle.getString("deletePublicABError"),
+                        {});
 }
 
 function SIAbDeleteDirectory(aURI) {

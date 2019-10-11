@@ -55,6 +55,11 @@
         <stringbundle id="bundle_integrator_addressbook" src="chrome://sogo-connector/locale/addressbook/addressbook.properties"/>
     </stringbundleset>
 
+    <!-- Get the localized text for use in the .js -->
+    <script type="application/javascript">
+      var deleteAbCmdLlabel = "&deleteAbCmd.label;";
+    </script>
+
     <vbox id="dirTreeBox">
     <sidebarheader id="subscriptionToolbar" insertbefore="dirTree">
       <toolbarbutton id="addAddressBookBtn"
