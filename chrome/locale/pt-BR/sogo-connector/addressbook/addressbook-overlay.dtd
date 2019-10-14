@@ -1,0 +1,9 @@
+<!ENTITY addressbook-overlay.acl-menu.label "Compartilhando...">
+
+<!ENTITY addressbook-overlay.susbcription.tooltips.add
+ "Novo catálogo...">
+<!ENTITY addressbook-overlay.susbcription.tooltips.subscribe
+ "Inscrever em um catálogo...">
+<!ENTITY addressbook-overlay.susbcription.tooltips.remove
+ "Remover o catálogo selecionado">
+<!ENTITY addressbook-overlay.subscription.menu.unsubscribe "Desinscrever">

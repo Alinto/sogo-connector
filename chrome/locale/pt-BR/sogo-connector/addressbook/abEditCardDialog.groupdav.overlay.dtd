@@ -1,0 +1,25 @@
+<!ENTITY inverse.CalDAV.tab "CalDAV">
+<!ENTITY inverse.FbUrl.label "Freebusy URL:">
+
+<!--
+  NAME 'calFBURL'
+  DESC 'URI da informação livre e ocupado od susuários'
+
+  NAME 'calCAPURI'
+  DESC 'URI utilizada para comunicar com os calendários dos usuários'
+
+  NAME 'calCalAdrURI'
+  DESC 'URI para o qual as requisições de eventos devem ser enviadas para o usuário'
+
+  NAME 'calOtherCalURIs'
+  DESC 'URIs para os calendários não-padrão do usuário'
+
+  NAME 'calOtherFBURLs'
+  DESC 'URIs para os arquivos com informação de livre e ocupado não-padrão'
+
+  NAME 'calOtherCAPURIs'
+  DESC 'URIs para comunicação com calendários não-padrão'
+
+  NAME 'calOtherCalAdrURIs'
+  DESC 'Destinos para requisições de eventos para calendários não-padrão'
+-->

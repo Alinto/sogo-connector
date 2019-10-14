@@ -1,0 +1,11 @@
+<!ENTITY roles-dialog.title "Editando direitos do usuário">
+<!ENTITY roles-dialog.default-roles.label "Direitos padrão">
+<!ENTITY roles-dialog.user-roles.label "Direitos para:">
+
+<!ENTITY roles-dialog.roles.object-creator.label "Esta pessoa pode adicionar cartões a seu catálogo.">
+<!ENTITY roles-dialog.roles.object-viewer.label "Esta pessoa pode ler cartões deste catálogo..">
+<!ENTITY roles-dialog.roles.object-editor.label "Esta pessoa pode editar cartões deste catálogo..">
+<!ENTITY roles-dialog.roles.object-eraser.label "Esta pessoa pode remover cartões deste catálogo..">
+
+<!ENTITY roles-dialog.update-button.label "Atualizar">
+<!ENTITY roles-dialog.cancel-button.label "Cancelar">
