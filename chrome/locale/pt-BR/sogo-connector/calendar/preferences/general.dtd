@@ -1,0 +1,6 @@
+<!ENTITY calendar.preferences.general.classification.caption
+"Classificações padrão de item">
+<!ENTITY calendar.preferences.general.default-events-classification.label
+"Classificação de eventos:">
+<!ENTITY calendar.preferences.general.default-todos-classification.label
+"Classificação de tarefas:">
