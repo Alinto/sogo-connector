@@ -10,8 +10,8 @@ endif
 FIND_FILTER = ! -path './custom/*' -type f
 XPI_ARCHIVE = $(PACKAGE)-$(VERSION)-$(GIT_REV).xpi
 
-SHELL = /bin/bash
-ZIP = /usr/bin/zip
+SHELL=bash
+ZIP=zip
 
 FILENAMES = $(shell cat MANIFEST)
 
