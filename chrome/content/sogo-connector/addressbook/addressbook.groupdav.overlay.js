@@ -222,7 +222,7 @@ abDirTreeObserver.SCOnDrop = function(row, or, dataTransfer) {
       dump("cardKeys: " + cardKeys.length + " to delete\n");
     else
       dump("cardKeys: nothing to delete\n");
-    if (proceed && cardKeys) {
+    if (proceed && cardKeys.length) {
       DeleteGroupDAVCards(gSelectedDir, cards, true);
       //let prefService = new GroupdavPreferenceService(sourceDirectory.dirPrefId);
       //for (let i = 0; i < cardKeys.length; i++) {

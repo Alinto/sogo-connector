@@ -371,7 +371,7 @@ GroupDavSynchronizer.prototype = {
     },
     onDAVQueryComplete: function(status, response, headers, data) {
         this.callbackCode = status;
-        //dump("request status: " + status + "\n");
+        dump("request status: " + status + " data.query: " + data.query + "\n");
 
         if (data.query == "vcard-download")
             this.onCardDownloadComplete(status, response, data.data);
@@ -1390,7 +1390,7 @@ new:
         }
 
         if (this.remainingUploads == 0) {
-            this.pendingOperations--;
+          this.pendingOperations = 0;
             //  			dump("decreasing 11 pendingOperations...\n");
             this.checkCallback();
         }
@@ -1549,8 +1549,6 @@ new:
         //dump("  this.processMode: " + this.processMode + "\n");
         //dump("  this.pendingOperations: " + this.pendingOperations + "\n");
         //dump("  this.updatesStatus: " + this.updatesStatus + "\n");
-        //dump("_checkCallback: processMode: " + this.processMode + "\n");
-        //dump("_checkCallback: pendingOperations: " + this.pendingOperations + "\n");
         
         if (this.pendingOperations < 0) {
             this.context.requests[this.gURL] = null;
@@ -1558,7 +1556,7 @@ new:
         }
 
         if (this.pendingOperations == 0) {
-            // 			dump("switching processMode!\n");
+            //dump("switching processMode " + this.processMode + "!\n");
             if (this.processMode == SOGOC_PROCESS_CARDS) {
                 this.processMode = SOGOC_PROCESS_LISTS;
                 this.processLists();
@@ -1577,7 +1575,7 @@ new:
                 let total = (this.localUploads
                              + this.serverDownloadsCount
                              + this.serverDeletes.length);
-                if (total > 0) {
+              if (total > 0) {
                     // allow a delay before hiding the progressNotification
                     var that = this;
                     window.setTimeout(function() {

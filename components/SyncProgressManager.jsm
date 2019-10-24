@@ -75,12 +75,10 @@ SyncProgressManager.prototype = {
             delete this.addressbooks[url];
             this.nrAddressBooks--;
             this.nservice.postNotification("groupdav.synchronization.addressbook.unregistered", url);
+                                                                                                
+            if (!this.nrAddressBooks)
+                this.nservice.postNotification("groupdav.synchronization.stop");
         }
-        else
-            throw Components.results.NS_ERROR_FAILURE;
-
-        if (!this.nrAddressBooks)
-            this.nservice.postNotification("groupdav.synchronization.stop");
     },
     updateAddressBook: function(url) {
         //     dump("update: " + url + "\n");

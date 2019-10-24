@@ -75,10 +75,6 @@ let groupdavSynchronizationObserver = {
 
 function OnLoadMessengerOverlay() {
     /* if SOGo Integrator is present, we let it take the startup procedures */
-
-    //let nmgr = Components.classes["@inverse.ca/notification-manager;1"]
-    //                     .getService(Components.interfaces.inverseIJSNotificationManager)
-    //                     .wrappedJSObject;
     notificationManagerInstance.registerObserver("groupdav.synchronization.start",
                           groupdavSynchronizationObserver);
     notificationManagerInstance.registerObserver("groupdav.synchronization.stop",
@@ -96,9 +92,6 @@ function OnLoadMessengerOverlay() {
 }
 
 function SCUnloadHandler(event) {
-    //let nmgr = Components.classes["@inverse.ca/notification-manager;1"]
-    //                     .getService(Components.interfaces.inverseIJSNotificationManager)
-    //                     .wrappedJSObject;
     notificationManagerInstance.unregisterObserver("groupdav.synchronization.start",
                             groupdavSynchronizationObserver);
     notificationManagerInstance.unregisterObserver("groupdav.synchronization.stop",
@@ -106,9 +99,6 @@ function SCUnloadHandler(event) {
 }
 
 function cleanupAddressBooks() {
-    //let prefs = Components.classes["@mozilla.org/preferences-service;1"]
-    //                      .getService(Components.interfaces.nsIPrefBranch);
-
     // 	_cleanupLocalStore();
     let uniqueChildren = _uniqueChildren("ldap_2.servers", 2);
     _cleanupABRemains(uniqueChildren);
