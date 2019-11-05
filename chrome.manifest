@@ -23,7 +23,6 @@ manifest components/CalDAVACLManager.manifest
 content sogo-connector chrome/content/sogo-connector/
 skin sogo-connector classic/1.0 chrome/skin/classic/sogo-connector/
 
-locale sogo-connector cs-CZ chrome/locale/cs-CZ/sogo-connector/
 locale sogo-connector en-US chrome/locale/en-US/sogo-connector/
 locale sogo-connector fr-FR chrome/locale/fr-FR/sogo-connector/
 locale sogo-connector de-DE chrome/locale/de-DE/sogo-connector/
