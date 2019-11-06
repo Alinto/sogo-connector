@@ -74,20 +74,20 @@ Modifications to original file pref-directory-add.xul by:
 <!ENTITY groupDavServerType.label         "Typ vzdáleného serveru:">
 <!ENTITY groupDavServerType.accesskey     "T">
 
-<!ENTITY groupdavPeriodicSync.label       "Periodic sync" >
+<!ENTITY groupdavPeriodicSync.label       "Pravidelná synchronizace" >
 <!ENTITY groupdavPeriodicSync5m.label     "5 min" >
 <!ENTITY groupdavPeriodicSync15m.label    "15 min" >
 <!ENTITY groupdavPeriodicSync1h.label     "1 h" >
 <!ENTITY groupdavPeriodicSync2h.label     "2 h" >
-<!ENTITY groupdavNotifications.label      "Show Notifications" >
+<!ENTITY groupdavNotifications.label      "Zobrazovat upozornění" >
 
-<!ENTITY groupdavNotificationsOINE.label  "Notify only if data synchronized" >
-<!ENTITY groupdavNotificationsRestart.label "Changes in options for 'Periodic sync' need a restart of Thunderbird." >
-<!ENTITY groupdavNotificationsManual.label "Show Notifications for manual synchronizations" >
-<!ENTITY groupdavNotificationsManual.info  "When select 'Synchronize' from toolbar or context menu." >
-<!ENTITY groupdavNotificationsSave.label   "Show Notifications when saving a card" >
-<!ENTITY groupdavNotificationsSave.info    "The default notification is a progress bar in the status bar. If checked, a general notification will be displayed." >
-<!ENTITY groupdavNotificationsStart.label  "Show Notifications on startup" >
+<!ENTITY groupdavNotificationsOINE.label  "Upozornit pouze v případě synchronizace dat" >
+<!ENTITY groupdavNotificationsRestart.label "Změny v nastavení „Pravidelná synchronizace“ vyžadují restart Thunderbirdu." >
+<!ENTITY groupdavNotificationsManual.label "Zobrazovat upozornění pro ruční synchronizace" >
+<!ENTITY groupdavNotificationsManual.info  "Když vyberete „Synchronizovat“ z panelu nástrojů nebo místní nabídky." >
+<!ENTITY groupdavNotificationsSave.label   "Zobrazovat upozornění při ukládání kontaktu" >
+<!ENTITY groupdavNotificationsSave.info    "Výchozí je zobrazování indikátoru průběhu ve stavovém řádku. Pokud je zaškrtnuto, zobrazí se obecné upozornění." >
+<!ENTITY groupdavNotificationsStart.label  "Zobrazovat upozornění při spuštění" >
 
 <!ENTITY General.tab                       "Obecný">
 <!ENTITY Offline.tab                       "Offline">
@@ -103,6 +103,3 @@ Modifications to original file pref-directory-add.xul by:
 
 <!ENTITY ReadOnly.label               		"Pouze ke čtení">
 <!ENTITY ReadOnly.accesskey           		"P">
-
-
-
