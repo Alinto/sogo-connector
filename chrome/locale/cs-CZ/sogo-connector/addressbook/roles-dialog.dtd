@@ -1,0 +1,11 @@
+<!ENTITY roles-dialog.title "Úprava uživatelských práv">
+<!ENTITY roles-dialog.default-roles.label "Výchozí práva">
+<!ENTITY roles-dialog.user-roles.label "Práva pro:">
+
+<!ENTITY roles-dialog.roles.object-creator.label "Tato osoba může vytvářet kontakty v této složce kontaktů.">
+<!ENTITY roles-dialog.roles.object-viewer.label "Tato osoba může číst kontakty z této složky kontaktů.">
+<!ENTITY roles-dialog.roles.object-editor.label "Tato osoba může upravovat kontakty v této složce kontaktů.">
+<!ENTITY roles-dialog.roles.object-eraser.label "Tato osoba může mazat kontakty v této složce kontaktů.">
+
+<!ENTITY roles-dialog.update-button.label "Aktualizovat">
+<!ENTITY roles-dialog.cancel-button.label "Storno">

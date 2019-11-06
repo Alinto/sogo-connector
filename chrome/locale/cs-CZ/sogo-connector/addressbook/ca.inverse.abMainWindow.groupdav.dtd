@@ -27,9 +27,9 @@
 <!ENTITY GroupDavSync.accesskey                  		"S">
 <!ENTITY GroupDavSync.tooltip                      	"Synchronizovat kontakty se serverem">
 
-<!ENTITY GroupDavSyncAbort.label                      		"Abort Synchronization">
-<!ENTITY GroupDavSyncAbort.accesskey                  		"A">
-<!ENTITY GroupDavSyncAbort.tooltip                      	"Abort ongoing Synchronization (try if nothing happens)"> 
+<!ENTITY GroupDavSyncAbort.label                      		"Přerušit synchronizaci">
+<!ENTITY GroupDavSyncAbort.accesskey                  		"P">
+<!ENTITY GroupDavSyncAbort.tooltip                      	"Přerušit probíhající synchronizaci (zkuste, pokud se nic neděje)">
 
 <!ENTITY GroupDavConf.label                      		"Konfigurovat">
 <!ENTITY GroupDavConf.accesskey                  		"K">
