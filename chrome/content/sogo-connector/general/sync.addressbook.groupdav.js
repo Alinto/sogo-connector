@@ -1390,7 +1390,7 @@ new:
         }
 
         if (this.remainingUploads == 0) {
-          this.pendingOperations = 0;
+          this.pendingOperations--;
             //  			dump("decreasing 11 pendingOperations...\n");
             this.checkCallback();
         }
