@@ -8,7 +8,7 @@
   },
   "name": "SOGo Connector",
   "description": "A DAV plugin for keeping addressbooks and events in sync",
-  "version": "68.0.0",
+  "version": "68.0.1",
   "legacy": {
     "type": "xul"
   }

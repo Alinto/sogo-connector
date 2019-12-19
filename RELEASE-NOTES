@@ -1,5 +1,8 @@
 NEWS
 ====
+68.0.1  Fixed card download issue
+        Updated CZ translation, thanks to Slávek Banko <slavek.banko@axis.cz>
+
 68.0.0  Thunderbird 68 support. Merged SOGo Integrator
         into SOGo Connector and many bug fixes were applied
 
