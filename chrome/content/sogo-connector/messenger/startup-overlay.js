@@ -11,7 +11,9 @@ function jsInclude(files, target) {
             loader.loadSubScript(files[i], target);
         }
         catch(e) {
-            dump("startup-overlay.js: failed to include '" + files[i] + "'\n" + e + "\n");
+            dump("startup-overlay.js: failed to include '" + files[i] + "'\n" + e +
+                 "\nFile: " + e.fileName +
+                 "\nLine: " + e.lineNumber + "\n\n Stack:\n\n" + e.stack);
         }
     }
 }

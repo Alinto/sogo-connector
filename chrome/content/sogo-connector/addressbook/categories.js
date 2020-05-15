@@ -14,7 +14,6 @@ function jsInclude(files, target) {
 }
 
 jsInclude(["chrome://inverse-library/content/sogoWebDAV.js",
-           "chrome://sogo-connector/content/addressbook/categories.js",
            "chrome://sogo-connector/content/global/sogo-config.js"]);
 
 let SCContactCategories = {

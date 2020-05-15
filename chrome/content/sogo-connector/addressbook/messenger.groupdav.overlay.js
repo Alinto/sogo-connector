@@ -80,13 +80,13 @@ function OnLoadMessengerOverlay() {
     notificationManagerInstance.registerObserver("groupdav.synchronization.stop",
                           groupdavSynchronizationObserver);
 
-    if (!this.sogoIntegratorStartupOverlayOnLoad) {
-        dump("startup from sogo-connector\n");
-        cleanupAddressBooks();
-        startFolderSync();
-    }
-    else
-        dump("skipping startup, sogo-connector present\n");
+    //if (!this.sogoIntegratorStartupOverlayOnLoad) {
+    //    dump("startup from sogo-connector\n");
+    //    cleanupAddressBooks();
+    //    startFolderSync();
+    //}
+    //else
+    //    dump("skipping startup, sogo-connector present\n");
 
     window.addEventListener("unload", SCUnloadHandler, false);
 }

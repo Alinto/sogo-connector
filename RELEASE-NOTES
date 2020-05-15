@@ -1,5 +1,7 @@
 NEWS
 ====
+68.0.2  Fixed addressbooks sync upon startup
+
 68.0.1  Fixed card download issue
         Updated CZ translation, thanks to Slávek Banko <slavek.banko@axis.cz>
 

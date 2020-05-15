@@ -21,7 +21,8 @@ jsInclude(["chrome://sogo-connector/content/general/mozilla.utils.inverse.ca.js"
            "chrome://sogo-connector/content/addressbook/folder-handler.js",
            "chrome://sogo-connector/content/calendar/folder-handler.js",
            "chrome://sogo-connector/content/calendar/default-classifications.js",
-           "chrome://sogo-connector/content/messenger/mails-labels.js",]);
+           "chrome://sogo-connector/content/messenger/mails-labels.js",
+           "chrome://sogo-connector/content/addressbook/categories.js"]);
 
 function directoryChecker(type, handler) {
     this.type = type;
@@ -247,80 +248,76 @@ function checkFolders() {
   //  return;
   //}
           
-    let console = Components.classes["@mozilla.org/consoleservice;1"]
-        .getService(Components.interfaces.nsIConsoleService);
+  let console = Components.classes["@mozilla.org/consoleservice;1"]
+      .getService(Components.interfaces.nsIConsoleService);
     
-    let loader = Components.classes["@mozilla.org/moz/jssubscript-loader;1"]
-        .getService(Components.interfaces.mozIJSSubScriptLoader);
-  //if (GroupDavSynchronizer) {
-  if (true) {
-        /* sogo-connector is recent enough for a clean synchronization,
-           otherwise, missing messy symbols will cause exceptions to be
-           thrown */
-        
-        cleanupAddressBooks();
-        let handler = new AddressbookHandler();
-      let ABChecker = new directoryChecker("Contacts", handler);
-      dump("ABChecker type 1: " + ABChecker.type + "\n");
-        ABChecker.checkAvailability(function() {
-            ABChecker.start();
-            handler.ensurePersonalIsRemote();
-            handler.ensureAutoComplete();
-            SIContactCategories.synchronizeFromServer();
-            startFolderSync();
-        });
-    }
+  let loader = Components.classes["@mozilla.org/moz/jssubscript-loader;1"]
+      .getService(Components.interfaces.mozIJSSubScriptLoader);
 
-    //
-    // We synchronize mail labels
-    //
-    SIMailsLabels.synchronizeFromServer();
+  cleanupAddressBooks();
 
-    //
-    //
-    //
-    let handler;
-    try {
-        handler = new CalendarHandler();
+  let abHandler = new AddressbookHandler();
+  let abChecker = new directoryChecker("Contacts", abHandler);
+  dump("abChecker type 1: " + abChecker.type + "\n");
+
+  abChecker.checkAvailability(function() {
+    abChecker.start();
+    abHandler.ensurePersonalIsRemote();
+    abHandler.ensureAutoComplete();
+    SIContactCategories.synchronizeFromServer();
+    startFolderSync();
+  });
+
+  //
+  // We synchronize mail labels
+  //
+  SIMailsLabels.synchronizeFromServer();
+
+  //
+  //
+  //
+  let calHandler;
+  try {
+    calHandler = new CalendarHandler();
+  }
+  catch(e) {
+    // if lightning is not installed, an exception will be thrown so we
+    // need to catch it to keep the synchronization process alive
+    calHandler = null;
+  }
+  if (calHandler) {
+    let CalendarChecker = new directoryChecker("Calendar", calHandler);
+    CalendarChecker.checkAvailability(function() {
+      if (document) {
+        let toolbar = document.getElementById("subscriptionToolbar");
+        if (toolbar) {
+          toolbar.collapsed = false;
         }
-    catch(e) {
-        // if lightning is not installed, an exception will be thrown so we
-        // need to catch it to keep the synchronization process alive
-        handler = null;
-    }
-    if (handler) {
-        let CalendarChecker = new directoryChecker("Calendar", handler);
-        CalendarChecker.checkAvailability(function() {
-            if (document) {
-                let toolbar = document.getElementById("subscriptionToolbar");
-                if (toolbar) {
-                    toolbar.collapsed = false;
-                }
-            }
-            //let prefService = (Components.classes["@mozilla.org/preferences-service;1"]
-            //                   .getService(Components.interfaces.nsIPrefBranch));
-            let disableCalendaring;
-            try {
-                disableCalendaring
-                    = Services.prefs.getBoolPref("sogo-connector.disable-calendaring");
-            }
-            catch(e) {
-                disableCalendaring = false;
-            }
-            if (disableCalendaring) {
-                CalendarChecker.removeAllExisting();
+      }
+      //let prefService = (Components.classes["@mozilla.org/preferences-service;1"]
+      //                   .getService(Components.interfaces.nsIPrefBranch));
+      let disableCalendaring;
+      try {
+        disableCalendaring
+          = Services.prefs.getBoolPref("sogo-connector.disable-calendaring");
+      }
+      catch(e) {
+        disableCalendaring = false;
+      }
+      if (disableCalendaring) {
+        CalendarChecker.removeAllExisting();
                 hideLightningWidgets("true");
-            }
-            else {
-                SICalendarDefaultClassifications.synchronizeFromServer();
-                handler.removeHomeCalendar();
-                CalendarChecker.start();
-                // hideLightningWidgets("false");
-            }
-        });
-    }
+      }
+      else {
+        SICalendarDefaultClassifications.synchronizeFromServer();
+        calHandler.removeHomeCalendar();
+        CalendarChecker.start();
+        // hideLightningWidgets("false");
+      }
+    });
+  }
 
-    dump("startup done\n");
+  dump("startup done\n");
 }
 
 function hideLightningWidgets(hide) {
