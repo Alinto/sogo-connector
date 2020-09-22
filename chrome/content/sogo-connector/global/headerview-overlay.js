@@ -44,3 +44,7 @@ function AddContact(emailAddressNode)
     let synchronizer = new GroupDavSynchronizer(addressBook.URI);
     synchronizer.start();
 }
+
+function onLoad(activatedWhileWindowOpen) {
+  dump("headerview-overlay.js: onLoad()\n");
+}

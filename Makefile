@@ -37,10 +37,11 @@ MANIFEST: MANIFEST-pre
 
 MANIFEST-pre:
 	@echo manifest.json > $@
+	@echo ./api/WindowListener/schema.json >> $@
 	@echo COPYING >> $@
 	@echo ChangeLog.old >> $@
 	@find . $(FIND_FILTER) -name "*.manifest" >> $@
-	@find . $(FIND_FILTER) -name "*.xul" >> $@
+	@find . $(FIND_FILTER) -name "*.xhtml" >> $@
 	@find . $(FIND_FILTER) -name "*.xml" >> $@
 	@find . $(FIND_FILTER) -name "*.dtd" >> $@
 	@find . $(FIND_FILTER) -name "*.idl" >> $@
@@ -53,7 +54,15 @@ MANIFEST-pre:
 	@find . $(FIND_FILTER) -name "*.xpt" >> $@
 	@find . $(FIND_FILTER) -name "*.properties" >> $@
 	@find . $(FIND_FILTER) -name "*.rdf" >> $@
-	@find . $(FIND_FILTER) -name "RELEASE-NOTES" >> $@	
+	@find . $(FIND_FILTER) -name "RELEASE-NOTES" >> $@
+	@echo _locales/cs-CZ/messages.json >> $@
+	@echo _locales/de-DE/messages.json >> $@
+	@echo _locales/en-US/messages.json >> $@
+	@echo _locales/fr-FR/messages.json >> $@
+	@echo _locales/hu-HU/messages.json >> $@
+	@echo _locales/it-IT/messages.json >> $@
+	@echo _locales/nl-NL/messages.json >> $@
+	@echo _locales/pt-BR/messages.json >> $@
 
 rest: MANIFEST
 	@+make $(XPI_ARCHIVE)

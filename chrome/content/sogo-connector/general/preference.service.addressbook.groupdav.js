@@ -1,6 +1,6 @@
 /* preference.service.addressbook.groupdav.js - This file is part of "SOGo Connector", a Thunderbird extension.
  *
- * Copyright: Inverse inc., 2006-2016
+ * Copyright: Inverse inc., 2006-2020
  *     Email: support@inverse.ca
  *       URL: http://inverse.ca
  *
@@ -18,7 +18,8 @@
  * Franklin St, Fifth Floor, Boston, MA 02110-1301 USA
  */
 
-Components.utils.import("resource://gre/modules/Services.jsm");
+var { Services } = Components.utils.import("resource://gre/modules/Services.jsm");
+var { MailServices } = ChromeUtils.import("resource:///modules/MailServices.jsm");
 
 function jsInclude(files, target) {
     let loader = Components.classes["@mozilla.org/moz/jssubscript-loader;1"]
@@ -40,11 +41,12 @@ function isGroupdavDirectory(abURI) {
 
     if (abURI
         && abURI.search("mab/MailList") == -1
-        && abURI.search("moz-abmdbdirectory://") == 0) {
-        let abManager = Components.classes["@mozilla.org/abmanager;1"]
-                                  .getService(Components.interfaces.nsIAbManager);
-        let ab = abManager.getDirectory(abURI);
+        && abURI.search("jsaddrbook://") == 0) {
+        //let abManager = Components.classes["@mozilla.org/abmanager;1"]
+        //                          .getService(Components.interfaces.nsIAbManager);
+        //let ab = abManager.getDirectory(abURI);
         //  		let prefId = ab.directoryProperties.prefName;
+        let ab = MailServices.ab.getDirectory(abURI);
         let prefId = ab.dirPrefId;
         try {
             let groupdavPrefService = new GroupdavPreferenceService(prefId);
@@ -79,8 +81,8 @@ function isCardDavDirectory(abURI){
     if (abURI
         && abURI.search("mab/MailList") == -1
         && abURI.search(abdavPrefix) == 0) {
-        //let prefs = Components.classes["@mozilla.org/preferences-service;1"]
-        //                      .getService(Components.interfaces.nsIPrefBranch);
+        let prefs = Components.classes["@mozilla.org/preferences-service;1"]
+                              .getService(Components.interfaces.nsIPrefBranch);
         let prefName = abURI.substr(abdavPrefix.length);
         try {
             let uri = Services.prefs.getCharPref(prefName + ".uri");

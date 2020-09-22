@@ -26,4 +26,8 @@ function SIOnNewListOverlayLoad() {
     }
 }
 
-window.addEventListener("load", SIOnNewListOverlayLoad, false);
+//window.addEventListener("load", SIOnNewListOverlayLoad, false);
+function onLoad(activatedWhileWindowOpen) {
+  dump("newlist-overlay.js: onLoad()\n");
+  SIOnNewListOverlayLoad();
+}

@@ -253,10 +253,19 @@ function SICommonDialogOnUnload() {
 		}
 	}
 
-	window.SIOldCommonDialogOnUnload();
+	//window.SIOldCommonDialogOnUnload();
 }
 
-//window.SIOldCommonDialogOnLoad = window.commonDialogOnLoad;
-//window.commonDialogOnLoad = window.SICommonDialogOnLoad;
-window.SIOldCommonDialogOnUnload = window.commonDialogOnUnload;
-window.commonDialogOnUnload = window.SICommonDialogOnUnload;
+//window.SIOldCommonDialogOnUnload = window.commonDialogOnUnload;
+//window.commonDialogOnUnload = window.SICommonDialogOnUnload;
+
+//function onLoad(activatedWhileWindowOpen) {
+//	dump("common-dialog-overlay.js: onLoad()\n");
+//	window.SIOldCommonDialogOnUnload = window.commonDialogOnUnload;
+//	window.commonDialogOnUnload = window.SICommonDialogOnUnload;
+//}
+
+
+function onUnload(deactivatedWhileWindowOpen) {
+	SICommonDialogOnUnload();
+}

@@ -1,0 +1,476 @@
+{
+    "Any Authenticated User": {
+        "message": "Any Authenticated User"
+    },
+    "General.tab": {
+        "message": "Generale"
+    },
+    "GroupDavConf.accesskey": {
+        "message": "C"
+    },
+    "GroupDavConf.label": {
+        "message": "Configura"
+    },
+    "GroupDavSync.accesskey": {
+        "message": "S"
+    },
+    "GroupDavSync.label": {
+        "message": "Sincronizza"
+    },
+    "GroupDavSync.tooltip": {
+        "message": "Sincronizza i contatti sul server"
+    },
+    "GroupDavSyncAbort.accesskey": {
+        "message": "A"
+    },
+    "GroupDavSyncAbort.label": {
+        "message": "Abort Synchronization"
+    },
+    "GroupDavSyncAbort.tooltip": {
+        "message": "Abort ongoing Synchronization (try if nothing happens)"
+    },
+    "No possible subscription": {
+        "message": "Nessuna sottoscrizione possibile"
+    },
+    "Offline.tab": {
+        "message": "Offline"
+    },
+    "Please wait...": {
+        "message": "Attendere prego..."
+    },
+    "Public Access": {
+        "message": "Public Access"
+    },
+    "ReadOnly.accesskey": {
+        "message": "R"
+    },
+    "ReadOnly.label": {
+        "message": "Sola lettura"
+    },
+    "SearchCategory.label": {
+        "message": "Categoria"
+    },
+    "SearchCriteriaButton.label": {
+        "message": "Criteri"
+    },
+    "URLAlreadyExist": {
+        "message": "Un'altra rubrica utilizza già questo URL!"
+    },
+    "You have already subscribed to that folder!": {
+        "message": "Hai già sottoscritto la cartella!"
+    },
+    "acl-dialog.title": {
+        "message": "Configura permessi"
+    },
+    "acl.addUser.label": {
+        "message": "Aggiungi..."
+    },
+    "acl.defaultRoles.label": {
+        "message": "Permessi predefiniti"
+    },
+    "acl.owner.label": {
+        "message": "Proprietario:"
+    },
+    "acl.removeUser.label": {
+        "message": "Rimuovi"
+    },
+    "acl.toolbar.close.label": {
+        "message": "Chiudi"
+    },
+    "acl.toolbar.edit.label": {
+        "message": "Modifica permessi"
+    },
+    "addressbook-overlay.acl-menu.label": {
+        "message": "Condividi..."
+    },
+    "addressbook-overlay.subscription.menu.unsubscribe": {
+        "message": "Rimuovi sottoscrizione"
+    },
+    "addressbook-overlay.susbcription.tooltips.add": {
+        "message": "Nuova rubrica..."
+    },
+    "addressbook-overlay.susbcription.tooltips.remove": {
+        "message": "Rimuovi la rubrica selezionata"
+    },
+    "addressbook-overlay.susbcription.tooltips.subscribe": {
+        "message": "Sottoscrivi una rubrica..."
+    },
+    "addressbook.synchronize.label": {
+        "message": "Sincronizzazione:"
+    },
+    "attendee.toolbar.accept.label": {
+        "message": "Accetta"
+    },
+    "attendee.toolbar.close.label": {
+        "message": "Chiudi"
+    },
+    "attendee.toolbar.decline.label": {
+        "message": "Rifiuta"
+    },
+    "calendar-overlay.susbcription.tooltips.add": {
+        "message": "Nuovo calendario..."
+    },
+    "calendar-overlay.susbcription.tooltips.remove": {
+        "message": "Rimuovi il calendario selezionato"
+    },
+    "calendar-overlay.susbcription.tooltips.subscribe": {
+        "message": "Sottoscrivi un calendario..."
+    },
+    "calendar.context.exporttask.label": {
+        "message": "Esporta Attività..."
+    },
+    "calendar.context.properties.label": {
+        "message": "Modifica"
+    },
+    "calendar.context.reinit-cache.label": {
+        "message": "Reset Calendar Cache"
+    },
+    "calendar.context.showall.label": {
+        "message": "Mostra tutti i calendari"
+    },
+    "calendar.context.showonly.label": {
+        "message": "Mostra solo questo calendario"
+    },
+    "calendar.context.sogo-acls.label": {
+        "message": "Condividi..."
+    },
+    "calendar.context.sogo-delete.label": {
+        "message": "Rimuovi calendario"
+    },
+    "calendar.context.sogo-reload-acls.label": {
+        "message": "Aggiorna permessi di accesso"
+    },
+    "calendar.context.sogo-unsubscribe.label": {
+        "message": "Rimuovi sottoscrizione"
+    },
+    "calendar.preferences.general.classification.caption": {
+        "message": "Default item classifications"
+    },
+    "calendar.preferences.general.default-events-classification.label": {
+        "message": "Events classification:"
+    },
+    "calendar.preferences.general.default-todos-classification.label": {
+        "message": "Tasks classification:"
+    },
+    "contacts.categories": {
+        "message": "Collega, Concorrente, Cliente, Amico, Famiglia, Socio, Provider, Stampa, VIP"
+    },
+    "creation.button.create.label": {
+        "message": "Crea"
+    },
+    "creation.instructions.label": {
+        "message": "Inserisci un nome per la nuova rubrica:"
+    },
+    "creation.title": {
+        "message": "Nuova rubrica..."
+    },
+    "deleteCalendarMessage": {
+        "message": "Sei sicuro di voler eliminare il calendario selezionato?"
+    },
+    "deleteCalendarTitle": {
+        "message": "Elimina Calendario"
+    },
+    "deletePersonalABError": {
+        "message": "Non puoi eliminare la tua rubrica personale."
+    },
+    "deletePersonalCalendarError": {
+        "message": "Non puoi eliminare il tuo calendario personale."
+    },
+    "deletePublicABError": {
+        "message": "Non puoi eliminare una rubrica pubblica."
+    },
+    "deletefailure.description": {
+        "message": "Uno o più elementi non possono essere eliminati. Potresti non disporre dei diritti necessari per completare l'operazione."
+    },
+    "deletefailure.title": {
+        "message": "Errore durante l'eliminazione"
+    },
+    "downloadNowButton.accesskey": {
+        "message": "D"
+    },
+    "downloadNowButton.label": {
+        "message": "Scarica ora"
+    },
+    "event.confidential.label": {
+        "message": "Evento Confidenziale"
+    },
+    "event.menu.options.privacy.confidential.label": {
+        "message": "Evento Confidenziale"
+    },
+    "event.organizers.label": {
+        "message": "Organizzatore:"
+    },
+    "groupDavServerType.accesskey": {
+        "message": "G"
+    },
+    "groupDavServerType.label": {
+        "message": "Tipo del server remoto:"
+    },
+    "groupdavHostname.accesskey": {
+        "message": "h"
+    },
+    "groupdavHostname.label": {
+        "message": "Host: "
+    },
+    "groupdavName.accesskey": {
+        "message": "n"
+    },
+    "groupdavName.label": {
+        "message": "Nome: "
+    },
+    "groupdavNotifications.label": {
+        "message": "Show Notifications"
+    },
+    "groupdavNotificationsManual.info": {
+        "message": "When select 'Synchronize' from toolbar or context menu."
+    },
+    "groupdavNotificationsManual.label": {
+        "message": "Show Notifications for manual synchronizations"
+    },
+    "groupdavNotificationsOINE.label": {
+        "message": "Notify only if data synchronized"
+    },
+    "groupdavNotificationsRestart.label": {
+        "message": "Changes in options for 'Periodic sync' need a restart of Thunderbird."
+    },
+    "groupdavNotificationsSave.info": {
+        "message": "The default notification is a progress bar in the status bar. If checked, a general notification will be displayed."
+    },
+    "groupdavNotificationsSave.label": {
+        "message": "Show Notifications when saving a card"
+    },
+    "groupdavNotificationsStart.label": {
+        "message": "Show Notifications on startup"
+    },
+    "groupdavPassword.accesskey": {
+        "message": "p"
+    },
+    "groupdavPassword.label": {
+        "message": "Password:"
+    },
+    "groupdavPeriodicSync.label": {
+        "message": "Periodic sync"
+    },
+    "groupdavPeriodicSync15m.label": {
+        "message": "15 min"
+    },
+    "groupdavPeriodicSync1h.label": {
+        "message": "1 h"
+    },
+    "groupdavPeriodicSync2h.label": {
+        "message": "2 h"
+    },
+    "groupdavPeriodicSync5m.label": {
+        "message": "5 min"
+    },
+    "groupdavSecure.accesskey": {
+        "message": "S"
+    },
+    "groupdavSecure.label": {
+        "message": "Usa connessione sicura (SSL)"
+    },
+    "groupdavURL.accesskey": {
+        "message": "l"
+    },
+    "groupdavURL.label": {
+        "message": "URL: "
+    },
+    "groupdavUser.accesskey": {
+        "message": "r"
+    },
+    "groupdavUser.label": {
+        "message": "Utente:"
+    },
+    "inverse.CalDAV.tab": {
+        "message": "CalDAV"
+    },
+    "inverse.FbUrl.label": {
+        "message": "Freebusy URL:"
+    },
+    "missingDescriptionMsg": {
+        "message": "Non puoi creare una rubrica senza un nome!"
+    },
+    "missingDescriptionURL": {
+        "message": "Non puoi creare una rubrica senza un URL!"
+    },
+    "newDirectoryTitle.label": {
+        "message": "Proprietà della rubrica remota"
+    },
+    "newDirectoryWidth": {
+        "message": "36em"
+    },
+    "newGroupDavCmd.accesskey": {
+        "message": "R"
+    },
+    "newGroupDavCmd.label": {
+        "message": "Rubrica remota"
+    },
+    "notificationsDelete": {
+        "message": "\\u0020delete."
+    },
+    "notificationsDeletes": {
+        "message": "\\u0020deletes."
+    },
+    "notificationsDownload": {
+        "message": "\\u0020download,\\u0020"
+    },
+    "notificationsDownloads": {
+        "message": "\\u0020downloads,\\u0020"
+    },
+    "notificationsFailure": {
+        "message": "\\u0020failure,\\u0020"
+    },
+    "notificationsFailures": {
+        "message": "\\u0020failures,\\u0020"
+    },
+    "notificationsNoChanges": {
+        "message": "No changes."
+    },
+    "notificationsTitle": {
+        "message": "SOGO :\\u0020"
+    },
+    "notificationsUpload": {
+        "message": "\\u0020upload,\\u0020"
+    },
+    "notificationsUploads": {
+        "message": "\\u0020uploads,\\u0020"
+    },
+    "offlineText.label": {
+        "message": "Puoi scaricare una copia locale di questa rubrica in modo da renderla disponibile anche quando lavori offline."
+    },
+    "properties-overlay.notify-on-external-modifications.label": {
+        "message": "Receive a mail when someone else modifies my calendar"
+    },
+    "properties-overlay.notify-on-personal-modifications.label": {
+        "message": "Receive a mail when I modify my calendar"
+    },
+    "properties-overlay.notify-user-on-personal-modifications.label": {
+        "message": "When I modify my calendar, send a mail to:"
+    },
+    "roles-dialog.cancel-button.label": {
+        "message": "Annulla"
+    },
+    "roles-dialog.confidential.label": {
+        "message": "Confidenziale"
+    },
+    "roles-dialog.default-roles.label": {
+        "message": "Permessi predefiniti"
+    },
+    "roles-dialog.private.label": {
+        "message": "Privato"
+    },
+    "roles-dialog.public.label": {
+        "message": "Pubblico"
+    },
+    "roles-dialog.roles-choice.modify.label": {
+        "message": "Modifica"
+    },
+    "roles-dialog.roles-choice.none.label": {
+        "message": "Nessuno"
+    },
+    "roles-dialog.roles-choice.respond-to.label": {
+        "message": "Rispondi a"
+    },
+    "roles-dialog.roles-choice.view-all.label": {
+        "message": "Mostra tutti"
+    },
+    "roles-dialog.roles-choice.view-d-a-t.label": {
+        "message": "Mostra data e ora"
+    },
+    "roles-dialog.roles.object-creator.label": {
+        "message": "Questo utente può aggiungere contatti nella rubrica."
+    },
+    "roles-dialog.roles.object-editor.label": {
+        "message": "Questo utente può modifcare contatti dalla rubrica."
+    },
+    "roles-dialog.roles.object-eraser.label": {
+        "message": "Questo utente può eliminare contatti dalla rubrica."
+    },
+    "roles-dialog.roles.object-viewer.label": {
+        "message": "Questo utente può leggere contatti dalla rubrica."
+    },
+    "roles-dialog.title": {
+        "message": "Modifica permessi"
+    },
+    "roles-dialog.update-button.label": {
+        "message": "Salva"
+    },
+    "roles-dialog.user-roles.label": {
+        "message": "Permessi per:"
+    },
+    "saveComponentMessage": {
+        "message": "E' necessario inserire un nome."
+    },
+    "saveComponentTitle": {
+        "message": "Salva"
+    },
+    "serverUpdateFailed": {
+        "message": "Il server ha rifiutato l'operazione sulla rubrica con il seguente codice di errore:"
+    },
+    "sogo-connector.message": {
+        "message": "Attendere prego, aggiornamento delle estensioni in corso..."
+    },
+    "sogo-connector.preferences.contacts.categories.add.title": {
+        "message": "Aggiungi Categoria"
+    },
+    "sogo-connector.preferences.contacts.categories.addButton.accesskey": {
+        "message": "A"
+    },
+    "sogo-connector.preferences.contacts.categories.addButton.label": {
+        "message": "Aggiungi..."
+    },
+    "sogo-connector.preferences.contacts.categories.edit.title": {
+        "message": "Modifica Categoria"
+    },
+    "sogo-connector.preferences.contacts.categories.editButton.accesskey": {
+        "message": "M"
+    },
+    "sogo-connector.preferences.contacts.categories.editButton.label": {
+        "message": "Modifica..."
+    },
+    "sogo-connector.preferences.contacts.categories.noBlankCategories": {
+        "message": "Devi inserire il nome della categoria."
+    },
+    "sogo-connector.preferences.contacts.categories.none.label": {
+        "message": "Nessuna"
+    },
+    "sogo-connector.preferences.contacts.categories.overwrite": {
+        "message": "Esiste già una categoria con questo nome. \\n Vuoi sovrascriverla?"
+    },
+    "sogo-connector.preferences.contacts.categories.overwrite.title": {
+        "message": "Attenzione: nome duplicato"
+    },
+    "sogo-connector.preferences.contacts.categories.removeButton.accesskey": {
+        "message": "R"
+    },
+    "sogo-connector.preferences.contacts.categories.removeButton.label": {
+        "message": "Rimuovi"
+    },
+    "sogo-connector.preferences.panes.contacts.categories.title": {
+        "message": "Categoria Contatto"
+    },
+    "sogo-connector.restart-message": {
+        "message": "È necessario riavviare l'applicazione."
+    },
+    "sogo-connector.tabs.categories.label": {
+        "message": "Categorie"
+    },
+    "sogo-connector.title": {
+        "message": "Aggiornamento"
+    },
+    "sogo.description": {
+        "message": "Inserisci la tua password (%u):"
+    },
+    "sogo.title": {
+        "message": "Connessione a SOGo..."
+    },
+    "subscription.button.add.label": {
+        "message": "Aggiungi..."
+    },
+    "subscription.searchcriteria.label": {
+        "message": "Nome o Email"
+    },
+    "subscription.title": {
+        "message": "Sottoscrivi..."
+    }
+}

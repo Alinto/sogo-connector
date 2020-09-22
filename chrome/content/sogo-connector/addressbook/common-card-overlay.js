@@ -8,7 +8,7 @@ function jsInclude(files, target) {
             loader.loadSubScript(files[i], target);
         }
         catch(e) {
-            dump("common-card-overlay.js: failed to include '" + files[i] + "'\n" + e + "\n");
+            //dump("common-card-overlay.js: failed to include '" + files[i] + "'\n" + e + "\n");
         }
     }
 }
@@ -40,7 +40,7 @@ function SCOnCommonCardOverlayLoad() {
         SCOnCommonCardOverlayLoadPreHook();
     }
     /* categories */
-    let cardCategoriesValue = gEditCard.card.getProperty("Categories", "");
+    let cardCategoriesValue = window.gEditCard.card.getProperty("Categories", "");
     let catsArray = multiValueToArray(cardCategoriesValue);
     gSCCardValues.categories = SCContactCategories.getCategoriesAsArray();
 
@@ -90,7 +90,7 @@ function SCAppendCategory(catValue) {
   let vbox = document.getElementById("abCategories");
   //let menuList = document.createElement("menulist", { is : "menulist-editable" });
   //menuList.setAttribute("is", "menulist-editable");
-  let menuList = document.createElement("menulist");
+  let menuList = document.createXULElement("menulist");
   menuList.setAttribute("is", "menulist-editable");
   menuList.setAttribute("editable", true);
   menuList.addEventListener("blur", SCOnCategoryBlur, false);
@@ -114,7 +114,7 @@ function SCResetCategoriesMenu(menu, catValue) {
   //}
   menu.removeAllItems();
   
-  //let menuPopup = document.createElement("menupopup");
+  //let menuPopup = document.createXULElement("menupopup");
   for (let catName of gSCCardValues.categories) {
     //let item = document.createElement("menuitem");
     //item.setAttribute("label", catName);
@@ -171,15 +171,15 @@ function SCSaveCategories() {
       catsArray.push(value);
     }
   }
-  gEditCard.card.setProperty("Categories", arrayToMultiValue(catsArray));
+  window.gEditCard.card.setProperty("Categories", arrayToMultiValue(catsArray));
 }
 
 function getUri() {
     let uri;
 
-    if (gEditCard.abURI && gEditCard.abURI == kAllDirectoryRoot + "?") { // Find the correct address book for "All Address Books"
-        let dirId = gEditCard.card.directoryId
-                             .substring(0, gEditCard.card.directoryId.indexOf("&"));
+    if (window.gEditCard.abURI && gEditCard.abURI == kAllDirectoryRoot + "?") { // Find the correct address book for "All Address Books"
+        let dirId = window.gEditCard.card.directoryId
+                             .substring(0, window.gEditCard.card.directoryId.indexOf("&"));
         uri = MailServices.ab.getDirectoryFromId(dirId).URI;
     }
     else if (document.getElementById("abPopup")) {
@@ -207,14 +207,14 @@ function saveCard(isNewCard) {
         if (gSCCardValues.documentDirty
             && isGroupdavDirectory(parentURI)) {
             SCSaveCategories();
-            let oldDavVersion = gEditCard.card.getProperty("groupDavVersion", "-1");
-            gEditCard.card.setProperty("groupDavVersion", "-1");
-            gEditCard.card.setProperty("groupDavVersionPrev", oldDavVersion);
+            let oldDavVersion = window.gEditCard.card.getProperty("groupDavVersion", "-1");
+            window.gEditCard.card.setProperty("groupDavVersion", "-1");
+            window.gEditCard.card.setProperty("groupDavVersionPrev", oldDavVersion);
 
             let abManager = Components.classes["@mozilla.org/abmanager;1"]
                                       .getService(Components.interfaces.nsIAbManager);
             let ab = abManager.getDirectory(parentURI);
-            ab.modifyCard(gEditCard.card);
+            ab.modifyCard(window.gEditCard.card);
 
             // We make sure we try the messenger window and if it's closed, the address book
             // window. It might fail if both of them are closed and we still have a composition
@@ -268,4 +268,8 @@ let SICommonCardOverlay = {
 
 let SCOnCommonCardOverlayLoadPreHook = function() { SICommonCardOverlay.onLoadHook(); };
 
-window.addEventListener("load", SCOnCommonCardOverlayLoad, false);
+//window.addEventListener("load", SCOnCommonCardOverlayLoad, false);
+function onLoad(activatedWhileWindowOpen) {
+  dump("common-card-overlay.js: onLoad()\n");
+  SCOnCommonCardOverlayLoad();
+}

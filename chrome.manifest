@@ -20,18 +20,19 @@ manifest components/CalDAVACLManager.manifest
 #
 # Thunderbird GUI alterations
 #
-content sogo-connector chrome/content/sogo-connector/
-skin sogo-connector classic/1.0 chrome/skin/classic/sogo-connector/
+#content sogo-connector chrome/content/sogo-connector/
+#skin sogo-connector classic/1.0 chrome/skin/classic/sogo-connector/
+#resource sogo-connector chrome/
 
-locale sogo-connector cs-CZ chrome/locale/cs-CZ/sogo-connector/
-locale sogo-connector en-US chrome/locale/en-US/sogo-connector/
-locale sogo-connector fr-FR chrome/locale/fr-FR/sogo-connector/
-locale sogo-connector de-DE chrome/locale/de-DE/sogo-connector/
-locale sogo-connector nl-NL chrome/locale/nl-NL/sogo-connector/
-locale sogo-connector hu-HU chrome/locale/hu-HU/sogo-connector/
-locale sogo-connector it-IT chrome/locale/it-IT/sogo-connector/
+#locale sogo-connector cs-CZ chrome/locale/cs-CZ/sogo-connector/
+#locale sogo-connector en-US chrome/locale/en-US/sogo-connector/
+#locale sogo-connector fr-FR chrome/locale/fr-FR/sogo-connector/
+#locale sogo-connector de-DE chrome/locale/de-DE/sogo-connector/
+#locale sogo-connector nl-NL chrome/locale/nl-NL/sogo-connector/
+#locale sogo-connector hu-HU chrome/locale/hu-HU/sogo-connector/
+#locale sogo-connector it-IT chrome/locale/it-IT/sogo-connector/
 
-content inverse-library chrome/content/inverse-library/
+#content inverse-library chrome/content/inverse-library/
 
 style chrome://global/content/customizeToolbar.xul chrome://sogo-connector/skin/addressbook/addressbook.groupdav.overlay.css
 

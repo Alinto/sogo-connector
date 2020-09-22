@@ -1,6 +1,6 @@
-see: https://developer.thunderbird.net/add-ons/updates/tb68
-
-- rename sogo-integrator.* prefs to sogo-connector ones
+- export task not working
+- remove all dtd/locales
+- remove sogo-connector/chrome/content/sogo-connector/general/creation-overlay.xul
 - when accepting IMIP/ITIP invitations, overlay Lightning to show only writable calendars
 - document startup.js
 - review common-card-overlay.js for menulist's editable

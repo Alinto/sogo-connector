@@ -1,25 +1,23 @@
 <?xml version="1.0"?>
 <!--
- Copyright:     Inverse inc., 2008-2019
- Email:         support@inverse.ca
- URL:           http://inverse.ca
-  -->
+Copyright:     Inverse inc., 2008-2019
+Email:         support@inverse.ca
+URL:           http://inverse.ca
+-->
 
-<!DOCTYPE dialog [
-<!ENTITY % addressbookRolesDialogDTD SYSTEM "chrome://sogo-connector/locale/addressbook/roles-dialog.dtd">
-%addressbookRolesDialogDTD;
-]>
-
-<?xml-stylesheet type="text/css" href="chrome://sogo-connector/skin/roles-dialog.css"?>
+<?xml-stylesheet type="text/css" href="resource://sogo-connector/skin/roles-dialog.css"?>
 <?xml-stylesheet type="text/css" href="chrome://global/skin/global.css"?>
 
 <dialog xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"
-  id="rolesDialog"
-  type="dialog"
-  buttons="none"
-  title="&roles-dialog.title;">
+        id="rolesDialog"
+        type="dialog"
+        buttons="none"
+        title="__MSG_roles-dialog.title__">
+  
   <script type="application/x-javascript"
-    src="chrome://sogo-connector/content/addressbook/roles-dialog.js"/>
+          src="chrome://sogo-connector/content/addressbook/roles-dialog.js"/>
+  <script type="application/x-javascript"
+          src="chrome://sogo-connector/content/global/i18n.js"/>
 
   <commandset id="rolesCommands">
     <command id="RolesCommandUpdate" oncommand="updateCurrentUser();"/>
@@ -29,9 +27,9 @@
   <vbox>
     <vbox id="titleContent">
       <label collapsed="true" id="defaultTitle"
-	value="&roles-dialog.default-roles.label;"/>
+	value="__MSG_roles-dialog.default-roles.label__"/>
       <vbox>
-	<label id="titleLabel" value="&roles-dialog.user-roles.label;"/>
+	<label id="titleLabel" value="__MSG_roles-dialog.user-roles.label__"/>
 	<label id="titleUserName" value=""/>
       </vbox>
     </vbox>
@@ -39,19 +37,19 @@
     <vbox id="dialogContent">
       <vbox>
 	<checkbox id="roleObjectCreator"
-	  label="&roles-dialog.roles.object-creator.label;"
+	  label="__MSG_roles-dialog.roles.object-creator.label__"
 	  disabled="true"
 	  checked="false"/>
 	<checkbox id="roleObjectViewer"
-	  label="&roles-dialog.roles.object-viewer.label;"
+	  label="__MSG_roles-dialog.roles.object-viewer.label__"
 	  disabled="true"
 	  checked="false"/>
 	<checkbox id="roleObjectEditor"
-	  label="&roles-dialog.roles.object-editor.label;"
+	  label="__MSG_roles-dialog.roles.object-editor.label__"
 	  disabled="true"
 	  checked="false"/>
 	<checkbox id="roleObjectEraser"
-	  label="&roles-dialog.roles.object-eraser.label;"
+	  label="__MSG_roles-dialog.roles.object-eraser.label__"
 	  disabled="true"
 	  checked="false"/>
       </vbox>
@@ -59,9 +57,9 @@
       <hbox id="entriesToolbar">
 	<spacer flex="1"/>
 	<button disabled="true" id="updateBtn" command="RolesCommandUpdate"
-	  label="&roles-dialog.update-button.label;"/>
+	  label="__MSG_roles-dialog.update-button.label__"/>
 	<button id="cancelBtn" command="RolesCommandCancel"
-	  label="&roles-dialog.cancel-button.label;"/>
+	  label="__MSG_roles-dialog.cancel-button.label__"/>
       </hbox>
     </vbox>
   </vbox>

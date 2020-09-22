@@ -15,7 +15,8 @@ jsInclude(["chrome://inverse-library/content/sogoWebDAV.js",
            "chrome://sogo-connector/content/global/sogo-config.js"]);
 
 Components.utils.import("resource://gre/modules/Preferences.jsm");
-Components.utils.import("resource://calendar/modules/calUtils.jsm");
+//Components.utils.import("resource://calendar/modules/calUtils.jsm");
+var { cal } = ChromeUtils.import("resource:///modules/calendar/calUtils.jsm");
 
 let SICalendarDefaultClassifications = {
     synchronizeToServer: function SICC_synchronizeToServer() {

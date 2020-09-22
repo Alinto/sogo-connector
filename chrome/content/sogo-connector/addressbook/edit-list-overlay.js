@@ -76,4 +76,8 @@ function SCEditListOKButton(event) {
   }
 }
 
-window.addEventListener("load", OnLoadEditListOverlay, false);
+//window.addEventListener("load", OnLoadEditListOverlay, false);
+function onLoad(activatedWhileWindowOpen) {
+  dump("edit-list-overlay.js: onLoad()\n");
+  OnLoadEditListOverlay();
+}

@@ -17,6 +17,7 @@ jsInclude(["chrome://sogo-connector/content/general/subscription-utils.js"]);
 
 let gSearchTimer = null;
 let resourceType;
+let WL = null;
 
 window.addEventListener("load", onSubscriptionDialog, false);
 
@@ -25,7 +26,9 @@ function isSubscribed(node) {
 }
 
 function onSubscriptionDialog() {
-    resourceType = window.opener.subscriptionDialogType();
+    dump("subscription-dialog.js: onSubscriptionDialog()\n");
+    WL = window.arguments[1];
+    resourceType = window.opener.subscriptionDialogType;
     let button = document.getElementById("addButton");
     button.addEventListener("click", onAddButtonClick, false);
 
@@ -38,7 +41,8 @@ function onSubscriptionDialog() {
 
     searchInput.showingSearchCriteria = false;
     searchInput.value = "";
-    searchInput.select();
+    //searchInput.select();
+    
 }
 
 function onAddButtonClick(event) {
@@ -58,8 +62,7 @@ function onAddButtonClick(event) {
         else { 
             let index = tree.treeView.getParentIndex(tree.treeView.selection.currentIndex);
             if (isSubscribed(node)) {
-                let strings = document.getElementById("subscription-dialog-strings");
-                window.alert(strings.getString("You have already subscribed to that folder!"));
+                window.alert(WL.extension.localeData.localizeMessage("You have already subscribed to that folder!"));
             }
             else {
                 let name = (node["displayName"]
@@ -356,7 +359,6 @@ SubscriptionTreeView.prototype = {
             properties.AppendElement(svc.getAtom(props[i]));
     },
  getCellText: function(rowIndex, col) {
-        let strings = document.getElementById("subscription-dialog-strings");
 
         let rows = [];
         let i = 0;
@@ -381,11 +383,11 @@ SubscriptionTreeView.prototype = {
                     }
                 }
                 else if (userData.hasNoFolders) {
-                    rows[i] = strings.getString("No possible subscription");
+                    rows[i] = WL.extension.localeData.localizeMessage("No possible subscription");
                     i++;
                 }
                 else {
-                    rows[i] = strings.getString("Please wait...");
+                    rows[i] = WL.extension.localeData.localizeMessage("Please wait...");
                     i++;
                 }
             }

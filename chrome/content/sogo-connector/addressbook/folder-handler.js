@@ -1,4 +1,5 @@
 var { Services } = ChromeUtils.import("resource://gre/modules/Services.jsm");
+var { MailServices } = ChromeUtils.import("resource:///modules/MailServices.jsm");
 
 function jsInclude(files, target) {
     let loader = Components.classes["@mozilla.org/moz/jssubscript-loader;1"]
@@ -23,42 +24,45 @@ function AddressbookHandler() {
 }
 
 AddressbookHandler.prototype = {
-    doubles: null,
-    getExistingDirectories: function() {
-        // dump("getExistingDirectories\n");
-        let existing = {};
+  doubles: null,
+  getExistingDirectories: function() {
+    // dump("getExistingDirectories\n");
+    let existing = {};
 
-        let abManager = Components.classes["@mozilla.org/abmanager;1"]
-                                  .getService(Components.interfaces.nsIAbManager);
-        let children = abManager.directories;
-        if (!children) {
-            dump("warning: directories not ready, sync will probably occur later\n");
-        }
-        while (children.hasMoreElements()) {
-            let ab = children.getNext().QueryInterface(Components.interfaces.nsIAbDirectory);
-            let abURI = ab.URI;
-            let abURL = null;
-            // dump("  rdfAB.Value: " + abURI + "\n");
-            if (isGroupdavDirectory(abURI)) {
-                let service = new GroupdavPreferenceService(ab.dirPrefId);
-                abURL = service.getURL();
+    //let abManager = Components.classes["@mozilla.org/abmanager;1"]
+    //                          .getService(Components.interfaces.nsIAbManager);
+    //let children = abManager.directories;
+    let children = MailServices.ab.directories;
+
+    if (!children) {
+      dump("warning: directories not ready, sync will probably occur later\n");
+    }
+    //    while (children.hasMoreElements()) {
+    //      let ab = children.getNext().QueryInterface(Components.interfaces.nsIAbDirectory);
+    for (let ab of MailServices.ab.directories) {
+      let abURI = ab.URI;
+      let abURL = null;
+      // dump("  rdfAB.Value: " + abURI + "\n");
+      if (isGroupdavDirectory(abURI)) {
+        let service = new GroupdavPreferenceService(ab.dirPrefId);
+        abURL = service.getURL();
                 // dump("  GroupDAV existing: " + ab.dirPrefId + " - " + abURL + "\n");
-            }
-            else if (isCardDavDirectory(abURI)) {
-                abURL = ab.wrappedJSObject.serverURL;
-                // dump("  CardDAV existing: " + ab.dirPrefId + " - " + abURL + "\n");
-            }
-            if (abURL) {
-                if (existing[abURL])
-                    this.doubles[abURI] = ab;
-                else
-                    existing[abURL] = ab;
-            }
-        }
-        dump("   end getExistingDirectories\n");
+      }
+      else if (isCardDavDirectory(abURI)) {
+        abURL = ab.wrappedJSObject.serverURL;
+        // dump("  CardDAV existing: " + ab.dirPrefId + " - " + abURL + "\n");
+      }
+      if (abURL) {
+        if (existing[abURL])
+          this.doubles[abURI] = ab;
+        else
+          existing[abURL] = ab;
+      }
+    }
+    dump("   end getExistingDirectories\n");
 
-        return existing;
-    },
+    return existing;
+  },
     removeDoubles: function() {
         let newDoubles = [];
         /* we need to use as hash here to ensure each abDirectory is only present
@@ -108,7 +112,7 @@ AddressbookHandler.prototype = {
         return sogoBaseURL() + "Contacts";
     },
     ensurePersonalIsRemote: function() {
-        this._ensureFolderIsRemote("abook.mab");
+        this._ensureFolderIsRemote("abook.sqlite");
         //let prefService = Components.classes["@mozilla.org/preferences-service;1"]
         //                            .getService(Components.interfaces.nsIPrefBranch);
         if (this._autoCollectIsHistory()) {
@@ -116,96 +120,101 @@ AddressbookHandler.prototype = {
         }
         this._ensureFolderIsRemote("history.mab");
     },
-    _moveAddressBook: function(sourceAB, destAB) {
-        let abManager = Components.classes["@mozilla.org/abmanager;1"]
-                                  .getService(Components.interfaces.nsIAbManager);
+  _moveAddressBook: function(sourceAB, destAB) {
+    //let abManager = Components.classes["@mozilla.org/abmanager;1"]
+    //                          .getService(Components.interfaces.nsIAbManager);
+    if (sourceAB.URI != destAB.URI) {
+      /* ugly hack: we empty the addressbook after its cards were
+         transfered, so that we can be sure the ab no longer "exists" */
+      //let cardsArray = Components.classes["@mozilla.org/array;1"]
+      //    .createInstance(Components.interfaces.nsIMutableArray);
+      let cardsArray = [];
 
-        if (sourceAB.URI != destAB.URI) {
-            /* ugly hack: we empty the addressbook after its cards were
-             transfered, so that we can be sure the ab no longer "exists" */
-            let cardsArray = Components.classes["@mozilla.org/array;1"]
-                                       .createInstance(Components.interfaces.nsIMutableArray);
+      let childCards = sourceAB.childCards;
+      let countCards = 0;
+      let countLists = 0;
+      //while (childCards.hasMoreElements()) {
+      //  let card = childCards.getNext().QueryInterface(Components.interfaces.nsIAbCard);
+      for (let card of childCards) {
+        if (card.isMailList) {
+          //let oldListDir = abManager.getDirectory(card.mailListURI);
+          let oldListDir = MailServices.ab.getDirectory(card.mailListURI);
+          let listDir = Components.classes["@mozilla.org/addressbook/directoryproperty;1"]
+              .createInstance(Components.interfaces.nsIAbDirectory);
+          listDir.isMailList = true;
 
-            let childCards = sourceAB.childCards;
-            let countCards = 0;
-            let countLists = 0;
-            while (childCards.hasMoreElements()) {
-                let card = childCards.getNext().QueryInterface(Components.interfaces.nsIAbCard);
-                if (card.isMailList) {
-                    let oldListDir = abManager.getDirectory(card.mailListURI);
-                    let listDir = Components.classes["@mozilla.org/addressbook/directoryproperty;1"]
-                                            .createInstance(Components.interfaces.nsIAbDirectory);
-                    listDir.isMailList = true;
+          listDir.dirName = oldListDir.dirName;
+          listDir.listNickName = oldListDir.listNickName;
+          listDir.description = oldListDir.description;
 
-                    listDir.dirName = oldListDir.dirName;
-                    listDir.listNickName = oldListDir.listNickName;
-                    listDir.description = oldListDir.description;
-
-                    for (let i = 0; i < oldListDir.addressLists.length; i++) {
-                        let subcard = oldListDir.addressLists.queryElementAt(i, Components.interfaces.nsIAbCard);
-                        let cloneCard = Components.classes["@mozilla.org/addressbook/moz-abmdbcard;1"]
-                                                  .createInstance(Components.interfaces.nsIAbCard);
-                        cloneCard.copy(subcard);
-                        listDir.addressLists.appendElement(cloneCard, false);
-                    }
-                    destAB.addMailList(listDir);
-                    countLists++;
-                }
-                else {
-                    let cloneCard = Components.classes["@mozilla.org/addressbook/moz-abmdbcard;1"]
-                                              .createInstance(Components.interfaces.nsIAbCard);
-                    cloneCard.copy(card);
-                    destAB.addCard(cloneCard);
-                    countCards++;
-                }
-                cardsArray.appendElement(card, false);
-            }
-            sourceAB.deleteCards(cardsArray);
-            sourceAB.QueryInterface(Components.interfaces.nsIAbMDBDirectory).database.close(true);
-            if (countCards || countLists) {
-                dump("moved " + countCards + " cards and "
-                     + countLists + " lists from " + sourceAB.URI
-                     + " to " + destAB.URI + "\n");
-            }
+          //for (let i = 0; i < oldListDir.addressLists.length; i++) {
+          //  let subcard = oldListDir.addressLists.queryElementAt(i, Components.interfaces.nsIAbCard);
+          for (let subcard of oldListDir.childCards) {
+            let cloneCard = Components.classes["@mozilla.org/addressbook/moz-abmdbcard;1"]
+                .createInstance(Components.interfaces.nsIAbCard);
+            cloneCard.copy(subcard);
+            listDir.addressLists.appendElement(cloneCard, false);
+          }
+          destAB.addMailList(listDir);
+          countLists++;
         }
         else {
-            dump("_moveAddressBook: source and destination AB are the same\n");
+          let cloneCard = Components.classes["@mozilla.org/addressbook/moz-abmdbcard;1"]
+              .createInstance(Components.interfaces.nsIAbCard);
+          cloneCard.copy(card);
+          destAB.addCard(cloneCard);
+          countCards++;
         }
-    },
+        //cardsArray.appendElement(card, false);
+        cardsArray.push(card);
+      }
+      sourceAB.deleteCards(cardsArray);
+      //sourceAB.QueryInterface(Components.interfaces.nsIAbMDBDirectory).database.close(true);
+      if (countCards || countLists) {
+        dump("moved " + countCards + " cards and "
+             + countLists + " lists from " + sourceAB.URI
+             + " to " + destAB.URI + "\n");
+      }
+    }
+    else {
+      dump("_moveAddressBook: source and destination AB are the same\n");
+    }
+  },
     _ensureFolderIsRemote: function(filename) {
-        let localURI = "moz-abmdbdirectory://" + filename;
-        let localAB = SCGetDirectoryFromURI(localURI);
-        if (localAB) {
-            let personalURL = sogoBaseURL() + "Contacts/personal/";
+      //let localURI = "moz-abmdbdirectory://" + filename;
+      let localURI = "jsaddrbook://" + filename;
+      let localAB = SCGetDirectoryFromURI(localURI);
+      if (localAB) {
+        let personalURL = sogoBaseURL() + "Contacts/personal/";
 
-            // 		dump("personalURL: " + personalURL + "\n");
-            let existing = this.getExistingDirectories();
-            let personalAB = existing[personalURL];
+        dump("personalURL: " + personalURL + "\n");
+        let existing = this.getExistingDirectories();
+        let personalAB = existing[personalURL];
 
-            if (!personalAB)
-                personalAB = existing[personalURL.substr(0, personalURL.length - 1)];
-            if (!personalAB) {
-                let newDir = {url: personalURL,
-                              displayName: "personal",
-                              owner: sogoUserName()};
-                this.addDirectories([newDir]);
-                existing = this.getExistingDirectories();
-                personalAB = existing[personalURL];
-            }
-            if (personalAB) {
-                this._moveAddressBook(localAB, personalAB);
-                SCDeleteDirectory(localAB);
-            }
-            else
-                throw "Personal Addressbook cannot be replaced!";
+        if (!personalAB)
+          personalAB = existing[personalURL.substr(0, personalURL.length - 1)];
+        if (!personalAB) {
+          let newDir = {url: personalURL,
+                        displayName: "personal",
+                        owner: sogoUserName()};
+          this.addDirectories([newDir]);
+          existing = this.getExistingDirectories();
+          personalAB = existing[personalURL];
         }
+        if (personalAB) {
+          this._moveAddressBook(localAB, personalAB);
+          SCDeleteDirectory(localAB);
+        }
+        else
+          throw "Personal Addressbook cannot be replaced!";
+      }
     },
     _autoCollectIsHistory: function() {
         let isHistory = false;
         try {
             let abURI = Services.prefs.getCharPref("mail.collect_addressbook");
-            isHistory = (abURI == "moz-abmdbdirectory://history.mab"
-                         || abURI == "moz-abmdbdirectory://abook.mab");
+            isHistory = (abURI == "jsaddrbook://history.sqlite"
+                         || abURI == "jsaddrbook://abook.sqlite");
         }
         catch(e) {
         }

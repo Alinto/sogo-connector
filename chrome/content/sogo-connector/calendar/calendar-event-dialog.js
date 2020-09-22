@@ -27,8 +27,8 @@ function SIOnLoadHandler(event) {
       prefName = "calendar.todos.default-classification";
     }
     if (prefName) {
-      gConfig.privacy = Services.prefs.getCharPref(prefName, "PUBLIC");
-      updatePrivacy(gConfig);
+      window.gConfig.privacy = Services.prefs.getCharPref(prefName, "PUBLIC");
+      window.updatePrivacy(window.gConfig);
     }
   }
 }
@@ -51,14 +51,13 @@ function SIOnAccept(event) {
   if (title.length == 0) {
     let promptService = Components.classes["@mozilla.org/embedcomp/prompt-service;1"]
         .getService(Components.interfaces.nsIPromptService);
-    let bundle = document.getElementById("bundle_integrator_calendar");
 
     let flags = promptService.BUTTON_TITLE_OK *
         promptService.BUTTON_POS_0;
 
     promptService.confirmEx(null,
-                            bundle.getString("saveComponentTitle"),
-                            bundle.getString("saveComponentMessage"),
+                            WL.extension.localeData.localizeMessage("saveComponentTitle"),
+                            WL.extension.localeData.localizeMessage("saveComponentMessage"),
                             flags,
                             null,
                             null,
@@ -101,4 +100,8 @@ function SIUpdateAttendees() {
   }
 }
 
-window.addEventListener("load", SIOnLoadHandler, false);
+//window.addEventListener("load", SIOnLoadHandler, false);
+function onLoad(activatedWhileWindowOpen) {
+  dump("calendar-event-dialog.js: onLoad()\n");
+  SIOnLoadHandler();
+}

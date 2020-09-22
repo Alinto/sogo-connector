@@ -17,4 +17,7 @@ function SINewTagOnUnload() {
     SIMailsLabels.synchronizeToServer();
 }
 
-window.addEventListener("unload", SINewTagOnUnload, false);
+//window.addEventListener("unload", SINewTagOnUnload, false);
+function onLoad(activatedWhileWindowOpen) {
+  dump("newtag-overlay.js: onLoad()\n");
+}

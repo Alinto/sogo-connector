@@ -1,21 +1,20 @@
-/* -*- Mode: java; tab-width: 2; c-tab-always-indent: t; indent-tabs-mode: nil; c-basic-offset: 4 -*- */
 
 var { AddonManager } = ChromeUtils.import("resource://gre/modules/AddonManager.jsm");
 var { Services } = ChromeUtils.import("resource://gre/modules/Services.jsm");
 
 function jsInclude(files, target) {
-    let loader = Components.classes["@mozilla.org/moz/jssubscript-loader;1"]
-                 .getService(Components.interfaces.mozIJSSubScriptLoader);
-    for (let i = 0; i < files.length; i++) {
-        try {
-            loader.loadSubScript(files[i], target);
-        }
-        catch(e) {
-            dump("startup-overlay.js: failed to include '" + files[i] + "'\n" + e +
-                 "\nFile: " + e.fileName +
-                 "\nLine: " + e.lineNumber + "\n\n Stack:\n\n" + e.stack);
-        }
+  let loader = Components.classes["@mozilla.org/moz/jssubscript-loader;1"]
+      .getService(Components.interfaces.mozIJSSubScriptLoader);
+  for (let i = 0; i < files.length; i++) {
+    try {
+      loader.loadSubScript(files[i], target);
     }
+    catch(e) {
+      dump("startup-overlay.js: failed to include '" + files[i] + "'\n" + e +
+           "\nFile: " + e.fileName +
+           "\nLine: " + e.lineNumber + "\n\n Stack:\n\n" + e.stack);
+    }
+  }
 }
 
 jsInclude(["chrome://sogo-connector/content/messenger/folders-update.js"]);
@@ -60,7 +59,7 @@ function checkExtensionsUpdate() {
 
 function getHandledExtensions() {
     let extensionInfos = { "extensions": [] };
-
+    dump("startup-overlay: getHandledExtensions()\n");
     let rdf = iCc["@mozilla.org/rdf/rdf-service;1"].getService(iCi.nsIRDFService);
     let extensions = rdf.GetResource("http://inverse.ca/sogo-connector/extensions");
     let updateURL = rdf.GetResource("http://inverse.ca/sogo-connector/updateURL");
@@ -241,9 +240,8 @@ function GetRDFUpdateData(rdf, ds, node) {
 }
 
 function sogoIntegratorStartupOverlayOnLoad() {
-
     dump("Starting SOGo Integrator code...\n");
-
+    
     let loader = Components.classes["@mozilla.org/moz/jssubscript-loader;1"]
                  .getService(Components.interfaces.mozIJSSubScriptLoader);
     try {
@@ -272,11 +270,12 @@ function sogoIntegratorStartupOverlayOnLoad() {
         dump("Custom startup code not available.\ne: " + e + "\n");
     }
 
-    if (typeof(getCompositeCalendar) == "undefined"
-        || !_setupCalStartupObserver()) {
-        dump("no calendar available: checking extensions update right now.\n");
-        checkExtensionsUpdate();
-    }
+  checkFolders();
+    //if (typeof(cal.view.getCompositeCalendar) == "undefined"
+    //    || !_setupCalStartupObserver()) {
+    //    dump("no calendar available: checking extensions update right now.\n");
+    //    checkExtensionsUpdate();
+    //}
 }
 
 //
@@ -284,9 +283,9 @@ function sogoIntegratorStartupOverlayOnLoad() {
 // calendars are refreshing and extensions updates are being checked...
 //
 function _setupCalStartupObserver() {
+  dump("startup-overlay.js: _setupCalStartupObserver()\n");
 	let handled = false;
-
-	let compCalendar = getCompositeCalendar();
+	let compCalendar = cal.view.getCompositeCalendar();
 	let calDavCount = 0;
 	let calendars = compCalendar.getCalendars({});
 	for (let calendar in calendars) {
@@ -383,10 +382,10 @@ function checkExtensionVersion(currentVersion, minVersion, strict) {
     return acceptable;
 }
 
-function deferredCheckFolders() {
-    jsInclude(["chrome://sogo-connector/content/messenger/folders-update.js"]);
-    window.setTimeout(checkFolders, 100);
-}
+//function deferredCheckFolders() {
+//    jsInclude(["chrome://sogo-connector/content/messenger/folders-update.js"]);
+//    window.setTimeout(checkFolders, 100);
+//}
 
 // forced prefs
 function force_int_pref(key, value) {
@@ -421,4 +420,7 @@ function applyForcedPrefs() {
 }
 
 // startup
-window.addEventListener("load", sogoIntegratorStartupOverlayOnLoad, false);
+async function startup() {
+    sogoIntegratorStartupOverlayOnLoad();
+}
+//window.addEventListener("load", sogoIntegratorStartupOverlayOnLoad, false);

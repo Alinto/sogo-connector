@@ -16,6 +16,9 @@ function jsInclude(files, target) {
 jsInclude(["chrome://sogo-connector/content/global/sogo-config.js",
 					 "chrome://inverse-library/content/sogoWebDAV.js"]);
 
+var _this = this;
+var WL = null;
+
 var folderData = {
  url: null,
  hasPublicAccess: false,
@@ -25,8 +28,12 @@ var folderData = {
 
 function openRolesWindowForUser(userID) {
 	var listItem = document.getElementById("item-" + userID);
-	openDialog(folderData.rolesDialogURL, "roles", "dialog,titlebar,modal",
-						 {user: userID, userName: listItem.label, folderURL: folderData.url});
+	window.openDialog(folderData.rolesDialogURL,
+										"roles",
+										"dialog,titlebar,modal",
+										_this,
+										WL,
+										{user: userID, userName: listItem.label, folderURL: folderData.url});
 }
 
 function openRolesWindowForUserNode(node) {
@@ -43,9 +50,11 @@ function editSelectedEntry() {
 }
 
 function addEntry() {
-	openDialog("chrome://sogo-connector/content/general/subscription-dialog.xul",
-						 "aclUserAdd",
-						 "chrome,titlebar,centerscreen,alwaysRaised=yes,dialog=yes");
+	window.openDialog("chrome://sogo-connector/content/general/subscription-dialog.xhtml",
+										"aclUserAdd",
+										"chrome,titlebar,centerscreen,alwaysRaised=yes,dialog=yes",
+										_this,
+										WL);
 }
 
 function subscriptionDialogType() {
@@ -64,15 +73,14 @@ var aclQueryHandler = {
 				for (var i = 0; i < result.childNodes.length; i++)
 					_parseResultNode(result.childNodes[i]);
 
-				var strings = document.getElementById("acl-dialog-strings");
 				if (folderData.defaultUserID) {
 					var defaultUser = { "id": folderData.defaultUserID,
-															"displayName": strings.getString("Any Authenticated User") };
+															"displayName": WL.extension.localeData.localizeMessage("Any Authenticated User") };
 					_appendUserInList(defaultUser, "any-user");
 				}
 				if (folderData.hasPublicAccess) {
 					var publicUser = { "id": "anonymous",
-														 "displayName": strings.getString("Public Access") };
+														 "displayName": WL.extension.localeData.localizeMessage("Public Access") };
 					_appendUserInList(publicUser, "anonymous-user");
 				}
 			}
@@ -116,7 +124,10 @@ function showThrobber(busyState) {
 }
 
 function onLoad() {
-	var data = window.arguments[0];
+	dump("acl-dialog.js: onLoad()\n");
+
+	WL = window.arguments[1];
+	var data = window.arguments[2];
 	folderData.url = data.url;
 	folderData.rolesDialogURL = data.rolesDialogURL;
 

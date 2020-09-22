@@ -1,6 +1,6 @@
 /* preferences.addressbook.groupdav.js - This file is part of "SOGo Connector", a Thunderbird extension.
  *
- * Copyright: Inverse inc., 2006-2016
+ * Copyright: Inverse inc., 2006-2020
  *     Email: support@inverse.ca
  *       URL: http://inverse.ca
  *
@@ -37,11 +37,13 @@ jsInclude(["chrome://sogo-connector/content/addressbook/folder-handling.js",
            "chrome://inverse-library/content/sogoWebDAV.js",
 	   "chrome://sogo-connector/content/global/sogo-config.js"]);
 
+var WL = null;
+
 function SCGetCurrentDirectory() {
     let directory = null;
 
     if (window.arguments.length > 0) {
-        let args = window.arguments[0];
+        let args = window.arguments[2];
         if (args) {
             directory = args.selectedDirectory;
         }
@@ -131,65 +133,70 @@ function onAcceptWebDAV() {
 }
 
 function onLoad() {
-    let description = "";
-    let url = "";
-    let periodicSync = false;
-    let periodicSyncInterval = 15;
-    let notifications = true;
-    let notificationsOnlyIfNotEmpty = false;
-    let notificationsManual = true;
-    let notificationsSave = false;
-    let notificationsStart = true;
+  dump("preferences.addressbook.groupdav.js: onLoad()\n");
+  
+  WL = window.arguments[1];
+  
+  let description = "";
+  let url = "";
+  let periodicSync = false;
+  let periodicSyncInterval = 15;
+  let notifications = true;
+  let notificationsOnlyIfNotEmpty = false;
+  let notificationsManual = true;
+  let notificationsSave = false;
+  let notificationsStart = true;
 
-    let directory = SCGetCurrentDirectory();
-    if (directory) {
-        let uri = directory.URI;
-        let readOnly = (uri.indexOf("moz-abdavdirectory://") == 0);
-        let roElem = document.getElementById("readOnly");
-        roElem.setAttribute("checked", readOnly);
-        roElem.disabled = true;
-
-        
-        if (readOnly) {
-            description = directory.dirName;
-            directory = directory.wrappedJSObject;
-            url = directory.serverURL;
-        }
-
-        try {
-            let groupdavPrefService = new GroupdavPreferenceService(directory.dirPrefId);
-            description = directory.dirName;
-            url = groupdavPrefService.getURL();
-
-            periodicSync = groupdavPrefService.getPeriodicSync();
-            periodicSyncInterval = groupdavPrefService.getPeriodicSyncInterval();
-
-            notifications = groupdavPrefService.getNotifications();
-            notificationsOnlyIfNotEmpty = groupdavPrefService.getNotificationsOnlyIfNotEmpty();            
-            notificationsManual = groupdavPrefService.getNotificationsManual();
-            notificationsSave = groupdavPrefService.getNotificationsSave();
-            notificationsStart = groupdavPrefService.getNotificationsStart();
-        } catch(e) {
-        }
-
+  let directory = SCGetCurrentDirectory();
+  if (directory) {
+    let uri = directory.URI;
+    let readOnly = (uri.indexOf("carddav://") == 0);
+    let roElem = document.getElementById("readOnly");
+    roElem.setAttribute("checked", readOnly);
+    roElem.disabled = true;
+  
+    if (readOnly) {
+      description = directory.dirName;
+      directory = directory.wrappedJSObject;
+      url = directory.serverURL;
     }
 
-    // always define values
-    document.getElementById("description").value = description;
-    document.getElementById("groupdavURL").value = url;
+    try {
+      let groupdavPrefService = new GroupdavPreferenceService(directory.dirPrefId);
+      description = directory.dirName;
+      url = groupdavPrefService.getURL();
 
-    document.getElementById("periodicSync").checked = periodicSync;
-    document.getElementById("periodicSyncInterval").value = periodicSyncInterval;
+      periodicSync = groupdavPrefService.getPeriodicSync();
+      periodicSyncInterval = groupdavPrefService.getPeriodicSyncInterval();
+
+      notifications = groupdavPrefService.getNotifications();
+      notificationsOnlyIfNotEmpty = groupdavPrefService.getNotificationsOnlyIfNotEmpty();            
+      notificationsManual = groupdavPrefService.getNotificationsManual();
+      notificationsSave = groupdavPrefService.getNotificationsSave();
+      notificationsStart = groupdavPrefService.getNotificationsStart();
+    } catch(e) {
+    }
+  }
+
+  // always define values
+  document.getElementById("description").value = description;
+  document.getElementById("groupdavURL").value = url;
+
+  document.getElementById("periodicSync").checked = periodicSync;
+  document.getElementById("periodicSyncInterval").value = periodicSyncInterval;
     
-    document.getElementById("notifications").checked = notifications;
-    document.getElementById("notificationsOnlyIfNotEmpty").checked = notificationsOnlyIfNotEmpty;
-    document.getElementById("notificationsManual").checked = notificationsManual;
-    document.getElementById("notificationsSave").checked = notificationsSave;
-    document.getElementById("notificationsStart").checked = notificationsStart;
+  document.getElementById("notifications").checked = notifications;
+  document.getElementById("notificationsOnlyIfNotEmpty").checked = notificationsOnlyIfNotEmpty;
+  document.getElementById("notificationsManual").checked = notificationsManual;
+  document.getElementById("notificationsSave").checked = notificationsSave;
+  document.getElementById("notificationsStart").checked = notificationsStart;
 
-    onUpdateCheck();
+  onUpdateCheck();
 
-  onLoadOverlay()
+  if (window.arguments && window.arguments[2]) {
+    folderURL = document.getElementById("groupdavURL").value;
+    originalName = document.getElementById("description").value;
+  }
 }
 
 function onUpdateCheck() {
@@ -211,39 +218,32 @@ function onShowRestart() {
 var folderURL = "";
 var originalName = "";
 
-function onLoadOverlay() {
-	if (window.arguments && window.arguments[0]) {
-		folderURL = document.getElementById("groupdavURL").value;
-		originalName = document.getElementById("description").value;
-	}
-}
-
 function onOverlayAccept() {
-	var rc;
+  var rc;
 
-	var newFolderURL = document.getElementById("groupdavURL").value;
-	var newName = document.getElementById("description").value;
-	if (newFolderURL.indexOf(sogoBaseURL()) > -1
-			&& newFolderURL == folderURL
-			&& newName != originalName) {
-		var proppatch = new sogoWebDAV(newFolderURL,
-																	 new renameTarget(this), undefined, undefined, true);
-		proppatch.proppatch("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
-												+ "<propertyupdate xmlns=\"DAV:\">"
-												+ "<set>"
-												+ "<prop><displayname>" + xmlEscape(newName)
-												+ "</displayname>"
-												+ "</prop></set></propertyupdate>");
-		rc = false;
-	}
-	else
-		rc = onAccept();
+  var newFolderURL = document.getElementById("groupdavURL").value;
+  var newName = document.getElementById("description").value;
+  if (newFolderURL.indexOf(sogoBaseURL()) > -1
+      && newFolderURL == folderURL
+      && newName != originalName) {
+    var proppatch = new sogoWebDAV(newFolderURL,
+				   new renameTarget(this), undefined, undefined, true);
+    proppatch.proppatch("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
+			+ "<propertyupdate xmlns=\"DAV:\">"
+			+ "<set>"
+			+ "<prop><displayname>" + xmlEscape(newName)
+			+ "</displayname>"
+			+ "</prop></set></propertyupdate>");
+    rc = false;
+  }
+  else
+    rc = onAccept();
 
-	return rc;
+  return rc;
 }
 
 function renameTarget(dlg) {
-	this.dialog = dlg;
+  this.dialog = dlg;
 }
 
 renameTarget.prototype = {
@@ -276,3 +276,5 @@ renameTarget.prototype = {
 document.addEventListener("dialogaccept", function(event) {
   onOverlayAccept();
 });
+
+window.addEventListener("load", onLoad, false);

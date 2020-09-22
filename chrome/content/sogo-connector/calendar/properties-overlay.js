@@ -1,22 +1,43 @@
-/* -*- Mode: java; tab-width: 2; c-tab-always-indent: t; indent-tabs-mode: t; c-basic-offset: 2 -*- */
+/* properties-overlay.js - This file is part of "SOGo Connector".
+ *
+ * Copyright: Inverse inc., 2006-2019
+ *     Email: support@inverse.ca
+ *       URL: http://inverse.ca
+ *
+ * "SOGo Connector" is free software; you can redistribute it and/or modify it
+ * under the terms of the GNU General Public License version 2 as published by
+ * the Free Software Foundation;
+ *
+ * "SOGo Connector" is distributed in the hope that it will be useful, but
+ * WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
+ * details.
+ *
+ * You should have received a copy of the GNU General Public License along with
+ * "SOGo Connector"; if not, write to the Free Software Foundation, Inc., 51
+ * Franklin St, Fifth Floor, Boston, MA 02110-1301 USA
+ */
 
 function jsInclude(files, target) {
-	let loader = Components.classes["@mozilla.org/moz/jssubscript-loader;1"]
-		.getService(Components.interfaces.mozIJSSubScriptLoader);
-	for (let i = 0; i < files.length; i++) {
-		try {
-			loader.loadSubScript(files[i], target);
-		}
-		catch(e) {
-			dump("properties-overlay.js: failed to include '" + files[i] + "'\n" + e + "\n");
-		}
-	}
+  let loader = Components.classes["@mozilla.org/moz/jssubscript-loader;1"]
+      .getService(Components.interfaces.mozIJSSubScriptLoader);
+  for (let i = 0; i < files.length; i++) {
+    try {
+      loader.loadSubScript(files[i], target);
+    }
+    catch(e) {
+      dump("properties-overlay.js: failed to include '" + files[i] + "'\n" + e + "\n");
+    }
+  }
 }
+
+function i18n(entity) {
+  let msg = entity.slice(1,-1);
+  return WL.extension.localeData.localizeMessage(msg);
+} 
 
 jsInclude(["chrome://inverse-library/content/sogoWebDAV.js",
 					 "chrome://sogo-connector/content/global/sogo-config.js"]);
-
-window.addEventListener("load", onLoadOverlay, false);
 
 let folderURL = "";
 let originalName = "";
@@ -28,6 +49,7 @@ let sogoBoxes = ["notify-on-personal-modifications",
 let originalSOGoValues = {};
 
 function onLoadOverlay() {
+	dump("properties-overlay.js: onLoadOverlay()\n");
 	if (window.arguments && window.arguments[0]) {
 		let calendar =  window.arguments[0].calendar;
 		if (calendar) {
@@ -43,7 +65,7 @@ function onLoadOverlay() {
 				if (aclEntry.userIsOwner) {
 					let box = document.getElementById("sogo-calendar-properties");
 					box.collapsed = false;
-					sizeToContent();
+					//sizeToContent();
 
 					/* notifications */
 					for (let i in sogoBoxes) {
@@ -98,7 +120,7 @@ function onSOGoNotifyUserOnPersonalModificationsChanged(event) {
 }
 
 function onOverlayAccept() {
-	dump("\nonOverlayAccept()\n");
+	dump("properties-overlay.js: onOverlayAccept()\n");
 
 	let newFolderURL = document.getElementById("calendar-uri").value;
 	let newName = document.getElementById("calendar-name").value;
@@ -192,7 +214,7 @@ function onOverlayAccept() {
 function onDAVQueryComplete(status, result) {
 	if (status == 207) {
 		window.onAcceptDialog();
-		setTimeout("window.close();", 100);
+		window.setTimeout("window.close();", 100);
 	}
 	else {
 		let strBundle = document.getElementById("propertiesMessages");
@@ -200,10 +222,27 @@ function onDAVQueryComplete(status, result) {
 	}
 }
 
-function SIOnLoadHandler(event) {
+function onLoad(activatedWhileWindowOpen) {
+	dump("properties-overlay.js: onLoad()\n");
+
+	WL.injectElements(`
+    <vbox id="sogo-calendar-properties" collapsed="true" insertafter="calendar-properties-table">
+      <checkbox id="sogo-notify-on-personal-modifications"
+        label="&properties-overlay.notify-on-personal-modifications.label;"
+        checked="false"/>
+      <checkbox id="sogo-notify-on-external-modifications"
+        label="&properties-overlay.notify-on-external-modifications.label;"
+        checked="false"/>
+      <checkbox id="sogo-notify-user-on-personal-modifications"
+        label="&properties-overlay.notify-user-on-personal-modifications.label;"
+        checked="false"/>
+      <textbox flex="1" id="sogo-notified-user-on-personal-modifications"/>
+										</vbox>`.replaceAll(/&(.*?);/g, i18n));
+
 	document.addEventListener("dialogaccept", function(event) {
 			onOverlayAccept(event);
-		}); 
-}
+		});
 
-window.addEventListener("load", SIOnLoadHandler, false);
+	// FIXME: this is pretty hackish
+	window.setTimeout(onLoadOverlay, 100);
+}

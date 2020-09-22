@@ -25,25 +25,25 @@
   -moz-appearance: button;
   padding: 0px;
   margin: 0px;
-  list-style-image: url("chrome://sogo-connector/skin/add-contact.gif"); }
+  list-style-image: url("resource://sogo-connector/skin/add-contact.gif"); }
 
 #removeUserBtn
 { overflow: visible;
   -moz-appearance: button;
   padding: 0px;
   margin: 0px;
-  list-style-image: url("chrome://sogo-connector/skin/remove-contact.gif"); }
+  list-style-image: url("resource://sogo-connector/skin/remove-contact.gif"); }
 
 #entriesToolbar
 { height: 36px;
   margin-left: 5px; }
 
 .normal-user
-{ list-style-image: url("chrome://messenger/skin/addressbook/icons/abcard.png"); }
+{ list-style-image: url("resource://sogo-connector/skin/abcard.png"); }
 
 .any-user
-{ list-style-image: url("chrome://sogo-connector/skin/abcard-anyone.png");
+{ list-style-image: url("resource://sogo-connector/skin/abcard-anyone.png");
   border-top: 1px dotted #555; }
 
 .anonymous-user
-{ list-style-image: url("chrome://sogo-connector/skin/abcard-anonymous.png"); }
+{ list-style-image: url("resource://sogo-connector/skin/abcard-anonymous.png"); }

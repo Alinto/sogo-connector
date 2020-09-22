@@ -1,6 +1,6 @@
 /* messagewindow-overlay.js - This file is part of "SOGo Connector", a Thunderbird extension.
  *
- * Copyright: Inverse inc., 2006-2019
+ * Copyright: Inverse inc., 2006-2020
  *     Email: support@inverse.ca
  *       URL: http://inverse.ca
  *
@@ -19,5 +19,9 @@
  */
 
 function SCSynchronizeFromChildWindow(uri) {
-    window.opener.SCSynchronizeFromChildWindow(uri);
+  window.opener.SCSynchronizeFromChildWindow(uri);
+}
+
+function onLoad(activatedWhileWindowOpen) {
+  dump("messagewindow-overlay.js: onLoad()\n");
 }

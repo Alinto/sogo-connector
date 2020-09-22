@@ -1,6 +1,6 @@
 /* sync.addressbook.groupdav.js - This file is part of "SOGo Connector", a Thunderbird extension.
  *
- * Copyright: Inverse inc., 2006-2019
+ * Copyright: Inverse inc., 2006-2020
  *     Email: support@inverse.ca
  *       URL: http://inverse.ca
  *
@@ -18,9 +18,8 @@
  * Franklin St, Fifth Floor, Boston, MA 02110-1301 USA
  */
 
-var { contextManagerInstance } = ChromeUtils.import("resource://sogo-connector/ContextManager.jsm");
-var { syncProgressManagerInstance } = ChromeUtils.import("resource://sogo-connector/SyncProgressManager.jsm");
-
+var { contextManagerInstance } = ChromeUtils.import("resource://sogo-connector/components/ContextManager.jsm");
+var { syncProgressManagerInstance } = ChromeUtils.import("resource://sogo-connector/components/SyncProgressManager.jsm");
 
 function jsInclude(files, target) {
     let loader = Components.classes["@mozilla.org/moz/jssubscript-loader;1"]
@@ -68,31 +67,14 @@ let SOGOC_SYNC_STARTUP = 3;     // startup
 function loadNotificationsStrings() {
     var SOGO_Notifications_Strings = {};
 
-    let keys = ['notificationsTitle', 'notificationsFailure', 'notificationsFailures', 'notificationsUpload',
-                'notificationsUploads', 'notificationsDownload', 'notificationsDownloads', 'notificationsDelete', 
-                'notificationsDeletes', 'notificationsNoChanges' ];
-    for (let i in keys) {
-        let key = keys[i];
-        SOGO_Notifications_Strings[key] = SOGO_GetString(key);
-    }
-    return SOGO_Notifications_Strings;
-}
-
-function SOGO_GetString(key) {
-    /*
-     * wrapper for localization
-     * 
-     * params :
-     *   key : the name of the property
-     * return :
-     *   the value of property in the current language
-     */
-    let bundle = document.getElementById("sogoStringBundle");
-    //dump("Bundle="+bundle);
-    if (bundle)
-        return bundle.getString(key);
-    else
-        return key;
+  let keys = ['notificationsTitle', 'notificationsFailure', 'notificationsFailures', 'notificationsUpload',
+              'notificationsUploads', 'notificationsDownload', 'notificationsDownloads', 'notificationsDelete', 
+              'notificationsDeletes', 'notificationsNoChanges' ];
+  for (let i in keys) {
+    let key = keys[i];
+    SOGO_Notifications_Strings[key] = WL.extension.localeData.localizeMessage(key);
+  }
+  return SOGO_Notifications_Strings;
 }
 
 let sCounter = 0;

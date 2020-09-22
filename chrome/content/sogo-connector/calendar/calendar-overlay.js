@@ -1,43 +1,71 @@
-Components.utils.import("resource://calendar/modules/calUtils.jsm");
+/* calendar-overlay.js - This file is part of "SOGo Connector", a Thunderbird extension.
+ *
+ * Copyright: Inverse inc., 2006-2020
+ *     Email: support@inverse.ca
+ *       URL: http://inverse.ca
+ *
+ * "SOGo Connector" is free software; you can redistribute it and/or modify it
+ * under the terms of the GNU General Public License version 2 as published by
+ * the Free Software Foundation;
+ *
+ * "SOGo Connector" is distributed in the hope that it will be useful, but
+ * WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
+ * details.
+ *
+ * You should have received a copy of the GNU General Public License along with
+ * "SOGo Connector"; if not, write to the Free Software Foundation, Inc., 51
+ * Franklin St, Fifth Floor, Boston, MA 02110-1301 USA
+ */
+var { cal } = ChromeUtils.import("resource:///modules/calendar/calUtils.jsm");
+var { Services } = ChromeUtils.import("resource://gre/modules/Services.jsm");
+var { notificationManagerInstance } = ChromeUtils.import("resource://sogo-connector/components/NotificationManager.jsm");
+var _this = this;
 
 function jsInclude(files, target) {
-    let loader = Components.classes["@mozilla.org/moz/jssubscript-loader;1"]
-                           .getService(Components.interfaces.mozIJSSubScriptLoader);
-    for (let i = 0; i < files.length; i++) {
-        try {
-            loader.loadSubScript(files[i], target);
-        }
-        catch(e) {
-            dump("calendar-overlay.js: failed to include '" + files[i] + "'\n"
-                 + e + "\n");
-        }
+  //let loader = Components.classes["@mozilla.org/moz/jssubscript-loader;1"]
+  //                       .getService(Components.interfaces.mozIJSSubScriptLoader);
+  for (let i = 0; i < files.length; i++) {
+    try {
+      Services.scriptloader.loadSubScript(files[i], target, "UTF-8");
     }
+    catch(e) {
+      //dump("calendar-overlay.js: failed to include '" + files[i] + "'\n"
+      //+ e + "\n");
+    }
+  }
 }
 
 let sogoCalendarsAvailable = false;
 
-jsInclude(["chrome://sogo-connector/content/calendar/folder-handler.js",
+jsInclude(["chrome://sogo-connector/content/addressbook/folder-handling.js",
+           "chrome://sogo-connector/content/calendar/folder-handler.js",
            "chrome://sogo-connector/content/general/creation-utils.js",
+           "chrome://sogo-connector/content/general/mozilla.utils.inverse.ca.js",
+           "chrome://sogo-connector/content/general/preference.service.addressbook.groupdav.js",
            "chrome://sogo-connector/content/general/subscription-utils.js",
+           "chrome://sogo-connector/content/general/sync.addressbook.groupdav.js",
            "chrome://sogo-connector/content/messenger/folders-update.js",
-           "chrome://sogo-connector/content/global/sogo-config.js"]);
+           "chrome://sogo-connector/content/global/sogo-config.js",
+           "chrome://global/content/globalOverlay.js",
+           "chrome://global/content/editMenuOverlay.js"], _this);
 
 function openCalendarCreationDialog() {
-    openDialog("chrome://sogo-connector/content/calendar/creation-dialog.xul",
-               "calendarSubscribe",
-	       "chrome,titlebar,centerscreen,alwaysRaised=yes,dialog=yes",
-               this);
+  window.openDialog("chrome://sogo-connector/content/calendar/creation-dialog.xhtml",
+                    "calendarSubscribe",
+	            "chrome,titlebar,centerscreen,alwaysRaised=yes,dialog=yes",
+                    _this, WL);
 }
 
 function openCalendarSubcriptionDialog() {
-    openDialog("chrome://sogo-connector/content/general/subscription-dialog.xul",
-               "calendarSubscribe",
-	       "chrome,titlebar,centerscreen,alwaysRaised=yes,dialog=yes",
-               this);
+  window.openDialog("chrome://sogo-connector/content/general/subscription-dialog.xhtml",
+                    "calendarSubscribe",
+	            "chrome,titlebar,centerscreen,alwaysRaised=yes,dialog=yes",
+                    _this, WL);
 }
 
 function manageCalendarACL() {
-    let calendar = getSelectedCalendar();
+    let calendar = cal.view.getCompositeCalendar(window).defaultCalendar;
     let entry = calendar.aclEntry;
     if (!entry) {
         /* we expect the calendar acl entry to be cached at this point */
@@ -46,41 +74,38 @@ function manageCalendarACL() {
 
     let url = calendar.uri.spec;
     if (entry.userIsOwner) {
-        openDialog("chrome://sogo-connector/content/general/acl-dialog.xul",
-                   "calendarACL",
-	           "chrome,titlebar,centerscreen,alwaysRaised=yes,dialog=yes",
-                   {url: url,
-                    rolesDialogURL: "chrome://sogo-connector/content/calendar/roles-dialog.xul"});
+      window.openDialog("chrome://sogo-connector/content/general/acl-dialog.xhtml",
+                        "calendarACL",
+	                "chrome,titlebar,centerscreen,alwaysRaised=yes,dialog=yes,resizable=yes",
+                        _this, WL,
+                        {url: url,
+                         rolesDialogURL: "chrome://sogo-connector/content/calendar/roles-dialog.xhtml"});
     } else {
-        entry.refresh();
-        calendar.refresh();
+      entry.refresh();
+      calendar.refresh();
     }
 }
 
 function _confirmDelete(name) {
-    let promptService = Components.classes["@mozilla.org/embedcomp/prompt-service;1"]
-                                  .getService(Components.interfaces.nsIPromptService);
+  let promptService = Components.classes["@mozilla.org/embedcomp/prompt-service;1"]
+      .getService(Components.interfaces.nsIPromptService);
 
-    let bundle = document.getElementById("bundle_integrator_calendar");
-
-    return promptService.confirm(window,
-                                 bundle.getString("deleteCalendarTitle"),
-                                 bundle.getString("deleteCalendarMessage"),
-                                 {});
+  return promptService.confirm(window,
+                               WL.extension.localeData.localizeMessage("deleteCalendarTitle"),
+                               WL.extension.localeData.localizeMessage("deleteCalendarMessage"),
+                               {});
 }
 
 function openDeletePersonalDirectoryForbiddenDialog() {
   let promptService = Components.classes["@mozilla.org/embedcomp/prompt-service;1"]
       .getService(Components.interfaces.nsIPromptService);
-  let bundle = document.getElementById("bundle_integrator_calendar");
-
   promptService.alert(window,
-                        bundle.getString("deleteCalendarTitle"),
-                        bundle.getString("deletePersonalCalendarError"));
+                      WL.extension.localeData.localizeMessage("deleteCalendarTitle"),
+                      WL.extension.localeData.localizeMessage("deletePersonalCalendarError"));
 }
 
 function openCalendarUnsubscriptionDialog() {
-    let calendar = getSelectedCalendar();
+    let calendar = window.getSelectedCalendar();
     SIpromptDeleteCalendar(calendar); 
 }
 
@@ -137,6 +162,10 @@ function subscriptionDialogType() {
     return "calendar";
 }
 
+function creationGetHandler() {
+    return new CalendarHandler();
+}
+
 function subscriptionGetHandler() {
     return new CalendarHandler();
 }
@@ -157,7 +186,7 @@ function toggleShowAllCalendars() {
 function toggleShowOnlyCalendar() {
     let tree = document.getElementById("calendar-list-tree-widget");
     if (tree) {
-        let selectedCal = getSelectedCalendar();
+        let selectedCal = window.getSelectedCalendar();
         let calIndex = 0;
         let composite = tree.compositeCalendar;
         for (let i = 0; i < tree.rowCount; i++) {
@@ -204,7 +233,7 @@ function SIOnCalendarOverlayLoad() {
   let properties = document.getElementById("list-calendars-context-edit");
   //let showonly = document.getElementById("list-calendars-context-sogo-showonly");
   //let showall = document.getElementById("list-calendars-context-sogo-showall");
-  let separator = document.createElement("menuseparator");
+  let separator = document.createXULElement("menuseparator");
   popup.removeChild(properties);
   popup.insertBefore(separator, popup.firstChild);
   popup.insertBefore(properties, popup.firstChild);
@@ -215,22 +244,21 @@ function SIOnCalendarOverlayLoad() {
   //popup.insertBefore(showonly, popup.firstChild);
 
   let list_calendars_context_delete = document.getElementById("list-calendars-context-delete");
-  list_calendars_context_delete.setAttribute("deletelabel", deleteLabel);
-  list_calendars_context_delete.setAttribute("unsubscribelabel", unsubscribeLabel);
+  list_calendars_context_delete.setAttribute("deletelabel", WL.extension.localeData.localizeMessage("calendar.context.sogo-delete.label"));
+  list_calendars_context_delete.setAttribute("unsubscribelabel", WL.extension.localeData.localizeMessage("calendar.context.sogo-unsubscribe.label"));
   list_calendars_context_delete.addEventListener("command", openCalendarUnsubscriptionDialog, false);
   
-  let acls = document.createElement("menuitem");
+  let acls = document.createXULElement("menuitem");
   acls.id = "list-calendars-context-sogo-acls";
-  //acls.setAttribute("label", "Manage ACLs");
-  acls.setAttribute("managelabel", manageLabel);
-  acls.setAttribute("reloadlabel", reloadLabel);
+  acls.setAttribute("managelabel", WL.extension.localeData.localizeMessage("calendar.context.sogo-acls.label"));
+  acls.setAttribute("reloadlabel", WL.extension.localeData.localizeMessage("calendar.context.sogo-reload-acls.label"));
   acls.addEventListener("command", manageCalendarACL, false);
   popup.appendChild(acls);
   
   let controller = new SICalendarListTreeController();
-  let calendarTree = document.getElementById("calendar-list-tree-widget");
-  //calendarTree.tree.controllers.appendController(controller);
-  calendarTree.controllers.appendController(controller);
+  //let calendar_list_tree_widget = document.getElementById("calendar-list-tree-widget");
+  let calendar_list_tree_widget = document.getElementById("calendar-list");
+  calendar_list_tree_widget.controllers.appendController(controller);
   
   popup.addEventListener("popupshowing", onCalendarTreePopup, false);
 
@@ -238,56 +266,54 @@ function SIOnCalendarOverlayLoad() {
   // We create the Export Task menu option
   //
   let taskitem_context_menu = document.getElementById("taskitem-context-menu");
-  let task_context_menu_export = document.createElement("menuitem");
+  let task_context_menu_export = document.createXULElement("menuitem");
   task_context_menu_export.id = "task-context-menu-export";
-  task_context_menu_export.setAttribute("label", exportTaskText);
+  task_context_menu_export.setAttribute("label", WL.extension.localeData.localizeMessage("calendar.context.exporttask.label"));
   taskitem_context_menu.appendChild(task_context_menu_export);
   taskitem_context_menu.addEventListener("click", SCExportTask, false);
   
   //
   // We create the toolbar to create, subscribe and delete/unsubscribe calendars
   //
-  let calendar_listtree_pane = document.getElementById("calendar-listtree-pane");
-  let calendar_list_tree_widget = document.getElementById("calendar-list-tree-widget");
-  let subscriptionToolbar = document.createElement("hbox");
+  let calendar_listtree_pane = document.getElementById("calendar-panel");
+  let subscriptionToolbar = document.createXULElement("hbox");
   subscriptionToolbar.id = "subscriptionToolbar";
 
-  let addCalendarBtn = document.createElement("toolbarbutton");
+  let addCalendarBtn = document.createXULElement("toolbarbutton");
   addCalendarBtn.id = "addCalendarBtn";
-  addCalendarBtn.setAttribute("image", "chrome://sogo-connector/skin/calendar/add-calendar.png");
-  addCalendarBtn.setAttribute("tooltiptext", addTooltipText);
+  addCalendarBtn.setAttribute("image", "resource://sogo-connector/skin/calendar/add-calendar.png");
+  addCalendarBtn.setAttribute("tooltiptext", WL.extension.localeData.localizeMessage("calendar-overlay.susbcription.tooltips.add"));
   addCalendarBtn.addEventListener("click", openCalendarCreationDialog, false);
 
-  let subscribeCalendarBtn = document.createElement("toolbarbutton");
+  let subscribeCalendarBtn = document.createXULElement("toolbarbutton");
   subscribeCalendarBtn.id = "subscribeCalendarBtn";
-  subscribeCalendarBtn.setAttribute("image", "chrome://sogo-connector/skin/calendar/add-user-calendar.png");
-  subscribeCalendarBtn.setAttribute("tooltiptext", subscribeTooltipText);
+  subscribeCalendarBtn.setAttribute("image", "resource://sogo-connector/skin/calendar/add-user-calendar.png");
+  subscribeCalendarBtn.setAttribute("tooltiptext", WL.extension.localeData.localizeMessage("calendar-overlay.susbcription.tooltips.subscribe"));
   subscribeCalendarBtn.addEventListener("click", openCalendarSubcriptionDialog, false);
 
-  let removeCalendarBtn = document.createElement("toolbarbutton");
+  let removeCalendarBtn = document.createXULElement("toolbarbutton");
   removeCalendarBtn.id = "removeCalendarBtn";
-  removeCalendarBtn.setAttribute("image", "chrome://sogo-connector/skin/calendar/remove-calendar.png");
-  removeCalendarBtn.setAttribute("tooltiptext", removeTooltipText);
+  removeCalendarBtn.setAttribute("image", "resource://sogo-connector/skin/calendar/remove-calendar.png");
+  removeCalendarBtn.setAttribute("tooltiptext", WL.extension.localeData.localizeMessage("calendar-overlay.susbcription.tooltips.remove"));
   removeCalendarBtn.addEventListener("click", openCalendarUnsubscriptionDialog, false);
 
   subscriptionToolbar.appendChild(addCalendarBtn);
   subscriptionToolbar.appendChild(subscribeCalendarBtn);
   subscriptionToolbar.appendChild(removeCalendarBtn);
 
-  calendar_listtree_pane.insertBefore(subscriptionToolbar, calendar_list_tree_widget);
+  calendar_listtree_pane.insertBefore(subscriptionToolbar, calendar_listtree_pane.firstChild);
+  //calendar_listtree_pane.insertBefore(subscriptionToolbar, calendar_list_tree_widget);
   
 
-  
-    let widget = document.getElementById("calendar-list-tree-widget");
-    widget.addEventListener("mousedown", SIOnListMouseDown, true);
+  //calendar_list_tree_widget.addEventListener("mousedown", SIOnListMouseDown, true);
 
-    /* override lightning's calendar delete function 
-     * has to be done when the overlay's load handler since
-     * window.promptDeleteCalendar can somehow be overriden by lightning
-     * if lightning is loaded after the integrator in extensions.ini
-     */
-    window.SIOldPromptDeleteCalendar = window.promptDeleteCalendar;
-    window.promptDeleteCalendar = window.SIpromptDeleteCalendar;
+  /* override lightning's calendar delete function 
+   * has to be done when the overlay's load handler since
+   * window.promptDeleteCalendar can somehow be overriden by lightning
+   * if lightning is loaded after the integrator in extensions.ini
+   */
+  window.SIOldPromptDeleteCalendar = window.promptDeleteCalendar;
+  window.promptDeleteCalendar = window.SIpromptDeleteCalendar;
 }
 
 function SCExportTask() {
@@ -308,7 +334,7 @@ function SIOnListMouseDown(event) {
 
 
 function onCalendarTreePopup(event) {
-    goUpdateCommand("calendar_manage_sogo_acls_command");
+  window.goUpdateCommand("calendar_manage_sogo_acls_command");
 }
 
 function SICalendarListTreeController() {
@@ -323,7 +349,7 @@ SICalendarListTreeController.prototype = {
         let isEnabled;
 
         if (command == "calendar_manage_sogo_acls_command") {
-            let calendar = getSelectedCalendar();
+            let calendar = window.getSelectedCalendar();
 
             let userIsOwner = true;
             let entry = calendar.aclEntry;
@@ -340,7 +366,7 @@ SICalendarListTreeController.prototype = {
                 acl_menuitem.label = acl_menuitem.getAttribute("reloadlabel");
                 delete_menuitem.label = delete_menuitem.getAttribute("unsubscribelabel");
             }
-
+          
             let isSOGoEntry = false;
             let length = sogoBaseURL().length;
             if (calendar.uri.spec.substr(0, length) == sogoBaseURL()) {
@@ -352,7 +378,7 @@ SICalendarListTreeController.prototype = {
                     let CalendarChecker = new directoryChecker("Calendar");
                     let yesCallback = function () {
                         sogoCalendarsAvailable = true;
-                        goUpdateCommand("calendar_manage_sogo_acls_command");
+                        window.goUpdateCommand("calendar_manage_sogo_acls_command");
                     };
                     CalendarChecker.checkAvailability(yesCallback);
                 }
@@ -373,5 +399,224 @@ SICalendarListTreeController.prototype = {
     onEvent: function(event) { dump("onEvent\n"); }
 };
 
-window.creationGetHandler = subscriptionGetHandler;
-window.addEventListener("load", SIOnCalendarOverlayLoad, false);
+/*
+ * This overlay adds GroupDAV functionalities to Addressbooks
+ * it contains the observers needed by the addressBook and the cards dialog
+ */
+
+let groupdavSynchronizationObserver = {
+    count: 0,
+    handleNotification: function(notification, data) {
+        let active = (this.count > 0);
+        let throbber = document.getElementById("navigator-throbber");
+        /* Throbber may not exist, thus we need to check the returned value. */
+        if (notification == "groupdav.synchronization.start") {
+            this.count++;
+            if (!active) {
+                dump("GETTING BUSY\n");
+                if (throbber)
+                    throbber.setAttribute("busy", true);
+            }
+        }
+        else if (notification == "groupdav.synchronization.stop") {
+            this.count--;
+            if (active) {
+                dump("RESTING\n");
+                if (throbber)
+                    throbber.setAttribute("busy", false);
+            }
+        }
+    }
+};
+
+function OnLoadMessengerOverlay() {
+    /* if SOGo Integrator is present, we let it take the startup procedures */
+    notificationManagerInstance.registerObserver("groupdav.synchronization.start",
+                          groupdavSynchronizationObserver);
+    notificationManagerInstance.registerObserver("groupdav.synchronization.stop",
+                          groupdavSynchronizationObserver);
+
+    //if (!this.sogoIntegratorStartupOverlayOnLoad) {
+    //    dump("startup from sogo-connector\n");
+    //    cleanupAddressBooks();
+    //    startFolderSync();
+    //}
+    //else
+    //    dump("skipping startup, sogo-connector present\n");
+
+    window.addEventListener("unload", SCUnloadHandler, false);
+}
+
+function SCUnloadHandler(event) {
+    notificationManagerInstance.unregisterObserver("groupdav.synchronization.start",
+                            groupdavSynchronizationObserver);
+    notificationManagerInstance.unregisterObserver("groupdav.synchronization.stop",
+                            groupdavSynchronizationObserver);
+}
+
+function cleanupAddressBooks() {
+    // 	_cleanupLocalStore();
+    let uniqueChildren = _uniqueChildren("ldap_2.servers", 2);
+    _cleanupABRemains(uniqueChildren);
+    uniqueChildren = _uniqueChildren("ldap_2.servers", 2);
+    _cleanupBogusAB(uniqueChildren);
+
+    uniqueChildren = _uniqueChildren("extensions.ca.inverse.addressbook.groupdav.ldap_2.servers",
+                                     7);
+    _cleanupOrphanDAVAB(uniqueChildren);
+    _migrateOldCardDAVDirs(uniqueChildren);
+}
+
+function _uniqueChildren(path, dots) {
+    let count = {};
+    let children = Services.prefs.getChildList(path, count);
+    let uniqueChildren = {};
+    for (let i = 0; i < children.length; i++) {
+        let leaves = children[i].split(".");
+        uniqueChildren[leaves[dots]] = true;
+    }
+
+    return uniqueChildren;
+}
+
+function _cleanupABRemains(uniqueChildren) {
+    let path = "ldap_2.servers";
+
+    for (let key in uniqueChildren) {
+        let branchRef = path + "." + key;
+        let count = {};
+        let children = Services.prefs.getChildList(branchRef, count);
+        if (children.length < 2) {
+            if (children[0] == (branchRef + ".position"))
+                Services.prefs.deleteBranch(branchRef);
+        }
+    }
+}
+
+function _cleanupBogusAB(uniqueChildren) {
+    let path = "ldap_2.servers";
+
+    for (let key in uniqueChildren) {
+        if (key != "default") {
+            let uriRef = path + "." + key + ".uri";
+            let uri = null;
+            // 			dump("trying: " + uriRef + "\n");
+            try {
+                uri = Services.prefs.getCharPref(uriRef);
+                if (uri.indexOf("moz-abldapdirectory:") == 0) {
+                    dump("deleting: " + path + "." + key + "\n");
+                    Services.prefs.deleteBranch(path + "." + key);
+                    // 			dump("uri: " + uri + "\n");
+                }
+            }
+            catch(e) {};
+        }
+    }
+}
+
+function _cleanupOrphanDAVAB(uniqueChildren) {
+    var	path = "extensions.ca.inverse.addressbook.groupdav.ldap_2.servers";
+    for (let key in uniqueChildren) {
+        let otherRef = "ldap_2.servers." + key + ".description";
+        // 		dump("XXXX otherRef: " + otherRef + "\n");
+        try {
+            Services.prefs.getCharPref(otherRef);
+        }
+        catch(e) {
+            // 			dump("exception: " + e + "\n");
+            dump("deleting orphan: " + path + "." + key + "\n");
+            Services.prefs.deleteBranch(path + "." + key);
+        }
+    }
+}
+
+function _migrateOldCardDAVDirs(uniqueChildren) {
+    var	path = "extensions.ca.inverse.addressbook.groupdav.ldap_2.servers.";
+    for (let key in uniqueChildren) {
+        let fullPath = path + key;
+        try {
+            let isCardDAV = (Services.prefs.getCharPref(fullPath + ".readOnly") == "true");
+            if (isCardDAV) {
+                dump("######### trying to migrate " + key + "\n");
+                let description = "" + Services.prefs.getCharPref(fullPath + ".name");
+                let url = "" + Services.prefs.getCharPref(fullPath + ".url");
+                dump("description: " + description + "\n");
+                dump("url: " + url + "\n");
+                if (description.length > 0
+                    && url.length > 0) {
+                    try {
+                        Services.prefs.deleteBranch(fullPath);
+                    }
+                    catch(x) {};
+                    try {
+                        Services.prefs.deleteBranch("ldap_2.servers." + key);
+                    }
+                    catch(y) {};
+                    SCCreateCardDAVDirectory(description, url);
+                    // 					dump("********* migrated CardDAV: " + key + "\n");
+                }
+            }
+        }
+        catch(e) {}
+    }
+}
+
+// TODO : better handling of that var
+var SOGO_Timers = [];
+
+function startFolderSync() {
+    let abManager = Components.classes["@mozilla.org/abmanager;1"]
+                              .getService(Components.interfaces.nsIAbManager);
+
+    let children = abManager.directories;
+    while (children.hasMoreElements()) {
+        let ab = children.getNext().QueryInterface(Components.interfaces.nsIAbDirectory);
+        if (isGroupdavDirectory(ab.URI)) {            
+            let dirPrefId = ab.dirPrefId;                
+            let groupdavPrefService = new GroupdavPreferenceService(dirPrefId);
+            let periodicSync = false;
+            let periodicSyncInterval = 60;
+            let notifications = false;
+            let notificationsOnlyIfNotEmpty = false;
+            try {
+                periodicSync = groupdavPrefService.getPeriodicSync();
+                periodicSyncInterval = groupdavPrefService.getPeriodicSyncInterval();
+                notifications = groupdavPrefService.getNotifications();
+                notificationsOnlyIfNotEmpty = groupdavPrefService.getNotificationsOnlyIfNotEmpty();            
+            } catch(e) {
+            }
+            
+            
+          // handle startup sync
+            sync = GetSyncNotifyGroupdavAddressbook(ab.URI, ab, SOGOC_SYNC_STARTUP);
+            sync.notify();
+
+            if (periodicSync) {
+                // handle future periodic sync
+                psync = GetSyncNotifyGroupdavAddressbook(ab.URI, ab, SOGOC_SYNC_PERIODIC);
+                
+                // TODO : handle syncInterval and Notifications in a dynamic way :
+                // today, we have to restart TB if we change those values.
+                 
+                // Now it is time to create the timer.
+                var timer = Components.classes["@mozilla.org/timer;1"].createInstance(Components.interfaces.nsITimer);
+                 
+                let delay = periodicSyncInterval;
+                delay = delay *60; // min --> sec
+                // delay = delay * 3; // min --> sec DEBUG
+                delay = delay * 1000; // sec --> ms
+                timer.initWithCallback(psync, delay, Components.interfaces.nsITimer.TYPE_REPEATING_PRECISE_CAN_SKIP);
+                SOGO_Timers.push(timer);
+            }
+        }
+    }
+}
+
+function SCSynchronizeFromChildWindow(uri) {
+    this.setTimeout(SynchronizeGroupdavAddressbook, 100, uri, null, SOGOC_SYNC_WRITE);
+}
+
+function onLoad(activatedWhileWindowOpen) {
+  OnLoadMessengerOverlay();
+  SIOnCalendarOverlayLoad();
+}

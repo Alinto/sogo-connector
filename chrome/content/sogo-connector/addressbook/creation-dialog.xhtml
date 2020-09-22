@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<!--
+Copyright:     Inverse inc., 2008-2020
+Email:         support@inverse.ca
+URL:           http://inverse.ca
+-->
+
+<?xml-stylesheet type="text/css" href="chrome://global/skin/global.css"?>
+<?xml-stylesheet type="text/css" href="resource://sogo-connector/skin/creation-dialog.css"?>
+<?xml-stylesheet type="text/css" href="chrome://messenger/skin/input-fields.css"?>
+
+<window id="addressbook-creation-window"
+        title="__MSG_creation.title__"
+        xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"
+        xmlns:html="http://www.w3.org/1999/xhtml">
+
+  <script type="application/x-javascript" src="chrome://sogo-connector/content/general/creation-overlay.js"/>
+  <script type="application/x-javascript" src="chrome://sogo-connector/content/global/i18n.js"/>
+    
+  <label id="creationLabel" value="__MSG_creation.instructions.label__"/>
+  <html:input id="createInput"/>
+  <button id="createButton" label="__MSG_creation.button.create.label__"/>
+  
+</window>

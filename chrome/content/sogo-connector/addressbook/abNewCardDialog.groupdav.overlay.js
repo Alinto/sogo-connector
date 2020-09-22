@@ -1,6 +1,6 @@
 /* abNewCardDialog.groupdav.overlay.js - This file is part of "SOGo Connector", a Thunderbird extension.
  *
- * Copyright: Inverse inc., 2006-2019
+ * Copyright: Inverse inc., 2006-2020
  *     Email: support@inverse.ca
  *       URL: http://inverse.ca
  *
@@ -19,17 +19,22 @@
  */
 
 function jsInclude(files, target) {
-     let loader = Components.classes["@mozilla.org/moz/jssubscript-loader;1"]
-                            .getService(Components.interfaces.mozIJSSubScriptLoader);
-     for (let i = 0; i < files.length; i++) {
-         try {
-             loader.loadSubScript(files[i], target);
-         }
-         catch(e) {
-             dump("abNewCardDialog.groupdav.overlay.js: failed to include '" + files[i] + "'\n" + e + "\n");
-         }
-     }
+  let loader = Components.classes["@mozilla.org/moz/jssubscript-loader;1"]
+      .getService(Components.interfaces.mozIJSSubScriptLoader);
+  for (let i = 0; i < files.length; i++) {
+    try {
+      loader.loadSubScript(files[i], target);
+    }
+    catch(e) {
+      dump("abNewCardDialog.groupdav.overlay.js: failed to include '" + files[i] + "'\n" + e + "\n");
+    }
+  }
 }
+
+function i18n(entity) {
+  let msg = entity.slice(1,-1);
+  return WL.extension.localeData.localizeMessage(msg);
+} 
 
 jsInclude(["chrome://sogo-connector/content/addressbook/common-card-overlay.js"]);
 
@@ -60,4 +65,21 @@ function SCNewCardOKButton() {
   //return result;
 }
 
-window.addEventListener("load", OnLoadHandler, false);
+//window.addEventListener("load", OnLoadHandler, false);
+function onLoad(activatedWhileWindowOpen) {
+  dump("abNewCardDialog.groupdav.overlay.js: onLoad()\n");
+
+    WL.injectElements(`
+  <tabs id="abTabs">
+    <tab insertbefore="homeTabButton" id="categoriesTabButton" label="&sogo-connector.tabs.categories.label;"/>
+  </tabs>
+  <tabpanels id="abTabPanels">
+    <vbox id="abCategoriesTab" flex="0" style="max-height: 200px; overflow-y: auto;" insertbefore="abHomeTab">
+      <vbox id="abCategories">
+      </vbox>
+      <textbox id="abEmptyCategory" readonly="true"/>
+    </vbox>
+  </tabpanels>`.replaceAll(/&(.*?);/g, i18n));
+  
+  OnLoadHandler();
+}

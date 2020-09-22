@@ -1,16 +1,11 @@
 <?xml version="1.0"?>
 <!--
- Copyright:     Inverse inc., 2007-2019
- Email:         support@inverse.ca
- URL:           http://inverse.ca
-  -->
+Copyright:     Inverse inc., 2007-2019
+Email:         support@inverse.ca
+URL:           http://inverse.ca
+-->
 
-<!DOCTYPE dialog [
-<!ENTITY % aclDialogDTD SYSTEM "chrome://sogo-connector/locale/general/acl-dialog.dtd">
-%aclDialogDTD;
-]>
-
-<?xml-stylesheet type="text/css" href="chrome://sogo-connector/skin/acl-dialog.css"?>
+<?xml-stylesheet type="text/css" href="resource://sogo-connector/skin/acl-dialog.css"?>
 <?xml-stylesheet type="text/css" href="chrome://global/content/xul.css"?>
 <?xml-stylesheet type="text/css" href="chrome://global/skin/global.css"?>
 <?xml-stylesheet type="text/css" href="chrome://global/skin/popup.css"?>
@@ -19,15 +14,15 @@
 <?xml-stylesheet type="text/css" href="chrome://messenger/content/messenger.css"?>
 
 <dialog xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"
-  id="aclDialog"
-  type="dialog"
-  buttons=","
-  title="&acl-dialog.title;">
-  <stringbundle id="acl-dialog-strings"
-    src="chrome://sogo-connector/locale/general/acl-dialog.properties"/>
+        id="aclDialog"
+        type="dialog"
+        buttons=","
+        title="__MSG_acl-dialog.title__">
 
   <script type="application/x-javascript"
-    src="chrome://sogo-connector/content/general/acl-dialog.js"/>
+          src="chrome://sogo-connector/content/general/acl-dialog.js"/>
+  <script type="application/x-javascript"
+          src="chrome://sogo-connector/content/glocal/i18n.js"/>
 
   <commandset id="aclCommands">
     <command id="AclCommandAdd" oncommand="addEntry();"/>
@@ -35,9 +30,9 @@
   </commandset>
 
   <hbox id="entriesToolbar">
-    <toolbarbutton id="addUserBtn" tooltiptext="&acl.addUser.label;"
+    <toolbarbutton id="addUserBtn" tooltiptext="__MSG_acl.addUser.label__"
                    command="AclCommandAdd"/>
-    <toolbarbutton id="removeUserBtn" tooltiptext="&acl.removeUser.label;"
+    <toolbarbutton id="removeUserBtn" tooltiptext="__MSG_acl.removeUser.label__"
                    command="AclCommandDelete"/>
     <spacer flex="1"/>
     <vbox id="throbber-box" busy="false" pack="center">

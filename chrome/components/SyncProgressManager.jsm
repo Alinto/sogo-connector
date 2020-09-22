@@ -24,7 +24,7 @@
 var EXPORTED_SYMBOLS = ["syncProgressManagerInstance"];
 
 var { Services } = ChromeUtils.import("resource://gre/modules/Services.jsm");
-var { notificationManagerInstance } = ChromeUtils.import("resource://sogo-connector/NotificationManager.jsm");
+var { notificationManagerInstance } = ChromeUtils.import("resource://sogo-connector/components/NotificationManager.jsm");
 
 function SyncProgressManager() {
     this.addressbooks = {};

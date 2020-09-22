@@ -1,6 +1,6 @@
 /* folder-handling.js - This file is part of "SOGo Connector", a Thunderbird extension.
  *
- * Copyright: Inverse inc., 2006-2014
+ * Copyright: Inverse inc., 2006-2020
  *     Email: support@inverse.ca
  *       URL: http://inverse.ca
  *
@@ -18,7 +18,8 @@
  * Franklin St, Fifth Floor, Boston, MA 02110-1301 USA
  */
 
-Components.utils.import("resource://gre/modules/Services.jsm");
+var { Services } = Components.utils.import("resource://gre/modules/Services.jsm");
+var { MailServices } = ChromeUtils.import("resource:///modules/MailServices.jsm");
 
 function jsInclude(files, target) {
     let loader = Components.classes["@mozilla.org/moz/jssubscript-loader;1"]
@@ -41,35 +42,55 @@ function jsInclude(files, target) {
 jsInclude(["chrome://sogo-connector/content/general/preference.service.addressbook.groupdav.js"]);
 
 function SCGetDirectoryFromURI(uri) {
-    // dump("SCGetDirectoryFromURI: " + uri + "\n");
-    let abManager = Components.classes["@mozilla.org/abmanager;1"]
-                              .getService(Components.interfaces.nsIAbManager);
-    return abManager.getDirectory(uri);
+  // dump("SCGetDirectoryFromURI: " + uri + "\n");
+  //let abManager = Components.classes["@mozilla.org/abmanager;1"]
+  //                         .getService(Components.interfaces.nsIAbManager);
+  //return abManager.getDirectory(uri);
+  return MailServices.ab.getDirectory(uri);
 }
 
 function SCCreateCardDAVDirectory(description, url) {
-    let abMgr = Components.classes["@mozilla.org/abmanager;1"]
-                          .getService(Components.interfaces.nsIAbManager);
-    let prefId = abMgr.newAddressBook(description, url.replace(/^http/, "carddav"), 0);
+  //let abMgr = Components.classes["@mozilla.org/abmanager;1"]
+  //    .getService(Components.interfaces.nsIAbManager);
+  //let prefId = abMgr.newAddressBook(description, url.replace(/^http/, "carddav"), 0);
 
-    return SCGetDirectoryFromURI("moz-abdavdirectory://" + prefId);
+  let prefId = MailServices.ab.newAddressBook(
+    description,
+    null,
+    Ci.nsIAbManager.CARDDAV_DIRECTORY_TYPE
+  );
+
+  let book = MailServices.ab.getDirectoryFromId(prefId);
+  book.setStringValue("carddav.url", url.replace(/^http/, "carddav"));
+
+  return MailServices.ab.getDirectoryFromId(prefId);
+  //return SCGetDirectoryFromURI("jscarddav://" + prefId);
+  //return SCGetDirectoryFromURI("moz-abdavdirectory://" + prefId);
 }
 
 function SCCreateGroupDAVDirectory(description, url) {
-    let abMgr = Components.classes["@mozilla.org/abmanager;1"]
-                          .getService(Components.interfaces.nsIAbManager);
-    let prefId = abMgr.newAddressBook(description, null,
-                                      2 /* don't know which values should go in
-                                         there but 2 seems to get the job
-                                         done */);
-    let groupdavPrefService = new GroupdavPreferenceService(prefId);
-    groupdavPrefService.setURL(url);
+  //let abMgr = Components.classes["@mozilla.org/abmanager;1"]
+  //                      .getService(Components.interfaces.nsIAbManager);
+  //let prefId = abMgr.newAddressBook(description, null,
+  //                                  2 /* don't know which values should go in
+  //                                     there but 2 seems to get the job
+  //                                     done */);
+  let prefId = MailServices.ab.newAddressBook(
+    description,
+    "",
+    Ci.nsIAbManager.JS_DIRECTORY_TYPE
+    );
 
-    //let prefService = Components.classes["@mozilla.org/preferences-service;1"]
-    //                            .getService(Components.interfaces.nsIPrefBranch);
-    let filename = Services.prefs.getCharPref(prefId + ".filename");
+  let groupdavPrefService = new GroupdavPreferenceService(prefId);
+  groupdavPrefService.setURL(url);
 
-    return SCGetDirectoryFromURI("moz-abmdbdirectory://" + filename);
+  //let prefService = Components.classes["@mozilla.org/preferences-service;1"]
+  //                            .getService(Components.interfaces.nsIPrefBranch);
+  //let filename = Services.prefs.getCharPref(prefId + ".filename");
+  //dump("filename: " + filename + "\n");
+  return MailServices.ab.getDirectoryFromId(prefId);
+  //return SCGetDirectoryFromURI("jsaddrbook://" + filename);
+  //return SCGetDirectoryFromURI("moz-abmdbdirectory://" + filename);
 }
 
 function SCDeleteDirectoryWithURI(uri) {
