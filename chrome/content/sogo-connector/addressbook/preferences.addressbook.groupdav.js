@@ -53,34 +53,32 @@ function SCGetCurrentDirectory() {
 }
 
 function onAccept() {
-    let prefMsgBundle = document.getElementById("preferencesMsgId");
+  // There has to be at least a description to create a SOGo addressbook
+  let description = document.getElementById("description").value;
+  if (!description || description == "") {
+    alert(WL.extension.localeData.localizeMessage("missingDescriptionMsg"));
+    return false;
+  }
 
-    //There has to be at least a description to create a SOGO addressbook
-    let description = document.getElementById("description").value;
-    if (!description || description == "") {
-        alert(prefMsgBundle.getString("missingDescriptionMsg"));
-        return false;
-    }
+  let url = document.getElementById("groupdavURL").value;
+  if (!url || url == "") {
+    alert(WL.extension.localeData.localizeMessage("missingDescriptionURL"));
+    return false;
+  }
 
-    let url = document.getElementById("groupdavURL").value;
-    if (!url || url == "") {
-        alert(prefMsgBundle.getString("missingDescriptionURL"));
-        return false;
-    }
+  let readOnly = document.getElementById("readOnly").checked;
+  if (readOnly) {
+    onAcceptCardDAV();
+  }
+  else {
+    onAcceptWebDAV();
+  }
 
-    let readOnly = document.getElementById("readOnly").checked;
-    if (readOnly) {
-        onAcceptCardDAV();
-    }
-    else {
-        onAcceptWebDAV();
-    }
+  let prefService = (Components.classes["@mozilla.org/preferences-service;1"]
+                     .getService(Components.interfaces.nsIPrefService));
+  prefService.savePrefFile(null);
 
-    let prefService = (Components.classes["@mozilla.org/preferences-service;1"]
-                       .getService(Components.interfaces.nsIPrefService));
-    prefService.savePrefFile(null);
-
-    return true;
+  return true;
 }
 
 function onAcceptCardDAV() {
@@ -248,29 +246,29 @@ function renameTarget(dlg) {
 
 renameTarget.prototype = {
  onDAVQueryComplete: function(status, jsonResult) {
-		var correct = false;
+   var correct = false;
 
-		if (status == 207) {
-			var responses = jsonResult["multistatus"][0]["response"];
-			for (var response in responses) {
-				var url = response["href"][0];
-				if (this.dialog.folderURL.indexOf(url) > -1) {
-					for (var propstat in response["propstat"]) {
-						if (propstat["status"][0].indexOf("HTTP/1.1 200") == 0) {
-							if (propstat["prop"][0]["displayname"]) {
-								if (onAccept())
-									setTimeout("window.close();", 200);
-							}
-						}
-					}
-				}
-			}
-		}
-		else {
-			var strBundle = document.getElementById("preferencesMessages");
-			window.alert(strBundle.getString("serverUpdateFailed") + "\n" + status);
-		}
-	}
+   if (status == 207) {
+     var responses = jsonResult["multistatus"][0]["response"];
+     for (var response in responses) {
+       var url = response["href"][0];
+       if (this.dialog.folderURL.indexOf(url) > -1) {
+	 for (var propstat in response["propstat"]) {
+	   if (propstat["status"][0].indexOf("HTTP/1.1 200") == 0) {
+	     if (propstat["prop"][0]["displayname"]) {
+	       if (onAccept())
+		 setTimeout("window.close();", 200);
+	     }
+	   }
+	 }
+       }
+     }
+   }
+   else {
+     var strBundle = document.getElementById("preferencesMessages");
+     window.alert(WL.extension.localeData.localizeMessage("serverUpdateFailed") + "\n" + status);
+   }
+ }
 };
 
 document.addEventListener("dialogaccept", function(event) {

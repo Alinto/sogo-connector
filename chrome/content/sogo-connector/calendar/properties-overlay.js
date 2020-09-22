@@ -212,14 +212,12 @@ function onOverlayAccept() {
 }
 
 function onDAVQueryComplete(status, result) {
-	if (status == 207) {
-		window.onAcceptDialog();
-		window.setTimeout("window.close();", 100);
-	}
-	else {
-		let strBundle = document.getElementById("propertiesMessages");
-		window.alert(strBundle.getString("serverUpdateFailed") + "\n" + status);
-	}
+  if (status == 207) {
+    window.onAcceptDialog();
+    window.setTimeout("window.close();", 100);
+  }
+  else
+    window.alert(WL.extension.localeData.localizeMessage("serverUpdateFailed") + "\n" + status);
 }
 
 function onLoad(activatedWhileWindowOpen) {

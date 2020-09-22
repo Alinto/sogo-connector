@@ -358,8 +358,8 @@ function SCAbConfirmDelete(types) {
     // For numSelectedItems == 1, it's simple strings.
     // For messages with numSelectedItems > 1, it's multi-pluralform string sets.
     // confirmDeleteMessage has placeholders for some forms.
-    confirmDeleteTitle   = gAddressBookBundle.getString(confirmDeleteTitleID);
-    confirmDeleteMessage = gAddressBookBundle.getString(confirmDeleteMessageID);
+    confirmDeleteTitle   = WL.extension.localeData.localizeMessage(confirmDeleteTitleID);
+    confirmDeleteMessage = WL.extension.localeData.localizeMessage(confirmDeleteMessageID);
 
     // Get plural form where applicable; substitute placeholders as required.
     if (numSelectedItems == 1) {
@@ -485,12 +485,12 @@ function SCAbConfirmDeleteDirectory(selectedDir) {
           || Services.prefs.getBoolPref("mail.collect_email_address_incoming")
           || Services.prefs.getBoolPref("mail.collect_email_address_newsgroup"))) {
     let brandShortName = document.getElementById("bundle_brand").getString("brandShortName");
-    confirmDeleteTitle = gAddressBookBundle.getString("confirmDeleteThisCollectionAddressbook");
+    confirmDeleteTitle = WL.extension.localeData.localizeMessage("confirmDeleteThisCollectionAddressbook");
     confirmDeleteMessage = confirmDeleteMessage.replace("#2", brandShortName);
   }
   else {
-    confirmDeleteTitle = gAddressBookBundle.getString("confirmDeleteThisAddressbookTitle");
-    confirmDeleteMessage = gAddressBookBundle.getString("confirmDeleteThisAddressbook");    
+    confirmDeleteTitle = WL.extension.localeData.localizeMessage("confirmDeleteThisAddressbookTitle");
+    confirmDeleteMessage = WL.extension.localeData.localizeMessage("confirmDeleteThisAddressbook");    
   }
 
   confirmDeleteMessage = confirmDeleteMessage.replace("#1", directory.dirName);
