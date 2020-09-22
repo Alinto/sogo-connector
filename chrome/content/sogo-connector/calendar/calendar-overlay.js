@@ -317,8 +317,8 @@ function SIOnCalendarOverlayLoad() {
 }
 
 function SCExportTask() {
-  let tree = getTaskTree();
-  saveEventsToFile(tree.selectedTasks);
+  let tree = window.getTaskTree();
+  window.saveEventsToFile(tree.selectedTasks);
 }
 
 function SIOnListMouseDown(event) {
