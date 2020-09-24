@@ -28,7 +28,7 @@ function isSubscribed(node) {
 function onSubscriptionDialog() {
     dump("subscription-dialog.js: onSubscriptionDialog()\n");
     WL = window.arguments[1];
-    resourceType = window.opener.subscriptionDialogType;
+    resourceType = window.opener.subscriptionDialogType();
     let button = document.getElementById("addButton");
     button.addEventListener("click", onAddButtonClick, false);
 
@@ -200,8 +200,8 @@ SubscriptionTreeView.prototype = {
  selection: 0,
  tree: null,
 
- images: {"calendar": "chrome://sogo-connector/skin/calendar-folder.png",
-          "contact": "chrome://sogo-connector/skin/addressbook-folder.png"},
+ images: {"calendar": "resource://sogo-connector/skin/calendar-folder.png",
+          "contact": "resource://sogo-connector/skin/addressbook-folder.png"},
  parseTree: function(queryResults) {
         for (let i = 0; i < queryResults.length; i++) {
             let node = queryResults[i];
@@ -410,7 +410,7 @@ SubscriptionTreeView.prototype = {
              i <= rowIndex && userCount < this.data.length;
              userCount++) {
             let userData = this.data[userCount];
-            rows[i] = "chrome://messenger/skin/addressbook/icons/abcard.png";
+            rows[i] = "resource://sogo-connector/skin/abcard.png";
             i++;
             if (userData.nodeOpen) {
                 if (userData.hasFolders) {
@@ -759,7 +759,7 @@ UsersTreeView.prototype = {
  getColumnProperties: function(col, properties) {
     },
  getImageSrc: function(rowIndex, col) {
-        return "chrome://messenger/skin/addressbook/icons/abcard.png";
+        return "resource://sogo-connector/skin/abcard.png";
     },
  getLevel: function(rowIndex) {
         return 0;

@@ -32,9 +32,6 @@ Taken from: http://brainflush.wordpress.com/2008/01/17/mozilla-thunderbird-exten
 javascript.options.showInConsole = true.
   Logs errors in chrome files to the Error Console.
   
-nglayout.debug.disable_xul_cache = true.
-  Disables the XUL cache so that changes to windows and dialogs do not require a restart. This assumes you’re using directories rather than JARs. Changes to XUL overlays will still require reloading of the document overlaid.
-  
 browser.dom.window.dump.enabled = true.
   Enables the use of the dump() statement to print to the standard console. See window.dump for more info. You can also use nsIConsoleService from privileged script.
   
@@ -45,7 +42,6 @@ You can do so automatically by setting these preferences in site.js:
 
 ```javascript
 pref("javascript.options.showInConsole", true);
-pref("nglayout.debug.disable_xul_cache", true);
 pref("browser.dom.window.dump.enabled", true);
 pref("javascript.options.strict", true);
 ```

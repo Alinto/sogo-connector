@@ -204,3 +204,7 @@ window.addEventListener("unload", SIPrefsOnUnload, false);
   let labelsObserver = new SIMailsLabelsObserver();
   Services.prefs.addObserver("mailnews.tags.", labelsObserver, false);
 })();
+
+function onLoad(activatedWhileWindowOpen) {
+  dump("preferences-overlay.js: onLoad()\n");
+}

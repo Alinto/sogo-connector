@@ -40,31 +40,37 @@ jsInclude(["chrome://sogo-connector/content/addressbook/common-card-overlay.js"]
 
 /* starting... */
 function OnLoadHandler() {
-  let uri = getUri();
-  if (isGroupdavDirectory(uri)) {
-    //this.OldEditCardOKButton = this.EditCardOKButton;
-    //this.EditCardOKButton = this.SCEditCardOKButton;
-    document.addEventListener("dialogaccept", SCEditCardOKButton);
-  }
+  //let uri = getUri();
+
+  window.SCOldOnLoadEditCard();
+
+  //if (isCardDavDirectory(window.gEditCard.abURI)) {
+  //this.OldEditCardOKButton = this.EditCardOKButton;
+  //this.EditCardOKButton = this.SCEditCardOKButton;
+  //document.addEventListener("dialogaccept", SCEditCardOKButton);
+  //}
+
+  SCOnCommonCardOverlayLoad(window, document);
 }
 
 /* event handlers */
-function SCEditCardOKButton() {
-  //let result = this.OldEditCardOKButton();
-  //   if (result) {
-  //let ab = GetDirectoryFromURI(gEditCard.abURI);
-  if (isGroupdavDirectory(gEditCard.abURI)) {
-    setDocumentDirty(true);
-    saveCard(false);
-  }
-  //return result;
-}
+// function SCEditCardOKButton() {
+//   //let result = this.OldEditCardOKButton();
+//   //   if (result) {
+//   //let ab = GetDirectoryFromURI(gEditCard.abURI);
+//   if (isCardDavDirectory(gEditCard.abURI)) {
+//     setDocumentDirty(true);
+//     saveCard(false);
+//   }
+//   //return result;
+// }
 
 //window.addEventListener("load", OnLoadHandler, false);
 
 function onLoad(activatedWhileWindowOpen) {
   dump("abEditCardDialog.groupdav.overlay.js: onLoad()\n");
 
+  WL.injectCSS("chrome://messenger/skin/input-fields.css");
   WL.injectElements(`
   <tabs id="abTabs">
     <tab insertbefore="homeTabButton" id="categoriesTabButton" label="&sogo-connector.tabs.categories.label;"/>
@@ -73,10 +79,11 @@ function onLoad(activatedWhileWindowOpen) {
     <vbox id="abCategoriesTab" flex="0" style="max-height: 200px; overflow-y: auto;" insertbefore="abHomeTab">
       <vbox id="abCategories">
       </vbox>
-      <textbox id="abEmptyCategory" readonly="true"/>
+      <html:input id="abEmptyCategory" readonly="true"/>
     </vbox>
-  </tabpanels>
-                    `.replaceAll(/&(.*?);/g, i18n));
+  </tabpanels>`.replaceAll(/&(.*?);/g, i18n));
 
-  OnLoadHandler();
+  window.SCOldOnLoadEditCard = window.OnLoadEditCard;
+  window.OnLoadEditCard = OnLoadHandler;
+  //OnLoadHandler();
 }

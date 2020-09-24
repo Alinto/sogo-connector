@@ -26,7 +26,7 @@ function jsInclude(files, target) {
       loader.loadSubScript(files[i], target);
     }
     catch(e) {
-      dump("abNewCardDialog.groupdav.overlay.js: failed to include '" + files[i] + "'\n" + e + "\n");
+      //dump("abNewCardDialog.groupdav.overlay.js: failed to include '" + files[i] + "'\n" + e + "\n");
     }
   }
 }
@@ -42,34 +42,39 @@ function OnLoadHandler() {
   //this.OldNewCardOKButton = this.NewCardOKButton;
   //this.NewCardOKButton = this.SCNewCardOKButton;
 
-  document.addEventListener("dialogaccept", SCNewCardOKButton);
+  window.SCOldOnLoadNewCard();
   
-  // From SOGo Integrator
-  if (gEditCard.selectedAB && gEditCard.selectedAB == kPersonalAddressbookURI) {
-    let handler = new AddressbookHandler();
-    let existing = handler.getExistingDirectories();
-    let personalURL = sogoBaseURL() + "Contacts/personal/";
-    let directory = existing[personalURL];
-    gEditCard.selectedAB = directory.URI;
-    document.getElementById("abPopup").value = directory.URI;
-  }
+  // document.addEventListener("dialogaccept", SCNewCardOKButton);
+  
+  // // From SOGo Integrator
+  // if (gEditCard.selectedAB && gEditCard.selectedAB == kPersonalAddressbookURI) {
+  //   let handler = new AddressbookHandler();
+  //   let existing = handler.getExistingDirectories();
+  //   let personalURL = sogoBaseURL() + "Contacts/personal/";
+  //   let directory = existing[personalURL];
+  //   gEditCard.selectedAB = directory.URI;
+  //   document.getElementById("abPopup").value = directory.URI;
+  // }
+
+  SCOnCommonCardOverlayLoad(window, document);
 }
 
-function SCNewCardOKButton() {
-  dump("\n\n\nSCNewCardOKButton!!!\n\n\n");
-  //let result = this.OldNewCardOKButton();
-  //if (result) {
-  setDocumentDirty(true);
-  saveCard(true);
-  //}
-  //return result;
-}
+// function SCNewCardOKButton() {
+//   dump("\n\n\nSCNewCardOKButton!!!\n\n\n");
+//   //let result = this.OldNewCardOKButton();
+//   //if (result) {
+//   setDocumentDirty(true);
+//   saveCard(true);
+//   //}
+//   //return result;
+// }
 
 //window.addEventListener("load", OnLoadHandler, false);
 function onLoad(activatedWhileWindowOpen) {
   dump("abNewCardDialog.groupdav.overlay.js: onLoad()\n");
 
-    WL.injectElements(`
+  WL.injectCSS("chrome://messenger/skin/input-fields.css");
+  WL.injectElements(`
   <tabs id="abTabs">
     <tab insertbefore="homeTabButton" id="categoriesTabButton" label="&sogo-connector.tabs.categories.label;"/>
   </tabs>
@@ -77,9 +82,13 @@ function onLoad(activatedWhileWindowOpen) {
     <vbox id="abCategoriesTab" flex="0" style="max-height: 200px; overflow-y: auto;" insertbefore="abHomeTab">
       <vbox id="abCategories">
       </vbox>
-      <textbox id="abEmptyCategory" readonly="true"/>
+      <html:input id="abEmptyCategory" readonly="true"/>
     </vbox>
   </tabpanels>`.replaceAll(/&(.*?);/g, i18n));
+
+  window.SCOldOnLoadNewCard = window.OnLoadNewCard;
+  window.OnLoadNewCard = OnLoadHandler;
   
-  OnLoadHandler();
+  //OnLoadHandler();
+  //SCOnCommonCardOverlayLoad();
 }

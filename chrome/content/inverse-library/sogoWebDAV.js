@@ -19,10 +19,7 @@
 var { Services } = ChromeUtils.import("resource://gre/modules/Services.jsm");
 var { cal } = ChromeUtils.import("resource:///modules/calendar/calUtils.jsm");
 
-try { Components.utils.importGlobalProperties(["TextDecoder", "TextEncoder"]); } catch(e) {}
-try { Components.utils.importGlobalProperties(["DOMParser", "DOMParser"]); } catch(e) {}
-try { Components.utils.importGlobalProperties(["Node", "Node"]); } catch(e) {}
-
+try { Components.utils.importGlobalProperties(["TextDecoder", "TextEncoder", "DOMParser", "Node"]); } catch(e) {}
 
 function jsInclude(files, target) {
     let loader = Components.classes["@mozilla.org/moz/jssubscript-loader;1"]

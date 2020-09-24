@@ -35,12 +35,18 @@ let gSCCardValues = {
                         .getMostRecentWindow("mail:addressbook")
 };
 
-function SCOnCommonCardOverlayLoad() {
+var _window;
+var _document;
+
+function SCOnCommonCardOverlayLoad(window, document) {
+  _window = window;
+  _document = document;
+  
     if (typeof(SCOnCommonCardOverlayLoadPreHook) == "function") {
         SCOnCommonCardOverlayLoadPreHook();
     }
     /* categories */
-    let cardCategoriesValue = window.gEditCard.card.getProperty("Categories", "");
+    let cardCategoriesValue = _window.gEditCard.card.getProperty("Categories", "");
     let catsArray = multiValueToArray(cardCategoriesValue);
     gSCCardValues.categories = SCContactCategories.getCategoriesAsArray();
 
@@ -68,16 +74,15 @@ function SCOnCommonCardOverlayLoad() {
     emptyField.addEventListener("click", SCOnEmptyFieldFocus, false);
 
     /* events */
-    let tabPanelElement = document.getElementById("abTabPanels");
-    let menulists = tabPanelElement.getElementsByTagName("menulist");
-    for (let i = 0; i < menulists.length; i++) {
-        menulists[i].addEventListener("mouseup", setDocumentDirty, true);
-    }
-
-    let textboxes = tabPanelElement.getElementsByTagName("textbox");
-    for (let i = 0; i < textboxes.length; i++) {
-        textboxes[i].addEventListener("change", setDocumentDirty, true);
-    }
+    //let tabPanelElement = document.getElementById("abTabPanels");
+    //let menulists = tabPanelElement.getElementsByTagName("menulist");
+    //for (let i = 0; i < menulists.length; i++) {
+    //    menulists[i].addEventListener("mouseup", setDocumentDirty, true);
+    //}
+    //let textboxes = tabPanelElement.getElementsByTagName("html:input");
+    //for (let i = 0; i < textboxes.length; i++) {
+    //    textboxes[i].addEventListener("change", setDocumentDirty, true);
+    //}
 }
 
 function SCOnEmptyFieldFocus(event) {
@@ -87,10 +92,10 @@ function SCOnEmptyFieldFocus(event) {
 }
 
 function SCAppendCategory(catValue) {
-  let vbox = document.getElementById("abCategories");
+  let vbox = _document.getElementById("abCategories");
   //let menuList = document.createElement("menulist", { is : "menulist-editable" });
   //menuList.setAttribute("is", "menulist-editable");
-  let menuList = document.createXULElement("menulist");
+  let menuList = _document.createXULElement("menulist");
   menuList.setAttribute("is", "menulist-editable");
   menuList.setAttribute("editable", true);
   menuList.addEventListener("blur", SCOnCategoryBlur, false);
@@ -174,64 +179,64 @@ function SCSaveCategories() {
   window.gEditCard.card.setProperty("Categories", arrayToMultiValue(catsArray));
 }
 
-function getUri() {
-    let uri;
+// function getUri() {
+//     let uri;
 
-    if (window.gEditCard.abURI && gEditCard.abURI == kAllDirectoryRoot + "?") { // Find the correct address book for "All Address Books"
-        let dirId = window.gEditCard.card.directoryId
-                             .substring(0, window.gEditCard.card.directoryId.indexOf("&"));
-        uri = MailServices.ab.getDirectoryFromId(dirId).URI;
-    }
-    else if (document.getElementById("abPopup")) {
-        uri = document.getElementById("abPopup").value;
-    }
-    else if (window.arguments[0].abURI) {
-        uri = window.arguments[0].abURI;
-    }
-    else
-        uri = window.arguments[0].selectedAB;
+//     if (window.gEditCard.abURI && gEditCard.abURI == kAllDirectoryRoot + "?") { // Find the correct address book for "All Address Books"
+//         let dirId = window.gEditCard.card.directoryId
+//                              .substring(0, window.gEditCard.card.directoryId.indexOf("&"));
+//         uri = MailServices.ab.getDirectoryFromId(dirId).URI;
+//     }
+//     else if (document.getElementById("abPopup")) {
+//         uri = document.getElementById("abPopup").value;
+//     }
+//     else if (window.arguments[0].abURI) {
+//         uri = window.arguments[0].abURI;
+//     }
+//     else
+//         uri = window.arguments[0].selectedAB;
 
-    return uri;
-}
+//     return uri;
+// }
 
-function setDocumentDirty(boolValue) {
-    gSCCardValues.documentDirty = boolValue;
-}
+// function setDocumentDirty(boolValue) {
+//     gSCCardValues.documentDirty = boolValue;
+// }
 
-function saveCard(isNewCard) {
-    try {
-        let parentURI = getUri();
-        let uriParts = parentURI.split("/");
-        parentURI = uriParts[0] + "//" + uriParts[2];
+// function saveCard(isNewCard) {
+//     try {
+//         let parentURI = getUri();
+//         let uriParts = parentURI.split("/");
+//         parentURI = uriParts[0] + "//" + uriParts[2];
 
-        if (gSCCardValues.documentDirty
-            && isGroupdavDirectory(parentURI)) {
-            SCSaveCategories();
-            let oldDavVersion = window.gEditCard.card.getProperty("groupDavVersion", "-1");
-            window.gEditCard.card.setProperty("groupDavVersion", "-1");
-            window.gEditCard.card.setProperty("groupDavVersionPrev", oldDavVersion);
+//         if (gSCCardValues.documentDirty
+//             && isCardDavDirectory(parentURI)) {
+//             SCSaveCategories();
+//             //let oldDavVersion = window.gEditCard.card.getProperty("groupDavVersion", "-1");
+//             //window.gEditCard.card.setProperty("groupDavVersion", "-1");
+//             //window.gEditCard.card.setProperty("groupDavVersionPrev", oldDavVersion);
 
-            let abManager = Components.classes["@mozilla.org/abmanager;1"]
-                                      .getService(Components.interfaces.nsIAbManager);
-            let ab = abManager.getDirectory(parentURI);
-            ab.modifyCard(window.gEditCard.card);
+//             let abManager = Components.classes["@mozilla.org/abmanager;1"]
+//                                       .getService(Components.interfaces.nsIAbManager);
+//             let ab = abManager.getDirectory(parentURI);
+//             ab.modifyCard(window.gEditCard.card);
 
-            // We make sure we try the messenger window and if it's closed, the address book
-            // window. It might fail if both of them are closed and we still have a composition
-            // window open and we try to modify the card from there (from the contacts sidebar)
-            if (gSCCardValues.messengerWindow)
-                gSCCardValues.messengerWindow.SCSynchronizeFromChildWindow(parentURI);
-            else
-                gSCCardValues.abWindow.SCSynchronizeFromChildWindow(parentURI);
+//             // We make sure we try the messenger window and if it's closed, the address book
+//             // window. It might fail if both of them are closed and we still have a composition
+//             // window open and we try to modify the card from there (from the contacts sidebar)
+//             if (gSCCardValues.messengerWindow)
+//                 gSCCardValues.messengerWindow.SCSynchronizeFromChildWindow(parentURI);
+//             else
+//                 gSCCardValues.abWindow.SCSynchronizeFromChildWindow(parentURI);
 
-            setDocumentDirty(false);
-        }
-    }
-    catch(e) {
-        if (typeof gSCCardValues.messengerWindow.exceptionHandler != "undefined")
-            gSCCardValues.messengerWindow.exceptionHandler(null, "saveCard", e);
-    }
-}
+//             setDocumentDirty(false);
+//         }
+//     }
+//     catch(e) {
+//         if (typeof gSCCardValues.messengerWindow.exceptionHandler != "undefined")
+//             gSCCardValues.messengerWindow.exceptionHandler(null, "saveCard", e);
+//     }
+// }
 
 // function inverseInitEventHandlers() {
 // // 	if (isGroupdavDirectory(getUri()))
@@ -247,23 +252,23 @@ function isLDAPDirectory(uri) {
 
 // From SOGo Integrator
 let SICommonCardOverlay = {
-    initialCategories: null,
+  initialCategories: null,
 
-    onLoadHook: function SICO_onLoad() {
-        this.initialCategories = SCContactCategories.getCategoriesAsString();
+  onLoadHook: function SICO_onLoad() {
+    this.initialCategories = SCContactCategories.getCategoriesAsString();
 
-        let this_ = this;
-        window.addEventListener("unload",
-                                function () { this_.onUnload(); },
-                                false);
-    },
+    let this_ = this;
+    //window.addEventListener("unload",
+    //                        function () { this_.onUnload(); },
+    //                        false);
+  },
 
-    onUnload: function SICO_onUnload(event) {
-        let newCategories = SCContactCategories.getCategoriesAsString();
-        if (newCategories != this.initialCategories) {
-            SIContactCategories.synchronizeToServer();
+  onUnload: function SICO_onUnload(event) {
+    let newCategories = SCContactCategories.getCategoriesAsString();
+    if (newCategories != this.initialCategories) {
+      SIContactCategories.synchronizeToServer();
         }
-    }
+  }
 };
 
 let SCOnCommonCardOverlayLoadPreHook = function() { SICommonCardOverlay.onLoadHook(); };

@@ -26,7 +26,7 @@ function SICommonDialogOnUnload() {
 	let password = document.getElementById("password1Textbox").value;
 	let checked = document.getElementById("checkbox").checked;
 
-	dump("\n\n\n\nValues fromd dialog: " + description + " " + username + " " + password + " " + checked + "\n\n\n\n");
+	//dump("\n\n\n\nValues fromd dialog: " + description + " " + username + " " + password + " " + checked + "\n\n\n\n");
 
 	if (checked && password.length) {
 		let loginManager = Components.classes["@mozilla.org/login-manager;1"].

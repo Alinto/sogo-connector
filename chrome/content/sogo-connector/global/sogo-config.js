@@ -23,29 +23,29 @@ var { Services } = ChromeUtils.import("resource://gre/modules/Services.jsm");
 var sogoConfig = { username: null, baseURL: null };
 
 function sogoUserName() {
-	if (!sogoConfig['username']) {
-		var mgr = Components.classes["@mozilla.org/messenger/account-manager;1"]
-			.getService(Components.interfaces.nsIMsgAccountManager);
+  if (!sogoConfig['username']) {
+    var mgr = Components.classes["@mozilla.org/messenger/account-manager;1"]
+	.getService(Components.interfaces.nsIMsgAccountManager);
 
-		var useEmail = false;
-		try {
-			useEmail = Services.prefs.getBoolPref("sogo-connector.identification.use_email_address");
-		}
-		catch(e) {
-			useEmail = false;
-		}
-		try {
-			if (useEmail)
-				sogoConfig['username'] = mgr.defaultAccount.defaultIdentity.email;
-			else
-				sogoConfig['username'] = mgr.defaultAccount.incomingServer.realUsername;
-		}
-		catch(e) {
-			sogoConfig['username'] = "";
-		}
-	}
+    var useEmail = false;
+    try {
+      useEmail = Services.prefs.getBoolPref("sogo-connector.identification.use_email_address");
+    }
+    catch(e) {
+      useEmail = false;
+    }
+    try {
+      if (useEmail)
+	sogoConfig['username'] = mgr.defaultAccount.defaultIdentity.email;
+      else
+	sogoConfig['username'] = mgr.defaultAccount.incomingServer.realUsername;
+    }
+    catch(e) {
+      sogoConfig['username'] = "";
+    }
+  }
 
-	return sogoConfig['username'];
+  return sogoConfig['username'];
 }
 
 function sogoHostname() {

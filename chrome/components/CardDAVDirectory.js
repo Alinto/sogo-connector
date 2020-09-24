@@ -137,7 +137,7 @@ CardDAVDirectory.prototype = {
     },
 
     /* nsIAbDirectory */
-    propertiesChromeURI: "chrome://sogo-connector/content/addressbook/preferences.addressbook.groupdav.xul",
+    propertiesChromeURI: "chrome://sogo-connector/content/addressbook/preferences.addressbook.groupdav.xhtml",
 
     get dirName() {
       //let conv = Components.classes["@mozilla.org/intl/utf8converterservice;1"]

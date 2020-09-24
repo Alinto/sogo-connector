@@ -43,12 +43,14 @@ jsInclude(["chrome://sogo-connector/content/addressbook/folder-handling.js",
            "chrome://sogo-connector/content/general/creation-utils.js",
            "chrome://sogo-connector/content/general/mozilla.utils.inverse.ca.js",
            "chrome://sogo-connector/content/general/preference.service.addressbook.groupdav.js",
-           "chrome://sogo-connector/content/general/subscription-utils.js",
            "chrome://sogo-connector/content/general/sync.addressbook.groupdav.js",
            "chrome://sogo-connector/content/messenger/folders-update.js",
            "chrome://sogo-connector/content/global/sogo-config.js",
            "chrome://global/content/globalOverlay.js",
            "chrome://global/content/editMenuOverlay.js"], _this);
+
+
+jsInclude(["chrome://sogo-connector/content/general/subscription-utils.js"], window);
 
 function openCalendarCreationDialog() {
   window.openDialog("chrome://sogo-connector/content/calendar/creation-dialog.xhtml",
@@ -77,7 +79,8 @@ function manageCalendarACL() {
       window.openDialog("chrome://sogo-connector/content/general/acl-dialog.xhtml",
                         "calendarACL",
 	                "chrome,titlebar,centerscreen,alwaysRaised=yes,dialog=yes,resizable=yes",
-                        _this, WL,
+                        _this,
+                        WL,
                         {url: url,
                          rolesDialogURL: "chrome://sogo-connector/content/calendar/roles-dialog.xhtml"});
     } else {
@@ -158,15 +161,15 @@ function SIpromptDeleteCalendar(calendar) {
     }
 }
 
-function subscriptionDialogType() {
-    return "calendar";
+window.subscriptionDialogType = function() {
+  return "calendar";
 }
 
-function creationGetHandler() {
+window.creationGetHandler = function() {
     return new CalendarHandler();
 }
 
-function subscriptionGetHandler() {
+window.subscriptionGetHandler = function() {
     return new CalendarHandler();
 }
 
@@ -565,51 +568,51 @@ function _migrateOldCardDAVDirs(uniqueChildren) {
 var SOGO_Timers = [];
 
 function startFolderSync() {
-    let abManager = Components.classes["@mozilla.org/abmanager;1"]
-                              .getService(Components.interfaces.nsIAbManager);
+  let abManager = Components.classes["@mozilla.org/abmanager;1"]
+      .getService(Components.interfaces.nsIAbManager);
 
-    let children = abManager.directories;
-    while (children.hasMoreElements()) {
-        let ab = children.getNext().QueryInterface(Components.interfaces.nsIAbDirectory);
-        if (isGroupdavDirectory(ab.URI)) {            
-            let dirPrefId = ab.dirPrefId;                
-            let groupdavPrefService = new GroupdavPreferenceService(dirPrefId);
-            let periodicSync = false;
-            let periodicSyncInterval = 60;
-            let notifications = false;
-            let notificationsOnlyIfNotEmpty = false;
-            try {
-                periodicSync = groupdavPrefService.getPeriodicSync();
-                periodicSyncInterval = groupdavPrefService.getPeriodicSyncInterval();
-                notifications = groupdavPrefService.getNotifications();
-                notificationsOnlyIfNotEmpty = groupdavPrefService.getNotificationsOnlyIfNotEmpty();            
-            } catch(e) {
-            }
-            
-            
-          // handle startup sync
-            sync = GetSyncNotifyGroupdavAddressbook(ab.URI, ab, SOGOC_SYNC_STARTUP);
-            sync.notify();
+  let children = abManager.directories;
+  while (children.hasMoreElements()) {
+    let ab = children.getNext().QueryInterface(Components.interfaces.nsIAbDirectory);
+    //if (isGroupdavDirectory(ab.URI)) {
+    if (isCardDavDirectory(ab.URI)) {
+      let dirPrefId = ab.dirPrefId;                
+      let groupdavPrefService = new GroupdavPreferenceService(dirPrefId);
+      let periodicSync = false;
+      let periodicSyncInterval = 60;
+      let notifications = false;
+      let notificationsOnlyIfNotEmpty = false;
+      try {
+        periodicSync = groupdavPrefService.getPeriodicSync();
+        periodicSyncInterval = groupdavPrefService.getPeriodicSyncInterval();
+        notifications = groupdavPrefService.getNotifications();
+        notificationsOnlyIfNotEmpty = groupdavPrefService.getNotificationsOnlyIfNotEmpty();            
+      } catch(e) {
+      }
+      
+      // handle startup sync
+      //sync = GetSyncNotifyGroupdavAddressbook(ab.URI, ab, SOGOC_SYNC_STARTUP);
+      //sync.notify();
+      SynchronizeGroupdavAddressbook(ab.URI);
 
-            if (periodicSync) {
-                // handle future periodic sync
-                psync = GetSyncNotifyGroupdavAddressbook(ab.URI, ab, SOGOC_SYNC_PERIODIC);
-                
-                // TODO : handle syncInterval and Notifications in a dynamic way :
-                // today, we have to restart TB if we change those values.
-                 
-                // Now it is time to create the timer.
-                var timer = Components.classes["@mozilla.org/timer;1"].createInstance(Components.interfaces.nsITimer);
-                 
-                let delay = periodicSyncInterval;
-                delay = delay *60; // min --> sec
-                // delay = delay * 3; // min --> sec DEBUG
-                delay = delay * 1000; // sec --> ms
-                timer.initWithCallback(psync, delay, Components.interfaces.nsITimer.TYPE_REPEATING_PRECISE_CAN_SKIP);
-                SOGO_Timers.push(timer);
-            }
-        }
+      // FIXME
+      // if (periodicSync) {
+      //   // handle future periodic sync
+      //   psync = GetSyncNotifyGroupdavAddressbook(ab.URI, ab, SOGOC_SYNC_PERIODIC);
+        
+      //   // TODO : handle syncInterval and Notifications in a dynamic way :
+      //   // today, we have to restart TB if we change those values.         
+      //   // Now it is time to create the timer.
+      //   var timer = Components.classes["@mozilla.org/timer;1"].createInstance(Components.interfaces.nsITimer);
+      //   let delay = periodicSyncInterval;
+      //   delay = delay *60; // min --> sec
+      //   // delay = delay * 3; // min --> sec DEBUG
+      //   delay = delay * 1000; // sec --> ms
+      //   timer.initWithCallback(psync, delay, Components.interfaces.nsITimer.TYPE_REPEATING_PRECISE_CAN_SKIP);
+      //   SOGO_Timers.push(timer);
+      // }
     }
+  }
 }
 
 function SCSynchronizeFromChildWindow(uri) {

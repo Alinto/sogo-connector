@@ -1,6 +1,6 @@
 /* vcards.utils.js - This file is part of "SOGo Connector", a Thunderbird extension.
  *
- * Copyright: Inverse inc., 2006-2019
+ * Copyright: Inverse inc., 2006-2020
  *     Email: support@inverse.ca
  *       URL: http://inverse.ca
  *
@@ -246,11 +246,13 @@ function importFromVcard(vCardString) {
 }
 
 function CreateCardFromVCF(vcard) {
-    let version = "2.1";
-    let defaultCharset = "iso-8859-1"; /* 0 = latin 1, 1 = utf-8 */
-    let card = Components.classes["@mozilla.org/addressbook/moz-abmdbcard;1"]
-                         .createInstance(Components.interfaces.nsIAbCard);
-
+  let version = "2.1";
+  let defaultCharset = "iso-8859-1"; /* 0 = latin 1, 1 = utf-8 */
+  
+  let card = Cc["@mozilla.org/addressbook/cardproperty;1"].createInstance(
+    Ci.nsIAbCard
+  );
+  
     for (let i = 0; i < vcard.length; i++) {
         if (vcard[i]["tag"] == "version") {
             version = vcard[i]["values"][0];

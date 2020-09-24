@@ -23,18 +23,18 @@ var { syncProgressManagerInstance } = ChromeUtils.import("resource://sogo-connec
 
 function jsInclude(files, target) {
     let loader = Components.classes["@mozilla.org/moz/jssubscript-loader;1"]
-                           .getService(Components.interfaces.mozIJSSubScriptLoader);
-    for (let i = 0; i < files.length; i++) {
-        try {
-            loader.loadSubScript(files[i], target);
-        }
-        catch(e) {
-            dump("sync.addressbook.groupdav.js: failed to include '" + files[i] +
-                 "'\n" + e
-                 + "\nFile: " + e.fileName
-                 + "\nLine: " + e.lineNumber + "\n\n Stack:\n\n" + e.stack);
-        }
+        .getService(Components.interfaces.mozIJSSubScriptLoader);
+  for (let i = 0; i < files.length; i++) {
+    try {
+      loader.loadSubScript(files[i], target);
     }
+    catch(e) {
+      //dump("sync.addressbook.groupdav.js: failed to include '" + files[i] +
+      //     "'\n" + e
+      //     + "\nFile: " + e.fileName
+      //    + "\nLine: " + e.lineNumber + "\n\n Stack:\n\n" + e.stack);
+    }
+  }
 }
 
 const kNameKey = "groupDavKey";
@@ -65,38 +65,40 @@ let SOGOC_SYNC_PERIODIC = 2;    // periodic sync
 let SOGOC_SYNC_STARTUP = 3;     // startup
 
 function loadNotificationsStrings() {
-    var SOGO_Notifications_Strings = {};
+  var SOGO_Notifications_Strings = {};
 
   let keys = ['notificationsTitle', 'notificationsFailure', 'notificationsFailures', 'notificationsUpload',
               'notificationsUploads', 'notificationsDownload', 'notificationsDownloads', 'notificationsDelete', 
               'notificationsDeletes', 'notificationsNoChanges' ];
   for (let i in keys) {
     let key = keys[i];
-    SOGO_Notifications_Strings[key] = WL.extension.localeData.localizeMessage(key);
+    try {
+      SOGO_Notifications_Strings[key] = WL.extension.localeData.localizeMessage(key);
+    } catch (e) {
+      SOGO_Notifications_Strings[key] = key;
+    }
   }
   return SOGO_Notifications_Strings;
 }
 
 let sCounter = 0;
 function GroupDavSynchronizer(uri) {
-    if (typeof uri == "undefined" || !uri)
-        throw "Missing 'uri' parameter";
-    if (!isGroupdavDirectory(uri))
-        throw "Specified addressbook cannot be synchronized";
+  if (typeof uri == "undefined" || !uri)
+    throw "Missing 'uri' parameter";
+  if (!isGroupdavDirectory(uri)) {
+    throw (uri + " : Specified addressbook cannot be synchronized");
+  }
 
-    sCounter++;
-    this.mCounter = sCounter;
-    dump("*** new sync: " + this.mCounter + "\n");
-    this.gSelectedDirectoryURI = uri;
-    this.callbackCode = 0;
-    this.callbackFailures = {};
-    this.callback = null;
-    this.callbackData = null;
-    this.context = this.initGroupDAVContext();
+  sCounter++;
+  this.mCounter = sCounter;
+  dump("*** new sync: " + this.mCounter + "\n");
+  this.gSelectedDirectoryURI = uri;
+  this.callbackCode = 0;
+  this.callbackFailures = {};
+  this.callback = null;
+  this.callbackData = null;
+  this.context = this.initGroupDAVContext();
 
-    //this.progressMgr = Components.classes["@inverse.ca/sync-progress-manager;1"]
-    //                             .getService(Components.interfaces.inverseIJSSyncProgressManager)
-  //                             .wrappedJSObject;
   this.progressMgr = syncProgressManagerInstance;
 }
 
@@ -143,34 +145,30 @@ GroupDavSynchronizer.prototype = {
         return newContext;
     },
     abortOngoingSync: function() {
-        if (!this.context.apiDisabled) {
-            this.initSyncVariables();
-            if (this.context.requests[this.gURL]) {
-                dump("*** a request is already active for url: " + this.gURL + " Abort...\n");
-                this.abort();
-                alert("Synchronization of address book was aborted.");
-            }
-            else {
-                alert("Address book is not being synchronized. Nothing to abort.");
-                dump("*** a request not active for url: " + this.gURL + " Nothing to abort.\n");
-            }
-        }
+      this.initSyncVariables();
+      if (this.context.requests[this.gURL]) {
+        dump("*** a request is already active for url: " + this.gURL + " Abort...\n");
+        this.abort();
+        //alert("Synchronization of address book was aborted.");
+      }
+      else {
+        //alert("Address book is not being synchronized. Nothing to abort.");
+        dump("*** a request not active for url: " + this.gURL + " Nothing to abort.\n");
+      }
     },
     start: function() {
-        if (!this.context.apiDisabled) {
-            this.initSyncVariables();
-            if (this.context.requests[this.gURL])
-                dump("*** a request is already active for url: " + this.gURL + "\n");
-            else {
-                dump("  " + this.mCounter + "/sync with " + this.gURL + "...\n");
-                this.context.requests[this.gURL] = true;
-                this.fillServerHashes();
-            }
-        }
+      this.initSyncVariables();
+      if (this.context.requests[this.gURL])
+        dump("*** a request is already active for url: " + this.gURL + "\n");
+      else {
+        dump("  " + this.mCounter + "/sync with " + this.gURL + "...\n");
+        this.context.requests[this.gURL] = true;
+        this.fillServerHashes();
+      }
     },
     prefService: function() {
         let prefId = ((this.gSelectedDirectoryURI
-                       == "moz-abmdbdirectory://abook.mab")
+                       == "jsaddrbook://abook.sqlite")
                       ? "pab"
                       : this.gAddressBook.dirPrefId);
 
@@ -681,7 +679,8 @@ GroupDavSynchronizer.prototype = {
         let listCard = this.localListPointerHash[key];
         let abManager = Components.classes["@mozilla.org/abmanager;1"]
                                   .getService(Components.interfaces.nsIAbManager);
-        let isNew = false;
+      let isNew = false;
+      let listDir = null;
         if (!listCard) {
             isNew = true;
             // 			dump("creating local list '" + key + "'\n");
@@ -690,20 +689,21 @@ GroupDavSynchronizer.prototype = {
             firstListDir.isMailList = true;
             let listName = new UUID();
             firstListDir.dirName = listName;
-            this.gAddressBook.addMailList(firstListDir);
+            listDir = this.gAddressBook.addMailList(firstListDir);
 
-            let sQuery = ("?(and(IsMailList,=,TRUE)(DisplayName,=,"
-                          + encodeURIComponent(listName) + "))");
-            let cards = abManager.getDirectory(this.gAddressBook.URI + sQuery)
-                                 .childCards;
-            while (cards.hasMoreElements()) {
-                listCard = cards.getNext().QueryInterface(Components.interfaces.nsIAbCard);
-            }
-            if (!listCard) {
-                throw "listCard not found for new list";
-            }
+            //let sQuery = ("?(and(IsMailList,=,TRUE)(DisplayName,=,"
+            //              + encodeURIComponent(listName) + "))");
+            //let cards = abManager.getDirectory(this.gAddressBook.URI + sQuery)
+            //                      .childCards;
+            //let cards = newList.childCards;
+            //while (cards.hasMoreElements()) {
+            //    listCard = cards.getNext().QueryInterface(Components.interfaces.nsIAbCard);
+            //}
+            //if (!listCard) {
+            //    throw "listCard not found for new list";
+           // }
         }
-        let listDir = abManager.getDirectory(listCard.mailListURI);
+        //let listDir = abManager.getDirectory(listCard.mailListURI);
         if (!listDir) {
             throw "listDir not found for old list: " + listCard.mailListURI;
         }
@@ -1560,9 +1560,10 @@ new:
               if (total > 0) {
                     // allow a delay before hiding the progressNotification
                     var that = this;
-                    window.setTimeout(function() {
-                            that.progressMgr.unregisterAddressBook(that.gURL);
-                        }, 1000);
+                    // FIXME
+                    //window.setTimeout(function() {
+                    //  that.progressMgr.unregisterAddressBook(that.gURL);
+                    //}, 1000);
                 }
                 dump("  " + this.mCounter +"/sync with " + this.gURL + " has ended.\n\n");
                 this.context.requests[this.gURL] = null;
@@ -1793,12 +1794,14 @@ function GetSyncNotifyGroupdavAddressbook(uri, ab, origin) {
 }
 
 function SynchronizeGroupdavAddressbook(uri, callback, origin) {
-    var sync = GetSyncNotifyGroupdavAddressbook(uri, null, origin);
-    sync.notify();
-    
+  //var sync = GetSyncNotifyGroupdavAddressbook(uri, null, origin);
+  //sync.notify();
+  let book = MailServices.ab.getDirectory(uri);
+  let dir = CardDAVDirectory.forFile(book.fileName);
+  dir.updateAllFromServer();
 }
 
-function SynchronizeGroupdavAddressbookAbort(uri) {
-    let synchronizer = new GroupDavSynchronizer(uri);
-    synchronizer.abortOngoingSync();
-}
+// function SynchronizeGroupdavAddressbookAbort(uri) {
+//     let synchronizer = new GroupDavSynchronizer(uri);
+//     synchronizer.abortOngoingSync();
+// }

@@ -51,8 +51,9 @@ jsInclude(["chrome://inverse-library/content/sogoWebDAV.js",
            "chrome://sogo-connector/content/global/sogo-config.js",
 	   "chrome://sogo-connector/content/addressbook/folder-handler.js",
 	   "chrome://sogo-connector/content/general/creation-utils.js",
-	   "chrome://sogo-connector/content/general/subscription-utils.js",
 	   "chrome://sogo-connector/content/messenger/folders-update.js"], _this);
+
+jsInclude(["chrome://sogo-connector/content/general/subscription-utils.js"], window);
 
 function i18n(entity) {
   let msg = entity.slice(1,-1);
@@ -84,7 +85,6 @@ function SCGoUpdateGlobalEditMenuItems() {
     gSelectedDir = GetSelectedDirectory();
     //  		dump("SCGoUpdateGlobalEditMenuItems\n  gSelectedDir" + gSelectedDir + "\n");
     goUpdateCommand("cmd_syncGroupdav");
-    goUpdateCommand("cmd_syncAbortGroupdav");
     this.SCGoUpdateGlobalEditMenuItemsOld();
   }
   catch (e) {
@@ -97,7 +97,6 @@ function SCCommandUpdate_AddressBook() {
     gSelectedDir = GetSelectedDirectory();
     //  		dump("SCCommandUpdate_AddressBook  gSelectedDir" + gSelectedDir + "\n");
     goUpdateCommand('cmd_syncGroupdav');
-    goUpdateCommand("cmd_syncAbortGroupdav");
     this.SCCommandUpdate_AddressBookOld();
   }
   catch (e) {
@@ -110,7 +109,6 @@ function SCGoUpdateSelectEditMenuItems() {
     gSelectedDir = GetSelectedDirectory();
     //  		dump("SCGoUpdateSelectEditMenuItems  gSelectedDir" + gSelectedDir + "\n");
     goUpdateCommand('cmd_syncGroupdav');
-    goUpdateCommand("cmd_syncAbortGroupdav");
     this.SCGoUpdateSelectEditMenuItemsOld();
   }
   catch (e) {
@@ -123,58 +121,48 @@ function dirPaneControllerOverlay() {
 }
 
 dirPaneControllerOverlay.prototype = {
-    supportsCommand: function(command) {
-        return (command == "cmd_syncGroupdav" || command == "cmd_syncAbortGroupdav");
-    },
+  supportsCommand: function(command) {
+    return (command == "cmd_syncGroupdav");
+  },
 
-    isCommandEnabled: function(command) {
-        let result = false;
+  isCommandEnabled: function(command) {
+    let result = false;
 
         // 		dump("isCommandEnabled\n  command: " + command + "\n");
 
-        if (gSelectedDir && gSelectedDir != "") {
-            try {
-                switch (command) {
-                case "cmd_syncGroupdav":
-                    result = isGroupdavDirectory(gSelectedDir);
-                    break;
-                case "cmd_syncAbortGroupdav":
-                    result = isGroupdavDirectory(gSelectedDir);
-                    break;
-                    // case "cmd_newlist":
-                    // case "cmd_newcard":
-                    // 	let directory = SCGetDirectoryFromURI(gSelectedDir);
-                    // 	result = (!directory.readOnly);
-                    // 	break;
-                }
-            }
-            catch (e) {
-                exceptionHandler(window,"Exception",e);
-            }
+    if (gSelectedDir && gSelectedDir != "") {
+      try {
+        switch (command) {
+        case "cmd_syncGroupdav":
+          result = isCardDavDirectory(gSelectedDir);
+          break;
         }
+      }
+      catch (e) {
+        exceptionHandler(window,"Exception",e);
+      }
+    }
 
-        return result;
-    },
+    return result;
+  },
 
-    doCommand: function(command){
-        dump("Unexpected doCommand: " + command + "\n");
-        throw("Unexpected doCommand: " + command);
-    },
-
-    onEvent: function(event) {}
+  doCommand: function(command){
+    dump("Unexpected doCommand: " + command + "\n");
+    throw("Unexpected doCommand: " + command);
+  },
+  
+  onEvent: function(event) {}
 };
 
 function SCAbEditSelectedDirectory() {
-    /* This method is no longer used for CardDAV addressbooks, since we now
-     return a proper "propertiesChromeURI" attribute. */
-    let abUri = window.GetSelectedDirectory();
-    if (isGroupdavDirectory(abUri)) {
-        let directory = SCGetDirectoryFromURI(abUri);
-        openGroupdavPreferences(directory);
-    }
-    else {
-        _this.SCAbEditSelectedDirectoryOriginal();
-    }
+  let abUri = window.GetSelectedDirectory();
+  if (isCardDavDirectory(abUri)) {
+    let directory = SCGetDirectoryFromURI(abUri);
+    openGroupdavPreferences(directory);
+  }
+  else {
+    _this.SCAbEditSelectedDirectoryOriginal();
+  }
 }
 
 let deleteManager = {
@@ -237,214 +225,214 @@ let deleteManager = {
     }
 };
 
-function DeleteGroupDAVCards(directory, cards, deleteLocally) {
-    dump("delete: " + cards.length + " cards\n");
-    let mdbDirectory = SCGetDirectoryFromURI(directory);
-    let prefService = new GroupdavPreferenceService(mdbDirectory.dirPrefId);
+// function DeleteGroupDAVCards(directory, cards, deleteLocally) {
+//     dump("delete: " + cards.length + " cards\n");
+//     let mdbDirectory = SCGetDirectoryFromURI(directory);
+//     let prefService = new GroupdavPreferenceService(mdbDirectory.dirPrefId);
 
-    deleteManager.begin(directory, cards.length);
-    for (let i = 0; i < cards.length; i++) {
-        let card = cards[i].QueryInterface(Components.interfaces.nsIAbCard);
-        let key;
-        if (card.isMailList) {
-            let attributes = new GroupDAVListAttributes(card.mailListURI);
-            key = attributes.key;
-        }
-        else {
-            try {
-                key = card.getProperty("groupDavKey", null);
-            }
-            catch(e) {
-                key = null;
-            }
-        }
+//     deleteManager.begin(directory, cards.length);
+//     for (let i = 0; i < cards.length; i++) {
+//         let card = cards[i].QueryInterface(Components.interfaces.nsIAbCard);
+//         let key;
+//         if (card.isMailList) {
+//             let attributes = new GroupDAVListAttributes(card.mailListURI);
+//             key = attributes.key;
+//         }
+//         else {
+//             try {
+//                 key = card.getProperty("groupDavKey", null);
+//             }
+//             catch(e) {
+//                 key = null;
+//             }
+//         }
 
-        dump("  card to delete: '" + card.displayName + "'\n");
-        dump("    key: '" + key + "'\n");
+//         dump("  card to delete: '" + card.displayName + "'\n");
+//         dump("    key: '" + key + "'\n");
 
-        _deleteGroupDAVComponentWithKey(prefService, key, mdbDirectory, card, deleteLocally);
-    }
-}
+//         _deleteGroupDAVComponentWithKey(prefService, key, mdbDirectory, card, deleteLocally);
+//     }
+// }
 
-function _deleteGroupDAVComponentWithKey(prefService,
-                                         key,
-                                         directory,
-                                         component,
-                                         deleteLocally) {
-    dump("\n\nwe delete: " + key + " with deleteLocally="+deleteLocally+"\n\n\n");
-    if (key && key.length) {
-        let href = prefService.getURL() + key;
-        let deleteOp = new sogoWebDAV(href, deleteManager,
-                                      {directory: directory,
-                                       component: component,
-                                       deleteLocally: deleteLocally});
-        deleteOp.delete();
-        dump("webdav_delete on '" + href + "'\n");
-        // force full sync on next sync by invalidating cTag.
-        // This way, if server does not delete contact correctly (e.g. write permission denied)
-        // the contact will reappear on next synchronization.
-        prefService.setCTag("invalid");
-    }
-    else /* 604 = "not found locally" */
-        deleteManager.onDAVQueryComplete(604, null, null,
-                                         {directory: directory,
-                                          deleteLocally: true,
-                                          component: component});
-}
+// function _deleteGroupDAVComponentWithKey(prefService,
+//                                          key,
+//                                          directory,
+//                                          component,
+//                                          deleteLocally) {
+//     dump("\n\nwe delete: " + key + " with deleteLocally="+deleteLocally+"\n\n\n");
+//     if (key && key.length) {
+//         let href = prefService.getURL() + key;
+//         let deleteOp = new sogoWebDAV(href, deleteManager,
+//                                       {directory: directory,
+//                                        component: component,
+//                                        deleteLocally: deleteLocally});
+//         deleteOp.delete();
+//         dump("webdav_delete on '" + href + "'\n");
+//         // force full sync on next sync by invalidating cTag.
+//         // This way, if server does not delete contact correctly (e.g. write permission denied)
+//         // the contact will reappear on next synchronization.
+//         prefService.setCTag("invalid");
+//     }
+//     else /* 604 = "not found locally" */
+//         deleteManager.onDAVQueryComplete(604, null, null,
+//                                          {directory: directory,
+//                                           deleteLocally: true,
+//                                           component: component});
+// }
 
-function SCAbConfirmDelete(types) {
-  let confirm = false;
+// function SCAbConfirmDelete(types) {
+//   let confirm = false;
 
-  if (types != kNothingSelected) {
-    // Determine strings for smart and context-sensitive user prompts
-    // for confirming deletion.
-    let confirmDeleteTitleID;
-    let confirmDeleteTitle;
-    let confirmDeleteMessageID;
-    let confirmDeleteMessage;
-    let itemName;
-    let containingListName;
-    let selectedDir = getSelectedDirectory();
-    let numSelectedItems = gAbView.selection.count;
+//   if (types != kNothingSelected) {
+//     // Determine strings for smart and context-sensitive user prompts
+//     // for confirming deletion.
+//     let confirmDeleteTitleID;
+//     let confirmDeleteTitle;
+//     let confirmDeleteMessageID;
+//     let confirmDeleteMessage;
+//     let itemName;
+//     let containingListName;
+//     let selectedDir = getSelectedDirectory();
+//     let numSelectedItems = gAbView.selection.count;
 
-    switch(types) {
-    case kListsAndCards:
-      confirmDeleteMessageID = "confirmDelete2orMoreContactsAndLists";
-      confirmDeleteTitleID   = "confirmDelete2orMoreContactsAndListsTitle";
-      break;
-    case kSingleListOnly:
-      // Set item name for single mailing list.
-      let theCard = GetSelectedAbCards()[0];
-      itemName = theCard.displayName;
-      confirmDeleteMessageID = "confirmDeleteThisMailingList";
-      confirmDeleteTitleID   = "confirmDeleteThisMailingListTitle";
-      break;
-    case kMultipleListsOnly:
-      confirmDeleteMessageID = "confirmDelete2orMoreMailingLists";
-      confirmDeleteTitleID   = "confirmDelete2orMoreMailingListsTitle";
-      break;
-    case kCardsOnly:
-      if (selectedDir.isMailList) {
-        // Contact(s) in mailing lists will be removed from the list, not deleted.
-        if (numSelectedItems == 1) {
-          confirmDeleteMessageID = "confirmRemoveThisContact";
-          confirmDeleteTitleID = "confirmRemoveThisContactTitle";
-        } else {
-          confirmDeleteMessageID = "confirmRemove2orMoreContacts";
-          confirmDeleteTitleID   = "confirmRemove2orMoreContactsTitle";
-        }
-        // For removing contacts from mailing list, set placeholder value
-        containingListName = selectedDir.dirName;
-      } else {
-        // Contact(s) in address books will be deleted.
-        if (numSelectedItems == 1) {
-          confirmDeleteMessageID = "confirmDeleteThisContact";
-          confirmDeleteTitleID   = "confirmDeleteThisContactTitle";
-        } else {
-          confirmDeleteMessageID = "confirmDelete2orMoreContacts";
-          confirmDeleteTitleID   = "confirmDelete2orMoreContactsTitle";
-        }
-      }
-      if (numSelectedItems == 1) {
-        // Set item name for single contact.
-        let theCard = GetSelectedAbCards()[0];
-        let nameFormatFromPref = Services.prefs.getIntPref("mail.addr_book.lastnamefirst");
-        itemName = theCard.generateName(nameFormatFromPref);
-      }
-      break;
-    }
+//     switch(types) {
+//     case kListsAndCards:
+//       confirmDeleteMessageID = "confirmDelete2orMoreContactsAndLists";
+//       confirmDeleteTitleID   = "confirmDelete2orMoreContactsAndListsTitle";
+//       break;
+//     case kSingleListOnly:
+//       // Set item name for single mailing list.
+//       let theCard = GetSelectedAbCards()[0];
+//       itemName = theCard.displayName;
+//       confirmDeleteMessageID = "confirmDeleteThisMailingList";
+//       confirmDeleteTitleID   = "confirmDeleteThisMailingListTitle";
+//       break;
+//     case kMultipleListsOnly:
+//       confirmDeleteMessageID = "confirmDelete2orMoreMailingLists";
+//       confirmDeleteTitleID   = "confirmDelete2orMoreMailingListsTitle";
+//       break;
+//     case kCardsOnly:
+//       if (selectedDir.isMailList) {
+//         // Contact(s) in mailing lists will be removed from the list, not deleted.
+//         if (numSelectedItems == 1) {
+//           confirmDeleteMessageID = "confirmRemoveThisContact";
+//           confirmDeleteTitleID = "confirmRemoveThisContactTitle";
+//         } else {
+//           confirmDeleteMessageID = "confirmRemove2orMoreContacts";
+//           confirmDeleteTitleID   = "confirmRemove2orMoreContactsTitle";
+//         }
+//         // For removing contacts from mailing list, set placeholder value
+//         containingListName = selectedDir.dirName;
+//       } else {
+//         // Contact(s) in address books will be deleted.
+//         if (numSelectedItems == 1) {
+//           confirmDeleteMessageID = "confirmDeleteThisContact";
+//           confirmDeleteTitleID   = "confirmDeleteThisContactTitle";
+//         } else {
+//           confirmDeleteMessageID = "confirmDelete2orMoreContacts";
+//           confirmDeleteTitleID   = "confirmDelete2orMoreContactsTitle";
+//         }
+//       }
+//       if (numSelectedItems == 1) {
+//         // Set item name for single contact.
+//         let theCard = GetSelectedAbCards()[0];
+//         let nameFormatFromPref = Services.prefs.getIntPref("mail.addr_book.lastnamefirst");
+//         itemName = theCard.generateName(nameFormatFromPref);
+//       }
+//       break;
+//     }
 
-    // Get the raw model strings.
-    // For numSelectedItems == 1, it's simple strings.
-    // For messages with numSelectedItems > 1, it's multi-pluralform string sets.
-    // confirmDeleteMessage has placeholders for some forms.
-    confirmDeleteTitle   = WL.extension.localeData.localizeMessage(confirmDeleteTitleID);
-    confirmDeleteMessage = WL.extension.localeData.localizeMessage(confirmDeleteMessageID);
+//     // Get the raw model strings.
+//     // For numSelectedItems == 1, it's simple strings.
+//     // For messages with numSelectedItems > 1, it's multi-pluralform string sets.
+//     // confirmDeleteMessage has placeholders for some forms.
+//     confirmDeleteTitle   = WL.extension.localeData.localizeMessage(confirmDeleteTitleID);
+//     confirmDeleteMessage = WL.extension.localeData.localizeMessage(confirmDeleteMessageID);
 
-    // Get plural form where applicable; substitute placeholders as required.
-    if (numSelectedItems == 1) {
-      // If single selected item, substitute itemName.
-      confirmDeleteMessage = confirmDeleteMessage.replace("#1", itemName);
-    } else {
-      // If multiple selected items, get the right plural string from the
-      // localized set, then substitute numSelectedItems.
-      confirmDeleteMessage = PluralForm.get(numSelectedItems, confirmDeleteMessage);
-      confirmDeleteMessage = confirmDeleteMessage.replace("#1", numSelectedItems);
-    }
-    // If contact(s) in a mailing list, substitute containingListName.
-    if (containingListName)
-      confirmDeleteMessage = confirmDeleteMessage.replace("#2", containingListName);
+//     // Get plural form where applicable; substitute placeholders as required.
+//     if (numSelectedItems == 1) {
+//       // If single selected item, substitute itemName.
+//       confirmDeleteMessage = confirmDeleteMessage.replace("#1", itemName);
+//     } else {
+//       // If multiple selected items, get the right plural string from the
+//       // localized set, then substitute numSelectedItems.
+//       confirmDeleteMessage = PluralForm.get(numSelectedItems, confirmDeleteMessage);
+//       confirmDeleteMessage = confirmDeleteMessage.replace("#1", numSelectedItems);
+//     }
+//     // If contact(s) in a mailing list, substitute containingListName.
+//     if (containingListName)
+//       confirmDeleteMessage = confirmDeleteMessage.replace("#2", containingListName);
 
-    // Finally, show our smart confirmation message, and act upon it!
-    confirm = Services.prompt.confirm(window, confirmDeleteTitle,
-                                      confirmDeleteMessage);
-  }
+//     // Finally, show our smart confirmation message, and act upon it!
+//     confirm = Services.prompt.confirm(window, confirmDeleteTitle,
+//                                       confirmDeleteMessage);
+//   }
 
-  return confirm;
-}
+//   return confirm;
+// }
 
-function SCAbDelete() {
-    let deletePerformed = false;
+// function SCAbDelete() {
+//     let deletePerformed = false;
 
-    if (gSelectedDir) {
-        if (isGroupdavDirectory(gSelectedDir)) {
-            let types = GetSelectedCardTypes();
-            if (types != kNothingSelected) {
-                let confirm = SCAbConfirmDelete(types);
-                if (!confirm)
-                    return;
-                else {
-                    let cards = GetSelectedAbCards();
-                    // let abView = GetAbView();
-                    DeleteGroupDAVCards(gSelectedDir, cards, true);
-                    deletePerformed = true;
-                }
-            }
-        }
-        else if (gSelectedDir.search("mab/MailList") > -1) {
-            let parentURI = GetParentDirectoryFromMailingListURI(gSelectedDir);
-            if (isGroupdavDirectory(parentURI)) {
-                let list = SCGetDirectoryFromURI(gSelectedDir);
-                let cards = GetSelectedAbCards();
-                let xpcomArray = Components.classes["@mozilla.org/array;1"]
-                                           .createInstance(Components.interfaces.nsIMutableArray);
-                for (let i = 0; i < cards.length; i++) {
-                    xpcomArray.appendElement(cards[i], false);
-                }
-                list.deleteCards(xpcomArray);
-                let attributes = new GroupDAVListAttributes(gSelectedDir);
-                attributes.version = "-1";
-                SynchronizeGroupdavAddressbook(parentURI);
-                deletePerformed = true;
-            }
-        }
-    }
+//     if (gSelectedDir) {
+//         if (isGroupdavDirectory(gSelectedDir)) {
+//             let types = GetSelectedCardTypes();
+//             if (types != kNothingSelected) {
+//                 let confirm = SCAbConfirmDelete(types);
+//                 if (!confirm)
+//                     return;
+//                 else {
+//                     let cards = GetSelectedAbCards();
+//                     // let abView = GetAbView();
+//                     DeleteGroupDAVCards(gSelectedDir, cards, true);
+//                     deletePerformed = true;
+//                 }
+//             }
+//         }
+//         else if (gSelectedDir.search("mab/MailList") > -1) {
+//             let parentURI = GetParentDirectoryFromMailingListURI(gSelectedDir);
+//             if (isGroupdavDirectory(parentURI)) {
+//                 let list = SCGetDirectoryFromURI(gSelectedDir);
+//                 let cards = GetSelectedAbCards();
+//                 let xpcomArray = Components.classes["@mozilla.org/array;1"]
+//                                            .createInstance(Components.interfaces.nsIMutableArray);
+//                 for (let i = 0; i < cards.length; i++) {
+//                     xpcomArray.appendElement(cards[i], false);
+//                 }
+//                 list.deleteCards(xpcomArray);
+//                 let attributes = new GroupDAVListAttributes(gSelectedDir);
+//                 attributes.version = "-1";
+//                 SynchronizeGroupdavAddressbook(parentURI);
+//                 deletePerformed = true;
+//             }
+//         }
+//     }
 
-    if (!deletePerformed) {
-        this.SCAbDeleteOriginal();
-    }
-}
+//     if (!deletePerformed) {
+//         this.SCAbDeleteOriginal();
+//     }
+// }
 
 /* AbDeleteDirectory done cleanly... */
 function SCAbDeleteDirectory(aURI) {
-    let result = false;
+  let result = false;
 
-    dump("SCAbDeleteDirectory: aURI: " + aURI + "\n");
-    dump("  backtrace:\n" + backtrace() + "\n\n");
+  dump("SCAbDeleteDirectory: aURI: " + aURI + "\n");
+  dump("  backtrace:\n" + backtrace() + "\n\n");
 
-    if (isGroupdavDirectory(aURI)) {
-        // || isCardDavDirectory(selectedDir)) {
-        // 			dump("pouet\n");
-        result = (SCAbConfirmDeleteDirectory(aURI)
-                  && SCDeleteDAVDirectory(aURI));
-    }
-    else {
-        // 			dump("pouet dasdsa\n");
-        let directory = SCGetDirectoryFromURI(aURI);
-        if (!(directory.isMailList
-              && _SCDeleteListAsDirectory(directory, aURI)))
-          this.SCAbDeleteDirectoryOriginal(aURI);
-    }
+  if (isCardDavDirectory(aURI)) {
+    // || isCardDavDirectory(selectedDir)) {
+    // 			dump("pouet\n");
+    result = (SCAbConfirmDeleteDirectory(aURI)
+              && SCDeleteDAVDirectory(aURI));
+  }
+  else {
+    // 			dump("pouet dasdsa\n");
+    let directory = SCGetDirectoryFromURI(aURI);
+    if (!(directory.isMailList
+          && _SCDeleteListAsDirectory(directory, aURI)))
+      this.SCAbDeleteDirectoryOriginal(aURI);
+  }
 }
 
 function _SCDeleteListAsDirectory(directory, selectedDir) {
@@ -477,7 +465,7 @@ function _SCDeleteListAsDirectory(directory, selectedDir) {
 function SCAbConfirmDeleteDirectory(selectedDir) {
   let confirmDeleteTitle;
   let confirmDeleteMessage;
-  let directory = GetDirectoryFromURI(selectedDir);
+  let directory = window.GetDirectoryFromURI(selectedDir);
 
   // Check if this address book is being used for collection
   if (Services.prefs.getCharPref("mail.collect_addressbook") == selectedDir
@@ -718,10 +706,6 @@ function SCOnUnload() {
                                                  groupdavSynchronizationObserver);
 }
 
-window.SCCommandSynchronizeAbort = function() {
-  SynchronizeGroupdavAddressbookAbort(gSelectedDir);
-}
-
 window.SCCommandSynchronize = function() {
   SynchronizeGroupdavAddressbook(gSelectedDir, window.SCCommandSynchronizeCallback);
 }
@@ -759,7 +743,8 @@ window.openABACLDialog = function() {
   let abDir = abManager.getDirectory(dir).QueryInterface(Components.interfaces.nsIAbDirectory);
 
   let groupdavPrefService = new GroupdavPreferenceService(abDir.dirPrefId);
-  let url = groupdavPrefService.getURL();
+  let url = abDir.getStringValue("carddav.url", "");
+  //let url = groupdavPrefService.getURL();
 
   window.openDialog("chrome://sogo-connector/content/general/acl-dialog.xhtml",
 		    "addressbookACL",
@@ -790,19 +775,28 @@ function openDeletePublicDirectoryForbiddenDialog() {
 
 window.SIAbDeleteDirectory = function(aURI) {
   let selectedDirectory = SCGetDirectoryFromURI(aURI);
-  if (isGroupdavDirectory(aURI)) {
-    let prefs = new GroupdavPreferenceService(selectedDirectory.dirPrefId);
-    let url = prefs.getURL();
+
+  if (isCardDavDirectory(aURI)) {
+    //let prefs = new GroupdavPreferenceService(selectedDirectory.dirPrefId);
+    //let url = prefs.getURL();
+    let url = selectedDirectory.getStringValue("carddav.url", "");
     let urlParts = url.split("/");
+ 
     if (url.indexOf(sogoBaseURL()) == 0
 	&& urlParts[urlParts.length - 2] == "personal")
       openDeletePersonalDirectoryForbiddenDialog();
+    else if (selectedDirectory.getBoolValue("readOnly", false)) {
+      if (url.indexOf(sogoBaseURL()) == 0)
+        openDeletePublicDirectoryForbiddenDialog();
+      else
+        SCAbDeleteDirectory(aURI);
+    }
     else {
       if (SCAbConfirmDeleteDirectory(aURI)) {
-	let selectedDirectory = SCGetDirectoryFromURI(aURI);
-	let groupdavPrefService
-	    = new GroupdavPreferenceService(selectedDirectory.dirPrefId);
-	let url = groupdavPrefService.getURL();
+	//let selectedDirectory = SCGetDirectoryFromURI(aURI);
+	//let groupdavPrefService
+	//    = new GroupdavPreferenceService(selectedDirectory.dirPrefId);
+	//let url = groupdavPrefService.getURL();
 	if (url.indexOf(sogoBaseURL()) == 0) {
 	  let elements = url.split("/");
 	  let dirBase = elements[elements.length-2];
@@ -821,14 +815,6 @@ window.SIAbDeleteDirectory = function(aURI) {
       }
     }
   }
-  else if (isCardDavDirectory(aURI)) {
-    let selectedDirectory = SCGetDirectoryFromURI(aURI);
-    let url = selectedDirectory.wrappedJSObject.serverURL;
-    if (url.indexOf(sogoBaseURL()) == 0)
-      openDeletePublicDirectoryForbiddenDialog();
-    else
-      SCAbDeleteDirectory(aURI);
-  }
   else
     SCAbDeleteDirectory(aURI);
 }
@@ -837,91 +823,87 @@ function SIDirPaneController() {
 }
 
 SIDirPaneController.prototype = {
- supportsCommand: function(command) {
-		return (command == "cmd_SOGoACLS"
-						|| command == "addressbook_delete_addressbook_command");
-	},
+  supportsCommand: function(command) {
+    return (command == "cmd_SOGoACLS"
+	    || command == "addressbook_delete_addressbook_command");
+  },
 
  isCommandEnabled: function(command) {
-		let result = false;
+   let result = false;
 		
-		if (command == "cmd_SOGoACLS") {
-			let uri = GetSelectedDirectory();
-			if (uri && isGroupdavDirectory(uri)) {
-				let ab = SCGetDirectoryFromURI(uri);
-				let prefs = new GroupdavPreferenceService(ab.dirPrefId);
-				let dirURL = prefs.getURL();
-				if (dirURL.indexOf(sogoBaseURL()) == 0) {
-					let elements = dirURL.split("/");
-					let dirBase = elements[elements.length-2];
-					/* FIXME: we don't support usernames with underscores */
-					result = (dirBase.indexOf("_") == -1);
-				}
-			}
-		} else if (command == "addressbook_delete_addressbook_command") {
-			let uri = GetSelectedDirectory();
-			if (uri) {
-				let cd;
-				let url;
-				let deleteMenuIsUnsubscribe = false;
-				let ab = SCGetDirectoryFromURI(uri);
-				if (isGroupdavDirectory(uri)) {
-					let prefs = new GroupdavPreferenceService(ab.dirPrefId);
-					url = prefs.getURL();
-					cd = false;
-				}
-				else if (isCardDavDirectory(uri)) {
-					url = ab.wrappedJSObject.serverURL;
-					cd = true;
-				}
-				else
-					result = true;
+   if (command == "cmd_SOGoACLS") {
+     let uri = GetSelectedDirectory();
+     if (uri && isCardDavDirectory(uri)) {
+       let ab = SCGetDirectoryFromURI(uri);
+       let prefs = new GroupdavPreferenceService(ab.dirPrefId);
+       let dirURL = ab.getStringValue("carddav.url", "");
+       if (dirURL.indexOf(sogoBaseURL()) == 0) {
+	 let elements = dirURL.split("/");
+	 let dirBase = elements[elements.length-2];
+	 /* FIXME: we don't support usernames with underscores */
+	 result = (dirBase.indexOf("_") == -1);
+       }
+     }
+   } else if (command == "addressbook_delete_addressbook_command") {
+     let uri = GetSelectedDirectory();
+     if (uri) {
+       let cd;
+       let url;
+       let deleteMenuIsUnsubscribe = false;
+       let ab = SCGetDirectoryFromURI(uri);
+       if (isCardDavDirectory(uri)) {
+	 let prefs = new GroupdavPreferenceService(ab.dirPrefId);
+         url = ab.getStringValue("carddav.url", "");
+	 cd = !ab.getBoolValue("readOnly", "");
+       }
+       else
+	 result = true;
 
-				if (!result) {
-					if (url.indexOf(sogoBaseURL()) == 0) {
-						if (!cd) {
-							let urlParts = url.split("/");
-							let dirBase = urlParts[urlParts.length - 2];
-							if (dirBase != "personal") {
-								result = true;
-								/* HACK: use of "_" to determine whether a resource is owned
-									 or subscribed... */
-								deleteMenuIsUnsubscribe = (dirBase.indexOf("_") > -1);
-							}
-						}
-					}
-					else
-						result = true;
-				}
+       if (!result) {
+	 if (url.indexOf(sogoBaseURL()) == 0) {
+	   if (!cd) {
+	     let urlParts = url.split("/");
+	     let dirBase = urlParts[urlParts.length - 2];
+	     if (dirBase != "personal") {
+	       result = true;
+	       /* HACK: use of "_" to determine whether a resource is owned
+		  or subscribed... */
+	       deleteMenuIsUnsubscribe = (dirBase.indexOf("_") > -1);
+	     }
+	   }
+	 }
+	 else
+	   result = true;
+       }
 
-				let deleteMenuItem
-					= document.getElementById("dirTreeContext-delete");
-				if (deleteMenuIsUnsubscribe) {
-					deleteMenuItem.label
-						= deleteMenuItem.getAttribute("unsubscribelabel");
-				} else {
-					deleteMenuItem.label = deleteMenuItem.getAttribute("deletelabel");
-				}
-			}
-		}
-
-		return result;
-	},
+       let deleteMenuItem
+	   = document.getElementById("dirTreeContext-delete");
+       if (deleteMenuIsUnsubscribe) {
+	 deleteMenuItem.label
+	   = deleteMenuItem.getAttribute("unsubscribelabel");
+       } else {
+	 deleteMenuItem.label = deleteMenuItem.getAttribute("deletelabel");
+       }
+     }
+   }
+   
+   return result;
+ },
 
  doCommand: function(command){},
 
  onEvent: function(event) {}
 };
 
-function subscriptionDialogType() {
+window.subscriptionDialogType = function() {
   return "contact";
 }
 
-function subscriptionGetHandler() {
+window.subscriptionGetHandler = function() {
   return new AddressbookHandler();
 }
 
-function creationGetHandler() {
+window.creationGetHandler = function() {
   return new AddressbookHandler();
 }
 
@@ -974,8 +956,6 @@ function onLoad(activatedWhileWindowOpen) {
 
   <commandset id="addressBook">
     <command id="cmd_syncGroupdav" oncommand="SCCommandSynchronize();"/>
-    <command id="cmd_syncAbortGroupdav"
-             oncommand="SCCommandSynchronizeAbort();"/>
     <command id="cmd_SOGoACLS" oncommand="openABACLDialog();"/>
 
     <command id="addressbook_new_addressbook_command"
@@ -1013,14 +993,7 @@ function onLoad(activatedWhileWindowOpen) {
   <popup id="dirTreeContext">
     <menuseparator/>	
     <menuitem id="dirTreeContext-syncGroupdav" label="&GroupDavSync.label;" accesskey="&GroupDavSync.accesskey;" command="cmd_syncGroupdav"/>
-    <menuitem id="dirTreeContext-syncGroupdavAbort"
-              label="&GroupDavSyncAbort.label;"
-              accesskey="&GroupDavSyncAbort.accesskey;"
-              command="cmd_syncAbortGroupdav"/>
-        <menuitem
-      id="dirTreeContext-ABACLDialog"
-      label="&addressbook-overlay.acl-menu.label;"
-      command="cmd_SOGoACLS"/>
+    <menuitem id="dirTreeContext-ABACLDialog" label="&addressbook-overlay.acl-menu.label;" command="cmd_SOGoACLS"/>
   </popup>
 
   <popup id="abResultsTreeContext">
@@ -1053,14 +1026,14 @@ function onLoad(activatedWhileWindowOpen) {
 
   this.SCAbEditSelectedDirectoryOriginal = window.AbEditSelectedDirectory;
   window.AbEditSelectedDirectory = this.SCAbEditSelectedDirectory;
-  this.SCAbDeleteOriginal = window.AbDelete;
-  window.AbDelete = this.SCAbDelete;
-  this.SCAbDeleteDirectoryOriginal = window.AbDeleteDirectory;
-  window.AbDeleteDirectory = this.SCAbDeleteDirectory;
+  //this.SCAbDeleteOriginal = window.AbDelete;
+  //window.AbDelete = this.SCAbDelete;
+  //this.SCAbDeleteDirectoryOriginal = window.AbDeleteDirectory;
+  //window.AbDeleteDirectory = this.SCAbDeleteDirectory;
 
   /* drag and drop */
-  window.abDirTreeObserver.SCOnDropOld = window.abDirTreeObserver.onDrop;
-  window.abDirTreeObserver.onDrop = window.abDirTreeObserver.SCOnDrop;
+  //window.abDirTreeObserver.SCOnDropOld = window.abDirTreeObserver.onDrop;
+  //window.abDirTreeObserver.onDrop = window.abDirTreeObserver.SCOnDrop;
 
   /* command updaters */
   // FIXME: remove all old functions
@@ -1112,7 +1085,7 @@ function onLoad(activatedWhileWindowOpen) {
   this.SIGoUpdateSelectEditMenuItemsOld = window.goUpdateSelectEditMenuItems;
   window.goUpdateSelectEditMenuItems = this.SIGoUpdateSelectEditMenuItems;
   
-  window.AbDeleteDirectory = this.SIAbDeleteDirectory;
+  window.AbDeleteDirectory = window.SIAbDeleteDirectory;
 
   SISetupAbCommandUpdateHandlers();
 
@@ -1124,117 +1097,117 @@ function onLoad(activatedWhileWindowOpen) {
   }
 }
 
-window.abDirTreeObserver.SCOnDrop = function(row, or, dataTransfer) {
-  let dragSession = dragService.getCurrentSession();
-  if (dragSession) {
-    /* Here, we don't seem to have the choice but to use the RDF
-       interface to discover the target directory. */
-    let sourceDirectory = gAbView.directory;
-    let targetResource = gDirectoryTreeView.getDirectoryAtIndex(row);
-    let targetURI = targetResource.URI;
+// window.abDirTreeObserver.SCOnDrop = function(row, or, dataTransfer) {
+//   let dragSession = dragService.getCurrentSession();
+//   if (dragSession) {
+//     /* Here, we don't seem to have the choice but to use the RDF
+//        interface to discover the target directory. */
+//     let sourceDirectory = gAbView.directory;
+//     let targetResource = gDirectoryTreeView.getDirectoryAtIndex(row);
+//     let targetURI = targetResource.URI;
 
-    let cards = null;
-    let cardKeys = [];
+//     let cards = null;
+//     let cardKeys = [];
 
-    if (targetURI.indexOf(sourceDirectory.URI) != 0
-        && isGroupdavDirectory(sourceDirectory.URI)) {
-      if (dragSession.dragAction
-          == Components.interfaces.nsIDragService.DRAGDROP_ACTION_MOVE) {
-        cards = this._getDroppedCardsKeysFromSession(gAbView, dataTransfer);
-        for (let i = 0; i < cards.length; i++) {
-          this._pushCardKey(cards[i], cardKeys);
-        }
-      }
-      this._resetDroppedCardsVersionFromSession(gAbView, dataTransfer);
-    }
+//     if (targetURI.indexOf(sourceDirectory.URI) != 0
+//         && isGroupdavDirectory(sourceDirectory.URI)) {
+//       if (dragSession.dragAction
+//           == Components.interfaces.nsIDragService.DRAGDROP_ACTION_MOVE) {
+//         cards = this._getDroppedCardsKeysFromSession(gAbView, dataTransfer);
+//         for (let i = 0; i < cards.length; i++) {
+//           this._pushCardKey(cards[i], cardKeys);
+//         }
+//       }
+//       this._resetDroppedCardsVersionFromSession(gAbView, dataTransfer);
+//     }
 
-    let proceed = true;
-    try {
-      this.SCOnDropOld(row, or, dataTransfer);
-    }
-    catch(e) {
-      proceed = false;
-      dump("an exception occured: " + e + "\n");
-    }
+//     let proceed = true;
+//     try {
+//       this.SCOnDropOld(row, or, dataTransfer);
+//     }
+//     catch(e) {
+//       proceed = false;
+//       dump("an exception occured: " + e + "\n");
+//     }
 
-    if (targetResource.isMailList) {
-      let uriParts = targetURI.split("/");
-      let parentDirURI = uriParts[0] + "//" + uriParts[2];
-      if (isGroupdavDirectory(parentDirURI)) {
-        let attributes = new GroupDAVListAttributes(targetURI);
-        attributes.version = "-1";
-        SynchronizeGroupdavAddressbook(parentDirURI);
-      }
-    }
-    else if (isGroupdavDirectory(targetURI)) {
-      SynchronizeGroupdavAddressbook(targetURI);
-    }
+//     if (targetResource.isMailList) {
+//       let uriParts = targetURI.split("/");
+//       let parentDirURI = uriParts[0] + "//" + uriParts[2];
+//       if (isGroupdavDirectory(parentDirURI)) {
+//         let attributes = new GroupDAVListAttributes(targetURI);
+//         attributes.version = "-1";
+//         SynchronizeGroupdavAddressbook(parentDirURI);
+//       }
+//     }
+//     else if (isGroupdavDirectory(targetURI)) {
+//       SynchronizeGroupdavAddressbook(targetURI);
+//     }
 
-    if (cardKeys)
-      dump("cardKeys: " + cardKeys.length + " to delete\n");
-    else
-      dump("cardKeys: nothing to delete\n");
-    if (proceed && cardKeys.length) {
-      DeleteGroupDAVCards(gSelectedDir, cards, true);
-      //let prefService = new GroupdavPreferenceService(sourceDirectory.dirPrefId);
-      //for (let i = 0; i < cardKeys.length; i++) {
-      //  dump("deleting " + cardKeys[i] + "\n");
-      //  _deleteGroupDAVComponentWithKey(prefService, cardKeys[i]);
-      // }
-    }
-    dump("done drop delete\n");
-  }
-};
+//     if (cardKeys)
+//       dump("cardKeys: " + cardKeys.length + " to delete\n");
+//     else
+//       dump("cardKeys: nothing to delete\n");
+//     if (proceed && cardKeys.length) {
+//       DeleteGroupDAVCards(gSelectedDir, cards, true);
+//       //let prefService = new GroupdavPreferenceService(sourceDirectory.dirPrefId);
+//       //for (let i = 0; i < cardKeys.length; i++) {
+//       //  dump("deleting " + cardKeys[i] + "\n");
+//       //  _deleteGroupDAVComponentWithKey(prefService, cardKeys[i]);
+//       // }
+//     }
+//     dump("done drop delete\n");
+//   }
+// };
 
-window.abDirTreeObserver._getDroppedCardsKeysFromSession = function(abView, dataTransfer) {
-  var rows = dataTransfer.getData("moz/abcard").split(",").map(j => parseInt(j, 10));
-  var numrows = rows.length;
-  let cards = [];
+// window.abDirTreeObserver._getDroppedCardsKeysFromSession = function(abView, dataTransfer) {
+//   var rows = dataTransfer.getData("moz/abcard").split(",").map(j => parseInt(j, 10));
+//   var numrows = rows.length;
+//   let cards = [];
 
-  for (let j = 0; j < numrows; j++) {
-    cards.push(abView.getCardFromRow(rows[j]));
-  }
-  return cards;
-};
+//   for (let j = 0; j < numrows; j++) {
+//     cards.push(abView.getCardFromRow(rows[j]));
+//   }
+//   return cards;
+// };
 
-window.abDirTreeObserver._resetDroppedCardsVersionFromSession = function(abView, dataTransfer) {
-  var rows = dataTransfer.getData("moz/abcard").split(",").map(j => parseInt(j, 10));
-  var numrows = rows.length;
-  let cards = [];
+// window.abDirTreeObserver._resetDroppedCardsVersionFromSession = function(abView, dataTransfer) {
+//   var rows = dataTransfer.getData("moz/abcard").split(",").map(j => parseInt(j, 10));
+//   var numrows = rows.length;
+//   let cards = [];
 
-  for (let j = 0; j < numrows; j++) {
-    cards.push(abView.getCardFromRow(rows[j]));
-  }
+//   for (let j = 0; j < numrows; j++) {
+//     cards.push(abView.getCardFromRow(rows[j]));
+//   }
 
-  for (let card of cards) {
-    if (card.isMailList) {
-      let attributes = new GroupDAVListAttributes(card.mailListURI);
-      attributes.version = "-1";
-    } else {
-      let oldDavVersion = card.getProperty("groupDavVersion", "-1");
-      card.setProperty("groupDavVersion", "-1");
-      card.setProperty("groupDavVersionPrev", oldDavVersion);
-      abView.directory.modifyCard(card);
-    }
-  }
-};
+//   for (let card of cards) {
+//     if (card.isMailList) {
+//       let attributes = new GroupDAVListAttributes(card.mailListURI);
+//       attributes.version = "-1";
+//     } else {
+//       let oldDavVersion = card.getProperty("groupDavVersion", "-1");
+//       card.setProperty("groupDavVersion", "-1");
+//       card.setProperty("groupDavVersionPrev", oldDavVersion);
+//       abView.directory.modifyCard(card);
+//     }
+//   }
+// };
 
-window.abDirTreeObserver._pushCardKey = function(card, cards) {
-    let key = null;
+// window.abDirTreeObserver._pushCardKey = function(card, cards) {
+//     let key = null;
 
-    if (card.isMailList) {
-        let attributes = new GroupDAVListAttributes(card.mailListURI);
-        key = attributes.key;
-    }
-    else {
-        key = card.getProperty("groupDavKey", null);
-        // dump("ke2y: " + key + "\n");
-    }
+//     if (card.isMailList) {
+//         let attributes = new GroupDAVListAttributes(card.mailListURI);
+//         key = attributes.key;
+//     }
+//     else {
+//         key = card.getProperty("groupDavKey", null);
+//         // dump("ke2y: " + key + "\n");
+//     }
 
-    if (key && key.length) {
-        cards.push(key);
-    }
-};  
+//     if (key && key.length) {
+//         cards.push(key);
+//     }
+// };  
 
 let SCCardViewOverlay = {
   oldDisplayCardViewPane: null,

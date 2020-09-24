@@ -18,10 +18,8 @@
  * Franklin St, Fifth Floor, Boston, MA 02110-1301 USA
  */
 
-
 var { XPCOMUtils } = ChromeUtils.import("resource://gre/modules/XPCOMUtils.jsm");
 var { MailServices } = ChromeUtils.import("resource:///modules/MailServices.jsm");
-
 
 //class constructor
 function CardDAVDirectoryFactory() {

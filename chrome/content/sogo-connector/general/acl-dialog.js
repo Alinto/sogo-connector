@@ -57,7 +57,7 @@ function addEntry() {
 										WL);
 }
 
-function subscriptionDialogType() {
+window.subscriptionDialogType = function() {
 	return "users";
 }
 

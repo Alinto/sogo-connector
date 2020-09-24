@@ -227,33 +227,33 @@ directoryChecker.prototype = {
         else
             dump("the status code (" + status + ") was not acceptable, we therefore do nothing\n");
     },
-    compareDirectories: function compareDirectories(existing, result) {
-        let comparison = { removed: [], renamed: [], added: [] };
-        for (let url in result) {
-            if (url[url.length - 1] != '/')
-                url = url.concat('/');
-            if (!existing.hasOwnProperty(url)) {
-                dump(result[url] + "; " + url + " registered for addition\n");
-                comparison['added'].push(result[url]);
-            }
-        }
-        for (let url in existing) {
-            if (url[url.length - 1] != '/')
-                url = url.concat('/');
-            if (result.hasOwnProperty(url)) {
-                dump(result[url] + "; " + url + " registered for renaming\n");
-                comparison['renamed'].push({folder: existing[url],
-                                            displayName: result[url]['displayName'],
-                                            additional: result[url].additional});
-            }
-            else {
-                dump(url + " registered for removal\n");
-                comparison['removed'].push(existing[url]);
-            }
-        }
-
-        return comparison;
+  compareDirectories: function compareDirectories(existing, result) {
+    let comparison = { removed: [], renamed: [], added: [] };
+    for (let url in result) {
+      if (url[url.length - 1] != '/')
+        url = url.concat('/');
+      if (!existing.hasOwnProperty(url)) {
+        dump(result[url] + "; " + url + " registered for addition\n");
+        comparison['added'].push(result[url]);
+      }
     }
+    for (let url in existing) {
+      if (url[url.length - 1] != '/')
+        url = url.concat('/');
+      if (result.hasOwnProperty(url)) {
+        dump(result[url] + "; " + url + " registered for renaming\n");
+        comparison['renamed'].push({folder: existing[url],
+                                    displayName: result[url]['displayName'],
+                                    additional: result[url].additional});
+      }
+      else {
+        dump(url + " registered for removal\n");
+        comparison['removed'].push(existing[url]);
+      }
+    }
+
+    return comparison;
+  }
 };
 
 function checkFolders() {
@@ -283,7 +283,7 @@ function checkFolders() {
 
   abChecker.checkAvailability(function() {
     abChecker.start();
-    //FIXME - no longer permitted by TB abHandler.ensurePersonalIsRemote();
+    //FIXME: abHandler.ensurePersonalIsRemote();
     abHandler.ensureAutoComplete();
     SIContactCategories.synchronizeFromServer();
     startFolderSync();

@@ -41,8 +41,8 @@
                                           "chrome://sogo-connector/content/addressbook/edit-list-overlay.js");
 
   // TODO: not working, abCardOverlay.xhtml does not exist anynore
-  messenger.WindowListener.registerWindow("chrome://messenger/content/addressbook/abCard.inc.xhtml",
-                                          "chrome://sogo-connector/content/addressbook/common-card-overlay.js");
+  //messenger.WindowListener.registerWindow("chrome://messenger/content/addressbook/abCard.inc.xhtml",
+  //                                        "chrome://sogo-connector/content/addressbook/common-card-overlay.js");
 
   // TODO: must create JS file. use for autocomplete
   // we might just drop that entirely
@@ -53,7 +53,7 @@
                                           "chrome://sogo-connector/content/calendar/calendar-invitations-dialog.js");
 
   // TODO
-  messenger.WindowListener.registerWindow("about:preferences",
+  messenger.WindowListener.registerWindow("chrome://messenger/content/preferences/preferences.xhtml",
                                           "chrome://sogo-connector/content/preferences/preferences-overlay.js");
 
   // need to test if the unload function is called
