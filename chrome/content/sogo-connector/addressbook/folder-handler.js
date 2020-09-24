@@ -65,7 +65,7 @@ AddressbookHandler.prototype = {
       if (isCardDavDirectory(abURI)) {
         abURL = ab.getStringValue("carddav.url", "");
         //abURL = ab.wrappedJSObject.serverURL;
-        dump("  CardDAV existing: " + ab.dirPrefId + " - " + abURL + "\n");
+        //dump("  CardDAV existing: " + ab.dirPrefId + " - " + abURL + "\n");
       }
       if (abURL) {
         if (existing[abURL])

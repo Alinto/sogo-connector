@@ -101,7 +101,7 @@ function isCardDavDirectory(abURI){
   //  }
   //}
 
-  dump("isCardDAV: " + abURI + " = " + value + "\n");
+  //dump("isCardDAV: " + abURI + " = " + value + "\n");
 
   return value;
 }
