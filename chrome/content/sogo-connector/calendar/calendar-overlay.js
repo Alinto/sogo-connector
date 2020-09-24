@@ -113,52 +113,52 @@ function openCalendarUnsubscriptionDialog() {
 }
 
 function SIpromptDeleteCalendar(calendar) {
+  let url = calendar.uri.spec;
+  let baseURL = sogoBaseURL();
+  if (url.indexOf(baseURL) == 0) {
+    let parts = url.split("/");
+    let offset = 1;
+    if (url[url.length-1] == '/')
+      offset++;
+    let part = parts[parts.length-offset];
+    let handler = new CalendarHandler();
+
+    let entry = calendar.aclEntry;
+    if (!entry) {
+      /* we expect the calendar acl entry to be cached at this point */
+      ASSERT(false, "unexpected!");
+    }
+    if (entry.userIsOwner) {
+      dump("url = " + url + " baseURL = " + baseURL + "\n");
+      let urlParts = url.split("/");
+
+      // We prevent the removal the "personal" calendar
+      if (urlParts[urlParts.length-2] == "personal") {
+        openDeletePersonalDirectoryForbiddenDialog();
+      }
+      else if (_confirmDelete(calendar.name)) {
+        deleteFolder(url, handler);
+      }
+    }
+    else {
+      let title = cal.l10n.getCalString("removeCalendarButtonUnsubscribe");
+      let msg = cal.l10n.getCalString("removeCalendarMessageDeleteOrUnsubscribe", [calendar.name]);
+      let promptService = Components.classes["@mozilla.org/embedcomp/prompt-service;1"]
+          .getService(Components.interfaces.nsIPromptService);
+      if (promptService.confirm(window, title, msg, {})) {
+        window.unsubscribeFromFolder(url, handler);
+      }
+    }
+  }
+  else if (_confirmDelete(calendar.name)) {
+    let calMgr = cal.getCalendarManager();
+    calMgr.unregisterCalendar(calendar);
+    calMgr.removeCalendar(calendar);
+
     let url = calendar.uri.spec;
-    let baseURL = sogoBaseURL();
-    if (url.indexOf(baseURL) == 0) {
-        let parts = url.split("/");
-        let offset = 1;
-        if (url[url.length-1] == '/')
-            offset++;
-        let part = parts[parts.length-offset];
-        let handler = new CalendarHandler();
-
-        let entry = calendar.aclEntry;
-        if (!entry) {
-            /* we expect the calendar acl entry to be cached at this point */
-            ASSERT(false, "unexpected!");
-        }
-        if (entry.userIsOwner) {
-            dump("url = " + url + " baseURL = " + baseURL + "\n");
-            let urlParts = url.split("/");
-
-            // We prevent the removal the "personal" calendar
-            if (urlParts[urlParts.length-2] == "personal") {
-                openDeletePersonalDirectoryForbiddenDialog();
-            }
-            else if (_confirmDelete(calendar.name)) {
-                deleteFolder(url, handler);
-            }
-        }
-        else {
-	    let title = cal.l10n.getCalString("removeCalendarButtonUnsubscribe");
-	    let msg = cal.l10n.getCalString("removeCalendarMessageDeleteOrUnsubscribe", [calendar.name]);
-            let promptService = Components.classes["@mozilla.org/embedcomp/prompt-service;1"]
-                                          .getService(Components.interfaces.nsIPromptService);
-            if (promptService.confirm(window, title, msg, {})) {
-                unsubscribeFromFolder(url, handler);
-            }
-        }
-    }
-    else if (_confirmDelete(calendar.name)) {
-        let calMgr = cal.getCalendarManager();
-        calMgr.unregisterCalendar(calendar);
-        calMgr.removeCalendar(calendar);
-
-        let url = calendar.uri.spec;
-        if (url[url.length - 1] != '/')
-            url = url.concat('/');
-    }
+    if (url[url.length - 1] != '/')
+      url = url.concat('/');
+  }
 }
 
 window.subscriptionDialogType = function() {

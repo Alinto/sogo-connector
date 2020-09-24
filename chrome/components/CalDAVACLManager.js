@@ -1,59 +1,42 @@
-/* ***** BEGIN LICENSE BLOCK *****
- * Version: MPL 1.1/GPL 2.0/LGPL 2.1
+/* CalDAVACLManager.js - This file is part of "SOGo Connector", a Thunderbird extension.
  *
- * The contents of this file are subject to the Mozilla Public License Version
- * 1.1 (the "License"); you may not use this file except in compliance with
- * the License. You may obtain a copy of the License at
- * http://www.mozilla.org/MPL/
+ * Copyright: Inverse inc., 2006-2020
+ *     Email: support@inverse.ca
+ *       URL: http://inverse.ca
  *
- * Software distributed under the License is distributed on an "AS IS" basis,
- * WITHOUT WARRANTY OF ANY KIND, either express or implied. See the License
- * for the specific language governing rights and limitations under the
- * License.
+ * "SOGo Connector" is free software; you can redistribute it and/or modify it
+ * under the terms of the GNU General Public License version 2 as published by
+ * the Free Software Foundation;
  *
- * The Original Code is Inverse inc. code.
+ * "SOGo Connector" is distributed in the hope that it will be useful, but
+ * WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
+ * details.
  *
- * Portions created by the Initial Developer are
- * Copyright (C) 2008-2014 Inverse inc. All Rights Reserved.
- *
- * Contributor(s):
- *
- * Alternatively, the contents of this file may be used under the terms of
- * either the GNU General Public License Version 2 or later (the "GPL"), or
- * the GNU Lesser General Public License Version 2.1 or later (the "LGPL"),
- * in which case the provisions of the GPL or the LGPL are applicable instead
- * of those above. If you wish to allow use of your version of this file only
- * under the terms of either the GPL or the LGPL, and not to allow others to
- * use your version of this file under the terms of the MPL, indicate your
- * decision by deleting the provisions above and replace them with the notice
- * and other provisions required by the GPL or the LGPL. If you do not delete
- * the provisions above, a recipient may use your version of this file under
- * the terms of any one of the MPL, the GPL or the LGPL.
- *
- * ***** END LICENSE BLOCK ***** */
+ * You should have received a copy of the GNU General Public License along with
+ * "SOGo Connector"; if not, write to the Free Software Foundation, Inc., 51
+ * Franklin St, Fifth Floor, Boston, MA 02110-1301 USA
+ */
 
-Components.utils.import("resource://gre/modules/XPCOMUtils.jsm");
-Components.utils.import("resource://gre/modules/Services.jsm");
-
-//Components.utils.import("resource://calendar/modules/calUtils.jsm");
+var { XPCOMUtils } = Components.utils.import("resource://gre/modules/XPCOMUtils.jsm");
+var { Services } = Components.utils.import("resource://gre/modules/Services.jsm");
 var { cal } = ChromeUtils.import("resource:///modules/calendar/calUtils.jsm");
-
-Components.utils.import("resource://gre/modules/Preferences.jsm");
+var { Preferences } = Components.utils.import("resource://gre/modules/Preferences.jsm");
 
 function jsInclude(files, target) {
-    let loader = Components.classes["@mozilla.org/moz/jssubscript-loader;1"]
-                           .getService(Components.interfaces.mozIJSSubScriptLoader);
-    for (let i = 0; i < files.length; i++) {
-        try {
-            loader.loadSubScript(files[i], target);
-        }
-        catch(e) {
-            dump("CalDAVACLManager.js: failed to include '" + files[i] +
-                 "'\n" + e
-                 + "\nFile: " + e.fileName
-                 + "\nLine: " + e.lineNumber + "\n\n Stack:\n\n" + e.stack);
-        }
+  let loader = Components.classes["@mozilla.org/moz/jssubscript-loader;1"]
+      .getService(Components.interfaces.mozIJSSubScriptLoader);
+  for (let i = 0; i < files.length; i++) {
+    try {
+      loader.loadSubScript(files[i], target);
     }
+    catch(e) {
+      dump("CalDAVACLManager.js: failed to include '" + files[i] +
+           "'\n" + e
+           + "\nFile: " + e.fileName
+           + "\nLine: " + e.lineNumber + "\n\n Stack:\n\n" + e.stack);
+    }
+  }
 }
 
 jsInclude(["chrome://inverse-library/content/calendar-cache.js"]);
@@ -90,7 +73,7 @@ function doQueryInterface(aSelf, aProto, aIID, aList, aClassInfo) {
         }
     }
 
-    throw Components.results.NS_ERROR_NO_INTERFACE;
+  throw Components.results.NS_ERROR_NO_INTERFACE;
 }
 
 function fixURL(url) {
@@ -880,12 +863,12 @@ CalDAVACLManager.prototype = {
         }
     },
 
-    _notifyListenerSuccess: function cDACLM__notifyListenerSuccess(listener, calendar, entry) {
-        listener.onOperationComplete(calendar, Components.results.NS_OK,
-                                     Components.interfaces.calIOperationListener.GET,
-                                     null,
-                                     entry);
-    },
+  _notifyListenerSuccess: function cDACLM__notifyListenerSuccess(listener, calendar, entry) {
+    listener.onOperationComplete(calendar, Components.results.NS_OK,
+                                 Components.interfaces.calIOperationListener.GET,
+                                 null,
+                                 entry);
+  },
     _markWithNoAccessControl: function cDACLM__markWithNoAccessControl(data) {
         // dump("no accesscontrol: " + cal.STACK() + "\n");
         let entry = data.entry;
@@ -1128,108 +1111,114 @@ CalDAVACLManager.prototype = {
             }
         }
     },
-    _initAccountMgr: function cDACLM__initAccountMgr() {
-        this.accountMgr = Components.classes["@mozilla.org/messenger/account-manager;1"]
-                                    .getService(Components.interfaces.nsIMsgAccountManager);
-        let defaultAccount = this.accountMgr.defaultAccount;
+  _initAccountMgr: function cDACLM__initAccountMgr() {
+    //this.accountMgr = Components.classes["@mozilla.org/messenger/account-manager;1"]
+    //                            .getService(Components.interfaces.nsIMsgAccountManager);
+    let defaultAccount = MailServices.accounts.defaultAccount;
+    
+    //let identities = this.accountMgr.allIdentities.enumerate().QueryInterface(Components.interfaces.nsISimpleEnumerator);
+    let identities = MailServices.accounts.allIdentities;
+    let values = [];
+    let current = 0;
+    let max = 0;
 
-        let identities = this.accountMgr.allIdentities.enumerate().QueryInterface(Components.interfaces.nsISimpleEnumerator);
-        let values = [];
-        let current = 0;
-        let max = 0;
-
-        // We get the identities we use for mail accounts. We also
-        // get the highest key which will be used as the basis when
-        // adding new identities (so we don't overwrite keys...)
-	while (identities.hasMoreElements()) {
-	    let identity = identities.getNext().QueryInterface(Components.interfaces.nsIMsgIdentity);
-            if (identity.key.indexOf("caldav_") == 0) {
-                if (identity.email) {
-                    values.push(identity.key);
-                    current = parseInt(identity.key.substring(7));
-                    if (current > max)
-                        max = current;
-                } else {
-                  //dump("CalDAVACLManager._initAccountMgr: removing stale"
-                  //     + " identity '" + identity.key + "'\n");
-                  defaultAccount.removeIdentity(identity);
-                }
-            }
+    // We get the identities we use for mail accounts. We also
+    // get the highest key which will be used as the basis when
+    // adding new identities (so we don't overwrite keys...)
+    //while (identities.hasMoreElements()) {
+    //  let identity = identities.getNext().QueryInterface(Components.interfaces.nsIMsgIdentity);
+    for (let identity of identities) {
+      if (identity.key.indexOf("caldav_") == 0) {
+        if (identity.email) {
+          values.push(identity.key);
+          current = parseInt(identity.key.substring(7));
+          if (current > max)
+            max = current;
+        } else {
+          //dump("CalDAVACLManager._initAccountMgr: removing stale"
+          //     + " identity '" + identity.key + "'\n");
+          defaultAccount.removeIdentity(identity);
         }
-        this.identityCount = max + 1;
+      }
+    }
+    this.identityCount = max + 1;
 
-        // We now remove every other caldav_ pref other than the ones we
-        // use in our mail accounts.
-        let prefBranch = Services.prefs.getBranch("mail.identity.");
-        let prefs = prefBranch.getChildList("", {});
-        for (let pref of prefs) {
-            if (pref.indexOf("caldav_") == 0) {
-                let key = pref.substring(0, pref.indexOf("."));
-                if (values.indexOf(key) < 0) {
-                  //dump("CalDAVACLManager._initAccountMgr: removing useless"
-                  //     +" identity branch: '" + key + "'\n");
-                  prefBranch.deleteBranch(key);
-                }
-            }
+    // We now remove every other caldav_ pref other than the ones we
+    // use in our mail accounts.
+    let prefBranch = Services.prefs.getBranch("mail.identity.");
+    let prefs = prefBranch.getChildList("", {});
+    for (let pref of prefs) {
+      if (pref.indexOf("caldav_") == 0) {
+        let key = pref.substring(0, pref.indexOf("."));
+        if (values.indexOf(key) < 0) {
+          //dump("CalDAVACLManager._initAccountMgr: removing useless"
+          //     +" identity branch: '" + key + "'\n");
+          prefBranch.deleteBranch(key);
         }
-    },
+      }
+    }
+  },
     _findIdentity: function cDACLM__findIdentity(email, displayName) {
-        let identity = null;
-        let lowEmail = email.toLowerCase();
-        let lowDisplayName = displayName.toLowerCase();
+      let identity = null;
+      let lowEmail = email.toLowerCase();
+      let lowDisplayName = displayName.toLowerCase();
 
-        let identities = this.accountMgr.allIdentities.enumerate().QueryInterface(Components.interfaces.nsISimpleEnumerator);
+      //let identities = this.accountMgr.allIdentities.enumerate().QueryInterface(Components.interfaces.nsISimpleEnumerator);
+      let identities = MailServices.accounts.allIdentities;
 
-        while (!identity && identities.hasMoreElements()) {
-            let currentIdentity = identities.getNext()
-                                            .QueryInterface(Components.interfaces.nsIMsgIdentity);
-            if (currentIdentity.email.toLowerCase() == lowEmail
-                && currentIdentity.fullName.toLowerCase() == lowDisplayName)
-                identity = currentIdentity;
+      //while (!identity && identities.hasMoreElements()) {
+      //    let currentIdentity = identities.getNext()
+      //                                    .QueryInterface(Components.interfaces.nsIMsgIdentity);
+      for (let currentIdentity of identities) {
+        if (currentIdentity.email.toLowerCase() == lowEmail
+            && currentIdentity.fullName.toLowerCase() == lowDisplayName) {
+          identity = currentIdentity;
+          break;
         }
+      }
 
-        // dump("identity for " + email + ": " + identity + "\n");
-        return identity;
+      // dump("identity for " + email + ": " + identity + "\n");
+      return identity;
     },
-    _identitiesHaveEmail: function cDACLM__identitiesHaveEmail(identities, email) {
-        let haveEmail = false;
-        let lowEmail = email.toLowerCase();
+  _identitiesHaveEmail: function cDACLM__identitiesHaveEmail(identities, email) {
+    let haveEmail = false;
+    let lowEmail = email.toLowerCase();
 
-        let i = 0;
-        while (!haveEmail && i < identities.length) {
-            if (identities[i].email.toLowerCase() == lowEmail)
-                haveEmail = true;
-            else
-                i++;
-        }
+    let i = 0;
+    while (!haveEmail && i < identities.length) {
+      if (identities[i].email.toLowerCase() == lowEmail)
+        haveEmail = true;
+      else
+        i++;
+    }
 
-        return haveEmail;
-    },
+    return haveEmail;
+  },
 
     _appendIdentity: function cDACLM__appendIdentity(identities, displayName, email, calendar) {
-        if (!this.accountMgr)
-            this._initAccountMgr();
+      if (!this.accountMgr)
+        this._initAccountMgr();
 
-        let newIdentity = this._findIdentity(email, displayName);
-        if (!newIdentity) {
-            newIdentity = Components.classes["@mozilla.org/messenger/identity;1"]
-                                    .createInstance(Components.interfaces.nsIMsgIdentity);
-            newIdentity.key = "caldav_" + this.identityCount;
-            //newIdentity.identityName = String(displayName + " <" + email + ">");
-            newIdentity.fullName = String(displayName);
-            newIdentity.email = String(email);
-            // dump("added for " + email + ": " + newIdentity + "\n");
+      let newIdentity = this._findIdentity(email, displayName);
+      if (!newIdentity) {
+        newIdentity = Components.classes["@mozilla.org/messenger/identity;1"]
+          .createInstance(Components.interfaces.nsIMsgIdentity);
+        newIdentity.key = "caldav_" + this.identityCount;
+        //newIdentity.identityName = String(displayName + " <" + email + ">");
+        newIdentity.fullName = String(displayName);
+        newIdentity.email = String(email);
+        // dump("added for " + email + ": " + newIdentity + "\n");
 
-            // We add identities associated to this calendar to Thunderbird's
-            // list of identities only if we are actually the owner of the calendar.
-            //if (calendar.userIsOwner) {
+        // We add identities associated to this calendar to Thunderbird's
+        // list of identities only if we are actually the owner of the calendar.
+        //if (calendar.userIsOwner) {
             // this.accountMgr.defaultAccount.addIdentity(newIdentity);
-            //}
-            this.identityCount++;
-        }
+        //}
+        this.identityCount++;
+      }
 
-        if (!this._identitiesHaveEmail(identities, email))
-            identities.push(newIdentity);
+      if (!this._identitiesHaveEmail(identities, email))
+        identities.push(newIdentity);
     },
     _parseCalendarUserAddressSet: function cDACLM__parseCalendarUserAddressSet(queryDoc, calendar) {
         let values = {};
@@ -1446,11 +1435,10 @@ CalDAVACLManager.prototype = {
     },
 
     /* nsISupports */
-    QueryInterface: function cDACLM_QueryInterface(aIID) {
-        return doQueryInterface(this, CalDAVACLManager.prototype, aIID, null, this);
-     }
-    //QueryInterface: XPCOMUtils.generateQI([Components.interfaces.CalDAVACLManager])
-
+  QueryInterface: function cDACLM_QueryInterface(aIID) {
+    return doQueryInterface(this, CalDAVACLManager.prototype, aIID, null, this);
+  }
+  //QueryInterface: XPCOMUtils.generateQI([Components.interfaces.CalDAVACLManager])
 };
 
 function CalDAVAclCalendarEntry(calendar, manager) {
@@ -1526,22 +1514,25 @@ CalDAVAclCalendarEntry.prototype = {
         return result;
     },
 
-    _getEntries: function _getEntries(entries, outCount) {
-        if (!entries) {
-            entries = [];
-        }
-        outCount.value = entries.length;
+    // _getEntries: function _getEntries(entries, outCount) {
+    //     if (!entries) {
+    //         entries = [];
+    //     }
+    //     outCount.value = entries.length;
 
-        return entries;
-    },
+    //     return entries;
+    // },
     getUserAddresses: function getUserAddresses(outCount) {
-        return this._getEntries(this.userAddresses, outCount);
+      //return this._getEntries(this.userAddresses, outCount);
+      return this.userAddresses;
     },
     getUserIdentities: function getUserAddresses(outCount) {
-        return this._getEntries(this.userIdentities, outCount);
+      //return this._getEntries(this.userIdentities, outCount);
+      return this.userIdentities;
     },
     getOwnerIdentities: function getUserAddresses(outCount) {
-        return this._getEntries(this.ownerIdentities, outCount);
+      //return this._getEntries(this.ownerIdentities, outCount);
+      return this.ownerIdentities;
     },
 
     refresh: function refresh() {
@@ -1585,12 +1576,12 @@ CalDAVAclCalendarEntry.prototype = {
         this.aclManager.refreshCalendarEntry(this);
     },
 
-    /* nsISupports */
-    QueryInterface: function(aIID) {
-      return doQueryInterface(this, null,
-                              aIID, [Components.interfaces.calICalendarACLEntry],
-                              null);
-    }
+  /* nsISupports */
+  QueryInterface: function(aIID) {
+    return doQueryInterface(this, null,
+                            aIID, [Components.interfaces.calICalendarACLEntry],
+                            null);
+  }
 };
 
 function CalDAVAclItemEntry(calEntry) {
@@ -1642,12 +1633,3 @@ CalDAVAclItemEntry.prototype = {
                             null);
   }
 };
-
-/** Module Registration */
-const scriptLoadOrder = [
-    "calUtils.js"
-];
-
-function NSGetFactory(cid) {
-    return (XPCOMUtils.generateNSGetFactory([CalDAVACLManager]))(cid);
-}

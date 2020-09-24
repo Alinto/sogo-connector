@@ -440,6 +440,20 @@ function applyForcedPrefs() {
 
 // startup
 async function startup() {
-    sogoIntegratorStartupOverlayOnLoad();
+  // We register our ACL manager
+  let classID = Components.ID("{c8945ee4-1700-11dd-8e2e-001f5be86cea}");
+  let contractID = "@inverse.ca/calendar/caldav-acl-manager;1";
+  
+  jsInclude(["resource://sogo-connector/components/CalDAVACLManager.js"]);
+  
+  let factory = XPCOMUtils.generateNSGetFactory([CalDAVACLManager])(classID);
+
+  Components.manager.registerFactory(classID, "CalDAVACLManager", contractID, factory);
+  //context.callOnClose({close(){
+  //  Components.manager.unregisterFactory(classID, factory);
+  //}});
+
+  // We start the SOGo Connector Code
+  sogoIntegratorStartupOverlayOnLoad();
 }
 //window.addEventListener("load", sogoIntegratorStartupOverlayOnLoad, false);
