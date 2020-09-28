@@ -555,7 +555,7 @@ function _updateProgressBar(pc) {
 function SCOnResultsTreeContextMenuPopup(event) {
     if (this == event.target) { /* otherwise the reset will be executed when
                                  any submenu pops up too... */
-        let cards = GetSelectedAbCards();
+        let cards = window.GetSelectedAbCards();
         let rootEntry = document.getElementById("sc-categories-contextmenu");
         rootEntry.disabled = (cards.length == 0);
         if (!rootEntry.disabled) {
@@ -584,7 +584,7 @@ function SCResetCategoriesContextMenu() {
 }
 
 function SCOnCategoriesContextMenuPopup(event) {
-    let cards = GetSelectedAbCards();
+    let cards = window.GetSelectedAbCards();
     if (cards.length > 0) {
         let card = cards[0].QueryInterface(Components.interfaces.nsIAbCard);
         let cats = card.getProperty("Categories", "");
@@ -604,70 +604,69 @@ function SCOnCategoriesContextMenuPopup(event) {
 }
 
 function SCOnCategoriesContextMenuItemCommand(event) {
-    let cards = GetSelectedAbCards();
-    if (cards.length > 0) {
-        let requireSync = false;
-        let abUri = null;
-        let category = this.label;
-        let set = !this.hasAttribute("checked");
-        for (let i = 0; i < cards.length; i++) {
-            let card = cards[i];
-            let cats = card.getProperty("Categories", "");
-            let changed = false;
-            if (cats.length > 0) {
-                let catsArray = cats.split("\u001A");
-                let catIdx = catsArray.indexOf(category);
-                if (set) {
-                    if (catIdx == -1) {
-                        catsArray.push(category);
-                        changed = true;
-                    }
-                }
-                else {
-                    if (catIdx > -1) {
-                        catsArray.splice(catIdx, 1);
-                        changed = true;
-                    }
-                }
-                if (changed) {
-                    cats = catsArray.join("\u001A");
-                }
-            }
-            else {
-                if (set) {
-                    changed = true;
-                    cats = category;
-                }
-            }
-            if (changed) {
-                requireSync = true;
-
-		let oldDavVersion = card.getProperty("groupDavVersion", "-1");
-		card.setProperty("groupDavVersion", "-1");
-		card.setProperty("groupDavVersionPrev", oldDavVersion);
-		card.setProperty("Categories", cats);
-
-                let abManager = Components.classes["@mozilla.org/abmanager;1"]
-                    .getService(Components.interfaces.nsIAbManager);
-		let children = abManager.directories;
-		while (children.hasMoreElements()) {
-		    let ab = children.getNext().QueryInterface(Components.interfaces.nsIAbDirectory);
-		    if (ab.isRemote || ab.isMailList)
-			continue;
-		    if (ab.hasCard(card)) {
-			ab.modifyCard(card);
-			abUri = ab.URI;
-			break;
-		    }
-		}
-	    }
+  let cards = window.GetSelectedAbCards();
+  if (cards.length > 0) {
+    let requireSync = false;
+    let abUri = null;
+    let category = this.label;
+    let set = !this.hasAttribute("checked");
+    for (let i = 0; i < cards.length; i++) {
+      let card = cards[i];
+      let cats = card.getProperty("Categories", "");
+      let changed = false;
+      if (cats.length > 0) {
+        let catsArray = cats.split("\u001A");
+        let catIdx = catsArray.indexOf(category);
+        if (set) {
+          if (catIdx == -1) {
+            catsArray.push(category);
+            changed = true;
+          }
         }
-        if (requireSync) {
-            if (isGroupdavDirectory(abUri)) {
-                SynchronizeGroupdavAddressbook(abUri);
-            }
+        else {
+          if (catIdx > -1) {
+            catsArray.splice(catIdx, 1);
+            changed = true;
+          }
         }
+        if (changed) {
+          cats = catsArray.join("\u001A");
+        }
+      }
+      else {
+        if (set) {
+          changed = true;
+          cats = category;
+        }
+      }
+      if (changed) {
+        requireSync = true;
+	//let oldDavVersion = card.getProperty("groupDavVersion", "-1");
+	//card.setProperty("groupDavVersion", "-1");
+	//card.setProperty("groupDavVersionPrev", oldDavVersion);
+	card.setProperty("Categories", cats);
+        let abManager = Components.classes["@mozilla.org/abmanager;1"]
+            .getService(Components.interfaces.nsIAbManager);
+	let children = abManager.directories;
+	while (children.hasMoreElements()) {
+	  let ab = children.getNext().QueryInterface(Components.interfaces.nsIAbDirectory);
+	  //if (ab.isRemote || ab.isMailList)
+          if (ab.isMailList)
+	    continue;
+	  if (ab.hasCard(card)) {
+	    ab.modifyCard(card);
+	    abUri = ab.URI;
+	    break;
+	  }
+	}
+      }
     }
+ //   if (requireSync) {
+ //     if (isCardDavDirectory(abUri)) {
+ //       SynchronizeGroupdavAddressbook(abUri);
+ //     }
+ //   }
+  }
 }
 
 function SCSetSearchCriteria(menuitem) {
