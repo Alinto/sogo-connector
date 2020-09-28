@@ -229,7 +229,7 @@ function SIOnCalendarOverlayLoad() {
   let popup = document.getElementById("list-calendars-context-menu");
 
   if (typeof(popup) == "undefined") {
-    setTimeout(SIOnCalendarOverlayLoad, 5000);
+    setTimeout(SIOnCalendarOverlayLoad, 100);
     return;
   }  
   
@@ -433,135 +433,90 @@ let groupdavSynchronizationObserver = {
 };
 
 function OnLoadMessengerOverlay() {
-    /* if SOGo Integrator is present, we let it take the startup procedures */
-    notificationManagerInstance.registerObserver("groupdav.synchronization.start",
-                          groupdavSynchronizationObserver);
-    notificationManagerInstance.registerObserver("groupdav.synchronization.stop",
-                          groupdavSynchronizationObserver);
-
-    //if (!this.sogoIntegratorStartupOverlayOnLoad) {
-    //    dump("startup from sogo-connector\n");
-    //    cleanupAddressBooks();
-    //    startFolderSync();
-    //}
-    //else
-    //    dump("skipping startup, sogo-connector present\n");
-
-    window.addEventListener("unload", SCUnloadHandler, false);
+  /* if SOGo Integrator is present, we let it take the startup procedures */
+  notificationManagerInstance.registerObserver("groupdav.synchronization.start",
+                                               groupdavSynchronizationObserver);
+  notificationManagerInstance.registerObserver("groupdav.synchronization.stop",
+                                               groupdavSynchronizationObserver);
+  cleanupAddressBooks();
+  window.addEventListener("unload", SCUnloadHandler, false);
 }
 
 function SCUnloadHandler(event) {
-    notificationManagerInstance.unregisterObserver("groupdav.synchronization.start",
-                            groupdavSynchronizationObserver);
-    notificationManagerInstance.unregisterObserver("groupdav.synchronization.stop",
-                            groupdavSynchronizationObserver);
+  notificationManagerInstance.unregisterObserver("groupdav.synchronization.start",
+                                                 groupdavSynchronizationObserver);
+  notificationManagerInstance.unregisterObserver("groupdav.synchronization.stop",
+                                                 groupdavSynchronizationObserver);
 }
 
 function cleanupAddressBooks() {
-    // 	_cleanupLocalStore();
-    let uniqueChildren = _uniqueChildren("ldap_2.servers", 2);
-    _cleanupABRemains(uniqueChildren);
-    uniqueChildren = _uniqueChildren("ldap_2.servers", 2);
-    _cleanupBogusAB(uniqueChildren);
+  let uniqueChildren;
 
-    uniqueChildren = _uniqueChildren("extensions.ca.inverse.addressbook.groupdav.ldap_2.servers",
-                                     7);
-    _cleanupOrphanDAVAB(uniqueChildren);
-    _migrateOldCardDAVDirs(uniqueChildren);
+  uniqueChildren = _uniqueChildren("ldap_2.servers", 2);
+  _cleanupABRemains(uniqueChildren);
+
+  uniqueChildren = _uniqueChildren("extensions.ca.inverse.addressbook.groupdav.ldap_2.servers", 7);
+  _cleanupOrphanDAVAB(uniqueChildren);
+  _removeOldCardDAVDirs(uniqueChildren);
 }
 
 function _uniqueChildren(path, dots) {
-    let count = {};
-    let children = Services.prefs.getChildList(path, count);
-    let uniqueChildren = {};
-    for (let i = 0; i < children.length; i++) {
-        let leaves = children[i].split(".");
-        uniqueChildren[leaves[dots]] = true;
-    }
+  let count = {};
+  let children = Services.prefs.getChildList(path, count);
+  let uniqueChildren = {};
+  for (let i = 0; i < children.length; i++) {
+    let leaves = children[i].split(".");
+    uniqueChildren[leaves[dots]] = true;
+  }
 
-    return uniqueChildren;
+  return uniqueChildren;
 }
 
 function _cleanupABRemains(uniqueChildren) {
-    let path = "ldap_2.servers";
+  let path = "ldap_2.servers";
 
-    for (let key in uniqueChildren) {
-        let branchRef = path + "." + key;
-        let count = {};
-        let children = Services.prefs.getChildList(branchRef, count);
-        if (children.length < 2) {
-            if (children[0] == (branchRef + ".position"))
-                Services.prefs.deleteBranch(branchRef);
-        }
+  for (let key in uniqueChildren) {
+    let branchRef = path + "." + key;
+    let count = {};
+    let children = Services.prefs.getChildList(branchRef, count);
+    if (children.length < 2) {
+      if (children[0] == (branchRef + ".position"))
+        Services.prefs.deleteBranch(branchRef);
     }
-}
-
-function _cleanupBogusAB(uniqueChildren) {
-    let path = "ldap_2.servers";
-
-    for (let key in uniqueChildren) {
-        if (key != "default") {
-            let uriRef = path + "." + key + ".uri";
-            let uri = null;
-            // 			dump("trying: " + uriRef + "\n");
-            try {
-                uri = Services.prefs.getCharPref(uriRef);
-                if (uri.indexOf("moz-abldapdirectory:") == 0) {
-                    dump("deleting: " + path + "." + key + "\n");
-                    Services.prefs.deleteBranch(path + "." + key);
-                    // 			dump("uri: " + uri + "\n");
-                }
-            }
-            catch(e) {};
-        }
-    }
+  }
 }
 
 function _cleanupOrphanDAVAB(uniqueChildren) {
-    var	path = "extensions.ca.inverse.addressbook.groupdav.ldap_2.servers";
-    for (let key in uniqueChildren) {
-        let otherRef = "ldap_2.servers." + key + ".description";
-        // 		dump("XXXX otherRef: " + otherRef + "\n");
-        try {
-            Services.prefs.getCharPref(otherRef);
-        }
-        catch(e) {
-            // 			dump("exception: " + e + "\n");
-            dump("deleting orphan: " + path + "." + key + "\n");
-            Services.prefs.deleteBranch(path + "." + key);
-        }
+  var path = "extensions.ca.inverse.addressbook.groupdav.ldap_2.servers";
+  for (let key in uniqueChildren) {
+    let otherRef = "ldap_2.servers." + key + ".description";
+    // 		dump("XXXX otherRef: " + otherRef + "\n");
+    try {
+      Services.prefs.getCharPref(otherRef);
     }
+    catch(e) {
+      // 			dump("exception: " + e + "\n");
+      dump("deleting orphan: " + path + "." + key + "\n");
+      Services.prefs.deleteBranch(path + "." + key);
+    }
+  }
 }
 
-function _migrateOldCardDAVDirs(uniqueChildren) {
-    var	path = "extensions.ca.inverse.addressbook.groupdav.ldap_2.servers.";
-    for (let key in uniqueChildren) {
-        let fullPath = path + key;
-        try {
-            let isCardDAV = (Services.prefs.getCharPref(fullPath + ".readOnly") == "true");
-            if (isCardDAV) {
-                dump("######### trying to migrate " + key + "\n");
-                let description = "" + Services.prefs.getCharPref(fullPath + ".name");
-                let url = "" + Services.prefs.getCharPref(fullPath + ".url");
-                dump("description: " + description + "\n");
-                dump("url: " + url + "\n");
-                if (description.length > 0
-                    && url.length > 0) {
-                    try {
-                        Services.prefs.deleteBranch(fullPath);
-                    }
-                    catch(x) {};
-                    try {
-                        Services.prefs.deleteBranch("ldap_2.servers." + key);
-                    }
-                    catch(y) {};
-                    SCCreateCardDAVDirectory(description, url);
-                    // 					dump("********* migrated CardDAV: " + key + "\n");
-                }
-            }
-        }
-        catch(e) {}
+//  If we migrated from Thunderbird v68 to v78, our CardDAV addressbooks would be duplicated.
+function _removeOldCardDAVDirs(uniqueChildren) {
+  var path = "extensions.ca.inverse.addressbook.groupdav.ldap_2.servers.";
+  for (let key in uniqueChildren) {
+    try {
+      let fullPath = path + key;
+      let isCardDAV = (Services.prefs.getCharPref(fullPath + ".url").length > 0);
+      if (isCardDAV) {
+        let directory = MailServices.ab.getDirectoryFromId("ldap_2.servers." + key);
+        SCDeleteDirectory(directory);
+      }
+    } catch (e) {
+        dump("_removeOldCardDAVDirs - failed to remove: " + key + "\n");
     }
+  }
 }
 
 // TODO : better handling of that var
@@ -574,7 +529,6 @@ function startFolderSync() {
   let children = abManager.directories;
   while (children.hasMoreElements()) {
     let ab = children.getNext().QueryInterface(Components.interfaces.nsIAbDirectory);
-    //if (isGroupdavDirectory(ab.URI)) {
     if (isCardDavDirectory(ab.URI)) {
       let dirPrefId = ab.dirPrefId;                
       let groupdavPrefService = new GroupdavPreferenceService(dirPrefId);

@@ -448,10 +448,14 @@ async function startup() {
   
   let factory = XPCOMUtils.generateNSGetFactory([CalDAVACLManager])(classID);
 
-  Components.manager.registerFactory(classID, "CalDAVACLManager", contractID, factory);
-  //context.callOnClose({close(){
-  //  Components.manager.unregisterFactory(classID, factory);
-  //}});
+  try {
+    Components.manager.registerFactory(classID, "CalDAVACLManager", contractID, factory);
+    //context.callOnClose({close(){
+    //  Components.manager.unregisterFactory(classID, factory);
+    //}});
+  } catch (e) {
+    dump("startup - CalDAVACLManager already registered\n");
+  }
 
   // We start the SOGo Connector Code
   sogoIntegratorStartupOverlayOnLoad();

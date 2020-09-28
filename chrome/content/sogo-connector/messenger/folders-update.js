@@ -275,7 +275,7 @@ function checkFolders() {
   let loader = Components.classes["@mozilla.org/moz/jssubscript-loader;1"]
       .getService(Components.interfaces.mozIJSSubScriptLoader);
 
-  cleanupAddressBooks();
+  //cleanupAddressBooks();
 
   let abHandler = new AddressbookHandler();
   let abChecker = new directoryChecker("Contacts", abHandler);

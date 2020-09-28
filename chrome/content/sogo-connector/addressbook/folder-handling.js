@@ -122,7 +122,7 @@ function SCDeleteDirectory(directory) {
     //                            .getService(Components.interfaces.nsIPrefBranch);
     let prefBranch = directory.dirPrefId;
     dump("  dirPrefId: "  + prefBranch + "\n");
-    Services.prefs.deleteBranch(prefBranch + ".position");
+    Services.prefs.deleteBranch(prefBranch);
 
     let clearPrefsRequired = false;
     try {
@@ -161,10 +161,9 @@ function SCDeleteDAVDirectory(uri) {
     if (directory) {
       try {
         SCDeleteDirectory(directory);
-        if (uri.indexOf("jscarddav://") == 0)
-          Services.prefs.deleteBranch("extensions.ca.inverse.addressbook.groupdav."
-                                      + directory.dirPrefId);
-        
+        //if (uri.indexOf("jscarddav://") == 0)
+        //  Services.prefs.deleteBranch("extensions.ca.inverse.addressbook.groupdav."
+        //                              + directory.dirPrefId);
         result = true;
       }
       catch(e) {
