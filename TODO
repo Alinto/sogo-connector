@@ -1,3 +1,4 @@
+- remove GroupDavSynchronizer
 - remote sync.addressbook.groupdav.js
 - remove preferences.service.addressbook.groupdav.js
 - fix SCAbConfirmDeleteDirectory/SCAbConfirmDelete to get i18n strings from TB
