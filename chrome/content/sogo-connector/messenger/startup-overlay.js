@@ -258,43 +258,43 @@ function GetRDFUpdateData(rdf, ds, node) {
     return updateData;
 }
 
-function sogoIntegratorStartupOverlayOnLoad() {
-    dump("Starting SOGo Integrator code...\n");
+function sogoConnectorStartupOverlayOnLoad() {
+  dump("Starting SOGo Connector code...\n");
     
-    let loader = Components.classes["@mozilla.org/moz/jssubscript-loader;1"]
-                 .getService(Components.interfaces.mozIJSSubScriptLoader);
-    try {
-        loader.loadSubScript("chrome://sogo-connector/content/general/custom-preferences.js");
-        applyForcedPrefs();
-    }
-    catch(e) {
-        dump("Custom preference code not available.\ne: " + e + "\n");
-    }
+  let loader = Components.classes["@mozilla.org/moz/jssubscript-loader;1"]
+      .getService(Components.interfaces.mozIJSSubScriptLoader);
+  try {
+    loader.loadSubScript("chrome://sogo-connector/content/general/custom-preferences.js", this);
+    applyForcedPrefs();
+  }
+  catch(e) {
+    dump("Custom preference code not available.\ne: " + e + "\n");
+  }
 
+  try {
+    loader.loadSubScript("chrome://sogo-connector/content/general/startup.js", this);
     try {
-        loader.loadSubScript("chrome://sogo-connector/content/general/startup.js");
-        try {
-            CustomStartup();
-        }
-        catch(customE) {
-            dump("An exception occured during execution of custom startup"
-                 + " code.\nException: " + customE
-                 + "\nFile: " + customE.fileName
-                 + "\nLine: " + customE.lineNumber
-                 + "\n\n Stack:\n\n" + customE.stack);
-        }
-        dump("Custom startup code executed\n");
+      CustomStartup();
     }
-    catch(e) {
-        dump("Custom startup code not available.\ne: " + e + "\n");
+    catch(customE) {
+      dump("An exception occured during execution of custom startup"
+           + " code.\nException: " + customE
+           + "\nFile: " + customE.fileName
+           + "\nLine: " + customE.lineNumber
+           + "\n\n Stack:\n\n" + customE.stack);
     }
+    dump("Custom startup code executed\n");
+  }
+  catch(e) {
+    dump("Custom startup code not available.\ne: " + e + "\n");
+  }
 
   checkFolders();
-    //if (typeof(cal.view.getCompositeCalendar) == "undefined"
-    //    || !_setupCalStartupObserver()) {
-    //    dump("no calendar available: checking extensions update right now.\n");
-    //    checkExtensionsUpdate();
-    //}
+  //if (typeof(cal.view.getCompositeCalendar) == "undefined"
+  //    || !_setupCalStartupObserver()) {
+  //    dump("no calendar available: checking extensions update right now.\n");
+  //    checkExtensionsUpdate();
+  //}
 }
 
 //
@@ -458,6 +458,5 @@ async function startup() {
   }
 
   // We start the SOGo Connector Code
-  sogoIntegratorStartupOverlayOnLoad();
+  sogoConnectorStartupOverlayOnLoad();
 }
-//window.addEventListener("load", sogoIntegratorStartupOverlayOnLoad, false);
