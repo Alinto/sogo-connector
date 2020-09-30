@@ -40,32 +40,17 @@ jsInclude(["chrome://sogo-connector/content/addressbook/common-card-overlay.js"]
 
 /* starting... */
 function OnLoadHandler() {
-  //let uri = getUri();
-
+  dump("abEditCardDialog.groupdav.overlay.js: OnLoadHandler()\n");
   window.SCOldOnLoadEditCard();
-
-  //if (isCardDavDirectory(window.gEditCard.abURI)) {
-  //this.OldEditCardOKButton = this.EditCardOKButton;
-  //this.EditCardOKButton = this.SCEditCardOKButton;
-  //document.addEventListener("dialogaccept", SCEditCardOKButton);
-  //}
-
   SCOnCommonCardOverlayLoad(window, document);
 }
 
 /* event handlers */
-// function SCEditCardOKButton() {
-//   //let result = this.OldEditCardOKButton();
-//   //   if (result) {
-//   //let ab = GetDirectoryFromURI(gEditCard.abURI);
-//   if (isCardDavDirectory(gEditCard.abURI)) {
-//     setDocumentDirty(true);
-//     saveCard(false);
-//   }
-//   //return result;
-// }
-
-//window.addEventListener("load", OnLoadHandler, false);
+function SCEditCardOKButton() {
+  dump("abEditCardDialog.groupdav.overlay.js: SCEditCardOKButton()\n");
+  SCSaveCategories();
+  return window.SCOldEditCardOKButton();
+}
 
 function onLoad(activatedWhileWindowOpen) {
   dump("abEditCardDialog.groupdav.overlay.js: onLoad()\n");
@@ -85,5 +70,7 @@ function onLoad(activatedWhileWindowOpen) {
 
   window.SCOldOnLoadEditCard = window.OnLoadEditCard;
   window.OnLoadEditCard = OnLoadHandler;
-  //OnLoadHandler();
+
+  window.SCOldEditCardOKButton = window.EditCardOKButton;
+  window.EditCardOKButton = SCEditCardOKButton;
 }

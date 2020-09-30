@@ -41,10 +41,12 @@ var _document;
 function SCOnCommonCardOverlayLoad(window, document) {
   _window = window;
   _document = document;
+
+  //if (typeof(SCOnCommonCardOverlayLoadPreHook) == "function") {
+  //    SCOnCommonCardOverlayLoadPreHook();
+  //}
+  SICommonCardOverlay.onLoadHook();
   
-    if (typeof(SCOnCommonCardOverlayLoadPreHook) == "function") {
-        SCOnCommonCardOverlayLoadPreHook();
-    }
     /* categories */
     let cardCategoriesValue = _window.gEditCard.card.getProperty("Categories", "");
     let catsArray = multiValueToArray(cardCategoriesValue);
@@ -165,7 +167,7 @@ function SCOnCategoryChange() {
 }
 
 function SCSaveCategories() {
-  let vbox = document.getElementById("abCategories");
+  let vbox = _window.document.getElementById("abCategories");
   let menuLists = vbox.getElementsByTagName("menulist");
   let catsArray = [];
   for (var i = 0; i < menuLists.length; i++) {
@@ -176,7 +178,7 @@ function SCSaveCategories() {
       catsArray.push(value);
     }
   }
-  window.gEditCard.card.setProperty("Categories", arrayToMultiValue(catsArray));
+  _window.gEditCard.card.setProperty("Categories", arrayToMultiValue(catsArray));
 }
 
 // function getUri() {
@@ -244,11 +246,11 @@ function SCSaveCategories() {
 // 	inverseSetupFieldsEventHandlers();
 // }
 
-function isLDAPDirectory(uri) {
-    let ab = GetDirectoryFromURI(uri);
-
-    return (ab.isRemote && !isCardDavDirectory(uri));
-}
+//function isLDAPDirectory(uri) {
+//    let ab = GetDirectoryFromURI(uri);
+//
+//    return (ab.isRemote && !isCardDavDirectory(uri));
+//}
 
 // From SOGo Integrator
 let SICommonCardOverlay = {
@@ -271,10 +273,10 @@ let SICommonCardOverlay = {
   }
 };
 
-let SCOnCommonCardOverlayLoadPreHook = function() { SICommonCardOverlay.onLoadHook(); };
+//let SCOnCommonCardOverlayLoadPreHook = function() { SICommonCardOverlay.onLoadHook(); };
 
 //window.addEventListener("load", SCOnCommonCardOverlayLoad, false);
-function onLoad(activatedWhileWindowOpen) {
-  dump("common-card-overlay.js: onLoad()\n");
-  SCOnCommonCardOverlayLoad();
-}
+//function onLoad(activatedWhileWindowOpen) {
+//  dump("common-card-overlay.js: onLoad()\n");
+//  SCOnCommonCardOverlayLoad();
+//}

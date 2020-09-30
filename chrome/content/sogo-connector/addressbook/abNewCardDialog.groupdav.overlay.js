@@ -39,37 +39,21 @@ function i18n(entity) {
 jsInclude(["chrome://sogo-connector/content/addressbook/common-card-overlay.js"]);
 
 function OnLoadHandler() {
-  //this.OldNewCardOKButton = this.NewCardOKButton;
-  //this.NewCardOKButton = this.SCNewCardOKButton;
-
+  dump("abNewCardDialog.groupdav.overlay.js: onLoadHandler()\n");
   window.SCOldOnLoadNewCard();
-  
-  // document.addEventListener("dialogaccept", SCNewCardOKButton);
-  
-  // // From SOGo Integrator
-  // if (gEditCard.selectedAB && gEditCard.selectedAB == kPersonalAddressbookURI) {
-  //   let handler = new AddressbookHandler();
-  //   let existing = handler.getExistingDirectories();
-  //   let personalURL = sogoBaseURL() + "Contacts/personal/";
-  //   let directory = existing[personalURL];
-  //   gEditCard.selectedAB = directory.URI;
-  //   document.getElementById("abPopup").value = directory.URI;
-  // }
+
+  document.removeEventListener("dialogaccept", window.NewCardOKButton);
+  document.addEventListener("dialogaccept", SCNewCardOKButton);
 
   SCOnCommonCardOverlayLoad(window, document);
 }
 
-// function SCNewCardOKButton() {
-//   dump("\n\n\nSCNewCardOKButton!!!\n\n\n");
-//   //let result = this.OldNewCardOKButton();
-//   //if (result) {
-//   setDocumentDirty(true);
-//   saveCard(true);
-//   //}
-//   //return result;
-// }
+function SCNewCardOKButton() {
+  dump("abNewCardDialog.groupdav.overlay.js: SCNewCardOKButton()\n");
+  SCSaveCategories();
+  return window.SCOldNewCardOKButton();
+}
 
-//window.addEventListener("load", OnLoadHandler, false);
 function onLoad(activatedWhileWindowOpen) {
   dump("abNewCardDialog.groupdav.overlay.js: onLoad()\n");
 
@@ -88,7 +72,6 @@ function onLoad(activatedWhileWindowOpen) {
 
   window.SCOldOnLoadNewCard = window.OnLoadNewCard;
   window.OnLoadNewCard = OnLoadHandler;
-  
-  //OnLoadHandler();
-  //SCOnCommonCardOverlayLoad();
+
+  window.SCOldNewCardOKButton = window.NewCardOKButton;
 }

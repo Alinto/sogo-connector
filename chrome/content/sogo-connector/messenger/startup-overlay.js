@@ -21,6 +21,9 @@
 var { AddonManager } = ChromeUtils.import("resource://gre/modules/AddonManager.jsm");
 var { Services } = ChromeUtils.import("resource://gre/modules/Services.jsm");
 
+const { ICAL } = ChromeUtils.import("resource:///modules/calendar/Ical.jsm");
+var { VCardUtils } = ChromeUtils.import("resource:///modules/VCardUtils.jsm");
+
 function jsInclude(files, target) {
   let loader = Components.classes["@mozilla.org/moz/jssubscript-loader;1"]
       .getService(Components.interfaces.mozIJSSubScriptLoader);
@@ -401,46 +404,37 @@ function checkExtensionVersion(currentVersion, minVersion, strict) {
     return acceptable;
 }
 
-//function deferredCheckFolders() {
-//    jsInclude(["chrome://sogo-connector/content/messenger/folders-update.js"]);
-//    window.setTimeout(checkFolders, 100);
-//}
-
 // forced prefs
 function force_int_pref(key, value) {
-    forcedPrefs[key] = { type: "int", value: value };
+  forcedPrefs[key] = { type: "int", value: value };
 }
 
 function force_bool_pref(key, value) {
-    forcedPrefs[key] = { type: "bool", value: value };
+  forcedPrefs[key] = { type: "bool", value: value };
 }
 
 function force_char_pref(key, value) {
-    forcedPrefs[key] = { type: "char", value: value };
+  forcedPrefs[key] = { type: "char", value: value };
 }
 
 function applyForcedPrefs() {
-    //let prefService = Components.classes["@mozilla.org/preferences;1"]
-    //    .getService(Components.interfaces.nsIPrefBranch);
-    for (let key in forcedPrefs) {
-        let pref = forcedPrefs[key];
-        if (pref["type"] == "int") {
-            Services.prefs.setIntPref(key, pref["value"]);
-        }
-        else if (pref["type"] == "bool") {
-            Services.prefs.setBoolPref(key, pref["value"]);
-        }
-        else if (pref["type"] == "char") {
-            Services.prefs.setCharPref(key, pref["value"]);
-        }
-        else
-            dump("unsupported pref type: " + pref["type"] + "\n");
+  for (let key in forcedPrefs) {
+    let pref = forcedPrefs[key];
+    if (pref["type"] == "int") {
+      Services.prefs.setIntPref(key, pref["value"]);
     }
+    else if (pref["type"] == "bool") {
+      Services.prefs.setBoolPref(key, pref["value"]);
+    }
+    else if (pref["type"] == "char") {
+      Services.prefs.setCharPref(key, pref["value"]);
+    }
+    else
+      dump("unsupported pref type: " + pref["type"] + "\n");
+  }
 }
 
-// startup
-async function startup() {
-  // We register our ACL manager
+function registerCalDAVACLManager() {
   let classID = Components.ID("{c8945ee4-1700-11dd-8e2e-001f5be86cea}");
   let contractID = "@inverse.ca/calendar/caldav-acl-manager;1";
   
@@ -456,6 +450,71 @@ async function startup() {
   } catch (e) {
     dump("startup - CalDAVACLManager already registered\n");
   }
+}
+
+function fixupCardDAVSupport() {
+  const unboundvCardToAbCard = VCardUtils.vCardToAbCard;
+  const boundvCardToAbCard  = unboundvCardToAbCard.bind(VCardUtils);
+  VCardUtils.vCardToAbCard = function(vCard) {
+    let [, vProps] = ICAL.parse(vCard);
+    let abCard = boundvCardToAbCard(vCard);
+
+    for (let index = 0; index < vProps.length; index++) {
+      let name = vProps[index][0];
+      if (name == "categories") {
+        let values = vProps[index].slice(3);
+        values = values.map(e => e.trim());
+        abCard.setProperty("Categories", arrayToMultiValue(values));
+      }
+    }
+
+    return abCard;
+  }
+
+  const unboundabCardToVCard = VCardUtils.abCardToVCard;
+  const boundabCardToVCard = unboundabCardToVCard.bind(VCardUtils);
+  VCardUtils.abCardToVCard = function(abCard, version = "4.0") {
+    let categories = abCard.getProperty("Categories", "");
+    let vcard = boundabCardToVCard(abCard, version);
+
+    if (categories.length == 0)
+      return vcard;
+
+    let [, vProps] = ICAL.parse(vcard);
+    vProps.push(["categories", {}, "text"].concat(categories.split("\u001A")))
+    vcard =  ICAL.stringify(["vcard", vProps]);
+
+    return vcard;
+  }
+
+  const unboundmodifyVCard = VCardUtils.modifyVCard;
+  const boundmodifyVCard = unboundmodifyVCard.bind(VCardUtils);
+  VCardUtils.modifyVCard = function(vCard, abCard) {
+    let categories = abCard.getProperty("Categories", "");
+    let vcard = boundmodifyVCard(vCard, abCard);
+
+    if (categories.length == 0)
+      return vcard;
+
+    let [, vProps] = ICAL.parse(vcard);
+
+    // we wipe the previous cagegories
+    vProps = vProps.filter(prop => prop[0] != "categories");
+    vProps.push(["categories", {}, "text"].concat(categories.split("\u001A")))
+    vcard =  ICAL.stringify(["vcard", vProps]);
+
+    return vcard;
+  }
+
+}
+
+// SOGo Connector startup code
+async function startup() {
+  // We re-wire the vCard conversion code
+  fixupCardDAVSupport()
+
+  // We register our ACL manager
+  registerCalDAVACLManager();
 
   // We start the SOGo Connector Code
   sogoConnectorStartupOverlayOnLoad();
