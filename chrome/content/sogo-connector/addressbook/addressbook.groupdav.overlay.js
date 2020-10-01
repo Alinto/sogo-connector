@@ -1010,8 +1010,11 @@ function onLoad(activatedWhileWindowOpen) {
   </statusbar>
          
   <vbox id="cvbContact">
-    <description sc-label-text="&sogo-connector.tabs.categories.label;" id="SCCvCategories" class="CardViewText" insertafter="cvIRC"/>
-                    </vbox>`.replaceAll(/&(.*?);/g, i18n));
+    <vbox id="cvbCategories" class="cardViewGroup" insertbefore="cvbDescription">
+      <description class="CardViewHeading" id="SCCvCategories_label">&sogo-connector.tabs.categories.label;</description>
+      <description id="SCCvCategories" class="CardViewText"/>
+    </vbox>
+  </vbox>`.replaceAll(/&(.*?);/g, i18n));
 
   let appInfo = Components.classes["@mozilla.org/xre/app-info;1"]
       .getService(Components.interfaces.nsIXULRuntime);
@@ -1214,7 +1217,7 @@ let SCCardViewOverlay = {
     this.oldDisplayCardViewPane.apply(window, arguments);
     let cvCategories = document.getElementById("SCCvCategories");
     let catString = card.getProperty("Categories", "").split("\u001A").join(", ");
-    window.cvSetNodeWithLabel(cvCategories, cvCategories.getAttribute("sc-label-text"), catString);
+    cvCategories.textContent = catString;
    }
 };
 
