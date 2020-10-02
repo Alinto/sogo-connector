@@ -20,6 +20,7 @@
 var { cal } = ChromeUtils.import("resource:///modules/calendar/calUtils.jsm");
 var { Services } = ChromeUtils.import("resource://gre/modules/Services.jsm");
 var { notificationManagerInstance } = ChromeUtils.import("resource://sogo-connector/components/NotificationManager.jsm");
+
 var _this = this;
 
 function jsInclude(files, target) {
@@ -30,13 +31,21 @@ function jsInclude(files, target) {
       Services.scriptloader.loadSubScript(files[i], target, "UTF-8");
     }
     catch(e) {
-      //dump("calendar-overlay.js: failed to include '" + files[i] + "'\n"
-      //+ e + "\n");
+      dump("calendar-overlay.js: failed to include '" + files[i] + "'\n"
+           + e + "\n");
     }
   }
 }
 
+function i18n(entity) {
+  let msg = entity.slice(1,-1);
+  return WL.extension.localeData.localizeMessage(msg);
+}
+
 let sogoCalendarsAvailable = false;
+let sogoCategoriesChanged = false;
+let sogoDefaultClassificationsChanged = false;
+let sogoMailsLabelsChanged = false;
 
 jsInclude(["chrome://sogo-connector/content/addressbook/folder-handling.js",
            "chrome://sogo-connector/content/calendar/folder-handler.js",
@@ -48,7 +57,6 @@ jsInclude(["chrome://sogo-connector/content/addressbook/folder-handling.js",
            "chrome://sogo-connector/content/global/sogo-config.js",
            "chrome://global/content/globalOverlay.js",
            "chrome://global/content/editMenuOverlay.js"], _this);
-
 
 jsInclude(["chrome://sogo-connector/content/general/subscription-utils.js"], window);
 
@@ -573,7 +581,287 @@ function SCSynchronizeFromChildWindow(uri) {
     this.setTimeout(SynchronizeGroupdavAddressbook, 100, uri, null, SOGOC_SYNC_WRITE);
 }
 
+function injectSOGoConnectorPreferences(win, topic, data) {
+  if (topic != "app-handler-pane-loaded") {
+    dump("injectSOGoConnectorPreferences: invalid topic, returning\n");
+    return;
+  }
+
+  dump("Preferences pane loaded!\n");
+  //Services.scriptloader.loadSubScript("chrome://global/content/preferencesBindings.js", window, "UTF-8");
+  //Preferences.addAll([
+  //  { id: "calendar.events.default-classification", type: "string" },
+  //  { id: "calendar.todos.default-classification", type: "string" },
+  //]);
+  //Services.scriptloader.loadSubScript("chrome://sogo-connector/content/global/preferences.js", this, "UTF-8");
+  //this.messenger = WL.messenger;
+  //await this.preferences.init();
+  //this.preferences.loadPreferences(win);
+
+  //
+  // Contact categories management
+  //
+  let paneDeck = win.document.getElementById("paneDeck");
+  let contactCategoriesElements = win.MozXULElement.parseXULToFragment(`
+ <hbox id="contactCategories"
+       class="subcategory"
+       data-category="paneGeneral">
+    <html:h1>&sogo-connector.preferences.panes.contacts.categories.title;</html:h1>
+ </hbox>
+ <html:div data-category="paneGeneral">
+    <vbox id="SOGoConnectorPreferencesBoxCategories">
+            <richlistbox id="SOGoConnectorContactCategoriesList"
+                         flex="1"
+                         height="180px"
+                         seltype="multiple">
+            </richlistbox>
+            <hbox pack="end">
+              <button id="SOGoConnectorAddContactCategoryButton"
+                      label="&sogo-connector.preferences.contacts.categories.addButton.label;"
+                      accesskey="&sogo-connector.preferences.contacts.categories.addButton.accesskey;"/>
+              <button id="SOGoConnectorEditContactCategoryButton"
+                      label="&sogo-connector.preferences.contacts.categories.editButton.label;"
+                      accesskey="&sogo-connector.preferences.contacts.categories.editButton.accesskey;"/>
+              <button id="SOGoConnectorDeleteContactCategoryButton"
+                      label="&sogo-connector.preferences.contacts.categories.removeButton.label;"
+                      accesskey="&sogo-connector.preferences.contacts.categories.removeButton.accesskey;"/>
+            </hbox>
+      </vbox>
+  </html:div>`.replaceAll(/&(.*?);/g, i18n));
+  paneDeck.insertBefore(contactCategoriesElements, win.document.getElementById("tagsCategory"));
+
+  gSOGoConnectorPane.init(win);
+  win.document.getElementById("SOGoConnectorContactCategoriesList").addEventListener("select", gSOGoConnectorPane.contactCategoriesPane.updateButtons, false);
+  win.document.getElementById("SOGoConnectorContactCategoriesList").addEventListener("dblclick", gSOGoConnectorPane.contactCategoriesPane.onEditCategory, false);
+  win.document.getElementById("SOGoConnectorAddContactCategoryButton").addEventListener("command", gSOGoConnectorPane.contactCategoriesPane.onAddCategory, false);
+  win.document.getElementById("SOGoConnectorEditContactCategoryButton").addEventListener("command", gSOGoConnectorPane.contactCategoriesPane.onEditCategory, false);
+  win.document.getElementById("SOGoConnectorDeleteContactCategoryButton").addEventListener("command", gSOGoConnectorPane.contactCategoriesPane.onDeleteCategory, false);
+
+  //
+  // Default events and tasks classification (public, confidential, private)
+  //
+  let defaultClassificationElements = win.MozXULElement.parseXULToFragment(`
+ <hbox id="calendarDefaultClassification"
+       class="subcategory"
+       data-category="paneCalendar">
+   <html:h1>&calendar.preferences.general.classification.caption;</html:h1>
+ </hbox>
+  <html:div data-category="paneCalendar">
+    <vbox>
+      <hbox align="center">
+        <label value="&calendar.preferences.general.default-events-classification.label;"
+          control="default-events-classification"/>
+        <menulist id="default-event-classification" crop="none">
+          <menupopup id="event-classification-popup">
+            <menuitem id="event-classification-public-menuitem"
+              label="Public" value="PUBLIC"/>
+            <menuitem id="event-classification-confidential-menuitem"
+              label="&event.menu.options.privacy.confidential.label;" value="CONFIDENTIAL"/>
+            <menuitem id="event-classification-private-menuitem"
+              label="Private" value="PRIVATE"/>
+          </menupopup>
+        </menulist>
+      </hbox>
+      <hbox align="center">
+        <label value="&calendar.preferences.general.default-todos-classification.label;"
+          control="default-todo-classification"/>
+        <menulist id="default-todo-classification" crop="none">
+          <menupopup id="todo-classification-popup">
+            <menuitem id="todo-classification-public-menuitem"
+              label="Pubic" value="PUBLIC"/>
+            <menuitem id="todo-classification-confidential-menuitem"
+              label="&event.menu.options.privacy.confidential.label;" value="CONFIDENTIAL"/>
+            <menuitem id="todo-classification-private-menuitem"
+              label="Private" value="PRIVATE"/>
+          </menupopup>
+        </menulist>
+      </hbox>
+    </vbox>
+  </html:div>`.replaceAll(/&(.*?);/g, i18n));
+
+  paneDeck.insertBefore(defaultClassificationElements, win.document.getElementById("calendarCategoriesCategory"));
+
+  // Adjust calendar/task classification based on the pref value
+  let prefValue = Services.prefs.getCharPref("calendar.events.default-classification", "PUBLIC");
+  let menulist = win.document.getElementById("default-event-classification");
+  menulist.selectedItem = win.document.getElementById("event-classification-" + prefValue.toLowerCase() + "-menuitem");
+  menulist.addEventListener("blur", function() {
+    dump("Event classification changed\n");
+    sogoDefaultClassificationsChanged = true;
+  }, false);
+
+  prefValue = Services.prefs.getCharPref("calendar.todos.default-classification", "PUBLIC");
+  menulist = win.document.getElementById("default-todo-classification");
+  menulist.selectedItem = win.document.getElementById("todo-classification-" + prefValue.toLowerCase() + "-menuitem");
+  menulist.menupopup.addEventListener("change", function() {
+    dump("Task classification changed\n");
+    sogoDefaultClassificationsChanged = true;
+  }, false);
+
+  // mail labels
+  let labelsObserver = new SIMailsLabelsObserver();
+  Services.prefs.addObserver("mailnews.tags.", labelsObserver, false);
+
+  win.addEventListener("unload", function() {
+    dump("PREFERENCES CLOSED!\n");
+
+    if (sogoCategoriesChanged) {
+      SIContactCategories.synchronizeToServer();
+    }
+    if (sogoDefaultClassificationsChanged) {
+      SICalendarDefaultClassifications.synchronizeToServer();
+    }
+    if (sogoMailsLabelsChanged) {
+      SIMailsLabels.synchronizeToServer();
+    }
+  }, false);
+}
+
+//
+// Observer for mail labels changes, so we sync them back to the server
+//
+function SIMailsLabelsObserver() {}
+SIMailsLabelsObserver.prototype = {
+  observe: function(subject, topic, data) {
+    sogoMailsLabelsChanged = true;
+    dump("Mail labels changed\n");
+  },
+
+  QueryInterface: function(aIID) {
+    if (!aIID.equals(Components.interfaces.nsIObserver)
+        && !aIID.equals(Components.interfaces.nsISupports))
+      throw Components.results.NS_ERROR_NO_INTERFACE;
+    return this;
+  }
+};
+
+//
+// For managemnet of contact categories (add, edit, delete)
+//
+var gSOGoConnectorPane = {
+  w: null,
+
+  init: function SCP_init(win) {
+    w = win;
+    this.contactCategoriesPane.init();
+  },
+
+  tabSelectionChanged: function SCP_tabSelectionChanged() {
+  },
+
+  contactCategoriesPane: {
+    mCategoryList: null,
+    _this: null,
+
+    init: function SCP_cCP_init() {
+      _this = this;
+      this.mCategoryList = SCContactCategories.getCategoriesAsArray();
+      this.updateCategoryList();
+    },
+
+    updateCategoryList: function SCP_cCPupdateCategoryList() {
+      _this.mCategoryList = SCContactCategories.getCategoriesAsArray();
+      let listbox = w.document.getElementById("SOGoConnectorContactCategoriesList");
+      listbox.clearSelection();
+      while (listbox.itemCount) {
+        listbox.removeChild(listbox.lastChild);
+      }
+
+      _this.updateButtons();
+
+      for (let i = 0; i < _this.mCategoryList.length; i++) {
+        let newListItem = listbox.appendItem(_this.mCategoryList[i]);
+        newListItem.setAttribute("id", _this.mCategoryList[i]);
+      }
+    },
+
+    updateButtons: function SCP_cCPupdateButtons() {
+      let categoriesList = w.document.getElementById("SOGoConnectorContactCategoriesList");
+      w.document.getElementById("SOGoConnectorDeleteContactCategoryButton")
+        .disabled = (categoriesList.selectedCount == 0);
+      w.document.getElementById("SOGoConnectorEditContactCategoryButton")
+        .disabled = (categoriesList.selectedCount != 1);
+    },
+
+    _addCategory: function SCP_cCP__addCategory(newName) {
+      if (_this.mCategoryList.indexOf(newName) < 0) {
+        _this.mCategoryList.push(newName);
+        SCContactCategories.setCategoriesAsArray(_this.mCategoryList);
+        _this.updateCategoryList();
+        sogoCategoriesChanged = true;
+      }
+    },
+
+    _editCategory: function SCP_cCP__editCategory(idx, newName) {
+      if (_this.mCategoryList.indexOf(newName) < 0) {
+        _this.mCategoryList[idx] = newName;
+        SCContactCategories.setCategoriesAsArray(_this.mCategoryList);
+        _this.updateCategoryList();
+        sogoCategoriesChanged = true;
+      }
+    },
+
+    /* actions */
+    onAddCategory: function SCP_cCP_addCategory() {
+      let listbox = w.document.getElementById("SOGoConnectorContactCategoriesList");
+      listbox.clearSelection();
+      _this.updateButtons();
+
+      let saveObject = {
+        setCategoryName: function SCP_cCP_sO_setCategoryName(newName) {
+          _this._addCategory(newName);
+        }
+      };
+      window.openDialog("chrome://sogo-connector/content/preferences/edit-category.xhtml",
+                        "addCategory", "modal,centerscreen,chrome,resizable=no",
+                        "",
+                        WL,
+                        WL.extension.localeData.localizeMessage("sogo-connector.preferences.contacts.categories.add.title"),
+                        saveObject);
+    },
+    onEditCategory: function SCP_cCP_editCategory() {
+      let list = w.document.getElementById("SOGoConnectorContactCategoriesList");
+      if (list.selectedCount == 1) {
+        let saveObject = {
+          setCategoryName: function SCP_cCP_sO_setCategoryName(newName) {
+            _this._editCategory(list.selectedIndex, newName);
+          }
+        };
+        window.openDialog("chrome://sogo-connector/content/preferences/edit-category.xhtml",
+                          "editCategory", "modal,centerscreen,chrome,resizable=no",
+                          _this.mCategoryList[list.selectedIndex],
+                          WL,
+                          WL.extension.localeData.localizeMessage("sogo-connector.preferences.contacts.categories.edit.title"),
+                          saveObject);
+      }
+    },
+    onDeleteCategory: function SCP_cCP_deleteCategory() {
+      let list = w.document.getElementById("SOGoConnectorContactCategoriesList");
+      if (list.selectedCount > 0) {
+        let selection = list.selectedItems;
+
+        for (let i = 0; i < selection.length; i++) {
+          list.removeChild(selection[i]);
+        }
+        _this.updateButtons();
+
+        _this.mCategoryList = [];
+        let newNodes = list.childNodes;
+        for (let i = 0; i < newNodes.length; i++) {
+          if (newNodes[i].tagName == "richlistitem") {
+            _this.mCategoryList.push(newNodes[i].getAttribute("id"));
+          }
+        }
+        SCContactCategories.setCategoriesAsArray(_this.mCategoryList);
+        sogoCategoriesChanged = true;
+      }
+    }
+  }
+};
+
+
 function onLoad(activatedWhileWindowOpen) {
   OnLoadMessengerOverlay();
   SIOnCalendarOverlayLoad();
+  Services.obs.addObserver(injectSOGoConnectorPreferences, "app-handler-pane-loaded");
 }

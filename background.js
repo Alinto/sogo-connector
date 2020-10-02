@@ -44,11 +44,6 @@
   messenger.WindowListener.registerWindow("chrome://messenger/content/addressbook/addressbook.xhtml",
                                           "chrome://sogo-connector/content/addressbook/addressbook.groupdav.overlay.js");
 
-  // to wipe
-  //messenger.WindowListener.registerWindow("chrome://messenger/content/addressbook/addressbook.xhtml",
-  //                                        "chrome://sogo-connector/content/addressbook/cardview-overlay.js");
-
-  // Seems OK but not possible to add categories
   messenger.WindowListener.registerWindow("chrome://messenger/content/addressbook/abNewCardDialog.xhtml",
                                           "chrome://sogo-connector/content/addressbook/abNewCardDialog.groupdav.overlay.js");
   messenger.WindowListener.registerWindow("chrome://messenger/content/addressbook/abEditCardDialog.xhtml",
@@ -60,10 +55,6 @@
   messenger.WindowListener.registerWindow("chrome://messenger/content/addressbook/abEditListDialog.xhtml",
                                           "chrome://sogo-connector/content/addressbook/edit-list-overlay.js");
 
-  // TODO: not working, abCardOverlay.xhtml does not exist anynore
-  //messenger.WindowListener.registerWindow("chrome://messenger/content/addressbook/abCard.inc.xhtml",
-  //                                        "chrome://sogo-connector/content/addressbook/common-card-overlay.js");
-
   // TODO: must create JS file. use for autocomplete
   // we might just drop that entirely
   messenger.WindowListener.registerWindow("chrome://messenger/content/messengercompose/messengercompose.xhtml",
@@ -72,9 +63,9 @@
   messenger.WindowListener.registerWindow("chrome://calendar/content/calendar-invitations-dialog.xhtml",
                                           "chrome://sogo-connector/content/calendar/calendar-invitations-dialog.js");
 
-  // TODO
-  messenger.WindowListener.registerWindow("chrome://messenger/content/preferences/preferences.xhtml",
-                                          "chrome://sogo-connector/content/preferences/preferences-overlay.js");
+  // TODO TO DELETE
+  //messenger.WindowListener.registerWindow("about:preferences",
+  //                                        "chrome://sogo-connector/content/preferences/preferences-overlay.js");
 
   // need to test if the unload function is called
   messenger.WindowListener.registerWindow("chrome://global/content/commonDialog.xhtml",
@@ -93,10 +84,12 @@
   // kPersonalAddressbookURI is undefined and makes use of RDF
   messenger.WindowListener.registerWindow("chrome://messenger/content/addressbook/abMailListDialog.xhtml",
                                           "chrome://sogo-connector/content/addressbook/newlist-overlay.js");
-  
+
+  // drop xul
   messenger.WindowListener.registerWindow("chrome://calendar/content/calendar-properties-dialog.xhtml",
                                           "chrome://sogo-connector/content/calendar/properties-overlay.js");
 
+  // drop xul
   messenger.WindowListener.registerWindow("chrome://calendar/content/calendar-event-dialog.xhtml",
                                           "chrome://sogo-connector/content/calendar/calendar-event-dialog.js");
 
