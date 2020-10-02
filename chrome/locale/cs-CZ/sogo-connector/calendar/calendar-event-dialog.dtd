@@ -1,6 +1,0 @@
-<!ENTITY  attendee.toolbar.accept.label "Přijmout">
-<!ENTITY  attendee.toolbar.decline.label "Odmítnout">
-<!ENTITY  attendee.toolbar.close.label "Zavřít">
-<!ENTITY  event.organizers.label                           "Organizátor:">
-<!ENTITY  event.menu.options.privacy.confidential.label    "Zobrazit pouze datum a čas">
-<!ENTITY  event.confidential.label                         "Zobrazit pouze datum a čas">

@@ -1,6 +1,0 @@
-<!ENTITY  attendee.toolbar.accept.label "Accept">
-<!ENTITY  attendee.toolbar.decline.label "Decline">
-<!ENTITY  attendee.toolbar.close.label "Close">
-<!ENTITY  event.organizers.label                           "Organizer:">
-<!ENTITY  event.menu.options.privacy.confidential.label    "Confidential Event">
-<!ENTITY  event.confidential.label                         "Confidential Event">
