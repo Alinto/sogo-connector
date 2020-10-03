@@ -588,15 +588,10 @@ function injectSOGoConnectorPreferences(win, topic, data) {
   }
 
   dump("Preferences pane loaded!\n");
-  //Services.scriptloader.loadSubScript("chrome://global/content/preferencesBindings.js", window, "UTF-8");
-  //Preferences.addAll([
-  //  { id: "calendar.events.default-classification", type: "string" },
-  //  { id: "calendar.todos.default-classification", type: "string" },
-  //]);
-  //Services.scriptloader.loadSubScript("chrome://sogo-connector/content/global/preferences.js", this, "UTF-8");
-  //this.messenger = WL.messenger;
-  //await this.preferences.init();
-  //this.preferences.loadPreferences(win);
+  win.Preferences.addAll([
+    { id: "calendar.events.default-classification", type: "string" },
+    { id: "calendar.todos.default-classification", type: "string" },
+  ]);
 
   //
   // Contact categories management
@@ -651,7 +646,7 @@ function injectSOGoConnectorPreferences(win, topic, data) {
       <hbox align="center">
         <label value="&calendar.preferences.general.default-events-classification.label;"
           control="default-events-classification"/>
-        <menulist id="default-event-classification" crop="none">
+        <menulist id="default-event-classification" crop="none" preference="calendar.events.default-classification">
           <menupopup id="event-classification-popup">
             <menuitem id="event-classification-public-menuitem"
               label="Public" value="PUBLIC"/>
@@ -665,7 +660,7 @@ function injectSOGoConnectorPreferences(win, topic, data) {
       <hbox align="center">
         <label value="&calendar.preferences.general.default-todos-classification.label;"
           control="default-todo-classification"/>
-        <menulist id="default-todo-classification" crop="none">
+        <menulist id="default-todo-classification" crop="none" preference="calendar.todos.default-classification">
           <menupopup id="todo-classification-popup">
             <menuitem id="todo-classification-public-menuitem"
               label="Pubic" value="PUBLIC"/>
@@ -681,24 +676,12 @@ function injectSOGoConnectorPreferences(win, topic, data) {
 
   paneDeck.insertBefore(defaultClassificationElements, win.document.getElementById("calendarCategoriesCategory"));
 
-  // Adjust calendar/task classification based on the pref value
-  let prefValue = Services.prefs.getCharPref("calendar.events.default-classification", "PUBLIC");
-  let menulist = win.document.getElementById("default-event-classification");
-  menulist.selectedItem = win.document.getElementById("event-classification-" + prefValue.toLowerCase() + "-menuitem");
-  menulist.addEventListener("blur", function() {
-    dump("Event classification changed\n");
-    sogoDefaultClassificationsChanged = true;
-  }, false);
+  // Track event/task classification changes
+  let sogoDefaultClassificationObserver = new SOGoDefaultClassificationObserver();
+  Services.prefs.addObserver("calendar.events.default-classification", sogoDefaultClassificationObserver, false);
+  Services.prefs.addObserver("calendar.todos.default-classification", sogoDefaultClassificationObserver, false);
 
-  prefValue = Services.prefs.getCharPref("calendar.todos.default-classification", "PUBLIC");
-  menulist = win.document.getElementById("default-todo-classification");
-  menulist.selectedItem = win.document.getElementById("todo-classification-" + prefValue.toLowerCase() + "-menuitem");
-  menulist.menupopup.addEventListener("change", function() {
-    dump("Task classification changed\n");
-    sogoDefaultClassificationsChanged = true;
-  }, false);
-
-  // mail labels
+  // Track mail label changes
   let labelsObserver = new SIMailsLabelsObserver();
   Services.prefs.addObserver("mailnews.tags.", labelsObserver, false);
 
@@ -716,6 +699,24 @@ function injectSOGoConnectorPreferences(win, topic, data) {
     }
   }, false);
 }
+
+//
+// Observer for classification changes, so we sync them back to the server
+//
+function SOGoDefaultClassificationObserver() {}
+SOGoDefaultClassificationObserver.prototype = {
+  observe: function(subject, topic, data) {
+    sogoDefaultClassificationsChanged = true;
+    dump("Default classification changed\n");
+  },
+
+  QueryInterface: function(aIID) {
+    if (!aIID.equals(Components.interfaces.nsIObserver)
+        && !aIID.equals(Components.interfaces.nsISupports))
+      throw Components.results.NS_ERROR_NO_INTERFACE;
+    return this;
+  }
+};
 
 //
 // Observer for mail labels changes, so we sync them back to the server
