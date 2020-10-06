@@ -276,6 +276,7 @@ CalDAVACLOfflineManager.prototype = {
   },
 
   _deserializeIdentities: function CalDAVACLOfflineManager__deserializeIdentities(mgr, calendar, data, entry) {
+    //dump("data: " + data + "\n");
     let dataArray = this._parseStringArray(data);
     let identities = [];
     for (let data of dataArray) {
@@ -344,7 +345,7 @@ CalDAVACLOfflineManager.prototype = {
   },
 
   setCalendarEntry: function CalDAVACLOfflineManager_setCalendarEntry(calendar, entry, listener) {
-    //dump("\n\n\n\nsetCalendarEntry\n\n\n\n");
+    //dump("\n\n\n\nsetCalendarEntry\n");
     let url = fixURL(calendar.uri.spec);
     let queries = [ this.mInsertCalendarEntry, this.mUpdateCalendarEntry ];
     let errors = 0;
@@ -375,7 +376,7 @@ CalDAVACLOfflineManager.prototype = {
       params.url = url;
       params.has_access_control = (entry.hasAccessControl ? 1 : 0);
       if (entry.hasAccessControl) {
-        // dump("has access control...\n");
+        //dump("has access control...\n");
         let serialized_user_privileges = this._serializeStringArray(entry.userPrivileges);
         params.user_privileges = serialized_user_privileges;
         //dump("PARSED userPrivileges: " +  params.user_privileges  + "\n");
@@ -534,7 +535,7 @@ function CalDAVACLManager() {
   this.pendingCalendarOperations = {};
   this.pendingItemOperations = {};
   this.identityCount = 0;
-  this.accountMgr = null;
+  this.defaultAccount = null;
   this.mOfflineManager = new CalDAVACLOfflineManager();
   this.wrappedJSObject = this;
 }
@@ -602,7 +603,7 @@ CalDAVACLManager.prototype = {
   mOfflineManager: null,
   calendars: null,
   identityCount: 0,
-  accountMgr: null,
+  defaultAccount: null,
   pendingCalendarOperations: null,
   pendingItemOperations: null,
 
@@ -650,7 +651,7 @@ CalDAVACLManager.prototype = {
         ASSERT(false, "unexpected!");
       },
       onOperationComplete: function cDACLM_getCalendarEntry_oL_onOperationComplete(opCalendar, opStatus, opType, opId, opDetail) {
-        dump("onOperationComplete 1\n");
+        //dump("onOperationComplete 1\n");
         let aEntry = opDetail;
         if (Components.isSuccessCode(opStatus)) {
           //dump("acl-manager: we received a valid calendar entry, we cache it\n");
@@ -661,7 +662,7 @@ CalDAVACLManager.prototype = {
           this_._makeFallbackCalendarEntry(aEntry);
         }
         
-        dump("getCalendarEntry returned for cal: " + aEntry.uri.spec  + "\n");
+        //dump("getCalendarEntry returned for cal: " + aEntry.uri.spec  + "\n");
 
         for (let data of this_.pendingCalendarOperations[url]) {
           //this_.mOfflineManager.setCalendarEntry(data.calendar, aEntry, null); // FIXME - should we call it?
@@ -684,9 +685,8 @@ CalDAVACLManager.prototype = {
   _makeFallbackCalendarEntry: function cDACLM__makeOfflineCalendarEntry(offlineEntry) {
     // dump("acl-manager: making fallback calendar entry\n");
     offlineEntry.hasAccessControl = false;
-    if (!this.accountMgr)
+    if (!this.defaultAccount)
       this._initAccountMgr();
-    let defaultAccount = this.accountMgr.defaultAccount;
     let identity = defaultAccount.defaultIdentity;
     if (identity != null) {
       offlineEntry.userAddresses = ["mailto:" + identity.email];
@@ -880,7 +880,7 @@ CalDAVACLManager.prototype = {
     let this_ = this;
     let offlineListener = {
       onOperationComplete: function cDACLM__queryCalendarEntry_oL_onOperationComplete(opCalendar, opStatus, opEntry) {
-        dump("onOperationComplete 2\n");
+        //dump("onOperationComplete 2\n");
         
         if (this_.isOffline) {
           if (Components.isSuccessCode(opStatus)) {
@@ -1069,29 +1069,29 @@ CalDAVACLManager.prototype = {
       let addressesKey = data.who + "Addresses";
       let identitiesKey = data.who + "Identities";
 
-      dump("\n\n\n\n\n\n\nurl: " + url + " addressesKey: " + addressesKey + " identitiesKey: " + identitiesKey + "\n");
+      //dump("\n\n\n\n\n\n\nurl: " + url + " addressesKey: " + addressesKey + " identitiesKey: " + identitiesKey + "\n");
 
       let addresses = entry[addressesKey];
       if (!addresses) {
-        // dump("new addresses\n");
+        //dump("new addresses\n");
         addresses = [];
         entry[addressesKey] = addresses;
       }
       for (let address in addressValues) {
         if (addresses.indexOf(address) == -1) {
-          // dump("added address '" + address + "'\n");
+          //dump("added address '" + address + "'\n");
           addresses.push(address);
         }
       }
 
-      dump("identities for calendar: " + data.calendar + "\n");
-      dump("  type: " + data.who + "\n");
       let identities = entry[identitiesKey];
+      //dump("identities for calendar: " + data.calendar + "\n");
       if (!identities) {
         //dump("new identities\n");
         identities = [];
         entry[identitiesKey] = identities;
       }
+      //dump("  type: " + data.who + " count: " + identities.length + "\n");
 
       let displayName = this._parsePrincipalDisplayName(queryDoc);
       if (displayName != null) {
@@ -1101,6 +1101,7 @@ CalDAVACLManager.prototype = {
                                  address.substr(7), entry);
           }
         }
+        //dump("Final identities count: " + identities.length + "\n");
       }
 
       if (entry.nbrAddressSets) {
@@ -1112,11 +1113,8 @@ CalDAVACLManager.prototype = {
     }
   },
   _initAccountMgr: function cDACLM__initAccountMgr() {
-    //this.accountMgr = Components.classes["@mozilla.org/messenger/account-manager;1"]
-    //                            .getService(Components.interfaces.nsIMsgAccountManager);
-    let defaultAccount = MailServices.accounts.defaultAccount;
+    this.defaultAccount = MailServices.accounts.defaultAccount;
     
-    //let identities = this.accountMgr.allIdentities.enumerate().QueryInterface(Components.interfaces.nsISimpleEnumerator);
     let identities = MailServices.accounts.allIdentities;
     let values = [];
     let current = 0;
@@ -1163,7 +1161,6 @@ CalDAVACLManager.prototype = {
     let lowEmail = email.toLowerCase();
     let lowDisplayName = displayName.toLowerCase();
 
-    //let identities = this.accountMgr.allIdentities.enumerate().QueryInterface(Components.interfaces.nsISimpleEnumerator);
     let identities = MailServices.accounts.allIdentities;
 
     //while (!identity && identities.hasMoreElements()) {
@@ -1196,9 +1193,8 @@ CalDAVACLManager.prototype = {
   },
 
   _appendIdentity: function cDACLM__appendIdentity(identities, displayName, email, calendar) {
-    if (!this.accountMgr)
+    if (!this.defaultAccount)
       this._initAccountMgr();
-
     let newIdentity = this._findIdentity(email, displayName);
     if (!newIdentity) {
       newIdentity = Components.classes["@mozilla.org/messenger/identity;1"]
@@ -1207,7 +1203,7 @@ CalDAVACLManager.prototype = {
       //newIdentity.identityName = String(displayName + " <" + email + ">");
       newIdentity.fullName = String(displayName);
       newIdentity.email = String(email);
-      // dump("added for " + email + ": " + newIdentity + "\n");
+      //dump("adding for " + email + ": " + newIdentity + "\n");
 
       // We add identities associated to this calendar to Thunderbird's
       // list of identities only if we are actually the owner of the calendar.
@@ -1217,8 +1213,11 @@ CalDAVACLManager.prototype = {
       this.identityCount++;
     }
 
-    if (!this._identitiesHaveEmail(identities, email))
+    if (!this._identitiesHaveEmail(identities, email)) {
       identities.push(newIdentity);
+    } else {
+      //dump("skipped " + email + "\n");
+    }
   },
   _parseCalendarUserAddressSet: function cDACLM__parseCalendarUserAddressSet(queryDoc, calendar) {
     let values = {};
@@ -1522,16 +1521,17 @@ CalDAVAclCalendarEntry.prototype = {
 
   //     return entries;
   // },
-  getUserAddresses: function getUserAddresses(outCount) {
+  getUserAddresses: function getUserAddresses() {
     //return this._getEntries(this.userAddresses, outCount);
     return this.userAddresses;
   },
-  getUserIdentities: function getUserAddresses(outCount) {
+  getUserIdentities: function getUserAddresses() {
     //return this._getEntries(this.userIdentities, outCount);
     return this.userIdentities;
   },
-  getOwnerIdentities: function getUserAddresses(outCount) {
+  getOwnerIdentities: function getUserAddresses() {
     //return this._getEntries(this.ownerIdentities, outCount);
+    //dump("IDENTITIES COUNT: " + this.ownerIdentities.length +"\n");
     return this.ownerIdentities;
   },
 
