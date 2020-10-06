@@ -7,12 +7,11 @@ name. Use "sogo-demo" as an example. You can do so by doing:
 % cp -a custom/sogo-demo custom/mysite
 ```
 
-Then customize the following files:
+Then customize the following file:
 
 * custom/mysite/defaults/preferences/site.js
-* custom/mysite/chrome/content/sogo-connector/global/extensions.rdf
 
-If you want to force-push preferences upon each startup, modify:
+You must at least customize the sogo-connector.baseURL value. If you want to force-push preferences upon each startup, modify:
 
 * custom/mysite//chrome/content/sogo-connector/general/custom-preferences.js
 

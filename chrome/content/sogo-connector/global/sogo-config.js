@@ -59,44 +59,10 @@ function sogoHostname() {
 }
 
 function sogoBaseURL() {
-  // if (!sogoConfig['baseURL']) {
-  // 	var rdf = Components.classes["@mozilla.org/rdf/rdf-service;1"]
-  // 		.getService(Components.interfaces.nsIRDFService);
+  if (!sogoConfig['baseURL']) {
+    let prefix = Services.prefs.getCharPref("sogo-connector.baseURL");
+    sogoConfig['baseURL'] = (prefix + "/dav/" + sogoUserName() + "/");
+  }
 
-  // 	var extensions
-  // 		= rdf.GetResource("http://inverse.ca/sogo-connector/extensions");
-  // 	var updateURLres
-  // 		= rdf.GetResource("http://inverse.ca/sogo-connector/updateURL");
-  // 	var ds
-  // 		= rdf.GetDataSourceBlocking("chrome://sogo-connector/content/global/extensions.rdf");
-
-  // 	var updateArray;
-  // 	try {
-  // 		var urlNode = ds.GetTarget(extensions, updateURLres, true);
-  // 		if (urlNode instanceof Components.interfaces.nsIRDFLiteral) {
-  // 			var updateURL = urlNode.Value;
-  // 			updateArray = updateURL.split("/");
-  // 		}
-  // 		else
-  // 			throw new Error('');
-  // 	}
-  // 	catch (e) {
-  // 		dump("sogoBaseURL - unable to obtain updateURL from extensions.rdf file: " + e + "\n");
-  // 	}
-
-  // 	var sogoPrefix;
-  // 	try {
-  // 		sogoPrefix = "/" + Services.prefs.getCharPref("sogo-connector.sogo-prefix");
-  // 	}
-  // 	catch(e) {
-  // 		sogoPrefix = "/SOGo";
-  // 	}
-
-  // 	sogoConfig['baseURL'] = (updateArray[0] + "//" + updateArray[2]
-  // 													 + sogoPrefix + "/dav/" + sogoUserName() + "/");
-  // }
-
-  sogoConfig['baseURL'] = "https://sogoludo/SOGo/dav/sogo3/";
-	
   return sogoConfig['baseURL'];
 }
