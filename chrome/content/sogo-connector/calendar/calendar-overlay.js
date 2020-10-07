@@ -62,7 +62,7 @@ jsInclude(["chrome://sogo-connector/content/general/subscription-utils.js"], win
 
 function openCalendarCreationDialog() {
   window.openDialog("chrome://sogo-connector/content/calendar/creation-dialog.xhtml",
-                    "calendarSubscribe",
+                    "calendarCreate",
 	            "chrome,titlebar,centerscreen,alwaysRaised=yes,dialog=yes",
                     _this, WL);
 }

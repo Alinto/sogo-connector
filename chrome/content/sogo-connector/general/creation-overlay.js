@@ -41,7 +41,7 @@ function _confirmCreation() {
   if (window.arguments[0]
       && folderName.replace(/(^\s+|\s+$)/g, '').length > 0) {
     window.arguments[0].createFolder(folderName,
-			             window.arguments[0].creationGetHandler());
+			             window.opener.creationGetHandler());
     window.close();
   }
 }
