@@ -860,6 +860,35 @@ var gSOGoConnectorPane = {
   }
 };
 
+//
+// The original "AddContact" method (./mail/base/content/msgHdrView.js) makes use of
+// the default local address book - we overwrite that to use SOGo's personal
+// address book by default
+//
+window.AddContact = function(emailAddressNode)
+{
+  dump("calendar-overlay.js: AddContact()\n");
+  emailAddressNode = emailAddressNode.closest("mail-emailaddress");
+  emailAddressNode.setAttribute("updatingUI", true);
+
+  let abManager = Components.classes["@mozilla.org/abmanager;1"]
+      .getService(Components.interfaces.nsIAbManager);
+
+  let handler = new AddressbookHandler();
+  let existing = handler.getExistingDirectories();
+  let personalURL = sogoBaseURL() + "Contacts/personal/";
+  let addressBook = existing[personalURL];
+
+  let card = Components.classes["@mozilla.org/addressbook/cardproperty;1"]
+      .createInstance(Components.interfaces.nsIAbCard);
+  card.displayName = emailAddressNode.getAttribute("displayName");
+  card.primaryEmail = emailAddressNode.getAttribute("emailAddress");
+
+  // Just save the new node straight away.
+  addressBook.addCard(card);
+
+  emailAddressNode.removeAttribute("updatingUI");
+}
 
 function onLoad(activatedWhileWindowOpen) {
   OnLoadMessengerOverlay();
