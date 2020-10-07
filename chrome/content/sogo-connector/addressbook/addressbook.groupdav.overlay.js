@@ -167,65 +167,65 @@ function SCAbEditSelectedDirectory() {
   }
 }
 
-let deleteManager = {
-    mCount: 0,
-    mErrors: 0,
-    mDirectory: null,
-    begin: function(directory, count) {
-        this.mDirectory = directory;
-        this.mCount = count;
-        this.mErrors = 0;
-    },
-    decrement: function(code) {
-        this.mCount--;
-        if (!((code > 199 && code < 400)
-            || code == 404
-              || code > 599))
-            this.mErrors++;
+// let deleteManager = {
+//     mCount: 0,
+//     mErrors: 0,
+//     mDirectory: null,
+//     begin: function(directory, count) {
+//         this.mDirectory = directory;
+//         this.mCount = count;
+//         this.mErrors = 0;
+//     },
+//     decrement: function(code) {
+//         this.mCount--;
+//         if (!((code > 199 && code < 400)
+//             || code == 404
+//               || code > 599))
+//             this.mErrors++;
 
-        return (this.mCount == 0);
-    },
-    finish: function() {
-        if (this.mErrors != 0)
-            SCOpenDeleteFailureDialog(this.mDirectory);
-        this.mDirectory = null;
-    },
-    onDAVQueryComplete: function(code, result, headers, data) {
-        // 		dump("on davquerycompplete\n");
-        if (data.deleteLocally
-            && ((code > 199 && code < 400)
-                || code == 404
-                || code == 604)) {
-            // 			dump("code: " + code + "\n");
-            if (data.component.isMailList) {
-                // 				dump("deleting list\n");
-                let mailListURI = ((data.component
-                                    instanceof Components.interfaces.nsIAbCard)
-                                   ? data.component.mailListURI
-                                   : data.component.URI);
-                let attributes = new GroupDAVListAttributes(mailListURI);
-                attributes.deleteRecord();
-                /* we commit the preferences here because sometimes Thunderbird will
-                 crash when deleting the real instance of the list. */
-                let prefService = (Components.classes["@mozilla.org/preferences-service;1"]
-                                             .getService(Components.interfaces.nsIPrefService));
-                prefService.savePrefFile(null);
+//         return (this.mCount == 0);
+//     },
+//     finish: function() {
+//         if (this.mErrors != 0)
+//             SCOpenDeleteFailureDialog(this.mDirectory);
+//         this.mDirectory = null;
+//     },
+//     onDAVQueryComplete: function(code, result, headers, data) {
+//         // 		dump("on davquerycompplete\n");
+//         if (data.deleteLocally
+//             && ((code > 199 && code < 400)
+//                 || code == 404
+//                 || code == 604)) {
+//             // 			dump("code: " + code + "\n");
+//             if (data.component.isMailList) {
+//                 // 				dump("deleting list\n");
+//                 let mailListURI = ((data.component
+//                                     instanceof Components.interfaces.nsIAbCard)
+//                                    ? data.component.mailListURI
+//                                    : data.component.URI);
+//                 let attributes = new GroupDAVListAttributes(mailListURI);
+//                 attributes.deleteRecord();
+//                 /* we commit the preferences here because sometimes Thunderbird will
+//                  crash when deleting the real instance of the list. */
+//                 let prefService = (Components.classes["@mozilla.org/preferences-service;1"]
+//                                              .getService(Components.interfaces.nsIPrefService));
+//                 prefService.savePrefFile(null);
 
-                let listDirectory = SCGetDirectoryFromURI(mailListURI);
-                data.directory.deleteDirectory(listDirectory);
-                //gAbView.deleteSelectedCards();
-            }
-            else {
-                let cards = Components.classes["@mozilla.org/array;1"]
-                                      .createInstance(Components.interfaces.nsIMutableArray);
-                cards.appendElement(data.component, false);
-                data.directory.deleteCards(cards);
-            }
-        }
-        if (this.decrement(code))
-            this.finish();
-    }
-};
+//                 let listDirectory = SCGetDirectoryFromURI(mailListURI);
+//                 data.directory.deleteDirectory(listDirectory);
+//                 //gAbView.deleteSelectedCards();
+//             }
+//             else {
+//                 let cards = Components.classes["@mozilla.org/array;1"]
+//                                       .createInstance(Components.interfaces.nsIMutableArray);
+//                 cards.appendElement(data.component, false);
+//                 data.directory.deleteCards(cards);
+//             }
+//         }
+//         if (this.decrement(code))
+//             this.finish();
+//     }
+// };
 
 // function DeleteGroupDAVCards(directory, cards, deleteLocally) {
 //     dump("delete: " + cards.length + " cards\n");
@@ -800,7 +800,7 @@ window.SIAbDeleteDirectory = function(aURI) {
 	    }
 	  }
 	  else
-	    unsubscribeFromFolder(url, handler);
+	    window.unsubscribeFromFolder(url, handler);
 	}
 	else
 	  SCDeleteDAVDirectory(aURI);
