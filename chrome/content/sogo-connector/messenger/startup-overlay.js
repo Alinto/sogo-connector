@@ -23,6 +23,10 @@ var { Services } = ChromeUtils.import("resource://gre/modules/Services.jsm");
 
 const { ICAL } = ChromeUtils.import("resource:///modules/calendar/Ical.jsm");
 var { VCardUtils } = ChromeUtils.import("resource:///modules/VCardUtils.jsm");
+var { CardDAVDirectory } = ChromeUtils.import("resource:///modules/CardDAVDirectory.jsm");
+var { MailServices } = ChromeUtils.import("resource:///modules/MailServices.jsm");
+var { AddrBookDirectory } = ChromeUtils.import("resource:///modules/AddrBookDirectory.jsm");
+var { AddrBookManager } = ChromeUtils.import("resource:///modules/AddrBookManager.jsm");
 
 function jsInclude(files, target) {
   let loader = Components.classes["@mozilla.org/moz/jssubscript-loader;1"]
@@ -39,8 +43,12 @@ function jsInclude(files, target) {
   }
 }
 
-jsInclude(["chrome://sogo-connector/content/messenger/folders-update.js"]);
+jsInclude(["chrome://sogo-connector/content/messenger/folders-update.js",
+           "chrome://sogo-connector/content/general/preference.service.addressbook.groupdav.js",
+           "chrome://inverse-library/content/uuid.js",
+           "chrome://sogo-connector/content/general/vcards.utils.js"]);
 
+let initialPrefs = {};
 let forcedPrefs = {};
 
 let iCc = Components.classes;
@@ -263,15 +271,27 @@ function GetRDFUpdateData(rdf, ds, node) {
 
 function sogoConnectorStartupOverlayOnLoad() {
   dump("Starting SOGo Connector code...\n");
-    
+  let firsttime = false;
   let loader = Components.classes["@mozilla.org/moz/jssubscript-loader;1"]
       .getService(Components.interfaces.mozIJSSubScriptLoader);
+
+  // We check if we ever started the SOGo Connector
+  try {
+    Services.prefs.getCharPref("sogo-connector.baseURL");
+  } catch(e) {
+    firsttime = true;
+  }
+
+  // We apply all custom preferences, forced or initial
   try {
     loader.loadSubScript("chrome://sogo-connector/content/general/custom-preferences.js", this);
-    applyForcedPrefs();
+
+    if (firsttime)
+      applyPrefs(initialPrefs);
+    applyPrefs(forcedPrefs);
   }
   catch(e) {
-    dump("Custom preference code not available.\ne: " + e + "\n");
+    dump("Custom preferences invalid or not available.\ne: " + e + "\n");
   }
 
   try {
@@ -404,7 +424,22 @@ function checkExtensionVersion(currentVersion, minVersion, strict) {
     return acceptable;
 }
 
-// forced prefs
+
+//
+// Preferences handling function
+///
+function int_pref(key, value) {
+  initialPrefs[key] = { type: "int", value: value };
+}
+
+function bool_pref(key, value) {
+  initialPrefs[key] = { type: "bool", value: value };
+}
+
+function char_pref(key, value) {
+  initialPrefs[key] = { type: "char", value: value };
+}
+
 function force_int_pref(key, value) {
   forcedPrefs[key] = { type: "int", value: value };
 }
@@ -417,9 +452,9 @@ function force_char_pref(key, value) {
   forcedPrefs[key] = { type: "char", value: value };
 }
 
-function applyForcedPrefs() {
-  for (let key in forcedPrefs) {
-    let pref = forcedPrefs[key];
+function applyPrefs(prefs) {
+  for (let key in prefs) {
+    let pref = prefs[key];
     if (pref["type"] == "int") {
       Services.prefs.setIntPref(key, pref["value"]);
     }

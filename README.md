@@ -9,11 +9,10 @@ name. Use "sogo-demo" as an example. You can do so by doing:
 
 Then customize the following file:
 
-* custom/mysite/defaults/preferences/site.js
-
-You must at least customize the sogo-connector.baseURL value. If you want to force-push preferences upon each startup, modify:
-
 * custom/mysite//chrome/content/sogo-connector/general/custom-preferences.js
+
+You must at least customize the sogo-connector.baseURL value. If you
+want to force-push preferences prefix your option with force_.
 
 To build the extension, do:
 
@@ -37,7 +36,7 @@ browser.dom.window.dump.enabled = true.
 javascript.options.strict = true.
   Enables strict JavaScript warnings in the Error Console. Note that since many people have this setting turned off when developing, you will see lots of warnings for problems with their code in addition to warnings for your own extension. You can filter those with Console2.
 
-You can do so automatically by setting these preferences in site.js:
+You can do so automatically by setting these preferences in custom-preferences.js:
 
 ```javascript
 pref("javascript.options.showInConsole", true);
