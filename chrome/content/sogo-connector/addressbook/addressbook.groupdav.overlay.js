@@ -711,15 +711,6 @@ window.SCCommandSynchronize = function() {
   SynchronizeGroupdavAddressbook(gSelectedDir, window.SCCommandSynchronizeCallback);
 }
 
-window.SCCommandSynchronizeCallback = function(url, code, failures, datas) {
-  dump("SCCommandSynchronizeCallback\n");
-  dump("  url: " + url + "\n");
-  dump("  code: " + code + "\n");
-  for (let i in failures) {
-    dump("  failure: " + i + "\n");
-  }
-}
-
 window.openAddressBookCreationDialog = function() {
   window.openDialog("chrome://sogo-connector/content/addressbook/creation-dialog.xhtml",
 		    "addressbookCreate",
@@ -992,7 +983,6 @@ function onLoad(activatedWhileWindowOpen) {
   <!--Add the GroupDAV synchronize menu to the tree contextual menu -->
   <popup id="dirTreeContext">
     <menuseparator/>	
-    <menuitem id="dirTreeContext-syncGroupdav" label="&GroupDavSync.label;" accesskey="&GroupDavSync.accesskey;" command="cmd_syncGroupdav"/>
     <menuitem id="dirTreeContext-ABACLDialog" label="&addressbook-overlay.acl-menu.label;" command="cmd_SOGoACLS"/>
   </popup>
 
