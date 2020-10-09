@@ -1,12 +1,6 @@
 PACKAGE = sogo-connector
 GIT_REV = $(shell git rev-parse --verify HEAD | cut -c1-10)
-
-ifeq ($(shell uname),Darwin)
-VERSION = $(shell grep em:version install.rdf | sed -E 's@(em:version=|"| )@@g')
-else
-VERSION = $(shell grep em:version install.rdf | sed -e 's@\(em:version=\|\"\|\ \)@@g')
-endif
-
+VERSION := $(shell awk '/ "version":/ {print $$2}' manifest.json | sed -e 's@[\",]@@g')
 FIND_FILTER = ! -path './custom/*' -type f
 XPI_ARCHIVE = $(PACKAGE)-$(VERSION)-$(GIT_REV).xpi
 
