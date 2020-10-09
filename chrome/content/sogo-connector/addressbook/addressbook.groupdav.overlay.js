@@ -669,30 +669,30 @@ function SCOnCategoriesContextMenuItemCommand(event) {
   }
 }
 
-function SCSetSearchCriteria(menuitem) {
-    let criteria = menuitem.getAttribute("sc-search-criteria");
-    if (criteria.length > 0) {
-      gQueryURIFormat = "(or(" + criteria + ",c,@V))"; // the "or" is important here
+window.SCSetSearchCriteria = function(menuitem) {
+  let criteria = menuitem.getAttribute("sc-search-criteria");
+  if (criteria.length > 0) {
+    gQueryURIFormat = "(or(" + criteria + ",c,@V))"; // the "or" is important here
+  }
+  else {
+    //let prefBranch = (Components.classes["@mozilla.org/preferences-service;1"]
+    //                  .getService(Components.interfaces.nsIPrefBranch));
+    let nameOrEMailSearch = "";
+    if (Services.prefs.getComplexValue("mail.addr_book.show_phonetic_fields", Components.interfaces.nsIPrefLocalizedString).data == "true") {
+      nameOrEMailSearch =  Services.prefs.getCharPref("mail.addr_book.quicksearchquery.format.phonetic");
+    } else {
+      nameOrEMailSearch = Services.prefs.getCharPref("mail.addr_book.quicksearchquery.format");
     }
-    else {
-      //let prefBranch = (Components.classes["@mozilla.org/preferences-service;1"]
-      //                  .getService(Components.interfaces.nsIPrefBranch));
-      let nameOrEMailSearch = "";
-      if (Services.prefs.getComplexValue("mail.addr_book.show_phonetic_fields", Components.interfaces.nsIPrefLocalizedString).data == "true") {
-        nameOrEMailSearch =  Services.prefs.getCharPref("mail.addr_book.quicksearchquery.format.phonetic");
-      } else {
-        nameOrEMailSearch = Services.prefs.getCharPref("mail.addr_book.quicksearchquery.format");
-      }
 
-      // (or(DisplayName,c,@V)(FirstName,c,@V)(LastName,c,@V)(NickName,c,@V)(PrimaryEmail,c,@V)(SecondEmail,c,@V)(and(IsMailList,=,TRUE)(Notes,c,@V))(Company,c,@V)(Department,c,@V)(JobTitle,c,@V)(WebPage1,c,@V)(WebPage2,c,@V)(PhoneticFirstName,c,@V)(PhoneticLastName,c,@V))
-      if (nameOrEMailSearch.startsWith("?"))
-        nameOrEMailSearch = nameOrEMailSearch.slice(1);
+    // (or(DisplayName,c,@V)(FirstName,c,@V)(LastName,c,@V)(NickName,c,@V)(PrimaryEmail,c,@V)(SecondEmail,c,@V)(and(IsMailList,=,TRUE)(Notes,c,@V))(Company,c,@V)(Department,c,@V)(JobTitle,c,@V)(WebPage1,c,@V)(WebPage2,c,@V)(PhoneticFirstName,c,@V)(PhoneticLastName,c,@V))
+    if (nameOrEMailSearch.startsWith("?"))
+      nameOrEMailSearch = nameOrEMailSearch.slice(1);
 
-      gQueryURIFormat = nameOrEMailSearch;
-    }
-    document.getElementById('peopleSearchInput').setAttribute("emptytext", menuitem.getAttribute("label"));
-    document.getElementById('peopleSearchInput').focus();
-    onEnterInSearchBar();
+    gQueryURIFormat = nameOrEMailSearch;
+  }
+  document.getElementById('peopleSearchInput').setAttribute("emptytext", menuitem.getAttribute("label"));
+  document.getElementById('peopleSearchInput').focus();
+  window.onEnterInSearchBar();
 }
 
 function SCOnUnload() {
@@ -970,12 +970,12 @@ function onLoad(activatedWhileWindowOpen) {
       insertbefore="peopleSearchInput"
       >
       <menupopup id="SCSearchCriteriaButtonMenu">
-        <menuitem type="radio" checked="true" label="&SearchNameOrEmail.label;" value="0"
+        <menuitem id="scsearchnameoremail" type="radio" checked="true" value="0"
           sc-search-criteria=""
-          oncommand="_this.SCSetSearchCriteria(this);"/>
+          oncommand="SCSetSearchCriteria(this);"/>
         <menuitem type="radio" label="&SearchCategory.label;" value="1"
           sc-search-criteria="Categories"
-          oncommand="_this.SCSetSearchCriteria(this);"/>
+          oncommand="SCSetSearchCriteria(this);"/>
       </menupopup>
     </toolbarbutton>
   </toolbaritem>
@@ -1013,6 +1013,7 @@ function onLoad(activatedWhileWindowOpen) {
     toolbar.setAttribute("arch", "mac");
   }
 
+  document.getElementById("scsearchnameoremail").setAttribute("label", document.getElementById("peopleSearchInput").getAttribute("placeholder"));
   deleteCmdLabel = document.getElementById("dirTreeContext-delete").getAttribute("label"),
   
   this.SCAbEditSelectedDirectoryOriginal = window.AbEditSelectedDirectory;
