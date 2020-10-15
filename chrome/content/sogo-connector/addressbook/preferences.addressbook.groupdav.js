@@ -198,11 +198,11 @@ function onLoad() {
 }
 
 function onUpdateCheck() {
-    var psc = document.getElementById("periodicSync").checked;
-    var nc = document.getElementById("notifications").checked;
-    document.getElementById("periodicSyncInterval").disabled = !psc;    
-    document.getElementById("notifications").disabled = !psc;
-    document.getElementById("notificationsOnlyIfNotEmpty").disabled = !nc || !psc;
+  var psc = document.getElementById("periodicSync").checked;
+  var nc = document.getElementById("notifications").checked;
+  document.getElementById("periodicSyncInterval").disabled = !psc;    
+  document.getElementById("notifications").disabled = !psc;
+  //document.getElementById("notificationsOnlyIfNotEmpty").disabled = !nc || !psc;
 }
 
 function onShowRestart() {

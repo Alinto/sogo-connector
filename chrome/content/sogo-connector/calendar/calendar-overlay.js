@@ -46,6 +46,7 @@ let sogoCalendarsAvailable = false;
 let sogoCategoriesChanged = false;
 let sogoDefaultClassificationsChanged = false;
 let sogoMailsLabelsChanged = false;
+let sogoSynchronizationTimers = [];
 
 jsInclude(["chrome://sogo-connector/content/addressbook/folder-handling.js",
            "chrome://sogo-connector/content/calendar/folder-handler.js",
@@ -527,9 +528,6 @@ function _removeOldCardDAVDirs(uniqueChildren) {
   }
 }
 
-// TODO : better handling of that var
-var SOGO_Timers = [];
-
 function startFolderSync() {
   let abManager = Components.classes["@mozilla.org/abmanager;1"]
       .getService(Components.interfaces.nsIAbManager);
@@ -553,26 +551,23 @@ function startFolderSync() {
       }
       
       // handle startup sync
-      //sync = GetSyncNotifyGroupdavAddressbook(ab.URI, ab, SOGOC_SYNC_STARTUP);
-      //sync.notify();
-      SynchronizeGroupdavAddressbook(ab.URI);
+      sync = GetSyncNotifyGroupdavAddressbook(ab.URI, ab, SOGOC_SYNC_STARTUP);
+      sync.notify();
 
-      // FIXME
-      // if (periodicSync) {
-      //   // handle future periodic sync
-      //   psync = GetSyncNotifyGroupdavAddressbook(ab.URI, ab, SOGOC_SYNC_PERIODIC);
+      if (periodicSync) {
+        // handle future periodic sync
+        psync = GetSyncNotifyGroupdavAddressbook(ab.URI, ab, SOGOC_SYNC_PERIODIC);
         
-      //   // TODO : handle syncInterval and Notifications in a dynamic way :
-      //   // today, we have to restart TB if we change those values.         
-      //   // Now it is time to create the timer.
-      //   var timer = Components.classes["@mozilla.org/timer;1"].createInstance(Components.interfaces.nsITimer);
-      //   let delay = periodicSyncInterval;
-      //   delay = delay *60; // min --> sec
-      //   // delay = delay * 3; // min --> sec DEBUG
-      //   delay = delay * 1000; // sec --> ms
-      //   timer.initWithCallback(psync, delay, Components.interfaces.nsITimer.TYPE_REPEATING_PRECISE_CAN_SKIP);
-      //   SOGO_Timers.push(timer);
-      // }
+        // TODO : handle syncInterval and Notifications in a dynamic way :
+        // today, we have to restart TB if we change those values.         
+        // Now it is time to create the timer.
+        var timer = Components.classes["@mozilla.org/timer;1"].createInstance(Components.interfaces.nsITimer);
+        let delay = periodicSyncInterval;
+        delay = delay *60; // min --> sec
+        delay = delay * 1000; // sec --> ms
+        timer.initWithCallback(psync, delay, Components.interfaces.nsITimer.TYPE_REPEATING_PRECISE_CAN_SKIP);
+        sogoSynchronizationTimers.push(timer);
+      }
     }
   }
 }

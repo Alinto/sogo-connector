@@ -71,7 +71,7 @@ function isCardDavDirectory(abURI){
   let value = false;
 
   if (abURI
-      && abURI.search("mab/MailList") == -1
+      && abURI.search("/MailList") == -1
       && abURI.search("jscarddav://") == 0) {
 
     let ab = MailServices.ab.getDirectory(abURI);
@@ -101,7 +101,7 @@ function isCardDavDirectory(abURI){
   //  }
   //}
 
-  //dump("isCardDAV: " + abURI + " = " + value + "\n");
+  dump("isCardDAV: " + abURI + " = " + value + "\n");
 
   return value;
 }

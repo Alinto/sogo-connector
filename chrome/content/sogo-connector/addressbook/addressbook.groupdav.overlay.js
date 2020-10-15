@@ -19,8 +19,8 @@
  */
 
 var { Services } = ChromeUtils.import("resource://gre/modules/Services.jsm");
-var { notificationManagerInstance } = ChromeUtils.import("resource://sogo-connector/components/NotificationManager.jsm");
-var { syncProgressManagerInstance } = ChromeUtils.import("resource://sogo-connector/components/SyncProgressManager.jsm");
+//var { notificationManagerInstance } = ChromeUtils.import("resource://sogo-connector/components/NotificationManager.jsm");
+//var { syncProgressManagerInstance } = ChromeUtils.import("resource://sogo-connector/components/SyncProgressManager.jsm");
 
 var _this = this;
 
@@ -62,8 +62,8 @@ function i18n(entity) {
 } 
 
 let gSelectedDir = "";
-let gCurDirectory = null;
-let gLDAPPrefsService = null;
+//let gCurDirectory = null;
+//let gLDAPPrefsService = null;
 let deleteCmdLabel = "";
 
 function openGroupdavPreferences(directory) {
@@ -118,44 +118,6 @@ function SCGoUpdateSelectEditMenuItems() {
   }
 }
 
-// Additionnal Controller object for Dir Pane
-function dirPaneControllerOverlay() {
-}
-
-dirPaneControllerOverlay.prototype = {
-  supportsCommand: function(command) {
-    return (command == "cmd_syncGroupdav");
-  },
-
-  isCommandEnabled: function(command) {
-    let result = false;
-
-        // 		dump("isCommandEnabled\n  command: " + command + "\n");
-
-    if (gSelectedDir && gSelectedDir != "") {
-      try {
-        switch (command) {
-        case "cmd_syncGroupdav":
-          result = isCardDavDirectory(gSelectedDir);
-          break;
-        }
-      }
-      catch (e) {
-        exceptionHandler(window,"Exception",e);
-      }
-    }
-
-    return result;
-  },
-
-  doCommand: function(command){
-    dump("Unexpected doCommand: " + command + "\n");
-    throw("Unexpected doCommand: " + command);
-  },
-  
-  onEvent: function(event) {}
-};
-
 function SCAbEditSelectedDirectory() {
   let abUri = window.GetSelectedDirectory();
   if (isCardDavDirectory(abUri)) {
@@ -166,254 +128,6 @@ function SCAbEditSelectedDirectory() {
     _this.SCAbEditSelectedDirectoryOriginal();
   }
 }
-
-// let deleteManager = {
-//     mCount: 0,
-//     mErrors: 0,
-//     mDirectory: null,
-//     begin: function(directory, count) {
-//         this.mDirectory = directory;
-//         this.mCount = count;
-//         this.mErrors = 0;
-//     },
-//     decrement: function(code) {
-//         this.mCount--;
-//         if (!((code > 199 && code < 400)
-//             || code == 404
-//               || code > 599))
-//             this.mErrors++;
-
-//         return (this.mCount == 0);
-//     },
-//     finish: function() {
-//         if (this.mErrors != 0)
-//             SCOpenDeleteFailureDialog(this.mDirectory);
-//         this.mDirectory = null;
-//     },
-//     onDAVQueryComplete: function(code, result, headers, data) {
-//         // 		dump("on davquerycompplete\n");
-//         if (data.deleteLocally
-//             && ((code > 199 && code < 400)
-//                 || code == 404
-//                 || code == 604)) {
-//             // 			dump("code: " + code + "\n");
-//             if (data.component.isMailList) {
-//                 // 				dump("deleting list\n");
-//                 let mailListURI = ((data.component
-//                                     instanceof Components.interfaces.nsIAbCard)
-//                                    ? data.component.mailListURI
-//                                    : data.component.URI);
-//                 let attributes = new GroupDAVListAttributes(mailListURI);
-//                 attributes.deleteRecord();
-//                 /* we commit the preferences here because sometimes Thunderbird will
-//                  crash when deleting the real instance of the list. */
-//                 let prefService = (Components.classes["@mozilla.org/preferences-service;1"]
-//                                              .getService(Components.interfaces.nsIPrefService));
-//                 prefService.savePrefFile(null);
-
-//                 let listDirectory = SCGetDirectoryFromURI(mailListURI);
-//                 data.directory.deleteDirectory(listDirectory);
-//                 //gAbView.deleteSelectedCards();
-//             }
-//             else {
-//                 let cards = Components.classes["@mozilla.org/array;1"]
-//                                       .createInstance(Components.interfaces.nsIMutableArray);
-//                 cards.appendElement(data.component, false);
-//                 data.directory.deleteCards(cards);
-//             }
-//         }
-//         if (this.decrement(code))
-//             this.finish();
-//     }
-// };
-
-// function DeleteGroupDAVCards(directory, cards, deleteLocally) {
-//     dump("delete: " + cards.length + " cards\n");
-//     let mdbDirectory = SCGetDirectoryFromURI(directory);
-//     let prefService = new GroupdavPreferenceService(mdbDirectory.dirPrefId);
-
-//     deleteManager.begin(directory, cards.length);
-//     for (let i = 0; i < cards.length; i++) {
-//         let card = cards[i].QueryInterface(Components.interfaces.nsIAbCard);
-//         let key;
-//         if (card.isMailList) {
-//             let attributes = new GroupDAVListAttributes(card.mailListURI);
-//             key = attributes.key;
-//         }
-//         else {
-//             try {
-//                 key = card.getProperty("groupDavKey", null);
-//             }
-//             catch(e) {
-//                 key = null;
-//             }
-//         }
-
-//         dump("  card to delete: '" + card.displayName + "'\n");
-//         dump("    key: '" + key + "'\n");
-
-//         _deleteGroupDAVComponentWithKey(prefService, key, mdbDirectory, card, deleteLocally);
-//     }
-// }
-
-// function _deleteGroupDAVComponentWithKey(prefService,
-//                                          key,
-//                                          directory,
-//                                          component,
-//                                          deleteLocally) {
-//     dump("\n\nwe delete: " + key + " with deleteLocally="+deleteLocally+"\n\n\n");
-//     if (key && key.length) {
-//         let href = prefService.getURL() + key;
-//         let deleteOp = new sogoWebDAV(href, deleteManager,
-//                                       {directory: directory,
-//                                        component: component,
-//                                        deleteLocally: deleteLocally});
-//         deleteOp.delete();
-//         dump("webdav_delete on '" + href + "'\n");
-//         // force full sync on next sync by invalidating cTag.
-//         // This way, if server does not delete contact correctly (e.g. write permission denied)
-//         // the contact will reappear on next synchronization.
-//         prefService.setCTag("invalid");
-//     }
-//     else /* 604 = "not found locally" */
-//         deleteManager.onDAVQueryComplete(604, null, null,
-//                                          {directory: directory,
-//                                           deleteLocally: true,
-//                                           component: component});
-// }
-
-// function SCAbConfirmDelete(types) {
-//   let confirm = false;
-
-//   if (types != kNothingSelected) {
-//     // Determine strings for smart and context-sensitive user prompts
-//     // for confirming deletion.
-//     let confirmDeleteTitleID;
-//     let confirmDeleteTitle;
-//     let confirmDeleteMessageID;
-//     let confirmDeleteMessage;
-//     let itemName;
-//     let containingListName;
-//     let selectedDir = getSelectedDirectory();
-//     let numSelectedItems = gAbView.selection.count;
-
-//     switch(types) {
-//     case kListsAndCards:
-//       confirmDeleteMessageID = "confirmDelete2orMoreContactsAndLists";
-//       confirmDeleteTitleID   = "confirmDelete2orMoreContactsAndListsTitle";
-//       break;
-//     case kSingleListOnly:
-//       // Set item name for single mailing list.
-//       let theCard = GetSelectedAbCards()[0];
-//       itemName = theCard.displayName;
-//       confirmDeleteMessageID = "confirmDeleteThisMailingList";
-//       confirmDeleteTitleID   = "confirmDeleteThisMailingListTitle";
-//       break;
-//     case kMultipleListsOnly:
-//       confirmDeleteMessageID = "confirmDelete2orMoreMailingLists";
-//       confirmDeleteTitleID   = "confirmDelete2orMoreMailingListsTitle";
-//       break;
-//     case kCardsOnly:
-//       if (selectedDir.isMailList) {
-//         // Contact(s) in mailing lists will be removed from the list, not deleted.
-//         if (numSelectedItems == 1) {
-//           confirmDeleteMessageID = "confirmRemoveThisContact";
-//           confirmDeleteTitleID = "confirmRemoveThisContactTitle";
-//         } else {
-//           confirmDeleteMessageID = "confirmRemove2orMoreContacts";
-//           confirmDeleteTitleID   = "confirmRemove2orMoreContactsTitle";
-//         }
-//         // For removing contacts from mailing list, set placeholder value
-//         containingListName = selectedDir.dirName;
-//       } else {
-//         // Contact(s) in address books will be deleted.
-//         if (numSelectedItems == 1) {
-//           confirmDeleteMessageID = "confirmDeleteThisContact";
-//           confirmDeleteTitleID   = "confirmDeleteThisContactTitle";
-//         } else {
-//           confirmDeleteMessageID = "confirmDelete2orMoreContacts";
-//           confirmDeleteTitleID   = "confirmDelete2orMoreContactsTitle";
-//         }
-//       }
-//       if (numSelectedItems == 1) {
-//         // Set item name for single contact.
-//         let theCard = GetSelectedAbCards()[0];
-//         let nameFormatFromPref = Services.prefs.getIntPref("mail.addr_book.lastnamefirst");
-//         itemName = theCard.generateName(nameFormatFromPref);
-//       }
-//       break;
-//     }
-
-//     // Get the raw model strings.
-//     // For numSelectedItems == 1, it's simple strings.
-//     // For messages with numSelectedItems > 1, it's multi-pluralform string sets.
-//     // confirmDeleteMessage has placeholders for some forms.
-//     confirmDeleteTitle   = WL.extension.localeData.localizeMessage(confirmDeleteTitleID);
-//     confirmDeleteMessage = WL.extension.localeData.localizeMessage(confirmDeleteMessageID);
-
-//     // Get plural form where applicable; substitute placeholders as required.
-//     if (numSelectedItems == 1) {
-//       // If single selected item, substitute itemName.
-//       confirmDeleteMessage = confirmDeleteMessage.replace("#1", itemName);
-//     } else {
-//       // If multiple selected items, get the right plural string from the
-//       // localized set, then substitute numSelectedItems.
-//       confirmDeleteMessage = PluralForm.get(numSelectedItems, confirmDeleteMessage);
-//       confirmDeleteMessage = confirmDeleteMessage.replace("#1", numSelectedItems);
-//     }
-//     // If contact(s) in a mailing list, substitute containingListName.
-//     if (containingListName)
-//       confirmDeleteMessage = confirmDeleteMessage.replace("#2", containingListName);
-
-//     // Finally, show our smart confirmation message, and act upon it!
-//     confirm = Services.prompt.confirm(window, confirmDeleteTitle,
-//                                       confirmDeleteMessage);
-//   }
-
-//   return confirm;
-// }
-
-// function SCAbDelete() {
-//     let deletePerformed = false;
-
-//     if (gSelectedDir) {
-//         if (isGroupdavDirectory(gSelectedDir)) {
-//             let types = GetSelectedCardTypes();
-//             if (types != kNothingSelected) {
-//                 let confirm = SCAbConfirmDelete(types);
-//                 if (!confirm)
-//                     return;
-//                 else {
-//                     let cards = GetSelectedAbCards();
-//                     // let abView = GetAbView();
-//                     DeleteGroupDAVCards(gSelectedDir, cards, true);
-//                     deletePerformed = true;
-//                 }
-//             }
-//         }
-//         else if (gSelectedDir.search("mab/MailList") > -1) {
-//             let parentURI = GetParentDirectoryFromMailingListURI(gSelectedDir);
-//             if (isGroupdavDirectory(parentURI)) {
-//                 let list = SCGetDirectoryFromURI(gSelectedDir);
-//                 let cards = GetSelectedAbCards();
-//                 let xpcomArray = Components.classes["@mozilla.org/array;1"]
-//                                            .createInstance(Components.interfaces.nsIMutableArray);
-//                 for (let i = 0; i < cards.length; i++) {
-//                     xpcomArray.appendElement(cards[i], false);
-//                 }
-//                 list.deleteCards(xpcomArray);
-//                 let attributes = new GroupDAVListAttributes(gSelectedDir);
-//                 attributes.version = "-1";
-//                 SynchronizeGroupdavAddressbook(parentURI);
-//                 deletePerformed = true;
-//             }
-//         }
-//     }
-
-//     if (!deletePerformed) {
-//         this.SCAbDeleteOriginal();
-//     }
-// }
 
 /* AbDeleteDirectory done cleanly... */
 function SCAbDeleteDirectory(aURI) {
@@ -493,64 +207,65 @@ function SCAbConfirmDeleteDirectory(selectedDir) {
                                 confirmDeleteMessage));
 }
 
-function SCSynchronizeFromChildWindow(uri) {
-    this.setTimeout(SynchronizeGroupdavAddressbook, 1, uri, null, 1);
+function SCSynchronizeFromChildWindow() {
+  let uri = window.GetSelectedDirectory()
+  SynchronizeGroupdavAddressbook(uri, null, 0);
 }
 
-let groupdavSynchronizationObserver = {
-    oldPC: -1,
-    syncManager: null,
+// let groupdavSynchronizationObserver = {
+//     oldPC: -1,
+//     syncManager: null,
 
-    _createProgressBar: function() {
-        let progressBar = document.createXULElement("progressmeter");
-        progressBar.setAttribute("id", "groupdavProgressMeter");
-        progressBar.setAttribute("mode", "determined");
-        progressBar.setAttribute("value", "0%");
+//     _createProgressBar: function() {
+//         let progressBar = document.createXULElement("progressmeter");
+//         progressBar.setAttribute("id", "groupdavProgressMeter");
+//         progressBar.setAttribute("mode", "determined");
+//         progressBar.setAttribute("value", "0%");
 
-        return progressBar;
-    },
-    ensureProgressBar: function() {
-        // 		dump("document: " + document + "\n");
-        // 		dump("window: " + window + "\n");
-        // 		dump("window.title: " + window.title + "\n");
-        // 		dump("window.document: " + window.document + "\n");
-        let progressBar = this._createProgressBar();
-        let panel = document.getElementById("groupdavProgressPanel");
-        panel.appendChild(progressBar);
-        panel.setAttribute("collapsed", false);
+//         return progressBar;
+//     },
+//     ensureProgressBar: function() {
+//         // 		dump("document: " + document + "\n");
+//         // 		dump("window: " + window + "\n");
+//         // 		dump("window.title: " + window.title + "\n");
+//         // 		dump("window.document: " + window.document + "\n");
+//         let progressBar = this._createProgressBar();
+//         let panel = document.getElementById("groupdavProgressPanel");
+//         panel.appendChild(progressBar);
+//         panel.setAttribute("collapsed", false);
 
-        return progressBar;
-    },
-    handleNotification: function(notification, data) {
-        let progressBar = document.getElementById("groupdavProgressMeter");
-        if (notification == "groupdav.synchronization.start") {
-            if (!progressBar)
-                this.ensureProgressBar();
-        }
-        else if (notification == "groupdav.synchronization.stop") {
-            if (progressBar) {
-                let panel = document.getElementById("groupdavProgressPanel");
-                panel.removeChild(progressBar);
-                panel.setAttribute("collapsed", true);
-            }
-        }
-        else if (notification == "groupdav.synchronization.addressbook.updated") {
-            if (!progressBar)
-                progressBar = this.ensureProgressBar();
-            let pc = Math.floor(this.syncManager.globalProgress() * 100);
-            if (this.oldPC != pc) {
-                window.setTimeout(_updateProgressBar, 200, pc);
-                this.oldPC = pc;
-            }
-        }
-    }
-};
+//         return progressBar;
+//     },
+//     handleNotification: function(notification, data) {
+//         let progressBar = document.getElementById("groupdavProgressMeter");
+//         if (notification == "groupdav.synchronization.start") {
+//             if (!progressBar)
+//                 this.ensureProgressBar();
+//         }
+//         else if (notification == "groupdav.synchronization.stop") {
+//             if (progressBar) {
+//                 let panel = document.getElementById("groupdavProgressPanel");
+//                 panel.removeChild(progressBar);
+//                 panel.setAttribute("collapsed", true);
+//             }
+//         }
+//         else if (notification == "groupdav.synchronization.addressbook.updated") {
+//             if (!progressBar)
+//                 progressBar = this.ensureProgressBar();
+//             let pc = Math.floor(this.syncManager.globalProgress() * 100);
+//             if (this.oldPC != pc) {
+//                 window.setTimeout(_updateProgressBar, 200, pc);
+//                 this.oldPC = pc;
+//             }
+//         }
+//     }
+// };
 
-function _updateProgressBar(pc) {
-    let progressBar = document.getElementById("groupdavProgressMeter");
-    if (progressBar)
-        progressBar.setAttribute("value", pc + "%");
-}
+// function _updateProgressBar(pc) {
+//     let progressBar = document.getElementById("groupdavProgressMeter");
+//     if (progressBar)
+//         progressBar.setAttribute("value", pc + "%");
+// }
 
 function SCOnResultsTreeContextMenuPopup(event) {
     if (this == event.target) { /* otherwise the reset will be executed when
@@ -699,12 +414,12 @@ function SCOnUnload() {
   //let nmgr = Components.classes["@inverse.ca/notification-manager;1"]
   //                     .getService(Components.interfaces.inverseIJSNotificationManager)
   //                     .wrappedJSObject;
-  notificationManagerInstance.unregisterObserver("groupdav.synchronization.start",
-                                                 groupdavSynchronizationObserver);
-  notificationManagerInstance.unregisterObserver("groupdav.synchronization.stop",
-                                                 groupdavSynchronizationObserver);
-  notificationManagerInstance.unregisterObserver("groupdav.synchronization.addressbook.updated",
-                                                 groupdavSynchronizationObserver);
+  //notificationManagerInstance.unregisterObserver("groupdav.synchronization.start",
+  //                                               groupdavSynchronizationObserver);
+  //notificationManagerInstance.unregisterObserver("groupdav.synchronization.stop",
+  //                                               groupdavSynchronizationObserver);
+  //notificationManagerInstance.unregisterObserver("groupdav.synchronization.addressbook.updated",
+  //                                               groupdavSynchronizationObserver);
 }
 
 window.SCCommandSynchronize = function() {
@@ -1015,6 +730,8 @@ function onLoad(activatedWhileWindowOpen) {
 
   document.getElementById("scsearchnameoremail").setAttribute("label", document.getElementById("peopleSearchInput").getAttribute("placeholder"));
   deleteCmdLabel = document.getElementById("dirTreeContext-delete").getAttribute("label"),
+
+  window.AbSyncSelectedDirectory = SCSynchronizeFromChildWindow;
   
   this.SCAbEditSelectedDirectoryOriginal = window.AbEditSelectedDirectory;
   window.AbEditSelectedDirectory = this.SCAbEditSelectedDirectory;
@@ -1022,10 +739,6 @@ function onLoad(activatedWhileWindowOpen) {
   //window.AbDelete = this.SCAbDelete;
   window.SCAbDeleteDirectoryOriginal = window.AbDeleteDirectory;
   //window.AbDeleteDirectory = this.SCAbDeleteDirectory;
-
-  /* drag and drop */
-  //window.abDirTreeObserver.SCOnDropOld = window.abDirTreeObserver.onDrop;
-  //window.abDirTreeObserver.onDrop = window.abDirTreeObserver.SCOnDrop;
 
   /* command updaters */
   // FIXME: remove all old functions
@@ -1036,29 +749,13 @@ function onLoad(activatedWhileWindowOpen) {
   //this.SCGoUpdateSelectEditMenuItemsOld = this.goUpdateSelectEditMenuItems;
   //this.goUpdateSelectEditMenuItems = this.SCGoUpdateSelectEditMenuItems;
 
-  let ctlOvl = new dirPaneControllerOverlay();
-
-  // dir pane
-  let aDirTree = document.getElementById("dirTree");
-  if (aDirTree) {
-    aDirTree.controllers.appendController(ctlOvl);
-    // 		aDirTree.controllers.appendController(DirPaneController);
-  }
-
-  // results pane
-  let gAbResultsTree = document.getElementById("abResultsTree");
-  if (gAbResultsTree) {
-    // 		gAbResultsTree.controllers.appendController(ResultsPaneController);
-    gAbResultsTree.controllers.appendController(ctlOvl);
-  }
-
-  groupdavSynchronizationObserver.syncManager = syncProgressManagerInstance;
-  notificationManagerInstance.registerObserver("groupdav.synchronization.start",
-                                               groupdavSynchronizationObserver);
-  notificationManagerInstance.registerObserver("groupdav.synchronization.stop",
-                                               groupdavSynchronizationObserver);
-  notificationManagerInstance.registerObserver("groupdav.synchronization.addressbook.updated",
-                                               groupdavSynchronizationObserver);
+  //groupdavSynchronizationObserver.syncManager = syncProgressManagerInstance;
+  //notificationManagerInstance.registerObserver("groupdav.synchronization.start",
+  //                                             groupdavSynchronizationObserver);
+  //notificationManagerInstance.registerObserver("groupdav.synchronization.stop",
+  //                                             groupdavSynchronizationObserver);
+  //notificationManagerInstance.registerObserver("groupdav.synchronization.addressbook.updated",
+  //                                             groupdavSynchronizationObserver);
 
   let popup = document.getElementById("abResultsTreeContext");
   if (popup) {
@@ -1088,118 +785,6 @@ function onLoad(activatedWhileWindowOpen) {
     ABChecker.checkAvailability(function() { toolbar.collapsed = false; });
   }
 }
-
-// window.abDirTreeObserver.SCOnDrop = function(row, or, dataTransfer) {
-//   let dragSession = dragService.getCurrentSession();
-//   if (dragSession) {
-//     /* Here, we don't seem to have the choice but to use the RDF
-//        interface to discover the target directory. */
-//     let sourceDirectory = gAbView.directory;
-//     let targetResource = gDirectoryTreeView.getDirectoryAtIndex(row);
-//     let targetURI = targetResource.URI;
-
-//     let cards = null;
-//     let cardKeys = [];
-
-//     if (targetURI.indexOf(sourceDirectory.URI) != 0
-//         && isGroupdavDirectory(sourceDirectory.URI)) {
-//       if (dragSession.dragAction
-//           == Components.interfaces.nsIDragService.DRAGDROP_ACTION_MOVE) {
-//         cards = this._getDroppedCardsKeysFromSession(gAbView, dataTransfer);
-//         for (let i = 0; i < cards.length; i++) {
-//           this._pushCardKey(cards[i], cardKeys);
-//         }
-//       }
-//       this._resetDroppedCardsVersionFromSession(gAbView, dataTransfer);
-//     }
-
-//     let proceed = true;
-//     try {
-//       this.SCOnDropOld(row, or, dataTransfer);
-//     }
-//     catch(e) {
-//       proceed = false;
-//       dump("an exception occured: " + e + "\n");
-//     }
-
-//     if (targetResource.isMailList) {
-//       let uriParts = targetURI.split("/");
-//       let parentDirURI = uriParts[0] + "//" + uriParts[2];
-//       if (isGroupdavDirectory(parentDirURI)) {
-//         let attributes = new GroupDAVListAttributes(targetURI);
-//         attributes.version = "-1";
-//         SynchronizeGroupdavAddressbook(parentDirURI);
-//       }
-//     }
-//     else if (isGroupdavDirectory(targetURI)) {
-//       SynchronizeGroupdavAddressbook(targetURI);
-//     }
-
-//     if (cardKeys)
-//       dump("cardKeys: " + cardKeys.length + " to delete\n");
-//     else
-//       dump("cardKeys: nothing to delete\n");
-//     if (proceed && cardKeys.length) {
-//       DeleteGroupDAVCards(gSelectedDir, cards, true);
-//       //let prefService = new GroupdavPreferenceService(sourceDirectory.dirPrefId);
-//       //for (let i = 0; i < cardKeys.length; i++) {
-//       //  dump("deleting " + cardKeys[i] + "\n");
-//       //  _deleteGroupDAVComponentWithKey(prefService, cardKeys[i]);
-//       // }
-//     }
-//     dump("done drop delete\n");
-//   }
-// };
-
-// window.abDirTreeObserver._getDroppedCardsKeysFromSession = function(abView, dataTransfer) {
-//   var rows = dataTransfer.getData("moz/abcard").split(",").map(j => parseInt(j, 10));
-//   var numrows = rows.length;
-//   let cards = [];
-
-//   for (let j = 0; j < numrows; j++) {
-//     cards.push(abView.getCardFromRow(rows[j]));
-//   }
-//   return cards;
-// };
-
-// window.abDirTreeObserver._resetDroppedCardsVersionFromSession = function(abView, dataTransfer) {
-//   var rows = dataTransfer.getData("moz/abcard").split(",").map(j => parseInt(j, 10));
-//   var numrows = rows.length;
-//   let cards = [];
-
-//   for (let j = 0; j < numrows; j++) {
-//     cards.push(abView.getCardFromRow(rows[j]));
-//   }
-
-//   for (let card of cards) {
-//     if (card.isMailList) {
-//       let attributes = new GroupDAVListAttributes(card.mailListURI);
-//       attributes.version = "-1";
-//     } else {
-//       let oldDavVersion = card.getProperty("groupDavVersion", "-1");
-//       card.setProperty("groupDavVersion", "-1");
-//       card.setProperty("groupDavVersionPrev", oldDavVersion);
-//       abView.directory.modifyCard(card);
-//     }
-//   }
-// };
-
-// window.abDirTreeObserver._pushCardKey = function(card, cards) {
-//     let key = null;
-
-//     if (card.isMailList) {
-//         let attributes = new GroupDAVListAttributes(card.mailListURI);
-//         key = attributes.key;
-//     }
-//     else {
-//         key = card.getProperty("groupDavKey", null);
-//         // dump("ke2y: " + key + "\n");
-//     }
-
-//     if (key && key.length) {
-//         cards.push(key);
-//     }
-// };  
 
 let SCCardViewOverlay = {
   oldDisplayCardViewPane: null,
