@@ -19,8 +19,6 @@
  */
 
 var { Services } = ChromeUtils.import("resource://gre/modules/Services.jsm");
-//var { notificationManagerInstance } = ChromeUtils.import("resource://sogo-connector/components/NotificationManager.jsm");
-//var { syncProgressManagerInstance } = ChromeUtils.import("resource://sogo-connector/components/SyncProgressManager.jsm");
 
 var _this = this;
 
