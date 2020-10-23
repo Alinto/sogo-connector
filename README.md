@@ -9,7 +9,7 @@ name. Use "sogo-demo" as an example. You can do so by doing:
 
 Then customize the following file:
 
-* custom/mysite//chrome/content/sogo-connector/general/custom-preferences.js
+* custom/mysite/chrome/content/sogo-connector/general/custom-preferences.js
 
 You must at least customize the sogo-connector.baseURL value. If you
 want to force-push preferences prefix your option with force_.
@@ -18,7 +18,7 @@ To build the extension, do:
 
 ```
 % make distclean
-% make build=mysite
+% make custom-build=mysite
 ```
 
 # Logging
