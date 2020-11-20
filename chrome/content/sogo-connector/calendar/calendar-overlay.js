@@ -441,20 +441,7 @@ let groupdavSynchronizationObserver = {
 };
 
 function OnLoadMessengerOverlay() {
-  /* if SOGo Integrator is present, we let it take the startup procedures */
-  notificationManagerInstance.registerObserver("groupdav.synchronization.start",
-                                               groupdavSynchronizationObserver);
-  notificationManagerInstance.registerObserver("groupdav.synchronization.stop",
-                                               groupdavSynchronizationObserver);
   cleanupAddressBooks();
-  window.addEventListener("unload", SCUnloadHandler, false);
-}
-
-function SCUnloadHandler(event) {
-  notificationManagerInstance.unregisterObserver("groupdav.synchronization.start",
-                                                 groupdavSynchronizationObserver);
-  notificationManagerInstance.unregisterObserver("groupdav.synchronization.stop",
-                                                 groupdavSynchronizationObserver);
 }
 
 function cleanupAddressBooks() {

@@ -408,18 +408,6 @@ window.SCSetSearchCriteria = function(menuitem) {
   window.onEnterInSearchBar();
 }
 
-function SCOnUnload() {
-  //let nmgr = Components.classes["@inverse.ca/notification-manager;1"]
-  //                     .getService(Components.interfaces.inverseIJSNotificationManager)
-  //                     .wrappedJSObject;
-  //notificationManagerInstance.unregisterObserver("groupdav.synchronization.start",
-  //                                               groupdavSynchronizationObserver);
-  //notificationManagerInstance.unregisterObserver("groupdav.synchronization.stop",
-  //                                               groupdavSynchronizationObserver);
-  //notificationManagerInstance.unregisterObserver("groupdav.synchronization.addressbook.updated",
-  //                                               groupdavSynchronizationObserver);
-}
-
 window.SCCommandSynchronize = function() {
   SynchronizeGroupdavAddressbook(gSelectedDir, window.SCCommandSynchronizeCallback);
 }
@@ -747,14 +735,6 @@ function onLoad(activatedWhileWindowOpen) {
   //this.SCGoUpdateSelectEditMenuItemsOld = this.goUpdateSelectEditMenuItems;
   //this.goUpdateSelectEditMenuItems = this.SCGoUpdateSelectEditMenuItems;
 
-  //groupdavSynchronizationObserver.syncManager = syncProgressManagerInstance;
-  //notificationManagerInstance.registerObserver("groupdav.synchronization.start",
-  //                                             groupdavSynchronizationObserver);
-  //notificationManagerInstance.registerObserver("groupdav.synchronization.stop",
-  //                                             groupdavSynchronizationObserver);
-  //notificationManagerInstance.registerObserver("groupdav.synchronization.addressbook.updated",
-  //                                             groupdavSynchronizationObserver);
-
   let popup = document.getElementById("abResultsTreeContext");
   if (popup) {
     popup.addEventListener("popupshowing", SCOnResultsTreeContextMenuPopup, false);
@@ -800,5 +780,4 @@ window.DisplayCardViewPane = function(card) { SCCardViewOverlay.displayCardViewP
 
 function onUnload(deactivatedWhileWindowOpen) {
   dump("addressbook.groupdav.overlay.js: onUnload()\n");
-  SCOnUnload();
 }
