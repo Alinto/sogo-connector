@@ -398,12 +398,6 @@
     "roles-dialog.user-roles.label": {
         "message": "Rights for:"
     },
-    "saveComponentMessage": {
-        "message": "You must specify a title."
-    },
-    "saveComponentTitle": {
-        "message": "Save"
-    },
     "serverUpdateFailed": {
         "message": "The server refused to rename this addressbook with the following error code:"
     },

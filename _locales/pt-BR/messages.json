@@ -404,12 +404,6 @@
     "roles-dialog.user-roles.label": {
         "message": "Direitos para:"
     },
-    "saveComponentMessage": {
-        "message": "Você deve especificar um título!"
-    },
-    "saveComponentTitle": {
-        "message": "Salvar"
-    },
     "serverUpdateFailed": {
         "message": "O servidor se recusou a renomear este catálogo com o seguinte código de erro:"
     },

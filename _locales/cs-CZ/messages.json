@@ -398,12 +398,6 @@
     "roles-dialog.user-roles.label": {
         "message": "Práva pro:"
     },
-    "saveComponentMessage": {
-        "message": "Musíte zadat název."
-    },
-    "saveComponentTitle": {
-        "message": "Uložit"
-    },
     "serverUpdateFailed": {
         "message": "Server odmítl přejmenovat tuto složku kontaktů s následujícím kódem chyby:"
     },

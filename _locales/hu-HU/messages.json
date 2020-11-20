@@ -398,12 +398,6 @@
     "roles-dialog.user-roles.label": {
         "message": "Jogok ennek a felhasználónak:"
     },
-    "saveComponentMessage": {
-        "message": "Adj meg egy nevet."
-    },
-    "saveComponentTitle": {
-        "message": "Mentés"
-    },
     "serverUpdateFailed": {
         "message": "A kiszolgáló visszautasította a címjegyzék átnevezését a következő hibakóddal:"
     },

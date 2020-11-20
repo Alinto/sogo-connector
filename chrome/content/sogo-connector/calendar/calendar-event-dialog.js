@@ -19,43 +19,6 @@
  */
 var { Services } = ChromeUtils.import("resource://gre/modules/Services.jsm");
 
-function SIOnAccept(event) {
-  let title;
-
-  title = "";
-
-  try {
-    title = getElementValue("item-title");
-  }  catch (e) {
-    let iframe = document.getElementById("lightning-item-panel-iframe");
-    title = iframe.contentWindow.document.getElementById("item-title").value;
-  }
-
-  if (title.length > 0)
-    title = title.replace(/(^\s+|\s+$)/g, "");
-
-  if (title.length == 0) {
-    let promptService = Components.classes["@mozilla.org/embedcomp/prompt-service;1"]
-        .getService(Components.interfaces.nsIPromptService);
-
-    let flags = promptService.BUTTON_TITLE_OK *
-        promptService.BUTTON_POS_0;
-
-    promptService.confirmEx(null,
-                            WL.extension.localeData.localizeMessage("saveComponentTitle"),
-                            WL.extension.localeData.localizeMessage("saveComponentMessage"),
-                            flags,
-                            null,
-                            null,
-                            null,
-                            null,
-                            {});
-
-    event.preventDefault(); // Prevent the dialog closing.
-    return;
-  }
-}
-
 function lightningItemPanelHasLoaded(win, value) {
   let iframe = document.getElementById("lightning-item-panel-iframe");
 
@@ -110,8 +73,4 @@ function onLoad(activatedWhileWindowOpen) {
 
   window.SIOldOnLoadLightningItemPanel = window.onLoadLightningItemPanel;
   window.onLoadLightningItemPanel = window.SIOnLoadLightningItemPanel;
-
-  document.addEventListener("dialogaccept", function(event) {
-    SIOnAccept(event);
-  });
 }

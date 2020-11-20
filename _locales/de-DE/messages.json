@@ -398,12 +398,6 @@
     "roles-dialog.user-roles.label": {
         "message": "Benutzerrechte für:"
     },
-    "saveComponentMessage": {
-        "message": "Sie müssen einen Titel angeben."
-    },
-    "saveComponentTitle": {
-        "message": "Speichern"
-    },
     "serverUpdateFailed": {
         "message": "Der Server konnte das Adressbuch nicht umbenennen, folgender Fehlercode:"
     },

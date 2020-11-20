@@ -398,12 +398,6 @@
     "roles-dialog.user-roles.label": {
         "message": "Permessi per:"
     },
-    "saveComponentMessage": {
-        "message": "E' necessario inserire un nome."
-    },
-    "saveComponentTitle": {
-        "message": "Salva"
-    },
     "serverUpdateFailed": {
         "message": "Il server ha rifiutato l'operazione sulla rubrica con il seguente codice di errore:"
     },
