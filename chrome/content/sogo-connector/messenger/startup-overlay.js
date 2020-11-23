@@ -488,6 +488,50 @@ function registerCalDAVACLManager() {
 }
 
 function fixupCardDAVSupport() {
+
+  // We enable list support in CardDAVDirectory
+  // Object.defineProperty(CardDAVDirectory.prototype, "supportsMailingLists", {
+  //   get: function () {
+  //     return !this.getBoolValue("readOnly");
+  //   }
+  // });
+
+  // CardDAVDirectory.prototype.addMailList =  function(list) {
+  //   let newList = AddrBookDirectory.prototype.addMailList.call(this, list);
+  //   let key = newList.UID;
+  //   let vlist = list2vlist(key, newList);
+
+  //   // We send the list to the server
+  //   let path = key + ".vlf";
+
+  //   let requestDetails = {
+  //     method: "PUT",
+  //     contentType: "text/x-vlist; charset=utf",
+  //     body: vlist
+  //   };
+
+  //   let response = this._makeRequest(path, requestDetails);
+
+  //   return newList;
+  // }
+
+  // const unboundgetDirectory = AddrBookManager.prototype.getDirectory;
+  // const boundgetDirectory = unboundgetDirectory.bind(AddrBookManager.prototype);
+  // AddrBookManager.prototype.getDirectory = function(uri) {
+  //   if (uri.startsWith("jscarddav://")) {
+  //     let fileName = uri.substring(12, uri.indexOf("/", 12));
+  //     let parent = boundgetDirectory("jscarddav://" + fileName);
+  //     for (let list of parent.childNodes) {
+  //         list.QueryInterface(Ci.nsIAbDirectory);
+  //         if (list.URI == uri) {
+  //           return list;
+  //         }
+  //       }
+  //   }
+
+  //   return boundgetDirectory(uri);
+  // }
+
   const unboundvCardToAbCard = VCardUtils.vCardToAbCard;
   const boundvCardToAbCard  = unboundvCardToAbCard.bind(VCardUtils);
   VCardUtils.vCardToAbCard = function(vCard) {
@@ -501,6 +545,10 @@ function fixupCardDAVSupport() {
         values = values.map(e => e.trim());
         abCard.setProperty("Categories", arrayToMultiValue(values));
       }
+      else if (name.startsWith("custom")) {
+        let i = name.substring(6);
+        abCard.setProperty("Custom"+i, vProps[index][3]);
+      }
     }
 
     return abCard;
@@ -512,11 +560,18 @@ function fixupCardDAVSupport() {
     let categories = abCard.getProperty("Categories", "");
     let vcard = boundabCardToVCard(abCard, version);
 
-    if (categories.length == 0)
-      return vcard;
+    //if (categories.length == 0)
+    //  return vcard;
 
     let [, vProps] = ICAL.parse(vcard);
     vProps.push(["categories", {}, "text"].concat(categories.split("\u001A")))
+
+    for (let i = 1; i < 5; i++) {
+      let custom = abCard.getProperty("Custom" + i, "");
+      if (custom.length)
+        vProps.push(["custom"+i, {}, "text", custom]);
+    }
+
     vcard =  ICAL.stringify(["vcard", vProps]);
 
     return vcard;
@@ -528,14 +583,23 @@ function fixupCardDAVSupport() {
     let categories = abCard.getProperty("Categories", "");
     let vcard = boundmodifyVCard(vCard, abCard);
 
-    if (categories.length == 0)
-      return vcard;
+    //if (categories.length == 0)
+    //  return vcard;
 
     let [, vProps] = ICAL.parse(vcard);
 
     // we wipe the previous cagegories
     vProps = vProps.filter(prop => prop[0] != "categories");
     vProps.push(["categories", {}, "text"].concat(categories.split("\u001A")))
+
+    // we wipe previous custom values
+    vProps = vProps.filter(prop => !prop[0].startsWith("custom"));
+    for (let i = 1; i < 5; i++) {
+      let custom = abCard.getProperty("Custom" + i, "");
+      if (custom.length)
+        vProps.push(["custom"+i, {}, "text", custom]);
+    }
+
     vcard =  ICAL.stringify(["vcard", vProps]);
 
     return vcard;

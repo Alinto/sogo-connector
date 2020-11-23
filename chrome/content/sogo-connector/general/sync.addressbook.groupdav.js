@@ -1728,8 +1728,11 @@ function GetSyncNotifyGroupdavAddressbook(uri, ab, origin) {
           alertService.showAlertNotification(null, title, content, false, '', null);
         break;
       }
-      
-      Services.obs.removeObserver(this.abSynchronizeCallback, "addrbook-directory-synced");
+
+      try {
+        Services.obs.removeObserver(this.abSynchronizeCallback, "addrbook-directory-synced");
+      } catch(e) {
+      }
     },
   }
 
