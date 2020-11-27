@@ -62,6 +62,7 @@ function SCCreateCardDAVDirectory(description, url) {
   
   let book = MailServices.ab.getDirectoryFromId(prefId);
   book.setStringValue("carddav.url", url);
+  book.setStringValue("carddav.username", sogoUserName());
 
   return CardDAVDirectory.forFile(book.fileName);
   //return SCGetDirectoryFromURI("jscarddav://" + prefId);

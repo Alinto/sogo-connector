@@ -154,16 +154,20 @@ function sogoWebDAV(url, target, data, synchronous, asJSON) {
 
 sogoWebDAV.prototype = {
 
-    // See: http://mxr.mozilla.org/comm-central/source/calendar/base/modules/calProviderUtils.jsm
-    getInterface: function sogoWebDAV_getInterface(aIID) {
-        
-        if (aIID.equals(Components.interfaces.nsIProgressEventSink)) {
-            return { onProgress: function sogoWebDAV_onProgress(aRequest, aContext, aProgress, aProgressMax) {},
-                     onStatus: function sogoWebDAV_onStatus(aRequest, aContext, aStatus, aStatusArg) {} };
-        }
-        
-        return cal.provider.InterfaceRequestor_getInterface.apply(this, arguments);
-    },
+  getInterface: cal.provider.InterfaceRequestor_getInterface,
+
+  QueryInterface: function(aIID) {
+    if (!aIID.equals(Components.interfaces.nsIProgressEventSink)
+        && !aIID.equals(Components.interfaces.nsIInterfaceRequestor))
+    {
+      //dump("sogoWebDAV.js: No interface for: "  + aIID + "\n");
+      throw Components.results.NS_ERROR_NO_INTERFACE;
+    }
+    return this;
+  },
+
+  onProgress: function sogoWebDAV_onProgress(aRequest, aContext, aProgress, aProgressMax) {},
+  onStatus: function sogoWebDAV_onStatus(aRequest, aContext, aStatus, aStatusArg) {},
 
   _sendHTTPRequest: function(method, body, headers) {
     let channel = Services.io.newChannelFromURI(
@@ -206,7 +210,6 @@ sogoWebDAV.prototype = {
 
         /* If set too early, the method can change to "PUT" when initially set to "PROPFIND"... */
         httpChannel.requestMethod = method;
-	/* PARCHE SARENET*/
         if (method == "PUT")
         {
             this.synchronous = true;
@@ -216,7 +219,6 @@ sogoWebDAV.prototype = {
         {
             this.synchronous = true;
         }
-        /* PARCHE SARENET*/
         if (this.synchronous) {
             let inStream = httpChannel.open();
             let byteStream = Components.classes["@mozilla.org/binaryinputstream;1"]
