@@ -1,11 +1,13 @@
+- searching by categories is broken
+- grep for categories.properties
+- fix sync toolbar icon not showing
+- handle X-MOZ-SEND-INVITATIONS-UNDISCLOSED and X-MOZ-SEND-INVITATIONS in SOGo directly
+- remove old manifest files
+- bring back reloadCalendarCache?
 - remove GroupDavSynchronizer
-- remote sync.addressbook.groupdav.js
+- remove sync.addressbook.groupdav.js
 - remove preferences.service.addressbook.groupdav.js
-- fix SCAbConfirmDeleteDirectory/SCAbConfirmDelete to get i18n strings from TB
 - remove SCGetDirectoryFromURI
-- remove all dtd/locales
-- remove sogo-connector/chrome/content/sogo-connector/general/creation-overlay.xul
 - when accepting IMIP/ITIP invitations, overlay Lightning to show only writable calendars
 - document startup.js
-- review common-card-overlay.js for menulist's editable
 - remove progressmeter and statusbar/statusbarpanel

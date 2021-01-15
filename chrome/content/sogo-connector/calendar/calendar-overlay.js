@@ -324,7 +324,7 @@ function SIOnCalendarOverlayLoad() {
    * if lightning is loaded after the integrator in extensions.ini
    */
   window.SIOldPromptDeleteCalendar = window.promptDeleteCalendar;
-  window.promptDeleteCalendar = window.SIpromptDeleteCalendar;
+  window.promptDeleteCalendar = SIpromptDeleteCalendar;
 }
 
 function SCExportTask() {
