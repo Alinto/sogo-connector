@@ -99,10 +99,10 @@ function onAcceptWebDAV() {
   let directory = SCGetCurrentDirectory();
   let prefId = directory.dirPrefId;
   
-  // if (directory && directory.dirPrefId.length > 0) {
-  //     directory.dirName = description;
-  //     prefId = directory.dirPrefId;
-  // }
+  if (directory && directory.dirPrefId.length > 0) {
+    directory.dirName = description;
+    //prefId = directory.dirPrefId;
+  }
   // else {
   //   // adding a new Addressbook
   //   let abMgr = Components.classes["@mozilla.org/abmanager;1"]
@@ -212,7 +212,6 @@ function onShowRestart() {
 
 //TODO:catch the directory delete and delete preferences
 
-// From SOGo Integrator
 var folderURL = "";
 var originalName = "";
 
@@ -257,7 +256,8 @@ renameTarget.prototype = {
        if (propstat["status"][0].indexOf("HTTP/1.1 200") == 0) {
 	 if (propstat["prop"][0]["displayname"]) {
 	   if (onAccept())
-	     setTimeout("window.close();", 200);
+	     //setTimeout("window.close();", 200);
+             window.close();
 	   }
        }
      }
