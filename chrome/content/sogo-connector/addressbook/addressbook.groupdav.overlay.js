@@ -132,13 +132,13 @@ function SCAbDeleteDirectory(aURI) {
   let result = false;
 
   dump("SCAbDeleteDirectory: aURI: " + aURI + "\n");
-  dump("  backtrace:\n" + backtrace() + "\n\n");
+  //dump("  backtrace:\n" + backtrace() + "\n\n");
 
   if (isCardDavDirectory(aURI)) {
-    // || isCardDavDirectory(selectedDir)) {
-    // 			dump("pouet\n");
-    result = (SCAbConfirmDeleteDirectory(aURI)
-              && SCDeleteDAVDirectory(aURI));
+    SCAbConfirmDeleteDirectory(aURI).then(function(result) {
+      if (result)
+        SCDeleteDAVDirectory(aURI);
+    });
   }
   else {
     // 			dump("pouet dasdsa\n");
@@ -176,33 +176,65 @@ function _SCDeleteListAsDirectory(directory, selectedDir) {
     return result;
 }
 
-function SCAbConfirmDeleteDirectory(selectedDir) {
-  let confirmDeleteTitle;
-  let confirmDeleteMessage;
-  let directory = window.GetDirectoryFromURI(selectedDir);
+async function SCAbConfirmDeleteDirectory(aURI) {
+  //let confirmDeleteTitle;
+  //let confirmDeleteMessage;
+  //let directory = window.GetDirectoryFromURI(selectedDir);
 
   // Check if this address book is being used for collection
-  if (Services.prefs.getCharPref("mail.collect_addressbook") == selectedDir
-      && (Services.prefs.getBoolPref("mail.collect_email_address_outgoing")
-          || Services.prefs.getBoolPref("mail.collect_email_address_incoming")
-          || Services.prefs.getBoolPref("mail.collect_email_address_newsgroup"))) {
-    let brandShortName = document.getElementById("bundle_brand").getString("brandShortName");
-    confirmDeleteTitle = window.gAddressBookBundle.getString("confirmDeleteThisCollectionAddressbook");
-    confirmDeleteMessage = confirmDeleteMessage.replace("#2", brandShortName);
+  // if (Services.prefs.getCharPref("mail.collect_addressbook") == selectedDir
+  //     && (Services.prefs.getBoolPref("mail.collect_email_address_outgoing")
+  //         || Services.prefs.getBoolPref("mail.collect_email_address_incoming")
+  //         || Services.prefs.getBoolPref("mail.collect_email_address_newsgroup"))) {
+  //   let brandShortName = document.getElementById("bundle_brand").getString("brandShortName");
+  //   confirmDeleteTitle = window.gAddressBookBundle.getString("confirmDeleteThisCollectionAddressbook");
+  //   confirmDeleteMessage = confirmDeleteMessage.replace("#2", brandShortName);
+  // }
+  // else {
+  //   confirmDeleteTitle = window.gAddressBookBundle.getString("confirmDeleteThisAddressbookTitle");
+  //   confirmDeleteMessage = window.gAddressBookBundle.getString("confirmDeleteThisAddressbook");
+  // }
+
+  // confirmDeleteMessage = confirmDeleteMessage.replace("#1", directory.dirName);
+
+  // let promptService = Components.classes["@mozilla.org/embedcomp/prompt-service;1"]
+  //     .getService(Components.interfaces.nsIPromptService);
+
+  // return (promptService.confirm(window,
+  //                               confirmDeleteTitle,
+  //                               confirmDeleteMessage));
+
+  let directory = window.GetDirectoryFromURI(aURI);
+  if (
+    !directory ||
+    ["ldap_2.servers.history", "ldap_2.servers.pab"].includes(
+      directory.dirPrefId
+    )
+  ) {
+    return;
   }
-  else {
-    confirmDeleteTitle = window.gAddressBookBundle.getString("confirmDeleteThisAddressbookTitle");
-    confirmDeleteMessage = window.gAddressBookBundle.getString("confirmDeleteThisAddressbook");
+
+  let action = "delete-book";
+  if (directory.isMailList) {
+    action = "delete-lists";
+  } else if (
+    [
+      Ci.nsIAbManager.CARDDAV_DIRECTORY_TYPE,
+      Ci.nsIAbManager.LDAP_DIRECTORY_TYPE,
+    ].includes(directory.dirType)
+  ) {
+    action = "remove-remote-book";
   }
 
-  confirmDeleteMessage = confirmDeleteMessage.replace("#1", directory.dirName);
+  let [title, message] = await document.l10n.formatValues([
+    { id: `about-addressbook-confirm-${action}-title`, args: { count: 1 } },
+    {
+      id: `about-addressbook-confirm-${action}`,
+      args: { name: directory.dirName, count: 1 },
+    },
+  ]);
 
-  let promptService = Components.classes["@mozilla.org/embedcomp/prompt-service;1"]
-      .getService(Components.interfaces.nsIPromptService);
-
-  return (promptService.confirm(window,
-                                confirmDeleteTitle,
-                                confirmDeleteMessage));
+  return Services.prompt.confirm(window, title, message);
 }
 
 function SCSynchronizeFromChildWindow() {
@@ -485,29 +517,31 @@ window.SIAbDeleteDirectory = function(aURI) {
         SCAbDeleteDirectory(aURI);
     }
     else {
-      if (SCAbConfirmDeleteDirectory(aURI)) {
-	//let selectedDirectory = SCGetDirectoryFromURI(aURI);
-	//let groupdavPrefService
-	//    = new GroupdavPreferenceService(selectedDirectory.dirPrefId);
-	//let url = groupdavPrefService.getURL();
-	if (url.indexOf(sogoBaseURL()) == 0) {
-	  let elements = url.split("/");
-	  let dirBase = elements[elements.length-2];
-	  let handler = new AddressbookHandler();
-	  if (dirBase.indexOf("_") == -1) {
-	    if (dirBase != 'personal') {
-              //dump("should delete folder: " + url+ "\n");
-	      deleteFolder(url, handler);
+      SCAbConfirmDeleteDirectory(aURI).then(function(result) {
+        if (result) {
+	  //let selectedDirectory = SCGetDirectoryFromURI(aURI);
+	  //let groupdavPrefService
+	  //    = new GroupdavPreferenceService(selectedDirectory.dirPrefId);
+	  //let url = groupdavPrefService.getURL();
+	  if (url.indexOf(sogoBaseURL()) == 0) {
+	    let elements = url.split("/");
+	    let dirBase = elements[elements.length-2];
+	    let handler = new AddressbookHandler();
+	    if (dirBase.indexOf("_") == -1) {
+	      if (dirBase != 'personal') {
+                //dump("should delete folder: " + url+ "\n");
+	        deleteFolder(url, handler);
+	      }
 	    }
+	    else
+	      window.unsubscribeFromFolder(url, handler);
 	  }
 	  else
-	    window.unsubscribeFromFolder(url, handler);
-	}
-	else
-	  SCDeleteDAVDirectory(aURI);
-      }
-    }
-  }
+	    SCDeleteDAVDirectory(aURI);
+        }
+      });
+    } // if (url.indexOf(sogoBaseURL()) == 0 ...
+  } // if (isCardDavDirectory(aURI)) { ..
   else
     SCAbDeleteDirectory(aURI);
 }
