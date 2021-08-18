@@ -144,15 +144,11 @@ AddressbookHandler.prototype = {
     if (sourceAB.URI != destAB.URI) {
       /* ugly hack: we empty the addressbook after its cards were
          transfered, so that we can be sure the ab no longer "exists" */
-      //let cardsArray = Components.classes["@mozilla.org/array;1"]
-      //    .createInstance(Components.interfaces.nsIMutableArray);
       let cardsArray = [];
 
       let childCards = sourceAB.childCards;
       let countCards = 0;
       let countLists = 0;
-      //while (childCards.hasMoreElements()) {
-      //  let card = childCards.getNext().QueryInterface(Components.interfaces.nsIAbCard);
       for (let card of childCards) {
         if (card.isMailList) {
           //let oldListDir = abManager.getDirectory(card.mailListURI);

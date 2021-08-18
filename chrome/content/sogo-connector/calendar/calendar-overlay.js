@@ -519,8 +519,7 @@ function startFolderSync() {
       .getService(Components.interfaces.nsIAbManager);
 
   let children = abManager.directories;
-  while (children.hasMoreElements()) {
-    let ab = children.getNext().QueryInterface(Components.interfaces.nsIAbDirectory);
+  for (let ab in children) {
     if (isCardDavDirectory(ab.URI)) {
       let dirPrefId = ab.dirPrefId;                
       let groupdavPrefService = new GroupdavPreferenceService(dirPrefId);

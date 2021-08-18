@@ -20,6 +20,7 @@
 
 var { AddonManager } = ChromeUtils.import("resource://gre/modules/AddonManager.jsm");
 var { Services } = ChromeUtils.import("resource://gre/modules/Services.jsm");
+var { ComponentUtils } = ChromeUtils.import("resource://gre/modules/ComponentUtils.jsm");
 
 const { ICAL } = ChromeUtils.import("resource:///modules/calendar/Ical.jsm");
 var { VCardUtils } = ChromeUtils.import("resource:///modules/VCardUtils.jsm");
@@ -475,7 +476,7 @@ function registerCalDAVACLManager() {
   
   jsInclude(["resource://sogo-connector/components/CalDAVACLManager.js"]);
   
-  let factory = XPCOMUtils.generateNSGetFactory([CalDAVACLManager])(classID);
+  let factory = ComponentUtils.generateNSGetFactory([CalDAVACLManager])(classID);
 
   try {
     Components.manager.registerFactory(classID, "CalDAVACLManager", contractID, factory);

@@ -175,7 +175,7 @@ sogoWebDAV.prototype = {
         null,
         Services.scriptSecurityManager.getSystemPrincipal(),
         null,
-        Components.interfaces.nsILoadInfo.SEC_ALLOW_CROSS_ORIGIN_DATA_IS_NULL,
+        Components.interfaces.nsILoadInfo.SEC_ALLOW_CROSS_ORIGIN_SEC_CONTEXT_IS_NULL,
         Components.interfaces.nsIContentPolicy.TYPE_OTHER);
 
         let httpChannel = channel.QueryInterface(Components.interfaces.nsIHttpChannel);
@@ -243,7 +243,7 @@ sogoWebDAV.prototype = {
             let loader = Components.classes["@mozilla.org/network/stream-loader;1"]
                                    .createInstance(Components.interfaces.nsIStreamLoader);
             loader.init(listener);
-            httpChannel.asyncOpen(loader, httpChannel);
+            httpChannel.asyncOpen(loader);
         }
     },
 

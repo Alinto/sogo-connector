@@ -8,7 +8,7 @@
   },
   "name": "SOGo Connector",
   "description": "A DAV plugin for keeping addressbooks and events in sync",
-  "version": "78.0.0",
+  "version": "78.0.1",
   "default_locale": "en-US",
   "background": {
     "scripts": ["background.js"]
