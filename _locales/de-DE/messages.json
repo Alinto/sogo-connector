@@ -95,9 +95,6 @@
     "addressbook-overlay.susbcription.tooltips.subscribe": {
         "message": "Ein Adressbuch abonnieren..."
     },
-    "addressbook.synchronize.label": {
-        "message": "Synchronisierung:"
-    },
     "attendee.toolbar.accept.label": {
         "message": "Annehmen"
     },

@@ -95,9 +95,6 @@
     "addressbook-overlay.susbcription.tooltips.subscribe": {
         "message": "Odebírat složku kontaktů..."
     },
-    "addressbook.synchronize.label": {
-        "message": "Synchronizace:"
-    },
     "attendee.toolbar.accept.label": {
         "message": "Přijmout"
     },

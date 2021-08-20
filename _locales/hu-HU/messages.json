@@ -95,9 +95,6 @@
     "addressbook-overlay.susbcription.tooltips.subscribe": {
         "message": "Feliratkozás egy címjegyzékre..."
     },
-    "addressbook.synchronize.label": {
-        "message": "Szinkronizáció:"
-    },
     "attendee.toolbar.accept.label": {
         "message": "Elfogad"
     },

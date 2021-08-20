@@ -628,12 +628,6 @@ function onLoad(activatedWhileWindowOpen) {
       </menupopup>
     </menu>
   </popup>
-
-  <statusbar id="status-bar">
-    <statusbarpanel id="groupdavProgressPanel" collapsed="true">
-      <label value="&addressbook.synchronize.label;"/>
-    </statusbarpanel>
-  </statusbar>
          
   <vbox id="cvbContact">
     <vbox id="cvbCategories" class="cardViewGroup" insertbefore="cvbDescription">

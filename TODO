@@ -1,3 +1,4 @@
+- remove XUL files that are no longer used
 - grep for categories.properties
 - fix sync toolbar icon not showing
 - handle X-MOZ-SEND-INVITATIONS-UNDISCLOSED and X-MOZ-SEND-INVITATIONS in SOGo directly
@@ -8,4 +9,3 @@
 - remove SCGetDirectoryFromURI
 - when accepting IMIP/ITIP invitations, overlay Lightning to show only writable calendars
 - document startup.js
-- remove progressmeter and statusbar/statusbarpanel

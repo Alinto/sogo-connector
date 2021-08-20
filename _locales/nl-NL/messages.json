@@ -44,9 +44,6 @@
     "URLAlreadyExist": {
         "message": "Er bestaat al een adresboek met die URL!"
     },
-    "addressbook.synchronize.label": {
-        "message": "Synchronisatie:"
-    },
     "attendee.toolbar.accept.label": {
         "message": "Accepteren"
     },

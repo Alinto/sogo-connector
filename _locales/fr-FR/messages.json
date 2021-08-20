@@ -95,9 +95,6 @@
     "addressbook-overlay.susbcription.tooltips.subscribe": {
         "message": "S'inscrire à un carnet d'adresses..."
     },
-    "addressbook.synchronize.label": {
-        "message": "Synchronisation :"
-    },
     "attendee.toolbar.accept.label": {
         "message": "Accepter"
     },
