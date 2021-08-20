@@ -1,8 +1,6 @@
-- searching by categories is broken
 - grep for categories.properties
 - fix sync toolbar icon not showing
 - handle X-MOZ-SEND-INVITATIONS-UNDISCLOSED and X-MOZ-SEND-INVITATIONS in SOGo directly
-- remove old manifest files
 - bring back reloadCalendarCache?
 - remove GroupDavSynchronizer
 - remove sync.addressbook.groupdav.js

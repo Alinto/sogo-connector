@@ -417,7 +417,7 @@ function SCOnCategoriesContextMenuItemCommand(event) {
 window.SCSetSearchCriteria = function(menuitem) {
   let criteria = menuitem.getAttribute("sc-search-criteria");
   if (criteria.length > 0) {
-    gQueryURIFormat = "(or(" + criteria + ",c,@V))"; // the "or" is important here
+    window.gQueryURIFormat = "(or(" + criteria + ",c,@V))"; // the "or" is important here
   }
   else {
     //let prefBranch = (Components.classes["@mozilla.org/preferences-service;1"]
@@ -433,7 +433,7 @@ window.SCSetSearchCriteria = function(menuitem) {
     if (nameOrEMailSearch.startsWith("?"))
       nameOrEMailSearch = nameOrEMailSearch.slice(1);
 
-    gQueryURIFormat = nameOrEMailSearch;
+    window.gQueryURIFormat = nameOrEMailSearch;
   }
   document.getElementById('peopleSearchInput').setAttribute("emptytext", menuitem.getAttribute("label"));
   document.getElementById('peopleSearchInput').focus();
