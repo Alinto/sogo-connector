@@ -50,20 +50,6 @@ Taken from: https://developer.mozilla.org/en-US/docs/DOM/window.dump?redirectloc
 
 On Windows, you will need a console to actually see anything. If you don't have one already, closing the application and re-opening it with the command line parameter -console should create the console. On other operating systems, it's enough to launch the application from a terminal.
 
-## Debugging and changing code without restart Thunderbird
-
-Setting breakpoints to stop inside JS code of a plugin using JavaScript Debugger Venkman does not work.
-Instead, install plugin Workspace for Thunderbird -> http://antennasoft.net/robcee/
-
-Place all your code, you want to test, there and execute it. You can even defined functions there.
-If you cannot override an existing JS function, you have to rename it.
-
-## Other notes
-
-Command line parameter for starting Thunderbird in DEVEL mode:  -purgecaches -console -no-remote -P dev
-
-More useful hints for developers: https://developer.mozilla.org/en/docs/Setting_up_extension_development_environment
-
 # Migrating to Thunderbird v68 from previous versions
 
 First of all, SOGo Integrator is no longer needed. All SOGo Integrator preferences have been renamed to
