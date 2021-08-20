@@ -435,8 +435,8 @@ window.SCSetSearchCriteria = function(menuitem) {
 
     window.gQueryURIFormat = nameOrEMailSearch;
   }
-  document.getElementById('peopleSearchInput').setAttribute("emptytext", menuitem.getAttribute("label"));
-  document.getElementById('peopleSearchInput').focus();
+  window.document.getElementById('peopleSearchInput').setAttribute("placeholder", menuitem.getAttribute("label"));
+  window.document.getElementById('peopleSearchInput').focus();
   window.onEnterInSearchBar();
 }
 
