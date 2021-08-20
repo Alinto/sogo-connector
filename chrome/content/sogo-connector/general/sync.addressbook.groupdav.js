@@ -1647,8 +1647,7 @@ function GetSyncNotifyGroupdavAddressbook(uri, ab, origin) {
         .getService(Components.interfaces.nsIAbManager);
 
     let children = abManager.directories;
-    while (children.hasMoreElements()) {
-      let ab = children.getNext().QueryInterface(Components.interfaces.nsIAbDirectory);
+    for (let ab in children) {
       if (ab.URI === uri) {
         dirName = ab.dirName;
         let dirPrefId = ab.dirPrefId;                
@@ -1697,7 +1696,7 @@ function GetSyncNotifyGroupdavAddressbook(uri, ab, origin) {
       Services.obs.addObserver(this.abSynchronizeCallback.bind(this), "addrbook-directory-synced");
       let book = MailServices.ab.getDirectory(this.URI);
       let dir = CardDAVDirectory.forFile(book.fileName);
-      dir.updateAllFromServer();
+      dir.updateAllFromServerV2();
     },
 
     abSynchronizeCallback: function (ab, topic) {
