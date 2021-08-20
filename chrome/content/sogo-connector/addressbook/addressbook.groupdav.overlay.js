@@ -23,21 +23,21 @@ var { Services } = ChromeUtils.import("resource://gre/modules/Services.jsm");
 var _this = this;
 
 function jsInclude(files, target) {
-    let loader = Components.classes["@mozilla.org/moz/jssubscript-loader;1"]
-                           .getService(Components.interfaces.mozIJSSubScriptLoader);
-    for (let i = 0; i < files.length; i++) {
-        try {
-            loader.loadSubScript(files[i], target);
-        }
-        catch(e) {
-            //dump("addressbook.groupdav.overlay.js: failed to include '" + files[i] +
-            //     "'\n" + e);
-            //if (e.fileName)
-            //    dump ("\nFile: " + e.fileName
-            //          + "\nLine: " + e.lineNumber
-            //          + "\n\n Stack:\n\n" + e.stack);
-        }
+  let loader = Components.classes["@mozilla.org/moz/jssubscript-loader;1"]
+      .getService(Components.interfaces.mozIJSSubScriptLoader);
+  for (let i = 0; i < files.length; i++) {
+    try {
+      loader.loadSubScript(files[i], target);
     }
+    catch(e) {
+      //dump("addressbook.groupdav.overlay.js: failed to include '" + files[i] +
+      //     "'\n" + e);
+      //if (e.fileName)
+      //    dump ("\nFile: " + e.fileName
+      //          + "\nLine: " + e.lineNumber
+      //          + "\n\n Stack:\n\n" + e.stack);
+    }
+  }
 }
 
 jsInclude(["chrome://inverse-library/content/sogoWebDAV.js",
@@ -60,8 +60,6 @@ function i18n(entity) {
 } 
 
 let gSelectedDir = "";
-//let gCurDirectory = null;
-//let gLDAPPrefsService = null;
 let deleteCmdLabel = "";
 
 function openGroupdavPreferences(directory) {
@@ -177,32 +175,6 @@ function _SCDeleteListAsDirectory(directory, selectedDir) {
 }
 
 async function SCAbConfirmDeleteDirectory(aURI) {
-  //let confirmDeleteTitle;
-  //let confirmDeleteMessage;
-  //let directory = window.GetDirectoryFromURI(selectedDir);
-
-  // Check if this address book is being used for collection
-  // if (Services.prefs.getCharPref("mail.collect_addressbook") == selectedDir
-  //     && (Services.prefs.getBoolPref("mail.collect_email_address_outgoing")
-  //         || Services.prefs.getBoolPref("mail.collect_email_address_incoming")
-  //         || Services.prefs.getBoolPref("mail.collect_email_address_newsgroup"))) {
-  //   let brandShortName = document.getElementById("bundle_brand").getString("brandShortName");
-  //   confirmDeleteTitle = window.gAddressBookBundle.getString("confirmDeleteThisCollectionAddressbook");
-  //   confirmDeleteMessage = confirmDeleteMessage.replace("#2", brandShortName);
-  // }
-  // else {
-  //   confirmDeleteTitle = window.gAddressBookBundle.getString("confirmDeleteThisAddressbookTitle");
-  //   confirmDeleteMessage = window.gAddressBookBundle.getString("confirmDeleteThisAddressbook");
-  // }
-
-  // confirmDeleteMessage = confirmDeleteMessage.replace("#1", directory.dirName);
-
-  // let promptService = Components.classes["@mozilla.org/embedcomp/prompt-service;1"]
-  //     .getService(Components.interfaces.nsIPromptService);
-
-  // return (promptService.confirm(window,
-  //                               confirmDeleteTitle,
-  //                               confirmDeleteMessage));
 
   let directory = window.GetDirectoryFromURI(aURI);
   if (
@@ -241,61 +213,6 @@ function SCSynchronizeFromChildWindow() {
   let uri = window.GetSelectedDirectory()
   SynchronizeGroupdavAddressbook(uri, null, 0);
 }
-
-// let groupdavSynchronizationObserver = {
-//     oldPC: -1,
-//     syncManager: null,
-
-//     _createProgressBar: function() {
-//         let progressBar = document.createXULElement("progressmeter");
-//         progressBar.setAttribute("id", "groupdavProgressMeter");
-//         progressBar.setAttribute("mode", "determined");
-//         progressBar.setAttribute("value", "0%");
-
-//         return progressBar;
-//     },
-//     ensureProgressBar: function() {
-//         // 		dump("document: " + document + "\n");
-//         // 		dump("window: " + window + "\n");
-//         // 		dump("window.title: " + window.title + "\n");
-//         // 		dump("window.document: " + window.document + "\n");
-//         let progressBar = this._createProgressBar();
-//         let panel = document.getElementById("groupdavProgressPanel");
-//         panel.appendChild(progressBar);
-//         panel.setAttribute("collapsed", false);
-
-//         return progressBar;
-//     },
-//     handleNotification: function(notification, data) {
-//         let progressBar = document.getElementById("groupdavProgressMeter");
-//         if (notification == "groupdav.synchronization.start") {
-//             if (!progressBar)
-//                 this.ensureProgressBar();
-//         }
-//         else if (notification == "groupdav.synchronization.stop") {
-//             if (progressBar) {
-//                 let panel = document.getElementById("groupdavProgressPanel");
-//                 panel.removeChild(progressBar);
-//                 panel.setAttribute("collapsed", true);
-//             }
-//         }
-//         else if (notification == "groupdav.synchronization.addressbook.updated") {
-//             if (!progressBar)
-//                 progressBar = this.ensureProgressBar();
-//             let pc = Math.floor(this.syncManager.globalProgress() * 100);
-//             if (this.oldPC != pc) {
-//                 window.setTimeout(_updateProgressBar, 200, pc);
-//                 this.oldPC = pc;
-//             }
-//         }
-//     }
-// };
-
-// function _updateProgressBar(pc) {
-//     let progressBar = document.getElementById("groupdavProgressMeter");
-//     if (progressBar)
-//         progressBar.setAttribute("value", pc + "%");
-// }
 
 function SCOnResultsTreeContextMenuPopup(event) {
     if (this == event.target) { /* otherwise the reset will be executed when
@@ -386,9 +303,6 @@ function SCOnCategoriesContextMenuItemCommand(event) {
       }
       if (changed) {
         requireSync = true;
-	//let oldDavVersion = card.getProperty("groupDavVersion", "-1");
-	//card.setProperty("groupDavVersion", "-1");
-	//card.setProperty("groupDavVersionPrev", oldDavVersion);
 	card.setProperty("Categories", cats);
         let abManager = Components.classes["@mozilla.org/abmanager;1"]
             .getService(Components.interfaces.nsIAbManager);
@@ -406,11 +320,6 @@ function SCOnCategoriesContextMenuItemCommand(event) {
 	}
       }
     }
- //   if (requireSync) {
- //     if (isCardDavDirectory(abUri)) {
- //       SynchronizeGroupdavAddressbook(abUri);
- //     }
- //   }
   }
 }
 
@@ -420,8 +329,6 @@ window.SCSetSearchCriteria = function(menuitem) {
     window.gQueryURIFormat = "(or(" + criteria + ",c,@V))"; // the "or" is important here
   }
   else {
-    //let prefBranch = (Components.classes["@mozilla.org/preferences-service;1"]
-    //                  .getService(Components.interfaces.nsIPrefBranch));
     let nameOrEMailSearch = "";
     if (Services.prefs.getComplexValue("mail.addr_book.show_phonetic_fields", Components.interfaces.nsIPrefLocalizedString).data == "true") {
       nameOrEMailSearch =  Services.prefs.getCharPref("mail.addr_book.quicksearchquery.format.phonetic");
@@ -502,8 +409,6 @@ window.SIAbDeleteDirectory = function(aURI) {
   let selectedDirectory = SCGetDirectoryFromURI(aURI);
 
   if (isCardDavDirectory(aURI)) {
-    //let prefs = new GroupdavPreferenceService(selectedDirectory.dirPrefId);
-    //let url = prefs.getURL();
     let url = selectedDirectory.getStringValue("carddav.url", "");
     let urlParts = url.split("/");
  
@@ -519,10 +424,6 @@ window.SIAbDeleteDirectory = function(aURI) {
     else {
       SCAbConfirmDeleteDirectory(aURI).then(function(result) {
         if (result) {
-	  //let selectedDirectory = SCGetDirectoryFromURI(aURI);
-	  //let groupdavPrefService
-	  //    = new GroupdavPreferenceService(selectedDirectory.dirPrefId);
-	  //let url = groupdavPrefService.getURL();
 	  if (url.indexOf(sogoBaseURL()) == 0) {
 	    let elements = url.split("/");
 	    let dirBase = elements[elements.length-2];
