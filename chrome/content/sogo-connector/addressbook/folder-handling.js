@@ -42,10 +42,6 @@ function jsInclude(files, target) {
 
 jsInclude(["chrome://sogo-connector/content/general/preference.service.addressbook.groupdav.js"]);
 
-function SCGetDirectoryFromURI(uri) {
-  return MailServices.ab.getDirectory(uri);
-}
-
 function SCCreateCardDAVDirectory(description, url) {
   //let abMgr = Components.classes["@mozilla.org/abmanager;1"]
   //    .getService(Components.interfaces.nsIAbManager);
@@ -65,8 +61,6 @@ function SCCreateCardDAVDirectory(description, url) {
   book.setStringValue("carddav.username", sogoUserName());
 
   return CardDAVDirectory.forFile(book.fileName);
-  //return SCGetDirectoryFromURI("jscarddav://" + prefId);
-  //return SCGetDirectoryFromURI("moz-abdavdirectory://" + prefId);
 }
 
 function SCCreateGroupDAVDirectory(description, url) {
@@ -90,12 +84,10 @@ function SCCreateGroupDAVDirectory(description, url) {
   //let filename = Services.prefs.getCharPref(prefId + ".filename");
   //dump("filename: " + filename + "\n");
   return MailServices.ab.getDirectoryFromId(prefId);
-  //return SCGetDirectoryFromURI("jsaddrbook://" + filename);
-  //return SCGetDirectoryFromURI("moz-abmdbdirectory://" + filename);
 }
 
 function SCDeleteDirectoryWithURI(uri) {
-  let directory = SCGetDirectoryFromURI(uri);
+  let directory = MailServices.ab.getDirectory(uri);
   if (directory)
     SCDeleteDirectory(directory);
 }
@@ -158,7 +150,7 @@ function SCDeleteDAVDirectory(uri) {
   dump("SCDeleteDAVDirectory : " + uri + "\n");
 
   if (isCardDavDirectory(uri)) {
-    let directory = SCGetDirectoryFromURI(uri);
+    let directory = MailServices.ab.getDirectory(uri);
     if (directory) {
       try {
         SCDeleteDirectory(directory);

@@ -18,6 +18,7 @@
  * Franklin St, Fifth Floor, Boston, MA 02110-1301 USA
  */
 
+var { MailServices } = ChromeUtils.import("resource:///modules/MailServices.jsm");
 var { Services } = ChromeUtils.import("resource://gre/modules/Services.jsm");
 
 var _this = this;
@@ -117,7 +118,7 @@ function SCGoUpdateSelectEditMenuItems() {
 function SCAbEditSelectedDirectory() {
   let abUri = window.GetSelectedDirectory();
   if (isCardDavDirectory(abUri)) {
-    let directory = SCGetDirectoryFromURI(abUri);
+    let directory = MailServices.ab.getDirectory(abUri);
     openGroupdavPreferences(directory);
   }
   else {
@@ -140,7 +141,7 @@ function SCAbDeleteDirectory(aURI) {
   }
   else {
     // 			dump("pouet dasdsa\n");
-    let directory = SCGetDirectoryFromURI(aURI);
+    let directory = MailServices.ab.getDirectory(aURI);
     if (!(directory.isMailList
           && _SCDeleteListAsDirectory(directory, aURI)))
       window.SCAbDeleteDirectoryOriginal(aURI);
@@ -162,7 +163,7 @@ function _SCDeleteListAsDirectory(directory, selectedDir) {
             result = true;
             if (SCAbConfirmDelete(kSingleListOnly)) {
                 // 				dump("_SCDeleteListAsDirectory 4\n");
-                let parentDir = SCGetDirectoryFromURI(parentDirURI);
+                let parentDir = MailServices.ab.getDirectory(parentDirURI);
                 let prefService = new GroupdavPreferenceService(parentDir.dirPrefId);
                 deleteManager.begin(parentDirURI, 1);
                 _deleteGroupDAVComponentWithKey(prefService, attributes.key,
@@ -406,7 +407,7 @@ function openDeletePublicDirectoryForbiddenDialog() {
 }
 
 window.SIAbDeleteDirectory = function(aURI) {
-  let selectedDirectory = SCGetDirectoryFromURI(aURI);
+  let selectedDirectory = MailServices.ab.getDirectory(aURI);
 
   if (isCardDavDirectory(aURI)) {
     let url = selectedDirectory.getStringValue("carddav.url", "");
@@ -462,7 +463,7 @@ SIDirPaneController.prototype = {
    if (command == "cmd_SOGoACLS") {
      let uri = window.GetSelectedDirectory();
      if (uri && isCardDavDirectory(uri)) {
-       let ab = SCGetDirectoryFromURI(uri);
+       let ab = MailServices.ab.getDirectory(uri);
        let prefs = new GroupdavPreferenceService(ab.dirPrefId);
        let dirURL = ab.getStringValue("carddav.url", "");
        if (dirURL.indexOf(sogoBaseURL()) == 0) {
@@ -478,7 +479,7 @@ SIDirPaneController.prototype = {
        let cd;
        let url;
        let deleteMenuIsUnsubscribe = false;
-       let ab = SCGetDirectoryFromURI(uri);
+       let ab = MailServices.ab.getDirectory(uri);
        if (isCardDavDirectory(uri)) {
 	 let prefs = new GroupdavPreferenceService(ab.dirPrefId);
          url = ab.getStringValue("carddav.url", "");

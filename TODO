@@ -5,7 +5,5 @@
 - bring back reloadCalendarCache?
 - remove GroupDavSynchronizer
 - remove sync.addressbook.groupdav.js
-- remove preferences.service.addressbook.groupdav.js
-- remove SCGetDirectoryFromURI
 - when accepting IMIP/ITIP invitations, overlay Lightning to show only writable calendars
 - document startup.js

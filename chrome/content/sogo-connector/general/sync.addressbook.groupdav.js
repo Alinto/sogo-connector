@@ -171,7 +171,7 @@ function loadNotificationsStrings() {
 //     initSyncVariables: function() {
 //         this.processMode = SOGOC_PROCESS_CARDS;
 //         this.updatesStatus = SOGOC_UPDATES_NONE;
-//         this.gAddressBook = SCGetDirectoryFromURI(this.gSelectedDirectoryURI);
+//         this.gAddressBook = MailServices.ab.getDirectory(this.gSelectedDirectoryURI);
 
 //         let groupdavPrefService = this.prefService();
 //         this.gURL = groupdavPrefService.getURL();
