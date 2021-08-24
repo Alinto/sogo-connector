@@ -3,39 +3,10 @@
 #button-groupdavSync
 {
   list-style-image: url("resource://sogo-connector/skin/addressbook/sync-24.png");
+  -moz-image-region: rect(120px 29px 149px 0);
 }
 
 #button-groupdavSync[disabled="true"]
-{
-  list-style-image: url("resource://sogo-connector/skin/addressbook/sync-24-disabled.png");
-}
-
-toolbar[iconsize="small"] #button-groupdavSync
-{
-  list-style-image: url("resource://sogo-connector/skin/addressbook/sync-16.png");
-}
-
-toolbar[iconsize="small"] #button-groupdavSync[disabled="true"]
-{
-  list-style-image: url("resource://sogo-connector/skin/addressbook/sync-16-disabled.png");
-}
-
-toolbar[arch="mac"] #button-groupdavSync
-{
-  list-style-image: url("resource://sogo-connector/skin/addressbook/sync-32.png");
-}
-
-toolbar[arch="mac"] #button-groupdavSync[disabled="true"]
-{
-  list-style-image: url("resource://sogo-connector/skin/addressbook/sync-32-disabled.png");
-}
-
-toolbar[arch="mac"][iconsize="small"] #button-groupdavSync
-{
-  list-style-image: url("resource://sogo-connector/skin/addressbook/sync-24.png");
-}
-
-toolbar[arch="mac"][iconsize="small"] #button-groupdavSync[disabled="true"]
 {
   list-style-image: url("resource://sogo-connector/skin/addressbook/sync-24-disabled.png");
 }
@@ -45,4 +16,36 @@ toolbar[arch="mac"][iconsize="small"] #button-groupdavSync[disabled="true"]
   list-style-image: url("resource://sogo-connector/skin/addressbook/search-filter.png");
   min-width: 16px;
   min-height: 16px;
+}
+
+treechildren::-moz-tree-image(DirCol, isSOGoAddressBook-true) {
+    list-style-image: url("resource://sogo-connector/skin/sogo.png");
+    width: 16px;
+    height: 16px;
+}
+
+#subscriptionToolbar
+{ height: 36px; }
+
+#addAddressBookBtn
+{
+  list-style-image: url(resource://sogo-connector/skin/addressbook/add-addressbook.png);
+  -moz-box-orient: vertical;
+}
+
+#subscribeAddressBookBtn
+{
+  list-style-image: url(resource://sogo-connector/skin/addressbook/add-user-addressbook.png);
+  -moz-box-orient: vertical;
+}
+
+#removeAddressBookBtn
+{
+  list-style-image: url(resource://sogo-connector/skin/addressbook/remove-addressbook.png);
+  -moz-box-orient: vertical;
+}
+
+#removeAddressBookBtn[disabled="true"]
+{
+  list-style-image: url(resource://sogo-connector/skin/addressbook/remove-addressbook-disabled.png);
 }

@@ -565,7 +565,6 @@ function SIGoUpdateSelectEditMenuItems() {
 function onLoad(activatedWhileWindowOpen) {
   dump("addressbook.groupdav.overlay.js: onLoad()\n");
   WL.injectCSS("resource://sogo-connector/skin/addressbook/addressbook.groupdav.overlay.css");
-  WL.injectCSS("resource://sogo-connector/skin/addressbook/addressbook-overlay.css");
   WL.injectElements(`
   <commandset id="addressBook">
     <command id="cmd_syncGroupdav" oncommand="SCCommandSynchronize();"/>
@@ -684,6 +683,26 @@ function onLoad(activatedWhileWindowOpen) {
   window.AbDeleteDirectory = window.SIAbDeleteDirectory;
 
   SISetupAbCommandUpdateHandlers();
+
+
+  window.abDirTreeItem.prototype.getProperties = function() {
+    let properties = [];
+    if (this._directory.isMailList) {
+      properties.push("IsMailList-true");
+    }
+    if (this._directory.isRemote) {
+      properties.push("IsRemote-true");
+    }
+    if (this._directory.isSecure) {
+      properties.push("IsSecure-true");
+    }
+    if (this._directory &&  this._directory.URI.startsWith("jscarddav://")) {
+      let url = CardDAVDirectory.forFile(this._directory.fileName).getStringValue("carddav.url", "");
+      if (url.indexOf(sogoBaseURL()) == 0)
+        properties.push("isSOGoAddressBook-true");
+    }
+    return properties.join(" ");
+  }
 
   let toolbar = document.getElementById("subscriptionToolbar");
   if (toolbar) {
