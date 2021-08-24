@@ -45,8 +45,7 @@ let SCContactCategories = {
             cats = decodeURIComponent(escape(cats));
         }
         catch(e) {
-          let bundle = Services.strings.createBundle("chrome://sogo-connector/locale/preferences/categories.properties");
-          cats = bundle.GetStringFromName("contacts.categories");
+          cats = [];
         }
 
         return cats;
