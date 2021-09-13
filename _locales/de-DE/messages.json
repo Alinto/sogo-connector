@@ -1,0 +1,467 @@
+{
+    "Any Authenticated User": {
+        "message": "Alle authentifizierten Benutzer"
+    },
+    "General.tab": {
+        "message": "Allgemein"
+    },
+    "GroupDavConf.accesskey": {
+        "message": "K"
+    },
+    "GroupDavConf.label": {
+        "message": "Konfigurieren"
+    },
+    "GroupDavSync.accesskey": {
+        "message": "S"
+    },
+    "GroupDavSync.label": {
+        "message": "Synchronisieren"
+    },
+    "GroupDavSync.tooltip": {
+        "message": "Adresskarten mit dem Server synchronisieren"
+    },
+    "GroupDavSyncAbort.accesskey": {
+        "message": "A"
+    },
+    "GroupDavSyncAbort.label": {
+        "message": "Synchronisierung abbrechen"
+    },
+    "GroupDavSyncAbort.tooltip": {
+        "message": "Aktive Synchronisierung abbrechen (falls nichts passiert)"
+    },
+    "No possible subscription": {
+        "message": "Kein Abonnieren möglich"
+    },
+    "Offline.tab": {
+        "message": "Offline"
+    },
+    "Please wait...": {
+        "message": "Bitte warten..."
+    },
+    "Public Access": {
+        "message": "Öffentlicher Zugriff"
+    },
+    "ReadOnly.accesskey": {
+        "message": "N"
+    },
+    "ReadOnly.label": {
+        "message": "Nur lesbar"
+    },
+    "SearchCategory.label": {
+        "message": "Suchkategorie"
+    },
+    "SearchCriteriaButton.label": {
+        "message": "Suchkriterium"
+    },
+    "URLAlreadyExist": {
+        "message": "Ein anderes Adressbuch nutzt bereits diese URL!"
+    },
+    "You have already subscribed to that folder!": {
+        "message": "Sie haben diesen Ordner bereits abonniert!"
+    },
+    "acl-dialog.title": {
+        "message": "Benutzerrechte"
+    },
+    "acl.addUser.label": {
+        "message": "Hinzufügen..."
+    },
+    "acl.defaultRoles.label": {
+        "message": "Standardrechte"
+    },
+    "acl.owner.label": {
+        "message": "Besitzer:"
+    },
+    "acl.removeUser.label": {
+        "message": "Löschen"
+    },
+    "acl.toolbar.close.label": {
+        "message": "Schließen"
+    },
+    "acl.toolbar.edit.label": {
+        "message": "Benutzerrechte bearbeiten"
+    },
+    "addressbook-overlay.acl-menu.label": {
+        "message": "Benutzerrechte..."
+    },
+    "addressbook-overlay.subscription.menu.unsubscribe": {
+        "message": "Abonnement für Adressbuch kündigen"
+    },
+    "addressbook-overlay.susbcription.tooltips.add": {
+        "message": "Neues Adressbuch..."
+    },
+    "addressbook-overlay.susbcription.tooltips.remove": {
+        "message": "Gewähltes Adressbuch löschen"
+    },
+    "addressbook-overlay.susbcription.tooltips.subscribe": {
+        "message": "Ein Adressbuch abonnieren..."
+    },
+    "attendee.toolbar.accept.label": {
+        "message": "Annehmen"
+    },
+    "attendee.toolbar.close.label": {
+        "message": "Schließen"
+    },
+    "attendee.toolbar.decline.label": {
+        "message": "Ablehnen"
+    },
+    "calendar-overlay.susbcription.tooltips.add": {
+        "message": "Neuer Kalender..."
+    },
+    "calendar-overlay.susbcription.tooltips.remove": {
+        "message": "Gewählten Kalender löschen"
+    },
+    "calendar-overlay.susbcription.tooltips.subscribe": {
+        "message": "Einen Kalender abonnieren..."
+    },
+    "calendar.context.exporttask.label": {
+        "message": "Aufgabe exportieren..."
+    },
+    "calendar.context.properties.label": {
+        "message": "Ändern"
+    },
+    "calendar.context.reinit-cache.label": {
+        "message": "Kalender-Cache zurücksetzen"
+    },
+    "calendar.context.showall.label": {
+        "message": "Alle Kalender zeigen"
+    },
+    "calendar.context.showonly.label": {
+        "message": "Nur diesen Kalender zeigen"
+    },
+    "calendar.context.sogo-acls.label": {
+        "message": "Benutzerrechte..."
+    },
+    "calendar.context.sogo-delete.label": {
+        "message": "Kalender löschen"
+    },
+    "calendar.context.sogo-reload-acls.label": {
+        "message": "Benutzerrechte neu laden"
+    },
+    "calendar.context.sogo-unsubscribe.label": {
+        "message": "Abonnement für Kalender kündigen"
+    },
+    "calendar.preferences.general.classification.caption": {
+        "message": "Standardklassifikation für Einträge"
+    },
+    "calendar.preferences.general.default-events-classification.label": {
+        "message": "Terminklassifikation:"
+    },
+    "calendar.preferences.general.default-todos-classification.label": {
+        "message": "Aufgabenklassifikation:"
+    },
+    "contacts.categories": {
+        "message": "Geschäftspartner,Familie,Freund,Kollegin,Konkurrenten,Kunden,Lieferant,Presse,VIP"
+    },
+    "creation.button.create.label": {
+        "message": "Erstellen"
+    },
+    "creation.instructions.label": {
+        "message": "Bitte geben Sie den Namen ihres neuen Adressbuchs ein:"
+    },
+    "creation.title": {
+        "message": "Adressbuch erstellen..."
+    },
+    "deleteCalendarMessage": {
+        "message": "Wollen Sie diesen Kalender wirklich löschen?"
+    },
+    "deleteCalendarTitle": {
+        "message": "Kalender löschen"
+    },
+    "deletePersonalABError": {
+        "message": "Sie können ihr Persönliches Adressbuch nicht löschen."
+    },
+    "deletePersonalCalendarError": {
+        "message": "Sie können ihren persönlichen Kalender nicht löschen."
+    },
+    "deletePublicABError": {
+        "message": "Sie können das gemeinsame Adressbuch nicht löschen."
+    },
+    "deletefailure.description": {
+        "message": "Ein oder mehrere Elemente dieses Adressbuchs konnten nicht gelöscht werden. Eventuell haben Sie nicht die erforderlichen Benutzerrechte für diese Operation."
+    },
+    "deletefailure.title": {
+        "message": "Fehler beim Löschen von Elementen"
+    },
+    "downloadNowButton.accesskey": {
+        "message": "D"
+    },
+    "downloadNowButton.label": {
+        "message": "Jetzt herunterladen"
+    },
+    "event.confidential.label": {
+        "message": "Vertraulicher Termin"
+    },
+    "event.menu.options.privacy.confidential.label": {
+        "message": "Vertraulicher Termin"
+    },
+    "event.organizers.label": {
+        "message": "Organisator:"
+    },
+    "groupDavServerType.accesskey": {
+        "message": "G"
+    },
+    "groupDavServerType.label": {
+        "message": "GroupDAV Server Typ:"
+    },
+    "groupdavHostname.accesskey": {
+        "message": "h"
+    },
+    "groupdavHostname.label": {
+        "message": "Host: "
+    },
+    "groupdavName.accesskey": {
+        "message": "A"
+    },
+    "groupdavName.label": {
+        "message": "Adressbuch-Name: "
+    },
+    "groupdavNotifications.label": {
+        "message": "Benachrichtigungen anzeigen"
+    },
+    "groupdavNotificationsManual.info": {
+        "message": "Wenn die Synchronsation über die Symbolleiste oder das Kontextmenü gestartet wurde."
+    },
+    "groupdavNotificationsManual.label": {
+        "message": "Benachrichtigungen bei manueller Synchronsation anzeigen"
+    },
+    "groupdavNotificationsOINE.label": {
+        "message": "Nur bei erfolgter Synchronsation benachrichtigen"
+    },
+    "groupdavNotificationsRestart.label": {
+        "message": "Änderungen des 'Synchronisations-Intervalls' erfordern einen Neusart von Thunderbird."
+    },
+    "groupdavNotificationsSave.info": {
+        "message": "Standardmäßig wird ein Fortschrittsbalken in der Statusleiste angezeigt. Bei Auswahl dieser Option wird eine Benachrichtigung angezeigt."
+    },
+    "groupdavNotificationsSave.label": {
+        "message": "Benachrichtigungen beim Speichern eines Kontakts anzeigen"
+    },
+    "groupdavNotificationsStart.label": {
+        "message": "Benachrichtigungen beim Starten anzeigen"
+    },
+    "groupdavPassword.accesskey": {
+        "message": "p"
+    },
+    "groupdavPassword.label": {
+        "message": "Passwort:"
+    },
+    "groupdavPeriodicSync.label": {
+        "message": "Synchronisations-Intervall"
+    },
+    "groupdavPeriodicSync15m.label": {
+        "message": "15 min"
+    },
+    "groupdavPeriodicSync1h.label": {
+        "message": "1 h"
+    },
+    "groupdavPeriodicSync2h.label": {
+        "message": "2 h"
+    },
+    "groupdavPeriodicSync5m.label": {
+        "message": "5 min"
+    },
+    "groupdavSecure.accesskey": {
+        "message": "S"
+    },
+    "groupdavSecure.label": {
+        "message": "Sichere Verbindung verwenden (SSL)"
+    },
+    "groupdavURL.accesskey": {
+        "message": "l"
+    },
+    "groupdavURL.label": {
+        "message": "URL: "
+    },
+    "groupdavUser.accesskey": {
+        "message": "r"
+    },
+    "groupdavUser.label": {
+        "message": "Benutzer:"
+    },
+    "inverse.CalDAV.tab": {
+        "message": "CalDAV"
+    },
+    "inverse.FbUrl.label": {
+        "message": "Frei/Gebucht URL:"
+    },
+    "missingDescriptionMsg": {
+        "message": "Kann kein Adressbuch ohne Namen erstellen!"
+    },
+    "missingDescriptionURL": {
+        "message": "Kann kein Adressbuch ohne URL erstellen!"
+    },
+    "newDirectoryTitle.label": {
+        "message": "Remote-Adressbuch Einstellungen"
+    },
+    "newDirectoryWidth": {
+        "message": "40em"
+    },
+    "newGroupDavCmd.accesskey": {
+        "message": "R"
+    },
+    "newGroupDavCmd.label": {
+        "message": "Remote-Adressbuch"
+    },
+    "notificationsDelete": {
+        "message": "\\u0020gelöscht."
+    },
+    "notificationsDeletes": {
+        "message": "\\u0020gelöscht."
+    },
+    "notificationsDownload": {
+        "message": "\\u0020heruntergeladen,\\u0020"
+    },
+    "notificationsDownloads": {
+        "message": "\\u0020heruntergeladen,\\u0020"
+    },
+    "notificationsFailure": {
+        "message": "\\u0020fehlgeschlagen,\\u0020"
+    },
+    "notificationsFailures": {
+        "message": "\\u0020fehlgeschlagen,\\u0020"
+    },
+    "notificationsNoChanges": {
+        "message": "Keine Änderungen."
+    },
+    "notificationsTitle": {
+        "message": "SOGO :\\u0020"
+    },
+    "notificationsUpload": {
+        "message": "\\u0020hochgeladen,\\u0020"
+    },
+    "notificationsUploads": {
+        "message": "\\u0020hochgeladen,\\u0020"
+    },
+    "offlineText.label": {
+        "message": "Sie können eine lokale Kopie von diesem Verzeichnis erstellen. Dann ist es auch verfügbar, wenn Sie offline arbeiten."
+    },
+    "properties-overlay.notify-on-external-modifications.label": {
+        "message": "Eine Mail erhalten, wenn jemand anderes meinen Kalender verändert"
+    },
+    "properties-overlay.notify-on-personal-modifications.label": {
+        "message": "Eine Mail erhalten, wenn ich meinen Kalender verändere"
+    },
+    "properties-overlay.notify-user-on-personal-modifications.label": {
+        "message": "Wenn ich meinen Kalender verändere, eine Mail schicken an:"
+    },
+    "roles-dialog.cancel-button.label": {
+        "message": "Abbrechen"
+    },
+    "roles-dialog.confidential.label": {
+        "message": "Vertraulich"
+    },
+    "roles-dialog.default-roles.label": {
+        "message": "Standardrechte"
+    },
+    "roles-dialog.private.label": {
+        "message": "Privat"
+    },
+    "roles-dialog.public.label": {
+        "message": "Öffentlich"
+    },
+    "roles-dialog.roles-choice.modify.label": {
+        "message": "Ändern"
+    },
+    "roles-dialog.roles-choice.none.label": {
+        "message": "Keine"
+    },
+    "roles-dialog.roles-choice.respond-to.label": {
+        "message": "Antworten"
+    },
+    "roles-dialog.roles-choice.view-all.label": {
+        "message": "Alles sehen"
+    },
+    "roles-dialog.roles-choice.view-d-a-t.label": {
+        "message": "Datum &amp; Uhrzeit sehen"
+    },
+    "roles-dialog.roles.object-creator.label": {
+        "message": "Diese Person kann Adresskarten zu diesem Adressbuch hinzufügen."
+    },
+    "roles-dialog.roles.object-editor.label": {
+        "message": "Diese Person kann Adresskarten in diesem Adressbuch verändern."
+    },
+    "roles-dialog.roles.object-eraser.label": {
+        "message": "Diese Person kann Adresskarten aus diesem Adressbuch löschen."
+    },
+    "roles-dialog.roles.object-viewer.label": {
+        "message": "Diese Person kann Adresskarten dieses Adressbuches anzeigen."
+    },
+    "roles-dialog.title": {
+        "message": "Benutzerrechte bearbeiten"
+    },
+    "roles-dialog.update-button.label": {
+        "message": "Speichern"
+    },
+    "roles-dialog.user-roles.label": {
+        "message": "Benutzerrechte für:"
+    },
+    "serverUpdateFailed": {
+        "message": "Der Server konnte das Adressbuch nicht umbenennen, folgender Fehlercode:"
+    },
+    "sogo-connector.message": {
+        "message": "Bitte warten während die Erweiterungen aktualisiert werden..."
+    },
+    "sogo-connector.preferences.contacts.categories.add.title": {
+        "message": "Kategorie hinzufügen"
+    },
+    "sogo-connector.preferences.contacts.categories.addButton.accesskey": {
+        "message": "H"
+    },
+    "sogo-connector.preferences.contacts.categories.addButton.label": {
+        "message": "Hinzufügen…"
+    },
+    "sogo-connector.preferences.contacts.categories.edit.title": {
+        "message": "Kategorie bearbeiten"
+    },
+    "sogo-connector.preferences.contacts.categories.editButton.accesskey": {
+        "message": "B"
+    },
+    "sogo-connector.preferences.contacts.categories.editButton.label": {
+        "message": "Bearbeiten…"
+    },
+    "sogo-connector.preferences.contacts.categories.noBlankCategories": {
+        "message": "Sie müssen einen Kategorienamen eingeben."
+    },
+    "sogo-connector.preferences.contacts.categories.none.label": {
+        "message": "(keine)"
+    },
+    "sogo-connector.preferences.contacts.categories.overwrite": {
+        "message": "Eine Kategorie mit diesem Namen existiert bereits. \\n Wollen Sie diese überschreiben?"
+    },
+    "sogo-connector.preferences.contacts.categories.overwrite.title": {
+        "message": "Warnung: Doppelter Name"
+    },
+    "sogo-connector.preferences.contacts.categories.removeButton.accesskey": {
+        "message": "E"
+    },
+    "sogo-connector.preferences.contacts.categories.removeButton.label": {
+        "message": "Entfernen"
+    },
+    "sogo-connector.preferences.panes.contacts.categories.title": {
+        "message": "Kontaktkategorien"
+    },
+    "sogo-connector.restart-message": {
+        "message": "Ein Neustart der Anwendung ist nötig."
+    },
+    "sogo-connector.tabs.categories.label": {
+        "message": "Kategorien"
+    },
+    "sogo-connector.title": {
+        "message": "Aktualisieren"
+    },
+    "sogo.description": {
+        "message": "Bitte geben Sie ihr Passwort ein (%u):"
+    },
+    "sogo.title": {
+        "message": "Verbinde zu SOGo..."
+    },
+    "subscription.button.add.label": {
+        "message": "Hinzufügen..."
+    },
+    "subscription.searchcriteria.label": {
+        "message": "Name oder E-Mail"
+    },
+    "subscription.title": {
+        "message": "Abonnieren..."
+    }
+}

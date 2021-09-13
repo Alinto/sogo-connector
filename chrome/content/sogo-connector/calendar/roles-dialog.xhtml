@@ -1,0 +1,99 @@
+<?xml version="1.0"?>
+<!--
+ Copyright:     Inverse inc., 2008-2020
+ Email:         support@inverse.ca
+ URL:           http://inverse.ca
+  -->
+
+<?xml-stylesheet type="text/css" href="resource://sogo-connector/skin/roles-dialog.css"?>
+<?xml-stylesheet type="text/css" href="chrome://global/skin/global.css"?>
+
+<window id="roles-dialog-window"
+        title="__MSG_roles-dialog.title__"
+        xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"
+        xmlns:html="http://www.w3.org/1999/xhtml">
+  
+  <script type="application/x-javascript"
+          src="chrome://sogo-connector/content/calendar/roles-dialog.js"/>
+  <script type="application/x-javascript"
+          src="chrome://sogo-connector/content/global/i18n.js"/>
+
+  <dialog xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"
+          id="rolesDialog"
+          type="dialog"
+          buttons="none">
+
+    <commandset id="rolesCommands">
+      <command id="RolesCommandUpdate" oncommand="updateCurrentUser();"/>
+      <command id="RolesCommandCancel" oncommand="window.close()"/>
+    </commandset>
+
+    <vbox>
+      <vbox id="titleContent">
+        <vbox id="userTitle">
+	  <label id="titleLabel" value="__MSG_roles-dialog.user-roles.label__"/>
+	  <label id="titleUserName" value=""/>
+        </vbox>
+      </vbox>
+
+      <vbox id="dialogContent">
+        <hbox>
+	  <spacer flex="1"/>
+	  <vbox id="roleChoices">
+	    <hbox>
+	      <spacer flex="1"/>
+	      <label value="__MSG_roles-dialog.public.label__"/>
+	      <menulist id="menuPublic">
+	        <menupopup>
+		  <menuitem value="" label="__MSG_roles-dialog.roles-choice.none.label__"/>
+		  <menuitem value="Viewer" label="__MSG_roles-dialog.roles-choice.view-all.label__"/>
+		  <menuitem value="DAndTViewer" label="__MSG_roles-dialog.roles-choice.view-d-a-t.label__"/>
+		  <menuitem id="menuOptionPublicModifier" value="Modifier" label="__MSG_roles-dialog.roles-choice.modify.label__"/>
+		  <menuitem id="menuOptionPublicResponder" value="Responder" label="__MSG_roles-dialog.roles-choice.respond-to.label__"/>
+	        </menupopup>
+	      </menulist>
+	    </hbox>
+	    <hbox>
+	      <spacer flex="1"/>
+	      <label value="__MSG_roles-dialog.confidential.label__"/>
+	    <menulist id="menuConfidential">
+	      <menupopup>
+		<menuitem value="" label="__MSG_roles-dialog.roles-choice.none.label__"/>
+		<menuitem value="Viewer" label="__MSG_roles-dialog.roles-choice.view-all.label__"/>
+		<menuitem value="DAndTViewer" label="__MSG_roles-dialog.roles-choice.view-d-a-t.label__"/>
+		<menuitem id="menuOptionConfidentialModifier" value="Modifier" label="__MSG_roles-dialog.roles-choice.modify.label__"/>
+		<menuitem id="menuOptionConfidentialResponder" value="Responder" label="__MSG_roles-dialog.roles-choice.respond-to.label__"/>
+	      </menupopup>
+	    </menulist>
+	  </hbox>
+	  <hbox>
+	    <spacer flex="1"/>
+	    <label value="__MSG_roles-dialog.private.label__"/>
+	    <menulist id="menuPrivate">
+	      <menupopup>
+		<menuitem value="" label="__MSG_roles-dialog.roles-choice.none.label__"/>
+		<menuitem value="Viewer" label="__MSG_roles-dialog.roles-choice.view-all.label__"/>
+		<menuitem value="DAndTViewer" label="__MSG_roles-dialog.roles-choice.view-d-a-t.label__"/>
+		<menuitem id="menuOptionPrivateModifier" value="Modifier" label="__MSG_roles-dialog.roles-choice.modify.label__"/>
+		<menuitem id="menuOptionPrivateResponder" value="Responder" label="__MSG_roles-dialog.roles-choice.respond-to.label__"/>
+	      </menupopup>
+	    </menulist>
+	  </hbox>
+	</vbox>
+	<spacer flex="1"/>
+        </hbox>
+        <checkbox id="roleObjectCreator"
+	          label="__MSG_roles-dialog.roles.object-creator.label__"/>
+        <checkbox id="roleObjectEraser"
+	          label="__MSG_roles-dialog.roles.object-eraser.label__"/>
+        <hbox>
+	  <spring flex="1"/>
+	  <button disabled="true" id="updateBtn" command="RolesCommandUpdate"
+                  label="__MSG_roles-dialog.update-button.label__"/>
+	  <button id="cancelBtn" command="RolesCommandCancel"
+	          label="__MSG_roles-dialog.cancel-button.label__"/>
+        </hbox>
+      </vbox>
+    </vbox>
+  </dialog>
+</window>

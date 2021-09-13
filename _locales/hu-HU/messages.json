@@ -1,0 +1,467 @@
+{
+    "Any Authenticated User": {
+        "message": "Bármelyik belépett felhasználó"
+    },
+    "General.tab": {
+        "message": "Általános"
+    },
+    "GroupDavConf.accesskey": {
+        "message": "B"
+    },
+    "GroupDavConf.label": {
+        "message": "Beállítás"
+    },
+    "GroupDavSync.accesskey": {
+        "message": "S"
+    },
+    "GroupDavSync.label": {
+        "message": "Szinkrinizáció"
+    },
+    "GroupDavSync.tooltip": {
+        "message": "Szinkronizálja a névjegyeket a kiszolgálóval"
+    },
+    "GroupDavSyncAbort.accesskey": {
+        "message": "M"
+    },
+    "GroupDavSyncAbort.label": {
+        "message": "Szinkronizáció megszakítása"
+    },
+    "GroupDavSyncAbort.tooltip": {
+        "message": "Futó szinkronizáció megszakítása (próbáld ezt, ha nem történik semmi)"
+    },
+    "No possible subscription": {
+        "message": "Nem lehet feliratkozni"
+    },
+    "Offline.tab": {
+        "message": "Tárolt"
+    },
+    "Please wait...": {
+        "message": "Kérlek, várj..."
+    },
+    "Public Access": {
+        "message": "Mindenki hozzáfér"
+    },
+    "ReadOnly.accesskey": {
+        "message": "O"
+    },
+    "ReadOnly.label": {
+        "message": "Csak olvasható"
+    },
+    "SearchCategory.label": {
+        "message": "Kategória"
+    },
+    "SearchCriteriaButton.label": {
+        "message": "Keresőfeltétel"
+    },
+    "URLAlreadyExist": {
+        "message": "Egy másik címjegyzék már használja ezt a címet!"
+    },
+    "You have already subscribed to that folder!": {
+        "message": "Erre a mappára már feliratkoztál!"
+    },
+    "acl-dialog.title": {
+        "message": "Jogok felügyelete"
+    },
+    "acl.addUser.label": {
+        "message": "Hozzáad..."
+    },
+    "acl.defaultRoles.label": {
+        "message": "Alapvető szerepek"
+    },
+    "acl.owner.label": {
+        "message": "Tulajdonos:"
+    },
+    "acl.removeUser.label": {
+        "message": "Eltávolít"
+    },
+    "acl.toolbar.close.label": {
+        "message": "Bezár"
+    },
+    "acl.toolbar.edit.label": {
+        "message": "Jogok szerkesztése"
+    },
+    "addressbook-overlay.acl-menu.label": {
+        "message": "Megosztás..."
+    },
+    "addressbook-overlay.subscription.menu.unsubscribe": {
+        "message": "Leiratkozás"
+    },
+    "addressbook-overlay.susbcription.tooltips.add": {
+        "message": "Új címjegyzék..."
+    },
+    "addressbook-overlay.susbcription.tooltips.remove": {
+        "message": "Kijelölt címjegyzék törlése"
+    },
+    "addressbook-overlay.susbcription.tooltips.subscribe": {
+        "message": "Feliratkozás egy címjegyzékre..."
+    },
+    "attendee.toolbar.accept.label": {
+        "message": "Elfogad"
+    },
+    "attendee.toolbar.close.label": {
+        "message": "Bezár"
+    },
+    "attendee.toolbar.decline.label": {
+        "message": "Eldob"
+    },
+    "calendar-overlay.susbcription.tooltips.add": {
+        "message": "Új naptár..."
+    },
+    "calendar-overlay.susbcription.tooltips.remove": {
+        "message": "A kijelölt naptár törlése"
+    },
+    "calendar-overlay.susbcription.tooltips.subscribe": {
+        "message": "Feliratkozás egy naptárra..."
+    },
+    "calendar.context.exporttask.label": {
+        "message": "Teendő exportálása..."
+    },
+    "calendar.context.properties.label": {
+        "message": "Módosítás"
+    },
+    "calendar.context.reinit-cache.label": {
+        "message": "Naptár gyorsítótár törlése"
+    },
+    "calendar.context.showall.label": {
+        "message": "Minden naptárat mutass"
+    },
+    "calendar.context.showonly.label": {
+        "message": "Csak ezt a naptárat mutasd"
+    },
+    "calendar.context.sogo-acls.label": {
+        "message": "Megosztás..."
+    },
+    "calendar.context.sogo-delete.label": {
+        "message": "Naptár törlése"
+    },
+    "calendar.context.sogo-reload-acls.label": {
+        "message": "Jogok frissítése"
+    },
+    "calendar.context.sogo-unsubscribe.label": {
+        "message": "Leiratkozás a naptárról"
+    },
+    "calendar.preferences.general.classification.caption": {
+        "message": "Alapértelmezett besorolás"
+    },
+    "calendar.preferences.general.default-events-classification.label": {
+        "message": "Esemény besorolása:"
+    },
+    "calendar.preferences.general.default-todos-classification.label": {
+        "message": "Teendő besorolása:"
+    },
+    "contacts.categories": {
+        "message": "Kolléga,Vetélytárs,Ügyfél,Barát,Család,Üzleti partner,Beszállító,Kiadó,VIP"
+    },
+    "creation.button.create.label": {
+        "message": "Létrehoz"
+    },
+    "creation.instructions.label": {
+        "message": "Addj egy nevet az új címjegyzéknek:"
+    },
+    "creation.title": {
+        "message": "Címjegyzék létrehozása..."
+    },
+    "deleteCalendarMessage": {
+        "message": "Biztosan eltávolítod a kijelölt naptárat?"
+    },
+    "deleteCalendarTitle": {
+        "message": "Naptár törlése"
+    },
+    "deletePersonalABError": {
+        "message": "Nem tudod eltávolítani a személyes címjegyzéket."
+    },
+    "deletePersonalCalendarError": {
+        "message": "Nem tudod eltávolítani a személyes naptárad."
+    },
+    "deletePublicABError": {
+        "message": "Nem tudod eltávolítani a közös címjegyzéket."
+    },
+    "deletefailure.description": {
+        "message": "Egy vagy több címjegyzék elem nem törölhető. Lehet, hogy nincs elegendő jogod hozzá."
+    },
+    "deletefailure.title": {
+        "message": "Hiba az elemek törlésénél"
+    },
+    "downloadNowButton.accesskey": {
+        "message": "L"
+    },
+    "downloadNowButton.label": {
+        "message": "Letöltés"
+    },
+    "event.confidential.label": {
+        "message": "Bizalmas esemény"
+    },
+    "event.menu.options.privacy.confidential.label": {
+        "message": "Bizalmas esemény"
+    },
+    "event.organizers.label": {
+        "message": "Szervező:"
+    },
+    "groupDavServerType.accesskey": {
+        "message": "t"
+    },
+    "groupDavServerType.label": {
+        "message": "Távoli kiszolgáló típusa:"
+    },
+    "groupdavHostname.accesskey": {
+        "message": "k"
+    },
+    "groupdavHostname.label": {
+        "message": "kiszolgáló: "
+    },
+    "groupdavName.accesskey": {
+        "message": "n"
+    },
+    "groupdavName.label": {
+        "message": "Név: "
+    },
+    "groupdavNotifications.label": {
+        "message": "Értesítések"
+    },
+    "groupdavNotificationsManual.info": {
+        "message": "Amikor a menüből vagy az eszköztárról Szinkronizál."
+    },
+    "groupdavNotificationsManual.label": {
+        "message": "Értesítések megjelenítése kézi szinkronizálásnál"
+    },
+    "groupdavNotificationsOINE.label": {
+        "message": "Értesítés sikeres szinkronnál"
+    },
+    "groupdavNotificationsRestart.label": {
+        "message": "Az változások érvényesítéséhez újra kell indítani a Thunderbird -t."
+    },
+    "groupdavNotificationsSave.info": {
+        "message": "Az alapértelmezett értesítés egy folymatjelző a státuszjelzőben. Ha bejelölöd, az általános értesítési területen fog megjelenni."
+    },
+    "groupdavNotificationsSave.label": {
+        "message": "Értesítsen ha mentett egy névjegyet"
+    },
+    "groupdavNotificationsStart.label": {
+        "message": "Értesítések induláskor"
+    },
+    "groupdavPassword.accesskey": {
+        "message": "j"
+    },
+    "groupdavPassword.label": {
+        "message": "jelszó:"
+    },
+    "groupdavPeriodicSync.label": {
+        "message": "Szinkronizálás"
+    },
+    "groupdavPeriodicSync15m.label": {
+        "message": "15 perc"
+    },
+    "groupdavPeriodicSync1h.label": {
+        "message": "1 óra"
+    },
+    "groupdavPeriodicSync2h.label": {
+        "message": "2 óra"
+    },
+    "groupdavPeriodicSync5m.label": {
+        "message": "5 perc"
+    },
+    "groupdavSecure.accesskey": {
+        "message": "S"
+    },
+    "groupdavSecure.label": {
+        "message": "Biztonságos kapcsolat (SSL)"
+    },
+    "groupdavURL.accesskey": {
+        "message": "l"
+    },
+    "groupdavURL.label": {
+        "message": "URL: "
+    },
+    "groupdavUser.accesskey": {
+        "message": "f"
+    },
+    "groupdavUser.label": {
+        "message": "felhasználó:"
+    },
+    "inverse.CalDAV.tab": {
+        "message": "CalDAV beállítás"
+    },
+    "inverse.FbUrl.label": {
+        "message": "Freebusy címe:"
+    },
+    "missingDescriptionMsg": {
+        "message": "Nem hozhatsz létre címjegyzéket név nélkül!"
+    },
+    "missingDescriptionURL": {
+        "message": "Nem hozhatsz létre címjegyzéket cím nélkül!"
+    },
+    "newDirectoryTitle.label": {
+        "message": "Távoli címjegyzék beállítások"
+    },
+    "newDirectoryWidth": {
+        "message": "36em"
+    },
+    "newGroupDavCmd.accesskey": {
+        "message": "T"
+    },
+    "newGroupDavCmd.label": {
+        "message": "Távoli címjegyzék"
+    },
+    "notificationsDelete": {
+        "message": "\\u0020delete."
+    },
+    "notificationsDeletes": {
+        "message": "\\u0020deletes."
+    },
+    "notificationsDownload": {
+        "message": "\\u0020download,\\u0020"
+    },
+    "notificationsDownloads": {
+        "message": "\\u0020downloads,\\u0020"
+    },
+    "notificationsFailure": {
+        "message": "\\u0020failure,\\u0020"
+    },
+    "notificationsFailures": {
+        "message": "\\u0020failures,\\u0020"
+    },
+    "notificationsNoChanges": {
+        "message": "No changes."
+    },
+    "notificationsTitle": {
+        "message": "SOGO :\\u0020"
+    },
+    "notificationsUpload": {
+        "message": "\\u0020upload,\\u0020"
+    },
+    "notificationsUploads": {
+        "message": "\\u0020uploads,\\u0020"
+    },
+    "offlineText.label": {
+        "message": "Letölthető egy helyi másolat arra a célra, ha olyankor akarod használni, amikor nincs kapcsolat a kiszolgálóval."
+    },
+    "properties-overlay.notify-on-external-modifications.label": {
+        "message": "Értesítés emailben, ha valaki módosítja a naptáram"
+    },
+    "properties-overlay.notify-on-personal-modifications.label": {
+        "message": "Értesítés emailben, ha módosítom a naptáram"
+    },
+    "properties-overlay.notify-user-on-personal-modifications.label": {
+        "message": "Ha módosítom a naptáram, értesítés erre az emailre:"
+    },
+    "roles-dialog.cancel-button.label": {
+        "message": "Mégsem"
+    },
+    "roles-dialog.confidential.label": {
+        "message": "Bizalmas"
+    },
+    "roles-dialog.default-roles.label": {
+        "message": "Alapvető jogok"
+    },
+    "roles-dialog.private.label": {
+        "message": "Személyes"
+    },
+    "roles-dialog.public.label": {
+        "message": "Közös"
+    },
+    "roles-dialog.roles-choice.modify.label": {
+        "message": "Módosítás"
+    },
+    "roles-dialog.roles-choice.none.label": {
+        "message": "Nincs"
+    },
+    "roles-dialog.roles-choice.respond-to.label": {
+        "message": "Válasz neki:"
+    },
+    "roles-dialog.roles-choice.view-all.label": {
+        "message": "Mutsad mind"
+    },
+    "roles-dialog.roles-choice.view-d-a-t.label": {
+        "message": "Dátum és idő látható"
+    },
+    "roles-dialog.roles.object-creator.label": {
+        "message": "Ez a személy felvehet a címjegyzékbe új kapcsolatot."
+    },
+    "roles-dialog.roles.object-editor.label": {
+        "message": "Ez a személy szerkesztheti a kapcsolatokat a címjegyzékben."
+    },
+    "roles-dialog.roles.object-eraser.label": {
+        "message": "Ez a személy törölhet kapcsolatokat a címjegyzékből."
+    },
+    "roles-dialog.roles.object-viewer.label": {
+        "message": "Ez a személy megnézheti a kapcsolatokat a címjegyzékben."
+    },
+    "roles-dialog.title": {
+        "message": "Felhasználói jogok szerkesztése"
+    },
+    "roles-dialog.update-button.label": {
+        "message": "Frissít"
+    },
+    "roles-dialog.user-roles.label": {
+        "message": "Jogok ennek a felhasználónak:"
+    },
+    "serverUpdateFailed": {
+        "message": "A kiszolgáló visszautasította a címjegyzék átnevezését a következő hibakóddal:"
+    },
+    "sogo-connector.message": {
+        "message": "Kérlek, várj, amíg frissülnek a kiegészítők..."
+    },
+    "sogo-connector.preferences.contacts.categories.add.title": {
+        "message": "Új kategória"
+    },
+    "sogo-connector.preferences.contacts.categories.addButton.accesskey": {
+        "message": "K"
+    },
+    "sogo-connector.preferences.contacts.categories.addButton.label": {
+        "message": "Új..."
+    },
+    "sogo-connector.preferences.contacts.categories.edit.title": {
+        "message": "Kategória szerkesztése"
+    },
+    "sogo-connector.preferences.contacts.categories.editButton.accesskey": {
+        "message": "S"
+    },
+    "sogo-connector.preferences.contacts.categories.editButton.label": {
+        "message": "Szerkeszt..."
+    },
+    "sogo-connector.preferences.contacts.categories.noBlankCategories": {
+        "message": "Nevet kell adnod a kategóriának."
+    },
+    "sogo-connector.preferences.contacts.categories.none.label": {
+        "message": "Semmi"
+    },
+    "sogo-connector.preferences.contacts.categories.overwrite": {
+        "message": "Egy kategória már van ezen a néven. \\n Biztosan felülírod?"
+    },
+    "sogo-connector.preferences.contacts.categories.overwrite.title": {
+        "message": "Vigyázat: Már létező név"
+    },
+    "sogo-connector.preferences.contacts.categories.removeButton.accesskey": {
+        "message": "T"
+    },
+    "sogo-connector.preferences.contacts.categories.removeButton.label": {
+        "message": "Eltávolít"
+    },
+    "sogo-connector.preferences.panes.contacts.categories.title": {
+        "message": "Kapcsolat kategóriák"
+    },
+    "sogo-connector.restart-message": {
+        "message": "Újraindítás szükséges."
+    },
+    "sogo-connector.tabs.categories.label": {
+        "message": "Kategóriák"
+    },
+    "sogo-connector.title": {
+        "message": "Frissít"
+    },
+    "sogo.description": {
+        "message": "Kérlek, add meg a jelszavad (%u):"
+    },
+    "sogo.title": {
+        "message": "Kapcsolódás a kiszolgálóhoz..."
+    },
+    "subscription.button.add.label": {
+        "message": "Hozzáad..."
+    },
+    "subscription.searchcriteria.label": {
+        "message": "Név vagy cím"
+    },
+    "subscription.title": {
+        "message": "Feliratkozás..."
+    }
+}

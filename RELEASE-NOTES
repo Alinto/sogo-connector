@@ -1,5 +1,9 @@
 NEWS
 ====
+78.0.0  Thunderbird 78 support. Major refactoring
+        to use Thunderbird's CalDAV code together
+        with all the required changes for Thunderbird v78 support
+
 68.0.2  Fixed addressbooks sync upon startup
 
 68.0.1  Fixed card download issue

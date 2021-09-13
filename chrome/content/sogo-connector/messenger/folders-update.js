@@ -1,4 +1,24 @@
-var { contextManagerInstance } = ChromeUtils.import("resource://sogo-connector/ContextManager.jsm");
+/* folders-handler.js - This file is part of "SOGo Connector", a Thunderbird extension.
+ *
+ * Copyright: Inverse inc., 2006-2020
+ *     Email: support@inverse.ca
+ *       URL: http://inverse.ca
+ *
+ * "SOGo Connector" is free software; you can redistribute it and/or modify it
+ * under the terms of the GNU General Public License version 2 as published by
+ * the Free Software Foundation;
+ *
+ * "SOGo Connector" is distributed in the hope that it will be useful, but
+ * WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
+ * details.
+ *
+ * You should have received a copy of the GNU General Public License along with
+ * "SOGo Connector"; if not, write to the Free Software Foundation, Inc., 51
+ * Franklin St, Fifth Floor, Boston, MA 02110-1301 USA
+ */
+
+var { contextManagerInstance } = ChromeUtils.import("resource://sogo-connector/components/ContextManager.jsm");
 var { Services } = ChromeUtils.import("resource://gre/modules/Services.jsm");
 
 function jsInclude(files, target) {
@@ -9,9 +29,9 @@ function jsInclude(files, target) {
             loader.loadSubScript(files[i], target);
         }
         catch(e) {
-            dump("folders-update.js: failed to include '" + files[i] + "'\n" + e +
-                 "\nFile: " + e.fileName +
-                 "\nLine: " + e.lineNumber + "\n\n Stack:\n\n" + e.stack);
+            //dump("folders-update.js: failed to include '" + files[i] + "'\n" + e +
+            //     "\nFile: " + e.fileName +
+            //     "\nLine: " + e.lineNumber + "\n\n Stack:\n\n" + e.stack);
         }
     }
 }
@@ -22,7 +42,8 @@ jsInclude(["chrome://sogo-connector/content/general/mozilla.utils.inverse.ca.js"
            "chrome://sogo-connector/content/calendar/folder-handler.js",
            "chrome://sogo-connector/content/calendar/default-classifications.js",
            "chrome://sogo-connector/content/messenger/mails-labels.js",
-           "chrome://sogo-connector/content/addressbook/categories.js"]);
+           "chrome://sogo-connector/content/addressbook/categories.js",
+           "chrome://sogo-connector/content/calendar/calendar-overlay.js"]);
 
 function directoryChecker(type, handler) {
     this.type = type;
@@ -206,33 +227,33 @@ directoryChecker.prototype = {
         else
             dump("the status code (" + status + ") was not acceptable, we therefore do nothing\n");
     },
-    compareDirectories: function compareDirectories(existing, result) {
-        let comparison = { removed: [], renamed: [], added: [] };
-        for (let url in result) {
-            if (url[url.length - 1] != '/')
-                url = url.concat('/');
-            if (!existing.hasOwnProperty(url)) {
-                dump(result[url] + "; " + url + " registered for addition\n");
-                comparison['added'].push(result[url]);
-            }
-        }
-        for (let url in existing) {
-            if (url[url.length - 1] != '/')
-                url = url.concat('/');
-            if (result.hasOwnProperty(url)) {
-                dump(result[url] + "; " + url + " registered for renaming\n");
-                comparison['renamed'].push({folder: existing[url],
-                                            displayName: result[url]['displayName'],
-                                            additional: result[url].additional});
-            }
-            else {
-                dump(url + " registered for removal\n");
-                comparison['removed'].push(existing[url]);
-            }
-        }
-
-        return comparison;
+  compareDirectories: function compareDirectories(existing, result) {
+    let comparison = { removed: [], renamed: [], added: [] };
+    for (let url in result) {
+      if (url[url.length - 1] != '/')
+        url = url.concat('/');
+      if (!existing.hasOwnProperty(url)) {
+        dump(result[url] + "; " + url + " registered for addition\n");
+        comparison['added'].push(result[url]);
+      }
     }
+    for (let url in existing) {
+      if (url[url.length - 1] != '/')
+        url = url.concat('/');
+      if (result.hasOwnProperty(url)) {
+        dump(result[url] + "; " + url + " registered for renaming\n");
+        comparison['renamed'].push({folder: existing[url],
+                                    displayName: result[url]['displayName'],
+                                    additional: result[url].additional});
+      }
+      else {
+        dump(url + " registered for removal\n");
+        comparison['removed'].push(existing[url]);
+      }
+    }
+
+    return comparison;
+  }
 };
 
 function checkFolders() {
@@ -254,7 +275,7 @@ function checkFolders() {
   let loader = Components.classes["@mozilla.org/moz/jssubscript-loader;1"]
       .getService(Components.interfaces.mozIJSSubScriptLoader);
 
-  cleanupAddressBooks();
+  //cleanupAddressBooks();
 
   let abHandler = new AddressbookHandler();
   let abChecker = new directoryChecker("Contacts", abHandler);
@@ -262,7 +283,7 @@ function checkFolders() {
 
   abChecker.checkAvailability(function() {
     abChecker.start();
-    abHandler.ensurePersonalIsRemote();
+    //FIXME: abHandler.ensurePersonalIsRemote();
     abHandler.ensureAutoComplete();
     SIContactCategories.synchronizeFromServer();
     startFolderSync();
@@ -286,57 +307,64 @@ function checkFolders() {
     calHandler = null;
   }
   if (calHandler) {
+    SICalendarDefaultClassifications.synchronizeFromServer();
+    calHandler.removeHomeCalendar();
+
     let CalendarChecker = new directoryChecker("Calendar", calHandler);
-    CalendarChecker.checkAvailability(function() {
-      if (document) {
-        let toolbar = document.getElementById("subscriptionToolbar");
-        if (toolbar) {
-          toolbar.collapsed = false;
-        }
-      }
-      //let prefService = (Components.classes["@mozilla.org/preferences-service;1"]
-      //                   .getService(Components.interfaces.nsIPrefBranch));
-      let disableCalendaring;
-      try {
-        disableCalendaring
-          = Services.prefs.getBoolPref("sogo-connector.disable-calendaring");
-      }
-      catch(e) {
-        disableCalendaring = false;
-      }
-      if (disableCalendaring) {
-        CalendarChecker.removeAllExisting();
-                hideLightningWidgets("true");
-      }
-      else {
-        SICalendarDefaultClassifications.synchronizeFromServer();
-        calHandler.removeHomeCalendar();
-        CalendarChecker.start();
-        // hideLightningWidgets("false");
-      }
-    });
+    CalendarChecker.start();
   }
+
+  //   let CalendarChecker = new directoryChecker("Calendar", calHandler);
+  //   CalendarChecker.checkAvailability(function() {
+  //     if (document) {
+  //       let toolbar = document.getElementById("subscriptionToolbar");
+  //       if (toolbar) {
+  //         toolbar.collapsed = false;
+  //       }
+  //     }
+  //     //let prefService = (Components.classes["@mozilla.org/preferences-service;1"]
+  //     //                   .getService(Components.interfaces.nsIPrefBranch));
+  //     let disableCalendaring;
+  //     try {
+  //       disableCalendaring
+  //         = Services.prefs.getBoolPref("sogo-connector.disable-calendaring");
+  //     }
+  //     catch(e) {
+  //       disableCalendaring = false;
+  //     }
+  //     if (disableCalendaring) {
+  //       CalendarChecker.removeAllExisting();
+  //               hideLightningWidgets("true");
+  //     }
+  //     else {
+  //       SICalendarDefaultClassifications.synchronizeFromServer();
+  //       calHandler.removeHomeCalendar();
+  //       CalendarChecker.start();
+  //       // hideLightningWidgets("false");
+  //     }
+  //   });
+  // }
 
   dump("startup done\n");
 }
 
-function hideLightningWidgets(hide) {
-    let widgets = [ "mode-toolbar", "today-splitter", "today-pane-panel",
-                    "ltnNewEvent", "ltnNewTask", "ltnNewCalendar",
-                    "ltnMenu_calendar", "ltnMenu_tasks", "invitations-pane" ];
-    for (let name in widgets) {
-        let widget = document.getElementById(name);
-        if (widget) {
-            if (hide == "true") {
-                widget.removeAttribute("persist");
-                widget.removeAttribute("command");
-                widget.removeAttribute("name");
-                widget.setAttribute("collapsed", hide);
-            } else if (!widget.getAttribute("persist")) {
-                widget.setAttribute("collapsed", hide);
-            }
-        }
-        else
-            dump("widget not found '" + name + "'\n");
-    }
-}
+// function hideLightningWidgets(hide) {
+//     let widgets = [ "mode-toolbar", "today-splitter", "today-pane-panel",
+//                     "ltnNewEvent", "ltnNewTask", "ltnNewCalendar",
+//                     "ltnMenu_calendar", "ltnMenu_tasks", "invitations-pane" ];
+//     for (let name in widgets) {
+//         let widget = document.getElementById(name);
+//         if (widget) {
+//             if (hide == "true") {
+//                 widget.removeAttribute("persist");
+//                 widget.removeAttribute("command");
+//                 widget.removeAttribute("name");
+//                 widget.setAttribute("collapsed", hide);
+//             } else if (!widget.getAttribute("persist")) {
+//                 widget.setAttribute("collapsed", hide);
+//             }
+//         }
+//         else
+//             dump("widget not found '" + name + "'\n");
+//     }
+// }

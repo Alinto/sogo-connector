@@ -1,0 +1,269 @@
+{
+    "General.tab": {
+        "message": "Algemeen"
+    },
+    "GroupDavConf.accesskey": {
+        "message": "C"
+    },
+    "GroupDavConf.label": {
+        "message": "Configureren"
+    },
+    "GroupDavSync.accesskey": {
+        "message": "S"
+    },
+    "GroupDavSync.label": {
+        "message": "Synchroniseren"
+    },
+    "GroupDavSync.tooltip": {
+        "message": "Synchroniseer de adresboekingangen met de server"
+    },
+    "GroupDavSyncAbort.accesskey": {
+        "message": "A"
+    },
+    "GroupDavSyncAbort.label": {
+        "message": "Abort Synchronization"
+    },
+    "GroupDavSyncAbort.tooltip": {
+        "message": "Abort ongoing Synchronization (try if nothing happens)"
+    },
+    "Offline.tab": {
+        "message": "Offline"
+    },
+    "ReadOnly.accesskey": {
+        "message": "A"
+    },
+    "ReadOnly.label": {
+        "message": "Alleen-lezen"
+    },
+    "SearchCategory.label": {
+        "message": "Category"
+    },
+    "SearchCriteriaButton.label": {
+        "message": "Criteria"
+    },
+    "URLAlreadyExist": {
+        "message": "Er bestaat al een adresboek met die URL!"
+    },
+    "attendee.toolbar.accept.label": {
+        "message": "Accepteren"
+    },
+    "attendee.toolbar.close.label": {
+        "message": "Sluiten"
+    },
+    "attendee.toolbar.decline.label": {
+        "message": "Afwijzen"
+    },
+    "calendar.preferences.general.classification.caption": {
+        "message": "Default item classifications"
+    },
+    "calendar.preferences.general.default-events-classification.label": {
+        "message": "Events classification:"
+    },
+    "calendar.preferences.general.default-todos-classification.label": {
+        "message": "Tasks classification:"
+    },
+    "contacts.categories": {
+        "message": "Colleague,Competitor,Customer,Friend,Family,Business Partner,Provider,Press,VIP"
+    },
+    "deletefailure.description": {
+        "message": "Een of meer elementen van dit adresboek konden niet worden verwijderd. Mogelijk heeft u niet de juiste rechten."
+    },
+    "deletefailure.title": {
+        "message": "Fout bij verwijderen van elementen"
+    },
+    "downloadNowButton.accesskey": {
+        "message": "d"
+    },
+    "downloadNowButton.label": {
+        "message": "Nu downloaden"
+    },
+    "event.confidential.label": {
+        "message": "Vertrouwelijke gebeurtenis"
+    },
+    "event.menu.options.privacy.confidential.label": {
+        "message": "Vertrouwelijke gebeurtenis"
+    },
+    "event.organizers.label": {
+        "message": "Organisator:"
+    },
+    "groupDavServerType.accesskey": {
+        "message": "S"
+    },
+    "groupDavServerType.label": {
+        "message": "Soort server:"
+    },
+    "groupdavHostname.accesskey": {
+        "message": "s"
+    },
+    "groupdavHostname.label": {
+        "message": "servernaam: "
+    },
+    "groupdavName.accesskey": {
+        "message": "n"
+    },
+    "groupdavName.label": {
+        "message": "Naam: "
+    },
+    "groupdavNotifications.label": {
+        "message": "Show Notifications"
+    },
+    "groupdavNotificationsManual.info": {
+        "message": "When select 'Synchronize' from toolbar or context menu."
+    },
+    "groupdavNotificationsManual.label": {
+        "message": "Show Notifications for manual synchronizations"
+    },
+    "groupdavNotificationsOINE.label": {
+        "message": "Notify only if data synchronized"
+    },
+    "groupdavNotificationsRestart.label": {
+        "message": "Changes in options for 'Periodic sync' need a restart of Thunderbird."
+    },
+    "groupdavNotificationsSave.info": {
+        "message": "The default notification is a progress bar in the status bar. If checked, a general notification will be displayed."
+    },
+    "groupdavNotificationsSave.label": {
+        "message": "Show Notifications when saving a card"
+    },
+    "groupdavNotificationsStart.label": {
+        "message": "Show Notifications on startup"
+    },
+    "groupdavPassword.accesskey": {
+        "message": "w"
+    },
+    "groupdavPassword.label": {
+        "message": "wachtwoord:"
+    },
+    "groupdavPeriodicSync.label": {
+        "message": "Periodic sync"
+    },
+    "groupdavPeriodicSync15m.label": {
+        "message": "15 min"
+    },
+    "groupdavPeriodicSync1h.label": {
+        "message": "1 h"
+    },
+    "groupdavPeriodicSync2h.label": {
+        "message": "2 h"
+    },
+    "groupdavPeriodicSync5m.label": {
+        "message": "5 min"
+    },
+    "groupdavSecure.accesskey": {
+        "message": "b"
+    },
+    "groupdavSecure.label": {
+        "message": "Gebruik beveiligde verbinding (SSL)"
+    },
+    "groupdavURL.accesskey": {
+        "message": "L"
+    },
+    "groupdavURL.label": {
+        "message": "URL: "
+    },
+    "groupdavUser.accesskey": {
+        "message": "g"
+    },
+    "groupdavUser.label": {
+        "message": "gebruiker:"
+    },
+    "inverse.CalDAV.tab": {
+        "message": "CalDAV"
+    },
+    "inverse.FbUrl.label": {
+        "message": "Beschikbaarheids (Free/Busy) URL:"
+    },
+    "missingDescriptionMsg": {
+        "message": "Kan geen adresboek zonder naam aanmaken!"
+    },
+    "missingDescriptionURL": {
+        "message": "Kan geen adresboek zonder URL aanmaken!"
+    },
+    "newDirectoryTitle.label": {
+        "message": "Eigenschappen van adresboek op server"
+    },
+    "newDirectoryWidth": {
+        "message": "36em"
+    },
+    "newGroupDavCmd.accesskey": {
+        "message": "A"
+    },
+    "newGroupDavCmd.label": {
+        "message": "Adresboek op server"
+    },
+    "notificationsDelete": {
+        "message": "\\u0020delete."
+    },
+    "notificationsDeletes": {
+        "message": "\\u0020deletes."
+    },
+    "notificationsDownload": {
+        "message": "\\u0020download,\\u0020"
+    },
+    "notificationsDownloads": {
+        "message": "\\u0020downloads,\\u0020"
+    },
+    "notificationsFailure": {
+        "message": "\\u0020failure,\\u0020"
+    },
+    "notificationsFailures": {
+        "message": "\\u0020failures,\\u0020"
+    },
+    "notificationsNoChanges": {
+        "message": "No changes."
+    },
+    "notificationsTitle": {
+        "message": "SOGO :\\u0020"
+    },
+    "notificationsUpload": {
+        "message": "\\u0020upload,\\u0020"
+    },
+    "notificationsUploads": {
+        "message": "\\u0020uploads,\\u0020"
+    },
+    "offlineText.label": {
+        "message": "Er kan een kopie van dit adresboek worden gedownload wanneer u offline werkt."
+    },
+    "sogo-connector.preferences.contacts.categories.add.title": {
+        "message": "Add Category"
+    },
+    "sogo-connector.preferences.contacts.categories.addButton.accesskey": {
+        "message": "A"
+    },
+    "sogo-connector.preferences.contacts.categories.addButton.label": {
+        "message": "Add..."
+    },
+    "sogo-connector.preferences.contacts.categories.edit.title": {
+        "message": "Edit Category"
+    },
+    "sogo-connector.preferences.contacts.categories.editButton.accesskey": {
+        "message": "E"
+    },
+    "sogo-connector.preferences.contacts.categories.editButton.label": {
+        "message": "Edit..."
+    },
+    "sogo-connector.preferences.contacts.categories.noBlankCategories": {
+        "message": "You must enter a category name."
+    },
+    "sogo-connector.preferences.contacts.categories.none.label": {
+        "message": "None"
+    },
+    "sogo-connector.preferences.contacts.categories.overwrite": {
+        "message": "A category already exists with that name. \\n Do you want to overwrite it?"
+    },
+    "sogo-connector.preferences.contacts.categories.overwrite.title": {
+        "message": "Warning: Duplicate name"
+    },
+    "sogo-connector.preferences.contacts.categories.removeButton.accesskey": {
+        "message": "R"
+    },
+    "sogo-connector.preferences.contacts.categories.removeButton.label": {
+        "message": "Remove"
+    },
+    "sogo-connector.preferences.panes.contacts.categories.title": {
+        "message": "Contact Categories"
+    },
+    "sogo-connector.tabs.categories.label": {
+        "message": "Categories"
+    }
+}

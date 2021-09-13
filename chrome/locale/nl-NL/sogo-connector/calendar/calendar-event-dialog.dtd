@@ -1,6 +1,0 @@
-<!ENTITY  attendee.toolbar.accept.label "Accepteren">
-<!ENTITY  attendee.toolbar.decline.label "Afwijzen">
-<!ENTITY  attendee.toolbar.close.label "Sluiten">
-<!ENTITY  event.organizers.label                           "Organisator:">
-<!ENTITY  event.menu.options.privacy.confidential.label    "Vertrouwelijke gebeurtenis">
-<!ENTITY  event.confidential.label                         "Vertrouwelijke gebeurtenis">

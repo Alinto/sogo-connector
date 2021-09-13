@@ -1,7 +1,8 @@
-see: https://developer.thunderbird.net/add-ons/updates/tb68
-
-- rename sogo-integrator.* prefs to sogo-connector ones
+- remove XUL files that are no longer used
+- fix sync toolbar icon not showing
+- handle X-MOZ-SEND-INVITATIONS-UNDISCLOSED and X-MOZ-SEND-INVITATIONS in SOGo directly
+- bring back reloadCalendarCache?
+- remove GroupDavSynchronizer
+- remove sync.addressbook.groupdav.js
 - when accepting IMIP/ITIP invitations, overlay Lightning to show only writable calendars
 - document startup.js
-- review common-card-overlay.js for menulist's editable
-- remove progressmeter and statusbar/statusbarpanel

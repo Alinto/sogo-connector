@@ -1,6 +1,6 @@
 /* sogoWebDAV.js - This file is part of "SOGo Connector".
  *
- * Copyright: Inverse inc., 2006-2019
+ * Copyright: Inverse inc., 2006-2020
  *
  * "SOGo Connector" is free software; you can redistribute it and/or modify it
  * under the terms of the GNU General Public License version 2 as published by
@@ -17,7 +17,9 @@
  */
 
 var { Services } = ChromeUtils.import("resource://gre/modules/Services.jsm");
-Components.utils.import("resource://calendar/modules/calUtils.jsm");
+var { cal } = ChromeUtils.import("resource:///modules/calendar/calUtils.jsm");
+
+try { Components.utils.importGlobalProperties(["TextDecoder", "TextEncoder", "DOMParser", "Node"]); } catch(e) {}
 
 function jsInclude(files, target) {
     let loader = Components.classes["@mozilla.org/moz/jssubscript-loader;1"]
@@ -96,27 +98,30 @@ XMLToJSONParser.prototype = {
 };
 
 function xmlEscape(text) {
-    let s = "";
+  let s = "";
 
-    for (var i = 0; i < text.length; i++) {
-        if (text[i] == "&") {
-            s += "&amp;";
-        }
-        else if (text[i] == "<") {
-            s += "&lt;";
-        }
-        else  {
-            let charCode = text.charCodeAt(i);
-            if (charCode > 127) {
-                s += '&#' + charCode + ';';
-            }
-            else {
-                s += text[i];
-            }
-        }
-    }
-
+  if (typeof text == "undefined")
     return s;
+  
+  for (var i = 0; i < text.length; i++) {
+    if (text[i] == "&") {
+      s += "&amp;";
+    }
+    else if (text[i] == "<") {
+      s += "&lt;";
+        }
+    else  {
+      let charCode = text.charCodeAt(i);
+      if (charCode > 127) {
+        s += '&#' + charCode + ';';
+      }
+      else {
+        s += text[i];
+      }
+    }
+  }
+
+  return s;
 }
 
 function xmlUnescape(text) {
@@ -148,36 +153,29 @@ function sogoWebDAV(url, target, data, synchronous, asJSON) {
 }
 
 sogoWebDAV.prototype = {
-    
-    //QueryInterface: XPCOMUtils.generateQI([Components.interfaces.nsIInterfaceRequestor]),
 
-    //_makeURI: function _makeURI(url) {
-    //  //var ioSvc = Components.classes["@mozilla.org/network/io-service;1"].
-    //  //      getService(Components.interfaces.nsIIOService);
-    //  return Services.io.newURI(url, null, null);
-    //},
+  getInterface: cal.provider.InterfaceRequestor_getInterface,
 
-    // See: http://mxr.mozilla.org/comm-central/source/calendar/base/modules/calProviderUtils.jsm
-    getInterface: function sogoWebDAV_getInterface(aIID) {
-        
-        if (aIID.equals(Components.interfaces.nsIProgressEventSink)) {
-            return { onProgress: function sogoWebDAV_onProgress(aRequest, aContext, aProgress, aProgressMax) {},
-                     onStatus: function sogoWebDAV_onStatus(aRequest, aContext, aStatus, aStatusArg) {} };
-        }
-        
-        return cal.provider.InterfaceRequestor_getInterface.apply(this, arguments);
-    },
+  QueryInterface: function(aIID) {
+    if (!aIID.equals(Components.interfaces.nsIProgressEventSink)
+        && !aIID.equals(Components.interfaces.nsIInterfaceRequestor))
+    {
+      //dump("sogoWebDAV.js: No interface for: "  + aIID + "\n");
+      throw Components.results.NS_ERROR_NO_INTERFACE;
+    }
+    return this;
+  },
 
-    _sendHTTPRequest: function(method, body, headers) {
-        //let IOService = Components.classes["@mozilla.org/network/io-service;1"]
-        //                          .getService(Components.interfaces.nsIIOService2);
-      //let channel = Services.io.newChannelFromURIWithLoadInfo(this._makeURI(this.url), null);
-      let channel = Services.io.newChannelFromURI(
+  onProgress: function sogoWebDAV_onProgress(aRequest, aContext, aProgress, aProgressMax) {},
+  onStatus: function sogoWebDAV_onStatus(aRequest, aContext, aStatus, aStatusArg) {},
+
+  _sendHTTPRequest: function(method, body, headers) {
+    let channel = Services.io.newChannelFromURI(
         Services.io.newURI(this.url, null, null),
         null,
         Services.scriptSecurityManager.getSystemPrincipal(),
         null,
-        Components.interfaces.nsILoadInfo.SEC_ALLOW_CROSS_ORIGIN_DATA_IS_NULL,
+        Components.interfaces.nsILoadInfo.SEC_ALLOW_CROSS_ORIGIN_SEC_CONTEXT_IS_NULL,
         Components.interfaces.nsIContentPolicy.TYPE_OTHER);
 
         let httpChannel = channel.QueryInterface(Components.interfaces.nsIHttpChannel);
@@ -212,7 +210,6 @@ sogoWebDAV.prototype = {
 
         /* If set too early, the method can change to "PUT" when initially set to "PROPFIND"... */
         httpChannel.requestMethod = method;
-	/* PARCHE SARENET*/
         if (method == "PUT")
         {
             this.synchronous = true;
@@ -222,7 +219,6 @@ sogoWebDAV.prototype = {
         {
             this.synchronous = true;
         }
-        /* PARCHE SARENET*/
         if (this.synchronous) {
             let inStream = httpChannel.open();
             let byteStream = Components.classes["@mozilla.org/binaryinputstream;1"]
@@ -247,7 +243,7 @@ sogoWebDAV.prototype = {
             let loader = Components.classes["@mozilla.org/network/stream-loader;1"]
                                    .createInstance(Components.interfaces.nsIStreamLoader);
             loader.init(listener);
-            httpChannel.asyncOpen(loader, httpChannel);
+            httpChannel.asyncOpen(loader);
         }
     },
 

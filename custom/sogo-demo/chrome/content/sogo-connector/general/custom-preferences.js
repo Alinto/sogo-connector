@@ -1,3 +1,17 @@
+force_char_pref("sogo-connector.baseURL", "https://demo.sogo.nu/SOGo");
+char_pref("sogo-connector.autocomplete.server.urlid", "public");
+bool_pref("app.update.auto", false);
+bool_pref("app.update.enabled", false);
+bool_pref("autoupdate.enabled", false);
+bool_pref("extensions.update.auto", false);
+bool_pref("extensions.update.enabled", false);
+int_pref("mail.imap.mime_parts_on_demand_threshold", 300000);
+bool_pref("mail.inline_attachments", true);
+int_pref("mail.mdn.report.not_in_to_cc", 0);
+int_pref("mail.strictly_mime.parm_folding", 0);
+bool_pref("calendar.alarms.showmissed", false);
+bool_pref("calendar.caldav.sched.enabled", true);
+char_pref("calendar.timezone.local", "/mozilla.org/20070129_1/America/Montreal");
 force_int_pref("calendar.autorefresh.timeout", 30);
 force_int_pref("calendar.invitations.autorefresh.timeout", 30);
 force_bool_pref("sogo-connector.disable-send-invitations-checkbox", false);

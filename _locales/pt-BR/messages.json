@@ -1,0 +1,473 @@
+{
+    "Any Authenticated User": {
+        "message": "Qualquer usuário autenticado"
+    },
+    "General.tab": {
+        "message": "Geral"
+    },
+    "GroupDavConf.accesskey": {
+        "message": "C"
+    },
+    "GroupDavConf.label": {
+        "message": "Configure"
+    },
+    "GroupDavSync.accesskey": {
+        "message": "S"
+    },
+    "GroupDavSync.label": {
+        "message": "Sincronizar"
+    },
+    "GroupDavSync.tooltip": {
+        "message": "Sincronize os cartões com o servidor"
+    },
+    "GroupDavSyncAbort.accesskey": {
+        "message": "A"
+    },
+    "GroupDavSyncAbort.label": {
+        "message": "Abortar Sincronização"
+    },
+    "GroupDavSyncAbort.tooltip": {
+        "message": "Abortar sincronização em andamento (tente se nada acontecer)"
+    },
+    "No possible subscription": {
+        "message": "Nenhuma inscrição possível"
+    },
+    "Offline.tab": {
+        "message": "Offline"
+    },
+    "Please wait...": {
+        "message": "Por favor aguarde..."
+    },
+    "Public Access": {
+        "message": "Acesso Público"
+    },
+    "ReadOnly.accesskey": {
+        "message": "R"
+    },
+    "ReadOnly.label": {
+        "message": "Somente leitura"
+    },
+    "SearchCategory.label": {
+        "message": "Categoria"
+    },
+    "SearchCriteriaButton.label": {
+        "message": "Critério"
+    },
+    "URLAlreadyExist": {
+        "message": "Este URL já está em uso por outro catálogo!"
+    },
+    "You have already subscribed to that folder!": {
+        "message": "Você já se inscreveu nesta pasta!"
+    },
+    "acl-dialog.title": {
+        "message": "Gerenciamento de direitos"
+    },
+    "acl.addUser.label": {
+        "message": "Adicionar..."
+    },
+    "acl.defaultRoles.label": {
+        "message": "Função padrão"
+    },
+    "acl.owner.label": {
+        "message": "Proprietário:"
+    },
+    "acl.removeUser.label": {
+        "message": "Remover"
+    },
+    "acl.toolbar.close.label": {
+        "message": "Fechar"
+    },
+    "acl.toolbar.edit.label": {
+        "message": "Editar Direitos"
+    },
+    "addressbook-overlay.acl-menu.label": {
+        "message": "Compartilhando..."
+    },
+    "addressbook-overlay.subscription.menu.unsubscribe": {
+        "message": "Desinscrever"
+    },
+    "addressbook-overlay.susbcription.tooltips.add": {
+        "message": "Novo catálogo..."
+    },
+    "addressbook-overlay.susbcription.tooltips.remove": {
+        "message": "Remover o catálogo selecionado"
+    },
+    "addressbook-overlay.susbcription.tooltips.subscribe": {
+        "message": "Inscrever em um catálogo..."
+    },
+    "attendee.toolbar.accept.label": {
+        "message": "Aceitar"
+    },
+    "attendee.toolbar.close.label": {
+        "message": "Fechar"
+    },
+    "attendee.toolbar.decline.label": {
+        "message": "Recusar"
+    },
+    "calendar-overlay.susbcription.tooltips.add": {
+        "message": "Novo Calendario..."
+    },
+    "calendar-overlay.susbcription.tooltips.remove": {
+        "message": "Remover o Calendario selecionado"
+    },
+    "calendar-overlay.susbcription.tooltips.subscribe": {
+        "message": "Inscrever em um Calendario..."
+    },
+    "calendar.context.exporttask.label": {
+        "message": "Exportar Tarefa..."
+    },
+    "calendar.context.properties.label": {
+        "message": "Modificar"
+    },
+    "calendar.context.reinit-cache.label": {
+        "message": "Limpar cache de calendários"
+    },
+    "calendar.context.showall.label": {
+        "message": "Mostrar todos os calendários"
+    },
+    "calendar.context.showonly.label": {
+        "message": "Mostrar somente este calendário"
+    },
+    "calendar.context.sogo-acls.label": {
+        "message": "Compartilhando..."
+    },
+    "calendar.context.sogo-delete.label": {
+        "message": "Remover Calendario"
+    },
+    "calendar.context.sogo-reload-acls.label": {
+        "message": "Recarregar direitos de acesso"
+    },
+    "calendar.context.sogo-unsubscribe.label": {
+        "message": "Desinscrever Calendario"
+    },
+    "calendar.preferences.general.classification.caption": {
+        "message": "Classificações padrão de item"
+    },
+    "calendar.preferences.general.default-events-classification.label": {
+        "message": "Classificação de eventos:"
+    },
+    "calendar.preferences.general.default-todos-classification.label": {
+        "message": "Classificação de tarefas:"
+    },
+    "contacts.categories": {
+        "message": "Colega,Competidor,Cliente,Amigo,Família,Parceiro de negócios,Provedor,Imprensa,VIP"
+    },
+    "creation.button.create.label": {
+        "message": "Criar"
+    },
+    "creation.instructions.label": {
+        "message": "Favor informar o nome do seu novo catálogo:"
+    },
+    "creation.title": {
+        "message": "Criação do catálogo..."
+    },
+    "deleteCalendarMessage": {
+        "message": "Tem certeza que deseja remover o calendário selecionado?"
+    },
+    "deleteCalendarTitle": {
+        "message": "Remover Calendario"
+    },
+    "deletePersonalABError": {
+        "message": "Você não pode remover ou se desinscrever de seu catálogo pessoal."
+    },
+    "deletePersonalCalendarError": {
+        "message": "Você não pode remover ou desinscrever seu calendário pessoal."
+    },
+    "deletePublicABError": {
+        "message": "Você não pode se desinscrever de um catálogo público."
+    },
+    "deletefailure.description": {
+        "message": "Um ou mais elementos de seu catálogo não puderam ser removidos. Talvez você não tenha permissão para completar esta operação."
+    },
+    "deletefailure.title": {
+        "message": "Erro removendo elementos"
+    },
+    "downloadNowButton.accesskey": {
+        "message": "D"
+    },
+    "downloadNowButton.label": {
+        "message": "Download Agora"
+    },
+    "event.confidential.label": {
+        "message": "Evento confidencial"
+    },
+    "event.menu.options.privacy.confidential.label": {
+        "message": "Evento confidencial"
+    },
+    "event.organizers.label": {
+        "message": "Organizador:"
+    },
+    "groupDavServerType.accesskey": {
+        "message": "G"
+    },
+    "groupDavServerType.label": {
+        "message": "Tipo de servidor remoto:"
+    },
+    "groupdavHostname.accesskey": {
+        "message": "h"
+    },
+    "groupdavHostname.label": {
+        "message": "host: "
+    },
+    "groupdavName.accesskey": {
+        "message": "n"
+    },
+    "groupdavName.label": {
+        "message": "Nome: "
+    },
+    "groupdavNotifications.label": {
+        "message": "Exibir notificações"
+    },
+    "groupdavNotificationsManual.info": {
+        "message": "Quando selecionar 'Sincronizar' na barra de ferramentas ou menu de contexto."
+    },
+    "groupdavNotificationsManual.label": {
+        "message": "Exibir notificações para sincronização manual"
+    },
+    "groupdavNotificationsOINE.label": {
+        "message": "Notifique somente se dados sincronizados"
+    },
+    "groupdavNotificationsRestart.label": {
+        "message": "Alterações na opção 'Sincronização periódica' requer o reinício do Thunderbird."
+    },
+    "groupdavNotificationsSave.info": {
+        "message": "A notificação padrão é uma barra de progresso na barra de status. Se marcado uma notificação geral será exibida."
+    },
+    "groupdavNotificationsSave.label": {
+        "message": "Exibir notificações quando salvar um cartão"
+    },
+    "groupdavNotificationsStart.label": {
+        "message": "Exibir notificações no início"
+    },
+    "groupdavPassword.accesskey": {
+        "message": "p"
+    },
+    "groupdavPassword.label": {
+        "message": "senha:"
+    },
+    "groupdavPeriodicSync.label": {
+        "message": "Sincronização periódica"
+    },
+    "groupdavPeriodicSync15m.label": {
+        "message": "15 min"
+    },
+    "groupdavPeriodicSync1h.label": {
+        "message": "1 h"
+    },
+    "groupdavPeriodicSync2h.label": {
+        "message": "2 h"
+    },
+    "groupdavPeriodicSync5m.label": {
+        "message": "5 min"
+    },
+    "groupdavSecure.accesskey": {
+        "message": "S"
+    },
+    "groupdavSecure.label": {
+        "message": "Use conexão segura (SSL)"
+    },
+    "groupdavURL.accesskey": {
+        "message": "l"
+    },
+    "groupdavURL.label": {
+        "message": "URL: "
+    },
+    "groupdavUser.accesskey": {
+        "message": "r"
+    },
+    "groupdavUser.label": {
+        "message": "usuário:"
+    },
+    "inverse.CalDAV.tab": {
+        "message": "CalDAV"
+    },
+    "inverse.FbUrl.label": {
+        "message": "Freebusy URL:"
+    },
+    "lightning-missing.text": {
+        "message": "O SOGo Connector requer a extensão Mozilla\nLightning para funcionar. Para instalá-la. por favor clique no link abaixo.\nAté lá nenhuma sincronização estará disponível."
+    },
+    "lightning-missing.title": {
+        "message": "Extensão ausente"
+    },
+    "missingDescriptionMsg": {
+        "message": "Não é possível criar um catálogo sem nome!"
+    },
+    "missingDescriptionURL": {
+        "message": "Não é possível criar um catálogo sem um URL!"
+    },
+    "newDirectoryTitle.label": {
+        "message": "Propriedades do catálogo remoto"
+    },
+    "newDirectoryWidth": {
+        "message": "36em"
+    },
+    "newGroupDavCmd.accesskey": {
+        "message": "R"
+    },
+    "newGroupDavCmd.label": {
+        "message": "Catálogo remoto"
+    },
+    "notificationsDelete": {
+        "message": "\\u0020delete."
+    },
+    "notificationsDeletes": {
+        "message": "\\u0020deletes."
+    },
+    "notificationsDownload": {
+        "message": "\\u0020download,\\u0020"
+    },
+    "notificationsDownloads": {
+        "message": "\\u0020downloads,\\u0020"
+    },
+    "notificationsFailure": {
+        "message": "\\u0020falha,\\u0020"
+    },
+    "notificationsFailures": {
+        "message": "\\u0020falhas,\\u0020"
+    },
+    "notificationsNoChanges": {
+        "message": "Sem alterações."
+    },
+    "notificationsTitle": {
+        "message": "SOGO :\\u0020"
+    },
+    "notificationsUpload": {
+        "message": "\\u0020upload,\\u0020"
+    },
+    "notificationsUploads": {
+        "message": "\\u0020uploads,\\u0020"
+    },
+    "offlineText.label": {
+        "message": "Você pode fazer download de uma cópia local deste diretório para estar disponível para uso quando estiver trabalhando offline."
+    },
+    "properties-overlay.notify-on-external-modifications.label": {
+        "message": "Receber um email quando alguém modificar meu clendário"
+    },
+    "properties-overlay.notify-on-personal-modifications.label": {
+        "message": "Receber um email quando eu modificar meu calendário"
+    },
+    "properties-overlay.notify-user-on-personal-modifications.label": {
+        "message": "Quando eu modificar meu calendário enviar email para:"
+    },
+    "roles-dialog.cancel-button.label": {
+        "message": "Cancelar"
+    },
+    "roles-dialog.confidential.label": {
+        "message": "Confidencial"
+    },
+    "roles-dialog.default-roles.label": {
+        "message": "Direitos padrão"
+    },
+    "roles-dialog.private.label": {
+        "message": "Privado"
+    },
+    "roles-dialog.public.label": {
+        "message": "Publico"
+    },
+    "roles-dialog.roles-choice.modify.label": {
+        "message": "Modificar"
+    },
+    "roles-dialog.roles-choice.none.label": {
+        "message": "Nenhum"
+    },
+    "roles-dialog.roles-choice.respond-to.label": {
+        "message": "Responder a"
+    },
+    "roles-dialog.roles-choice.view-all.label": {
+        "message": "Ver tudo"
+    },
+    "roles-dialog.roles-choice.view-d-a-t.label": {
+        "message": "Ver Data &amp; Hora"
+    },
+    "roles-dialog.roles.object-creator.label": {
+        "message": "Esta pessoa pode adicionar cartões a seu catálogo."
+    },
+    "roles-dialog.roles.object-editor.label": {
+        "message": "Esta pessoa pode editar cartões deste catálogo.."
+    },
+    "roles-dialog.roles.object-eraser.label": {
+        "message": "Esta pessoa pode remover cartões deste catálogo.."
+    },
+    "roles-dialog.roles.object-viewer.label": {
+        "message": "Esta pessoa pode ler cartões deste catálogo.."
+    },
+    "roles-dialog.title": {
+        "message": "Editando direitos do usuário"
+    },
+    "roles-dialog.update-button.label": {
+        "message": "Atualizar"
+    },
+    "roles-dialog.user-roles.label": {
+        "message": "Direitos para:"
+    },
+    "serverUpdateFailed": {
+        "message": "O servidor se recusou a renomear este catálogo com o seguinte código de erro:"
+    },
+    "sogo-connector.message": {
+        "message": "Por favor aguarde enquando as extensões atualizam..."
+    },
+    "sogo-connector.preferences.contacts.categories.add.title": {
+        "message": "Add Category"
+    },
+    "sogo-connector.preferences.contacts.categories.addButton.accesskey": {
+        "message": "A"
+    },
+    "sogo-connector.preferences.contacts.categories.addButton.label": {
+        "message": "Add..."
+    },
+    "sogo-connector.preferences.contacts.categories.edit.title": {
+        "message": "Edit Category"
+    },
+    "sogo-connector.preferences.contacts.categories.editButton.accesskey": {
+        "message": "E"
+    },
+    "sogo-connector.preferences.contacts.categories.editButton.label": {
+        "message": "Edit..."
+    },
+    "sogo-connector.preferences.contacts.categories.noBlankCategories": {
+        "message": "You must enter a category name."
+    },
+    "sogo-connector.preferences.contacts.categories.none.label": {
+        "message": "None"
+    },
+    "sogo-connector.preferences.contacts.categories.overwrite": {
+        "message": "A category already exists with that name. \\n Do you want to overwrite it?"
+    },
+    "sogo-connector.preferences.contacts.categories.overwrite.title": {
+        "message": "Warning: Duplicate name"
+    },
+    "sogo-connector.preferences.contacts.categories.removeButton.accesskey": {
+        "message": "R"
+    },
+    "sogo-connector.preferences.contacts.categories.removeButton.label": {
+        "message": "Remove"
+    },
+    "sogo-connector.preferences.panes.contacts.categories.title": {
+        "message": "Contact Categories"
+    },
+    "sogo-connector.restart-message": {
+        "message": "Necessário reiniciar a aplicação."
+    },
+    "sogo-connector.tabs.categories.label": {
+        "message": "Categorias"
+    },
+    "sogo-connector.title": {
+        "message": "Atualizar"
+    },
+    "sogo.description": {
+        "message": "Por favor digite sua senha (%u):"
+    },
+    "sogo.title": {
+        "message": "Conectando ao SOGo..."
+    },
+    "subscription.button.add.label": {
+        "message": "Adicionar..."
+    },
+    "subscription.searchcriteria.label": {
+        "message": "Nome ou Endereço"
+    },
+    "subscription.title": {
+        "message": "Inscrição..."
+    }
+}

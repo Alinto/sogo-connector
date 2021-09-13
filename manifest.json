@@ -3,13 +3,24 @@
   "applications": {
     "gecko": {
       "id": "sogo-connector@inverse.ca",
-      "strict_min_version": "68.0"
+      "strict_min_version": "78.0"
     }
   },
   "name": "SOGo Connector",
   "description": "A DAV plugin for keeping addressbooks and events in sync",
-  "version": "68.0.2",
-  "legacy": {
-    "type": "xul"
+  "version": "78.0.1",
+  "default_locale": "en-US",
+  "background": {
+    "scripts": ["background.js"]
+  },
+  "experiment_apis": {
+    "WindowListener": {
+      "schema": "api/WindowListener/schema.json",
+      "parent": {
+        "scopes": ["addon_parent"],
+        "paths": [["WindowListener"]],
+        "script": "api/WindowListener/implementation.js"
+      }
+    }
   }
 }

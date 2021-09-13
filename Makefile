@@ -1,12 +1,6 @@
 PACKAGE = sogo-connector
 GIT_REV = $(shell git rev-parse --verify HEAD | cut -c1-10)
-
-ifeq ($(shell uname),Darwin)
-VERSION = $(shell grep em:version install.rdf | sed -E 's@(em:version=|"| )@@g')
-else
-VERSION = $(shell grep em:version install.rdf | sed -e 's@\(em:version=\|\"\|\ \)@@g')
-endif
-
+VERSION := $(shell awk '/ "version":/ {print $$2}' manifest.json | sed -e 's@[\",]@@g')
 FIND_FILTER = ! -path './custom/*' -type f
 XPI_ARCHIVE = $(PACKAGE)-$(VERSION)-$(GIT_REV).xpi
 
@@ -37,10 +31,11 @@ MANIFEST: MANIFEST-pre
 
 MANIFEST-pre:
 	@echo manifest.json > $@
+	@echo ./api/WindowListener/schema.json >> $@
 	@echo COPYING >> $@
 	@echo ChangeLog.old >> $@
 	@find . $(FIND_FILTER) -name "*.manifest" >> $@
-	@find . $(FIND_FILTER) -name "*.xul" >> $@
+	@find . $(FIND_FILTER) -name "*.xhtml" >> $@
 	@find . $(FIND_FILTER) -name "*.xml" >> $@
 	@find . $(FIND_FILTER) -name "*.dtd" >> $@
 	@find . $(FIND_FILTER) -name "*.idl" >> $@
@@ -53,7 +48,15 @@ MANIFEST-pre:
 	@find . $(FIND_FILTER) -name "*.xpt" >> $@
 	@find . $(FIND_FILTER) -name "*.properties" >> $@
 	@find . $(FIND_FILTER) -name "*.rdf" >> $@
-	@find . $(FIND_FILTER) -name "RELEASE-NOTES" >> $@	
+	@find . $(FIND_FILTER) -name "RELEASE-NOTES" >> $@
+	@echo _locales/cs-CZ/messages.json >> $@
+	@echo _locales/de-DE/messages.json >> $@
+	@echo _locales/en-US/messages.json >> $@
+	@echo _locales/fr-FR/messages.json >> $@
+	@echo _locales/hu-HU/messages.json >> $@
+	@echo _locales/it-IT/messages.json >> $@
+	@echo _locales/nl-NL/messages.json >> $@
+	@echo _locales/pt-BR/messages.json >> $@
 
 rest: MANIFEST
 	@+make $(XPI_ARCHIVE)

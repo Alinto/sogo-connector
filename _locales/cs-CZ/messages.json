@@ -1,0 +1,467 @@
+{
+    "Any Authenticated User": {
+        "message": "Každý ověřený uživatel"
+    },
+    "General.tab": {
+        "message": "Obecný"
+    },
+    "GroupDavConf.accesskey": {
+        "message": "K"
+    },
+    "GroupDavConf.label": {
+        "message": "Konfigurovat"
+    },
+    "GroupDavSync.accesskey": {
+        "message": "S"
+    },
+    "GroupDavSync.label": {
+        "message": "Synchronizovat"
+    },
+    "GroupDavSync.tooltip": {
+        "message": "Synchronizovat kontakty se serverem"
+    },
+    "GroupDavSyncAbort.accesskey": {
+        "message": "P"
+    },
+    "GroupDavSyncAbort.label": {
+        "message": "Přerušit synchronizaci"
+    },
+    "GroupDavSyncAbort.tooltip": {
+        "message": "Přerušit probíhající synchronizaci (zkuste, pokud se nic neděje)"
+    },
+    "No possible subscription": {
+        "message": "Žádné možné odebírání"
+    },
+    "Offline.tab": {
+        "message": "Offline"
+    },
+    "Please wait...": {
+        "message": "Čekejte prosím..."
+    },
+    "Public Access": {
+        "message": "Veřejný přístup"
+    },
+    "ReadOnly.accesskey": {
+        "message": "P"
+    },
+    "ReadOnly.label": {
+        "message": "Pouze ke čtení"
+    },
+    "SearchCategory.label": {
+        "message": "Kategorie"
+    },
+    "SearchCriteriaButton.label": {
+        "message": "Kritérium"
+    },
+    "URLAlreadyExist": {
+        "message": "Tuto adresu již používá jiná složka kontaktů!"
+    },
+    "You have already subscribed to that folder!": {
+        "message": "Tuto složku již odebíráte!"
+    },
+    "acl-dialog.title": {
+        "message": "Správa práv"
+    },
+    "acl.addUser.label": {
+        "message": "Přidat..."
+    },
+    "acl.defaultRoles.label": {
+        "message": "Vychozí role"
+    },
+    "acl.owner.label": {
+        "message": "Vlastník:"
+    },
+    "acl.removeUser.label": {
+        "message": "Odebrat"
+    },
+    "acl.toolbar.close.label": {
+        "message": "Zavřít"
+    },
+    "acl.toolbar.edit.label": {
+        "message": "Upravit práva"
+    },
+    "addressbook-overlay.acl-menu.label": {
+        "message": "Sdílení..."
+    },
+    "addressbook-overlay.subscription.menu.unsubscribe": {
+        "message": "Odhlásit odebírání"
+    },
+    "addressbook-overlay.susbcription.tooltips.add": {
+        "message": "Nová složka kontaktů..."
+    },
+    "addressbook-overlay.susbcription.tooltips.remove": {
+        "message": "Smazat složku kontaktů"
+    },
+    "addressbook-overlay.susbcription.tooltips.subscribe": {
+        "message": "Odebírat složku kontaktů..."
+    },
+    "attendee.toolbar.accept.label": {
+        "message": "Přijmout"
+    },
+    "attendee.toolbar.close.label": {
+        "message": "Zavřít"
+    },
+    "attendee.toolbar.decline.label": {
+        "message": "Odmítnout"
+    },
+    "calendar-overlay.susbcription.tooltips.add": {
+        "message": "Nový kalendář..."
+    },
+    "calendar-overlay.susbcription.tooltips.remove": {
+        "message": "Smazat zvolený kalendář"
+    },
+    "calendar-overlay.susbcription.tooltips.subscribe": {
+        "message": "Odebírat kalendář..."
+    },
+    "calendar.context.exporttask.label": {
+        "message": "Exportovat úkol..."
+    },
+    "calendar.context.properties.label": {
+        "message": "Upravit"
+    },
+    "calendar.context.reinit-cache.label": {
+        "message": "Obnovit mezipaměť kalendáře"
+    },
+    "calendar.context.showall.label": {
+        "message": "Zobrazit všechny kalendáře"
+    },
+    "calendar.context.showonly.label": {
+        "message": "Zobrazit jenom tento kalendář"
+    },
+    "calendar.context.sogo-acls.label": {
+        "message": "Sdílení..."
+    },
+    "calendar.context.sogo-delete.label": {
+        "message": "Smazat kalendář"
+    },
+    "calendar.context.sogo-reload-acls.label": {
+        "message": "Znovu načíst přístupová práva"
+    },
+    "calendar.context.sogo-unsubscribe.label": {
+        "message": "Odhlásit odebírání kalendáře"
+    },
+    "calendar.preferences.general.classification.caption": {
+        "message": "Výchozí nastavení soukromí"
+    },
+    "calendar.preferences.general.default-events-classification.label": {
+        "message": "Události:"
+    },
+    "calendar.preferences.general.default-todos-classification.label": {
+        "message": "Úkoly:"
+    },
+    "contacts.categories": {
+        "message": "Kolega,Konkurent,Zákazník,Přítel,Rodina,Obchodní partner,Dodavatel,Tisk,VIP"
+    },
+    "creation.button.create.label": {
+        "message": "Vytvořit"
+    },
+    "creation.instructions.label": {
+        "message": "Zadejte jméno nové složky kontaktů:"
+    },
+    "creation.title": {
+        "message": "Vytváření složky kontaktů..."
+    },
+    "deleteCalendarMessage": {
+        "message": "Opravdu chcete smazat vybraný kalendář?"
+    },
+    "deleteCalendarTitle": {
+        "message": "Smazat kalendář"
+    },
+    "deletePersonalABError": {
+        "message": "Nemůžete odebrat nebo se odhlásit od odebírání svého vlastního adresáře."
+    },
+    "deletePersonalCalendarError": {
+        "message": "Nemůžete odebrat nebo se odhlásit z odebírání svého vlastního kalendáře."
+    },
+    "deletePublicABError": {
+        "message": "Nemůžete odebrat nebo se odhlásit od odebírání veřejného adresáře."
+    },
+    "deletefailure.description": {
+        "message": "Jeden nebo více kontaktů této složky nebylo možné smazat. Nemusíte mít požadovaná práva pro tuto operaci."
+    },
+    "deletefailure.title": {
+        "message": "Chyba při smazání kontaktu"
+    },
+    "downloadNowButton.accesskey": {
+        "message": "S"
+    },
+    "downloadNowButton.label": {
+        "message": "Stáhnout nyní"
+    },
+    "event.confidential.label": {
+        "message": "Zobrazit pouze datum a čas"
+    },
+    "event.menu.options.privacy.confidential.label": {
+        "message": "Zobrazit pouze datum a čas"
+    },
+    "event.organizers.label": {
+        "message": "Organizátor:"
+    },
+    "groupDavServerType.accesskey": {
+        "message": "T"
+    },
+    "groupDavServerType.label": {
+        "message": "Typ vzdáleného serveru:"
+    },
+    "groupdavHostname.accesskey": {
+        "message": "s"
+    },
+    "groupdavHostname.label": {
+        "message": "server: "
+    },
+    "groupdavName.accesskey": {
+        "message": "J"
+    },
+    "groupdavName.label": {
+        "message": "Jméno: "
+    },
+    "groupdavNotifications.label": {
+        "message": "Zobrazovat upozornění"
+    },
+    "groupdavNotificationsManual.info": {
+        "message": "Když vyberete „Synchronizovat“ z panelu nástrojů nebo místní nabídky."
+    },
+    "groupdavNotificationsManual.label": {
+        "message": "Zobrazovat upozornění pro ruční synchronizace"
+    },
+    "groupdavNotificationsOINE.label": {
+        "message": "Upozornit pouze v případě synchronizace dat"
+    },
+    "groupdavNotificationsRestart.label": {
+        "message": "Změny v nastavení „Pravidelná synchronizace“ vyžadují restart Thunderbirdu."
+    },
+    "groupdavNotificationsSave.info": {
+        "message": "Výchozí je zobrazování indikátoru průběhu ve stavovém řádku. Pokud je zaškrtnuto, zobrazí se obecné upozornění."
+    },
+    "groupdavNotificationsSave.label": {
+        "message": "Zobrazovat upozornění při ukládání kontaktu"
+    },
+    "groupdavNotificationsStart.label": {
+        "message": "Zobrazovat upozornění při spuštění"
+    },
+    "groupdavPassword.accesskey": {
+        "message": "h"
+    },
+    "groupdavPassword.label": {
+        "message": "heslo:"
+    },
+    "groupdavPeriodicSync.label": {
+        "message": "Pravidelná synchronizace"
+    },
+    "groupdavPeriodicSync15m.label": {
+        "message": "15 min"
+    },
+    "groupdavPeriodicSync1h.label": {
+        "message": "1 h"
+    },
+    "groupdavPeriodicSync2h.label": {
+        "message": "2 h"
+    },
+    "groupdavPeriodicSync5m.label": {
+        "message": "5 min"
+    },
+    "groupdavSecure.accesskey": {
+        "message": "z"
+    },
+    "groupdavSecure.label": {
+        "message": "Použít zabezpečené spojení (SSL)"
+    },
+    "groupdavURL.accesskey": {
+        "message": "A"
+    },
+    "groupdavURL.label": {
+        "message": "Adresa: "
+    },
+    "groupdavUser.accesskey": {
+        "message": "u"
+    },
+    "groupdavUser.label": {
+        "message": "uživatel:"
+    },
+    "inverse.CalDAV.tab": {
+        "message": "CalDAV"
+    },
+    "inverse.FbUrl.label": {
+        "message": "Freebusy URL:"
+    },
+    "missingDescriptionMsg": {
+        "message": "Složku kontaktů nelze vytvořit bez jména!"
+    },
+    "missingDescriptionURL": {
+        "message": "Složku kontaktů nelze vytvořit bez adresy!"
+    },
+    "newDirectoryTitle.label": {
+        "message": "Vlastnosti vzdálené složky kontaktů"
+    },
+    "newDirectoryWidth": {
+        "message": "36em"
+    },
+    "newGroupDavCmd.accesskey": {
+        "message": "V"
+    },
+    "newGroupDavCmd.label": {
+        "message": "Vzdálená složka kontaktů"
+    },
+    "notificationsDelete": {
+        "message": "\\u0020odstranění."
+    },
+    "notificationsDeletes": {
+        "message": "\\u0020odstranění."
+    },
+    "notificationsDownload": {
+        "message": "\\u0020stažení,\\u0020"
+    },
+    "notificationsDownloads": {
+        "message": "\\u0020stažení,\\u0020"
+    },
+    "notificationsFailure": {
+        "message": "\\u0020selhání,\\u0020"
+    },
+    "notificationsFailures": {
+        "message": "\\u0020selhání,\\u0020"
+    },
+    "notificationsNoChanges": {
+        "message": "Beze změn."
+    },
+    "notificationsTitle": {
+        "message": "SOGO :\\u0020"
+    },
+    "notificationsUpload": {
+        "message": "\\u0020odeslání,\\u0020"
+    },
+    "notificationsUploads": {
+        "message": "\\u0020odeslání,\\u0020"
+    },
+    "offlineText.label": {
+        "message": "Můžete si stáhnout lokální kopii této složky, takže je dostupná i když pracujete offline."
+    },
+    "properties-overlay.notify-on-external-modifications.label": {
+        "message": "Obdržet zprávu když někdo jiný upraví můj kalendář"
+    },
+    "properties-overlay.notify-on-personal-modifications.label": {
+        "message": "Obdržet zprávu když upravím svůj kalendář"
+    },
+    "properties-overlay.notify-user-on-personal-modifications.label": {
+        "message": "Když upravím svůj kalendář, poslat zprávu na:"
+    },
+    "roles-dialog.cancel-button.label": {
+        "message": "Storno"
+    },
+    "roles-dialog.confidential.label": {
+        "message": "Důvěrné"
+    },
+    "roles-dialog.default-roles.label": {
+        "message": "Výchozí práva"
+    },
+    "roles-dialog.private.label": {
+        "message": "Soukromé"
+    },
+    "roles-dialog.public.label": {
+        "message": "Veřejné"
+    },
+    "roles-dialog.roles-choice.modify.label": {
+        "message": "Upravit"
+    },
+    "roles-dialog.roles-choice.none.label": {
+        "message": "Žádný"
+    },
+    "roles-dialog.roles-choice.respond-to.label": {
+        "message": "Odpovědět komu"
+    },
+    "roles-dialog.roles-choice.view-all.label": {
+        "message": "Zobrazit vše"
+    },
+    "roles-dialog.roles-choice.view-d-a-t.label": {
+        "message": "Zobrazit datum a čas"
+    },
+    "roles-dialog.roles.object-creator.label": {
+        "message": "Tato osoba může vytvářet kontakty v této složce kontaktů."
+    },
+    "roles-dialog.roles.object-editor.label": {
+        "message": "Tato osoba může upravovat kontakty v této složce kontaktů."
+    },
+    "roles-dialog.roles.object-eraser.label": {
+        "message": "Tato osoba může mazat kontakty v této složce kontaktů."
+    },
+    "roles-dialog.roles.object-viewer.label": {
+        "message": "Tato osoba může číst kontakty z této složky kontaktů."
+    },
+    "roles-dialog.title": {
+        "message": "Úprava uživatelských práv"
+    },
+    "roles-dialog.update-button.label": {
+        "message": "Aktualizovat"
+    },
+    "roles-dialog.user-roles.label": {
+        "message": "Práva pro:"
+    },
+    "serverUpdateFailed": {
+        "message": "Server odmítl přejmenovat tuto složku kontaktů s následujícím kódem chyby:"
+    },
+    "sogo-connector.message": {
+        "message": "Počkejte prosím na dokončení aktualizace doplňků..."
+    },
+    "sogo-connector.preferences.contacts.categories.add.title": {
+        "message": "Přidat kategorii"
+    },
+    "sogo-connector.preferences.contacts.categories.addButton.accesskey": {
+        "message": "P"
+    },
+    "sogo-connector.preferences.contacts.categories.addButton.label": {
+        "message": "Přidat..."
+    },
+    "sogo-connector.preferences.contacts.categories.edit.title": {
+        "message": "Upravit kategorii"
+    },
+    "sogo-connector.preferences.contacts.categories.editButton.accesskey": {
+        "message": "U"
+    },
+    "sogo-connector.preferences.contacts.categories.editButton.label": {
+        "message": "Upravit..."
+    },
+    "sogo-connector.preferences.contacts.categories.noBlankCategories": {
+        "message": "Musíte zadat jméno kategorie."
+    },
+    "sogo-connector.preferences.contacts.categories.none.label": {
+        "message": "Žádná"
+    },
+    "sogo-connector.preferences.contacts.categories.overwrite": {
+        "message": "Kategorie tohoto jména již existuje. \\n Chcete ji přepsat?"
+    },
+    "sogo-connector.preferences.contacts.categories.overwrite.title": {
+        "message": "Varování: Duplicitní jméno"
+    },
+    "sogo-connector.preferences.contacts.categories.removeButton.accesskey": {
+        "message": "O"
+    },
+    "sogo-connector.preferences.contacts.categories.removeButton.label": {
+        "message": "Odebrat"
+    },
+    "sogo-connector.preferences.panes.contacts.categories.title": {
+        "message": "Kategorie kontaktu"
+    },
+    "sogo-connector.restart-message": {
+        "message": "Je vyžadováno restartování aplikace."
+    },
+    "sogo-connector.tabs.categories.label": {
+        "message": "Kategorie"
+    },
+    "sogo-connector.title": {
+        "message": "Aktualizace"
+    },
+    "sogo.description": {
+        "message": "Zadejte své heslo (%u):"
+    },
+    "sogo.title": {
+        "message": "Připojování k SOGo..."
+    },
+    "subscription.button.add.label": {
+        "message": "Přidat..."
+    },
+    "subscription.searchcriteria.label": {
+        "message": "Jméno nebo adresa"
+    },
+    "subscription.title": {
+        "message": "Odebírání..."
+    }
+}

@@ -1,6 +1,6 @@
 /* abEditCardDialog.groupdav.overlay.js - This file is part of "SOGo Connector", a Thunderbird extension.
  *
- * Copyright: Inverse inc., 2006-2019
+ * Copyright: Inverse inc., 2006-2020
  *     Email: support@inverse.ca
  *       URL: http://inverse.ca
  *
@@ -19,41 +19,58 @@
  */
 
 function jsInclude(files, target) {
-     let loader = Components.classes["@mozilla.org/moz/jssubscript-loader;1"]
-                            .getService(Components.interfaces.mozIJSSubScriptLoader);
-     for (let i = 0; i < files.length; i++) {
-         try {
-             loader.loadSubScript(files[i], target);
-         }
-         catch(e) {
-             dump("abEditCardDialog.groupdav.overlay.js: failed to include '" + files[i] + "'\n" + e + "\n");
-         }
-     }
+  let loader = Components.classes["@mozilla.org/moz/jssubscript-loader;1"]
+      .getService(Components.interfaces.mozIJSSubScriptLoader);
+  for (let i = 0; i < files.length; i++) {
+    try {
+      loader.loadSubScript(files[i], target);
+    }
+    catch(e) {
+      //dump("abEditCardDialog.groupdav.overlay.js: failed to include '" + files[i] + "'\n" + e + "\n");
+    }
+  }
 }
+
+function i18n(entity) {
+  let msg = entity.slice(1,-1);
+  return WL.extension.localeData.localizeMessage(msg);
+} 
 
 jsInclude(["chrome://sogo-connector/content/addressbook/common-card-overlay.js"]);
 
-
 /* starting... */
 function OnLoadHandler() {
-  let uri = getUri();
-  if (isGroupdavDirectory(uri)) {
-    //this.OldEditCardOKButton = this.EditCardOKButton;
-    //this.EditCardOKButton = this.SCEditCardOKButton;
-    document.addEventListener("dialogaccept", SCEditCardOKButton);
-  }
+  dump("abEditCardDialog.groupdav.overlay.js: OnLoadHandler()\n");
+  window.SCOldOnLoadEditCard();
+  SCOnCommonCardOverlayLoad(window, document);
 }
 
 /* event handlers */
 function SCEditCardOKButton() {
-  //let result = this.OldEditCardOKButton();
-  //   if (result) {
-  //let ab = GetDirectoryFromURI(gEditCard.abURI);
-  if (isGroupdavDirectory(gEditCard.abURI)) {
-    setDocumentDirty(true);
-    saveCard(false);
-  }
-  //return result;
+  dump("abEditCardDialog.groupdav.overlay.js: SCEditCardOKButton()\n");
+  SCSaveCategories();
+  return window.SCOldEditCardOKButton();
 }
 
-window.addEventListener("load", OnLoadHandler, false);
+function onLoad(activatedWhileWindowOpen) {
+  dump("abEditCardDialog.groupdav.overlay.js: onLoad()\n");
+
+  WL.injectCSS("chrome://messenger/skin/input-fields.css");
+  WL.injectElements(`
+  <tabs id="abTabs">
+    <tab insertbefore="homeTabButton" id="categoriesTabButton" label="&sogo-connector.tabs.categories.label;"/>
+  </tabs>
+  <tabpanels id="abTabPanels">
+    <vbox id="abCategoriesTab" flex="0" style="max-height: 200px; overflow-y: auto;" insertbefore="abHomeTab">
+      <vbox id="abCategories">
+      </vbox>
+      <html:input id="abEmptyCategory" readonly="true"/>
+    </vbox>
+  </tabpanels>`.replaceAll(/&(.*?);/g, i18n));
+
+  window.SCOldOnLoadEditCard = window.OnLoadEditCard;
+  window.OnLoadEditCard = OnLoadHandler;
+
+  window.SCOldEditCardOKButton = window.EditCardOKButton;
+  window.EditCardOKButton = SCEditCardOKButton;
+}

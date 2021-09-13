@@ -7,14 +7,12 @@ name. Use "sogo-demo" as an example. You can do so by doing:
 % cp -a custom/sogo-demo custom/mysite
 ```
 
-Then customize the following files:
-
-* custom/mysite/defaults/preferences/site.js
-* custom/mysite/chrome/content/sogo-connector/global/extensions.rdf
-
-If you want to force-push preferences upon each startup, modify:
+Then customize the following file:
 
 * custom/mysite//chrome/content/sogo-connector/general/custom-preferences.js
+
+You must at least customize the sogo-connector.baseURL value. If you
+want to force-push preferences prefix your option with force_.
 
 To build the extension, do:
 
@@ -33,20 +31,16 @@ Taken from: http://brainflush.wordpress.com/2008/01/17/mozilla-thunderbird-exten
 javascript.options.showInConsole = true.
   Logs errors in chrome files to the Error Console.
   
-nglayout.debug.disable_xul_cache = true.
-  Disables the XUL cache so that changes to windows and dialogs do not require a restart. This assumes you’re using directories rather than JARs. Changes to XUL overlays will still require reloading of the document overlaid.
-  
 browser.dom.window.dump.enabled = true.
   Enables the use of the dump() statement to print to the standard console. See window.dump for more info. You can also use nsIConsoleService from privileged script.
   
 javascript.options.strict = true.
   Enables strict JavaScript warnings in the Error Console. Note that since many people have this setting turned off when developing, you will see lots of warnings for problems with their code in addition to warnings for your own extension. You can filter those with Console2.
 
-You can do so automatically by setting these preferences in site.js:
+You can do so automatically by setting these preferences in custom-preferences.js:
 
 ```javascript
 pref("javascript.options.showInConsole", true);
-pref("nglayout.debug.disable_xul_cache", true);
 pref("browser.dom.window.dump.enabled", true);
 pref("javascript.options.strict", true);
 ```
@@ -56,20 +50,6 @@ pref("javascript.options.strict", true);
 Taken from: https://developer.mozilla.org/en-US/docs/DOM/window.dump?redirectlocale=en-US&redirectslug=DOM%3Awindow.dump
 
 On Windows, you will need a console to actually see anything. If you don't have one already, closing the application and re-opening it with the command line parameter -console should create the console. On other operating systems, it's enough to launch the application from a terminal.
-
-## Debugging and changing code without restart Thunderbird
-
-Setting breakpoints to stop inside JS code of a plugin using JavaScript Debugger Venkman does not work.
-Instead, install plugin Workspace for Thunderbird -> http://antennasoft.net/robcee/
-
-Place all your code, you want to test, there and execute it. You can even defined functions there.
-If you cannot override an existing JS function, you have to rename it.
-
-## Other notes
-
-Command line parameter for starting Thunderbird in DEVEL mode:  -purgecaches -console -no-remote -P dev
-
-More useful hints for developers: https://developer.mozilla.org/en/docs/Setting_up_extension_development_environment
 
 # Migrating to Thunderbird v68 from previous versions
 

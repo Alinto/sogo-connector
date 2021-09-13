@@ -1,0 +1,104 @@
+<?xml version="1.0"?>
+<!--
+Copyright:     Inverse inc., 2007-2020
+Email:         support@inverse.ca
+URL:           http://inverse.ca
+-->
+
+<?xml-stylesheet type="text/css" href="chrome://global/skin/global.css"?>
+<?xml-stylesheet type="text/css"href="chrome://messenger/skin/messenger.css"?>
+<?xml-stylesheet type="text/css" href="chrome://messenger/skin/input-fields.css"?>
+
+<dialog  xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"
+         xmlns:html="http://www.w3.org/1999/xhtml"
+        id="ca.inverse.GroupDavAddressBookPreferences"
+        title="__MSG_newDirectoryTitle.label__"
+        type="dialog"
+        buttons="accept,cancel">
+  
+  <script type="application/x-javascript" src="chrome://sogo-connector/content/addressbook/preferences.addressbook.groupdav.js"/>
+  <script type="application/x-javascript" src="chrome://sogo-connector/content/global/i18n.js"/>
+  
+  <keyset id="keyset"/>
+  <vbox id="editDirectory">
+
+   <grid flex="1">
+      <columns>
+	<column/>
+	<column flex="1"/>
+	<column/>
+      </columns>
+
+      <rows >
+	<row align="center">
+	  <label value="__MSG_groupdavName.label__" accesskey="__MSG_groupdavName.accesskey__" control="description"/>
+	  <html:input id="description"/>
+	  <spacer flex="1"/>
+	</row>
+	<row align="center" flex="1">
+	  <label value="__MSG_groupdavURL.label__" accesskey="__MSG_groupdavURL.accesskey__" control="groupdavURL"/>
+	  <html:input id="groupdavURL" flex="1"  disabled="true" class="uri-element"/>							
+	  <spacer flex="1"/>
+	</row>						  
+
+      </rows>
+    </grid>
+
+    <grid flex="1">
+      <columns>
+        <column/>
+        <column flex="1"/>
+      </columns>
+
+      <rows >
+        <separator/>
+        <row  align="center" flex="1">
+            <checkbox id="periodicSync" label="__MSG_groupdavPeriodicSync.label__" oncommand="onUpdateCheck();onShowRestart()" />
+            <menulist id="periodicSyncInterval" oncommand="onShowRestart()" >
+                <menupopup>
+                    <menuitem label="__MSG_groupdavPeriodicSync5m.label__" value="5"/>
+                    <menuitem label="__MSG_groupdavPeriodicSync15m.label__" value="15"/>
+                    <menuitem label="__MSG_groupdavPeriodicSync1h.label__" value="60"/>
+                    <menuitem label="__MSG_groupdavPeriodicSync2h.label__" value="120"/>
+                </menupopup>
+            </menulist>        
+        </row>
+        <row  align="center" flex="1">
+            <spacer flex="1"/>
+            <hbox>
+                <checkbox id="notifications" label="__MSG_groupdavNotifications.label__" oncommand="onUpdateCheck()" />
+                <checkbox disabled="true" id="notificationsOnlyIfNotEmpty" label="__MSG_groupdavNotificationsOINE.label__"  />
+            </hbox>
+        </row>
+
+        <row  align="center" flex="1">
+            <spacer flex="1"/>
+            <label id="periodicSync_restart" hidden="true"
+                    style="font-style:italic"
+                    value="__MSG_groupdavNotificationsRestart.label__" />
+        </row>
+      </rows>
+    </grid>
+
+    <separator/>
+    <checkbox id="notificationsManual" label="__MSG_groupdavNotificationsManual.label__"  />
+    <label  style="font-style:italic"
+            value="__MSG_groupdavNotificationsManual.info__" />
+
+    <separator/>
+    <checkbox disabled="true" id="notificationsSave" label="__MSG_groupdavNotificationsSave.label__" />
+    <label  disabled="true" style="font-style:italic"
+            value="__MSG_groupdavNotificationsSave.info__" />
+
+    <separator/>
+    <checkbox id="notificationsStart" label="__MSG_groupdavNotificationsStart.label__" />
+        
+
+    <separator/>
+    <checkbox id="readOnly" label="__MSG_ReadOnly.label__" accesskey="__MSG_ReadOnly.accesskey__"/>
+
+
+  </vbox>
+  
+</dialog>
+        

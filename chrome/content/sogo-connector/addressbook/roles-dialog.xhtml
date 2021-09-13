@@ -1,0 +1,58 @@
+<?xml version="1.0"?>
+<!--
+Copyright:     Inverse inc., 2008-2019
+Email:         support@inverse.ca
+URL:           http://inverse.ca
+-->
+
+<?xml-stylesheet type="text/css" href="resource://sogo-connector/skin/roles-dialog.css"?>
+<?xml-stylesheet type="text/css" href="chrome://global/skin/global.css"?>
+
+<dialog xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"
+        id="rolesDialog"
+        type="dialog"
+        buttons="none"
+        title="__MSG_roles-dialog.title__">
+  
+  <script type="application/x-javascript"
+          src="chrome://sogo-connector/content/addressbook/roles-dialog.js"/>
+  <script type="application/x-javascript"
+          src="chrome://sogo-connector/content/global/i18n.js"/>
+
+  <commandset id="rolesCommands">
+    <command id="RolesCommandUpdate" oncommand="updateCurrentUser();"/>
+    <command id="RolesCommandCancel" oncommand="window.close()"/>
+  </commandset>
+
+  <vbox>
+    <vbox id="titleContent">
+      <label collapsed="true" id="defaultTitle"
+	value="__MSG_roles-dialog.default-roles.label__"/>
+      <vbox>
+	<label id="titleLabel" value="__MSG_roles-dialog.user-roles.label__"/>
+	<label id="titleUserName" value=""/>
+      </vbox>
+    </vbox>
+
+    <vbox id="dialogContent">
+      <vbox>
+	<checkbox id="roleObjectCreator"
+	  label="__MSG_roles-dialog.roles.object-creator.label__"/>
+	<checkbox id="roleObjectViewer"
+	  label="__MSG_roles-dialog.roles.object-viewer.label__"/>
+	<checkbox id="roleObjectEditor"
+	  label="__MSG_roles-dialog.roles.object-editor.label__"/>
+	<checkbox id="roleObjectEraser"
+	  label="__MSG_roles-dialog.roles.object-eraser.label__"/>
+      </vbox>
+      <spacer flex="1"/>
+      <hbox id="entriesToolbar">
+	<spacer flex="1"/>
+	<button disabled="true" id="updateBtn" command="RolesCommandUpdate"
+	  label="__MSG_roles-dialog.update-button.label__"/>
+	<button id="cancelBtn" command="RolesCommandCancel"
+	  label="__MSG_roles-dialog.cancel-button.label__"/>
+      </hbox>
+    </vbox>
+  </vbox>
+</dialog>

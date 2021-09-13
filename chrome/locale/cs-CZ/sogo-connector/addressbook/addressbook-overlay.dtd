@@ -1,9 +1,0 @@
-<!ENTITY addressbook-overlay.acl-menu.label "Sdílení...">
-
-<!ENTITY addressbook-overlay.susbcription.tooltips.add
- "Nová složka kontaktů...">
-<!ENTITY addressbook-overlay.susbcription.tooltips.subscribe
- "Odebírat složku kontaktů...">
-<!ENTITY addressbook-overlay.susbcription.tooltips.remove
- "Smazat složku kontaktů">
-<!ENTITY addressbook-overlay.subscription.menu.unsubscribe "Odhlásit odebírání">

@@ -1,25 +1,55 @@
-/* -*- Mode: java; tab-width: 2; c-tab-always-indent: t; indent-tabs-mode: nil; c-basic-offset: 4 -*- */
+/* startup-overlay.js - This file is part of "SOGo Connector", a Thunderbird extension.
+ *
+ * Copyright: Inverse inc., 2006-2020
+ *     Email: support@inverse.ca
+ *       URL: http://inverse.ca
+ *
+ * "SOGo Connector" is free software; you can redistribute it and/or modify it
+ * under the terms of the GNU General Public License version 2 as published by
+ * the Free Software Foundation;
+ *
+ * "SOGo Connector" is distributed in the hope that it will be useful, but
+ * WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
+ * details.
+ *
+ * You should have received a copy of the GNU General Public License along with
+ * "SOGo Connector"; if not, write to the Free Software Foundation, Inc., 51
+ * Franklin St, Fifth Floor, Boston, MA 02110-1301 USA
+ */
 
 var { AddonManager } = ChromeUtils.import("resource://gre/modules/AddonManager.jsm");
 var { Services } = ChromeUtils.import("resource://gre/modules/Services.jsm");
+var { ComponentUtils } = ChromeUtils.import("resource://gre/modules/ComponentUtils.jsm");
+
+const { ICAL } = ChromeUtils.import("resource:///modules/calendar/Ical.jsm");
+var { VCardUtils } = ChromeUtils.import("resource:///modules/VCardUtils.jsm");
+var { CardDAVDirectory } = ChromeUtils.import("resource:///modules/CardDAVDirectory.jsm");
+var { MailServices } = ChromeUtils.import("resource:///modules/MailServices.jsm");
+var { AddrBookDirectory } = ChromeUtils.import("resource:///modules/AddrBookDirectory.jsm");
+var { AddrBookManager } = ChromeUtils.import("resource:///modules/AddrBookManager.jsm");
 
 function jsInclude(files, target) {
-    let loader = Components.classes["@mozilla.org/moz/jssubscript-loader;1"]
-                 .getService(Components.interfaces.mozIJSSubScriptLoader);
-    for (let i = 0; i < files.length; i++) {
-        try {
-            loader.loadSubScript(files[i], target);
-        }
-        catch(e) {
-            dump("startup-overlay.js: failed to include '" + files[i] + "'\n" + e +
-                 "\nFile: " + e.fileName +
-                 "\nLine: " + e.lineNumber + "\n\n Stack:\n\n" + e.stack);
-        }
+  let loader = Components.classes["@mozilla.org/moz/jssubscript-loader;1"]
+      .getService(Components.interfaces.mozIJSSubScriptLoader);
+  for (let i = 0; i < files.length; i++) {
+    try {
+      loader.loadSubScript(files[i], target);
     }
+    catch(e) {
+      dump("startup-overlay.js: failed to include '" + files[i] + "'\n" + e +
+           "\nFile: " + e.fileName +
+           "\nLine: " + e.lineNumber + "\n\n Stack:\n\n" + e.stack);
+    }
+  }
 }
 
-jsInclude(["chrome://sogo-connector/content/messenger/folders-update.js"]);
+jsInclude(["chrome://sogo-connector/content/messenger/folders-update.js",
+           "chrome://sogo-connector/content/general/preference.service.addressbook.groupdav.js",
+           "chrome://inverse-library/content/uuid.js",
+           "chrome://sogo-connector/content/general/vcards.utils.js"]);
 
+let initialPrefs = {};
 let forcedPrefs = {};
 
 let iCc = Components.classes;
@@ -60,7 +90,7 @@ function checkExtensionsUpdate() {
 
 function getHandledExtensions() {
     let extensionInfos = { "extensions": [] };
-
+    dump("startup-overlay: getHandledExtensions()\n");
     let rdf = iCc["@mozilla.org/rdf/rdf-service;1"].getService(iCi.nsIRDFService);
     let extensions = rdf.GetResource("http://inverse.ca/sogo-connector/extensions");
     let updateURL = rdf.GetResource("http://inverse.ca/sogo-connector/updateURL");
@@ -240,43 +270,55 @@ function GetRDFUpdateData(rdf, ds, node) {
     return updateData;
 }
 
-function sogoIntegratorStartupOverlayOnLoad() {
+function sogoConnectorStartupOverlayOnLoad() {
+  dump("Starting SOGo Connector code...\n");
+  let firsttime = false;
+  let loader = Components.classes["@mozilla.org/moz/jssubscript-loader;1"]
+      .getService(Components.interfaces.mozIJSSubScriptLoader);
 
-    dump("Starting SOGo Integrator code...\n");
+  // We check if we ever started the SOGo Connector
+  try {
+    Services.prefs.getCharPref("sogo-connector.baseURL");
+  } catch(e) {
+    firsttime = true;
+  }
 
-    let loader = Components.classes["@mozilla.org/moz/jssubscript-loader;1"]
-                 .getService(Components.interfaces.mozIJSSubScriptLoader);
+  // We apply all custom preferences, forced or initial
+  try {
+    loader.loadSubScript("chrome://sogo-connector/content/general/custom-preferences.js", this);
+
+    if (firsttime)
+      applyPrefs(initialPrefs);
+    applyPrefs(forcedPrefs);
+  }
+  catch(e) {
+    dump("Custom preferences invalid or not available.\ne: " + e + "\n");
+  }
+
+  try {
+    loader.loadSubScript("chrome://sogo-connector/content/general/startup.js", this);
     try {
-        loader.loadSubScript("chrome://sogo-connector/content/general/custom-preferences.js");
-        applyForcedPrefs();
+      CustomStartup();
     }
-    catch(e) {
-        dump("Custom preference code not available.\ne: " + e + "\n");
+    catch(customE) {
+      dump("An exception occured during execution of custom startup"
+           + " code.\nException: " + customE
+           + "\nFile: " + customE.fileName
+           + "\nLine: " + customE.lineNumber
+           + "\n\n Stack:\n\n" + customE.stack);
     }
+    dump("Custom startup code executed\n");
+  }
+  catch(e) {
+    dump("Custom startup code not available.\ne: " + e + "\n");
+  }
 
-    try {
-        loader.loadSubScript("chrome://sogo-connector/content/general/startup.js");
-        try {
-            CustomStartup();
-        }
-        catch(customE) {
-            dump("An exception occured during execution of custom startup"
-                 + " code.\nException: " + customE
-                 + "\nFile: " + customE.fileName
-                 + "\nLine: " + customE.lineNumber
-                 + "\n\n Stack:\n\n" + customE.stack);
-        }
-        dump("Custom startup code executed\n");
-    }
-    catch(e) {
-        dump("Custom startup code not available.\ne: " + e + "\n");
-    }
-
-    if (typeof(getCompositeCalendar) == "undefined"
-        || !_setupCalStartupObserver()) {
-        dump("no calendar available: checking extensions update right now.\n");
-        checkExtensionsUpdate();
-    }
+  checkFolders();
+  //if (typeof(cal.view.getCompositeCalendar) == "undefined"
+  //    || !_setupCalStartupObserver()) {
+  //    dump("no calendar available: checking extensions update right now.\n");
+  //    checkExtensionsUpdate();
+  //}
 }
 
 //
@@ -284,9 +326,9 @@ function sogoIntegratorStartupOverlayOnLoad() {
 // calendars are refreshing and extensions updates are being checked...
 //
 function _setupCalStartupObserver() {
+  dump("startup-overlay.js: _setupCalStartupObserver()\n");
 	let handled = false;
-
-	let compCalendar = getCompositeCalendar();
+	let compCalendar = cal.view.getCompositeCalendar();
 	let calDavCount = 0;
 	let calendars = compCalendar.getCalendars({});
 	for (let calendar in calendars) {
@@ -383,42 +425,197 @@ function checkExtensionVersion(currentVersion, minVersion, strict) {
     return acceptable;
 }
 
-function deferredCheckFolders() {
-    jsInclude(["chrome://sogo-connector/content/messenger/folders-update.js"]);
-    window.setTimeout(checkFolders, 100);
+
+//
+// Preferences handling function
+///
+function int_pref(key, value) {
+  initialPrefs[key] = { type: "int", value: value };
 }
 
-// forced prefs
+function bool_pref(key, value) {
+  initialPrefs[key] = { type: "bool", value: value };
+}
+
+function char_pref(key, value) {
+  initialPrefs[key] = { type: "char", value: value };
+}
+
 function force_int_pref(key, value) {
-    forcedPrefs[key] = { type: "int", value: value };
+  forcedPrefs[key] = { type: "int", value: value };
 }
 
 function force_bool_pref(key, value) {
-    forcedPrefs[key] = { type: "bool", value: value };
+  forcedPrefs[key] = { type: "bool", value: value };
 }
 
 function force_char_pref(key, value) {
-    forcedPrefs[key] = { type: "char", value: value };
+  forcedPrefs[key] = { type: "char", value: value };
 }
 
-function applyForcedPrefs() {
-    //let prefService = Components.classes["@mozilla.org/preferences;1"]
-    //    .getService(Components.interfaces.nsIPrefBranch);
-    for (let key in forcedPrefs) {
-        let pref = forcedPrefs[key];
-        if (pref["type"] == "int") {
-            Services.prefs.setIntPref(key, pref["value"]);
-        }
-        else if (pref["type"] == "bool") {
-            Services.prefs.setBoolPref(key, pref["value"]);
-        }
-        else if (pref["type"] == "char") {
-            Services.prefs.setCharPref(key, pref["value"]);
-        }
-        else
-            dump("unsupported pref type: " + pref["type"] + "\n");
+function applyPrefs(prefs) {
+  for (let key in prefs) {
+    let pref = prefs[key];
+    if (pref["type"] == "int") {
+      Services.prefs.setIntPref(key, pref["value"]);
     }
+    else if (pref["type"] == "bool") {
+      Services.prefs.setBoolPref(key, pref["value"]);
+    }
+    else if (pref["type"] == "char") {
+      Services.prefs.setCharPref(key, pref["value"]);
+    }
+    else
+      dump("unsupported pref type: " + pref["type"] + "\n");
+  }
 }
 
-// startup
-window.addEventListener("load", sogoIntegratorStartupOverlayOnLoad, false);
+function registerCalDAVACLManager() {
+  let classID = Components.ID("{c8945ee4-1700-11dd-8e2e-001f5be86cea}");
+  let contractID = "@inverse.ca/calendar/caldav-acl-manager;1";
+  
+  jsInclude(["resource://sogo-connector/components/CalDAVACLManager.js"]);
+  
+  let factory = ComponentUtils.generateNSGetFactory([CalDAVACLManager])(classID);
+
+  try {
+    Components.manager.registerFactory(classID, "CalDAVACLManager", contractID, factory);
+    //context.callOnClose({close(){
+    //  Components.manager.unregisterFactory(classID, factory);
+    //}});
+  } catch (e) {
+    dump("startup - CalDAVACLManager already registered\n");
+  }
+}
+
+function fixupCardDAVSupport() {
+
+  // We enable list support in CardDAVDirectory
+  // Object.defineProperty(CardDAVDirectory.prototype, "supportsMailingLists", {
+  //   get: function () {
+  //     return !this.getBoolValue("readOnly");
+  //   }
+  // });
+
+  // CardDAVDirectory.prototype.addMailList =  function(list) {
+  //   let newList = AddrBookDirectory.prototype.addMailList.call(this, list);
+  //   let key = newList.UID;
+  //   let vlist = list2vlist(key, newList);
+
+  //   // We send the list to the server
+  //   let path = key + ".vlf";
+
+  //   let requestDetails = {
+  //     method: "PUT",
+  //     contentType: "text/x-vlist; charset=utf",
+  //     body: vlist
+  //   };
+
+  //   let response = this._makeRequest(path, requestDetails);
+
+  //   return newList;
+  // }
+
+  // const unboundgetDirectory = AddrBookManager.prototype.getDirectory;
+  // const boundgetDirectory = unboundgetDirectory.bind(AddrBookManager.prototype);
+  // AddrBookManager.prototype.getDirectory = function(uri) {
+  //   if (uri.startsWith("jscarddav://")) {
+  //     let fileName = uri.substring(12, uri.indexOf("/", 12));
+  //     let parent = boundgetDirectory("jscarddav://" + fileName);
+  //     for (let list of parent.childNodes) {
+  //         list.QueryInterface(Ci.nsIAbDirectory);
+  //         if (list.URI == uri) {
+  //           return list;
+  //         }
+  //       }
+  //   }
+
+  //   return boundgetDirectory(uri);
+  // }
+
+  const unboundvCardToAbCard = VCardUtils.vCardToAbCard;
+  const boundvCardToAbCard  = unboundvCardToAbCard.bind(VCardUtils);
+  VCardUtils.vCardToAbCard = function(vCard) {
+    let [, vProps] = ICAL.parse(vCard);
+    let abCard = boundvCardToAbCard(vCard);
+
+    for (let index = 0; index < vProps.length; index++) {
+      let name = vProps[index][0];
+      if (name == "categories") {
+        let values = vProps[index].slice(3);
+        values = values.map(e => e.trim());
+        abCard.setProperty("Categories", arrayToMultiValue(values));
+      }
+      else if (name.startsWith("custom")) {
+        let i = name.substring(6);
+        abCard.setProperty("Custom"+i, vProps[index][3]);
+      }
+    }
+
+    return abCard;
+  }
+
+  const unboundabCardToVCard = VCardUtils.abCardToVCard;
+  const boundabCardToVCard = unboundabCardToVCard.bind(VCardUtils);
+  VCardUtils.abCardToVCard = function(abCard, version = "4.0") {
+    let categories = abCard.getProperty("Categories", "");
+    let vcard = boundabCardToVCard(abCard, version);
+
+    //if (categories.length == 0)
+    //  return vcard;
+
+    let [, vProps] = ICAL.parse(vcard);
+    vProps.push(["categories", {}, "text"].concat(categories.split("\u001A")))
+
+    for (let i = 1; i < 5; i++) {
+      let custom = abCard.getProperty("Custom" + i, "");
+      if (custom.length)
+        vProps.push(["custom"+i, {}, "text", custom]);
+    }
+
+    vcard =  ICAL.stringify(["vcard", vProps]);
+
+    return vcard;
+  }
+
+  const unboundmodifyVCard = VCardUtils.modifyVCard;
+  const boundmodifyVCard = unboundmodifyVCard.bind(VCardUtils);
+  VCardUtils.modifyVCard = function(vCard, abCard) {
+    let categories = abCard.getProperty("Categories", "");
+    let vcard = boundmodifyVCard(vCard, abCard);
+
+    //if (categories.length == 0)
+    //  return vcard;
+
+    let [, vProps] = ICAL.parse(vcard);
+
+    // we wipe the previous cagegories
+    vProps = vProps.filter(prop => prop[0] != "categories");
+    vProps.push(["categories", {}, "text"].concat(categories.split("\u001A")))
+
+    // we wipe previous custom values
+    vProps = vProps.filter(prop => !prop[0].startsWith("custom"));
+    for (let i = 1; i < 5; i++) {
+      let custom = abCard.getProperty("Custom" + i, "");
+      if (custom.length)
+        vProps.push(["custom"+i, {}, "text", custom]);
+    }
+
+    vcard =  ICAL.stringify(["vcard", vProps]);
+
+    return vcard;
+  }
+
+}
+
+// SOGo Connector startup code
+async function startup() {
+  // We re-wire the vCard conversion code
+  fixupCardDAVSupport()
+
+  // We register our ACL manager
+  registerCalDAVACLManager();
+
+  // We start the SOGo Connector Code
+  sogoConnectorStartupOverlayOnLoad();
+}
