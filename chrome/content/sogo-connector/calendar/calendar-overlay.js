@@ -239,7 +239,13 @@ function SIOnCalendarOverlayLoad() {
   if (typeof(popup) == "undefined") {
     setTimeout(SIOnCalendarOverlayLoad, 100);
     return;
-  }  
+  }
+
+  let beenhere = document.getElementById("list-calendars-context-sogo-acls");
+
+  if (beenhere != null) {
+    return;
+  }
   
   let properties = document.getElementById("list-calendars-context-edit");
   //let showonly = document.getElementById("list-calendars-context-sogo-showonly");
