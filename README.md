@@ -20,6 +20,7 @@ To build the extension, do:
 % make distclean
 % make build=mysite
 ```
+In order to allow upload on mozilla addons repository, a new manifest.json is generated in custom/mysite and xpi (see id value).
 
 # Logging
 

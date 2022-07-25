@@ -66,6 +66,8 @@ $(XPI_ARCHIVE): $(FILENAMES)
 	@rm -f $(XPI_ARCHIVE)
 	@$(ZIP) -9r $(XPI_ARCHIVE) $(FILENAMES) > /dev/null
 	@if test "x$$build" != "x"; then \
+	  cp -f manifest.json custom/$$build/manifest.json; \
+	  sed -i 's/@inverse.ca/@${build}/g' custom/$$build/manifest.json; \
 	  cd custom/$$build; \
 	  $(ZIP) -9r ../../$(XPI_ARCHIVE) * > /dev/null; \
 	fi
