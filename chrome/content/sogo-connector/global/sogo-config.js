@@ -36,9 +36,9 @@ function sogoUserName() {
     }
     try {
       if (useEmail)
-	sogoConfig['username'] = mgr.defaultAccount.defaultIdentity.email;
+	      sogoConfig['username'] = mgr.defaultAccount.defaultIdentity.email;
       else
-	sogoConfig['username'] = mgr.defaultAccount.incomingServer.realUsername;
+        sogoConfig['username'] = mgr.defaultAccount.incomingServer.username;
     }
     catch(e) {
       sogoConfig['username'] = "";

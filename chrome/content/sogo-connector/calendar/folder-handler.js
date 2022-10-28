@@ -193,7 +193,7 @@ CalendarHandler.prototype = {
   removeDirectories: function removeDirectories(oldDirs) {
     for (let i = 0; i < oldDirs.length; i++) {
       //dump("removing calendar: " + oldDirs[i] + "\n");
-      this.mgr.unregisterCalendar(oldDirs[i]);
+      // this.mgr.unregisterCalendar(oldDirs[i]);
       this.mgr.removeCalendar(oldDirs[i]);
     }
   },

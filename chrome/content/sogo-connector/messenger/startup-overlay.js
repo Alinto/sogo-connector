@@ -578,32 +578,34 @@ function fixupCardDAVSupport() {
     return vcard;
   }
 
-  const unboundmodifyVCard = VCardUtils.modifyVCard;
-  const boundmodifyVCard = unboundmodifyVCard.bind(VCardUtils);
-  VCardUtils.modifyVCard = function(vCard, abCard) {
-    let categories = abCard.getProperty("Categories", "");
-    let vcard = boundmodifyVCard(vCard, abCard);
+  if (VCardUtils.modifyVCard) {
+    const unboundmodifyVCard = VCardUtils.modifyVCard;
+    const boundmodifyVCard = unboundmodifyVCard.bind(VCardUtils);
+    VCardUtils.modifyVCard = function (vCard, abCard) {
+      let categories = abCard.getProperty("Categories", "");
+      let vcard = boundmodifyVCard(vCard, abCard);
 
-    //if (categories.length == 0)
-    //  return vcard;
+      //if (categories.length == 0)
+      //  return vcard;
 
-    let [, vProps] = ICAL.parse(vcard);
+      let [, vProps] = ICAL.parse(vcard);
 
-    // we wipe the previous cagegories
-    vProps = vProps.filter(prop => prop[0] != "categories");
-    vProps.push(["categories", {}, "text"].concat(categories.split("\u001A")))
+      // we wipe the previous cagegories
+      vProps = vProps.filter(prop => prop[0] != "categories");
+      vProps.push(["categories", {}, "text"].concat(categories.split("\u001A")))
 
-    // we wipe previous custom values
-    vProps = vProps.filter(prop => !prop[0].startsWith("custom"));
-    for (let i = 1; i < 5; i++) {
-      let custom = abCard.getProperty("Custom" + i, "");
-      if (custom.length)
-        vProps.push(["custom"+i, {}, "text", custom]);
+      // we wipe previous custom values
+      vProps = vProps.filter(prop => !prop[0].startsWith("custom"));
+      for (let i = 1; i < 5; i++) {
+        let custom = abCard.getProperty("Custom" + i, "");
+        if (custom.length)
+          vProps.push(["custom" + i, {}, "text", custom]);
+      }
+
+      vcard = ICAL.stringify(["vcard", vProps]);
+
+      return vcard;
     }
-
-    vcard =  ICAL.stringify(["vcard", vProps]);
-
-    return vcard;
   }
 
 }
