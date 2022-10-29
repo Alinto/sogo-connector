@@ -274,7 +274,10 @@ function SIOnCalendarOverlayLoad() {
   
   let controller = new SICalendarListTreeController();
   //let calendar_list_tree_widget = document.getElementById("calendar-list-tree-widget");
-  let calendar_list_tree_widget = document.getElementById("calendar-list");
+  let calendar_list_tree_widget = document.getElementById("calendar-panel");
+  if (!calendar_list_tree_widget || calendar_list_tree_widget === 'undefined') {
+    calendar_list_tree_widget = document.getElementById("calendar-list");
+  }
   calendar_list_tree_widget.controllers.appendController(controller);
   
   popup.addEventListener("popupshowing", onCalendarTreePopup, false);
