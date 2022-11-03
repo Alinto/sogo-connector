@@ -23,8 +23,8 @@ var { Services } = ChromeUtils.import("resource://gre/modules/Services.jsm");
 var _this = this;
 
 function jsInclude(files, target) {
-  //let loader = Components.classes["@mozilla.org/moz/jssubscript-loader;1"]
-  //                       .getService(Components.interfaces.mozIJSSubScriptLoader);
+  // let loader = Components.classes["@mozilla.org/moz/jssubscript-loader;1"]
+  //                        .getService(Components.interfaces.mozIJSSubScriptLoader);
   for (let i = 0; i < files.length; i++) {
     try {
       Services.scriptloader.loadSubScript(files[i], target, "UTF-8");

@@ -87,7 +87,6 @@ createOperation.prototype = {
 function createFolder(displayName, handler) {
   window.setTimeout(_realCreateFolder, 100, displayName, handler);
 }
-window.arguments[0].createFolder = createFolder;
 
 function _realCreateFolder(displayName, handler) {
   var newURL = handler.urlForParentDirectory() + "/" + new UUID() + "/";

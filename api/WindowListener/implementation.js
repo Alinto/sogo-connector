@@ -283,13 +283,8 @@ var WindowListener = class extends ExtensionCommon.ExtensionAPI {
       Components.interfaces.nsITimer
     );
     return new Promise(function (resolve, reject) {
-      let event = {
-        notify: function (timer) {
-          resolve();
-        },
-      };
       timer.initWithCallback(
-        event,
+        resolve,
         delay,
         Components.interfaces.nsITimer.TYPE_ONE_SHOT
       );
@@ -471,7 +466,8 @@ var WindowListener = class extends ExtensionCommon.ExtensionAPI {
           self.resourceData = resourceData;
         },
 
-        registerWindow(windowHref, jsFile) {
+        async registerWindow(windowHref, jsFile) {
+          await self.sleep(100);
           if (self.debug && !this.aDocumentExistsAt(windowHref)) {
             self.error(
               "Attempt to register an injector script for non-existent window: " +

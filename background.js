@@ -18,8 +18,8 @@
  * Franklin St, Fifth Floor, Boston, MA 02110-1301 USA
  */
 
-(async () => {
-  
+
+(async () => {  
   messenger.WindowListener.registerChromeUrl([ 
     ["content",  "sogo-connector",           "chrome/content/sogo-connector/"],
     ["content",  "inverse-library",          "chrome/content/inverse-library/"],
@@ -73,6 +73,7 @@
 
   messenger.WindowListener.registerWindow("chrome://calendar/content/calendar-event-dialog.xhtml",
                                           "chrome://sogo-connector/content/calendar/calendar-event-dialog.js");
-
+                                          
+  
   messenger.WindowListener.startListening();
 })();

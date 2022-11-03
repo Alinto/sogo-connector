@@ -40,6 +40,7 @@ MANIFEST-pre:
 	@find . $(FIND_FILTER) -name "*.dtd" >> $@
 	@find . $(FIND_FILTER) -name "*.idl" >> $@
 	@find . $(FIND_FILTER) -name "*.js" >> $@
+	@find . $(FIND_FILTER) -name "*.html" >> $@
 	@find . $(FIND_FILTER) -name "*.jsm" >> $@
 	@find . $(FIND_FILTER) -name "*.css" >> $@
 	@find . $(FIND_FILTER) -name "*.png" >> $@

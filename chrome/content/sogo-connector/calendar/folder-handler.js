@@ -45,7 +45,7 @@ function CalendarHandler() {
               .wrappedJSObject);
 }
 
-let _topmostWindow = null;
+var _topmostWindow = null;
 
 function topmostWindow() {
     if (!_topmostWindow) {
