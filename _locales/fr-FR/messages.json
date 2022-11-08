@@ -149,6 +149,15 @@
     "calendar.preferences.general.default-todos-classification.label": {
         "message": "Tâches :"
     },
+    "calendar.creation.button.create.label": {
+        "message": "Créer"
+    },
+    "calendar.creation.instructions.label": {
+        "message": "Veuillez saisir le nom du nouveau calendrier:"
+    },
+    "calendar.creation.title": {
+        "message": "Créer un calendrier..."
+    },
     "contacts.categories": {
         "message": "Ami,Client,Collègue,Concurrent,Famille,Fournisseur,Partenaire d'affaire,Presse,VIP"
     },

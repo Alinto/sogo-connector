@@ -149,6 +149,15 @@
     "calendar.preferences.general.default-todos-classification.label": {
         "message": "Tasks classification:"
     },
+    "calendar.creation.button.create.label": {
+        "message": "Create"
+    },
+    "calendar.creation.instructions.label": {
+        "message": "Please enter the name of your new calendar:"
+    },
+    "calendar.creation.title": {
+        "message": "Calendar creation..."
+    },
     "contacts.categories": {
         "message": "Colleague,Competitor,Customer,Friend,Family,Business Partner,Provider,Press,VIP"
     },
