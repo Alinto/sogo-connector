@@ -1,7 +1,7 @@
 /* -*- Mode: java; tab-width: 2; c-tab-always-indent: t; indent-tabs-mode: t; c-basic-offset: 2 -*- */
 
-let acceptedFromObserver = false;
-let passwordObserver = null;
+var acceptedFromObserver = false;
+var passwordObserver = null;
 
 function jsInclude(files, target) {
 	let loader = Components.classes["@mozilla.org/moz/jssubscript-loader;1"]

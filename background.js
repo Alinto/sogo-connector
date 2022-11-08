@@ -25,8 +25,6 @@
     ["content",  "inverse-library",          "chrome/content/inverse-library/"],
     ["resource", "sogo-connector",           "chrome/"]
   ]);
-  
-  messenger.WindowListener.registerStartupScript("chrome://sogo-connector/content/messenger/startup-overlay.js");
 
   // rework unload?
   messenger.WindowListener.registerWindow("chrome://messenger/content/messenger.xhtml",
@@ -51,15 +49,15 @@
 
   // TODO: must create JS file. use for autocomplete
   // we might just drop that entirely
-  //messenger.WindowListener.registerWindow("chrome://messenger/content/messengercompose/messengercompose.xhtml",
-  //                                        "chrome://sogo-connector/content/messengercompose/messengercompose-overlay.js");
+  messenger.WindowListener.registerWindow("chrome://messenger/content/messengercompose/messengercompose.xhtml",
+                                         "chrome://sogo-connector/content/messengercompose/messengercompose-overlay.js");
 
   messenger.WindowListener.registerWindow("chrome://calendar/content/calendar-invitations-dialog.xhtml",
                                           "chrome://sogo-connector/content/calendar/calendar-invitations-dialog.js");
 
-  // need to test if the unload function is called
-  messenger.WindowListener.registerWindow("chrome://global/content/commonDialog.xhtml",
-                                          "chrome://sogo-connector/content/global/common-dialog-overlay.js");
+  // // need to test if the unload function is called
+  // messenger.WindowListener.registerWindow("chrome://global/content/commonDialog.xhtml",
+  //                                         "chrome://sogo-connector/content/global/common-dialog-overlay.js");
 
   messenger.WindowListener.registerWindow("chrome://messenger/content/newTagDialog.xhtml",
                                           "chrome://sogo-connector/content/global/newtag-overlay.js");
@@ -74,6 +72,6 @@
   messenger.WindowListener.registerWindow("chrome://calendar/content/calendar-event-dialog.xhtml",
                                           "chrome://sogo-connector/content/calendar/calendar-event-dialog.js");
                                           
-  
+  messenger.WindowListener.registerStartupScript("chrome://sogo-connector/content/messenger/startup-overlay.js");
   messenger.WindowListener.startListening();
 })();

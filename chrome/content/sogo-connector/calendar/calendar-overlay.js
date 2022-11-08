@@ -47,20 +47,25 @@ let sogoDefaultClassificationsChanged = false;
 let sogoMailsLabelsChanged = false;
 let sogoSynchronizationTimers = [];
 
-jsInclude(["chrome://sogo-connector/content/addressbook/folder-handling.js",
-           "chrome://sogo-connector/content/calendar/folder-handler.js",
-           "chrome://sogo-connector/content/general/creation-utils.js",
-           "chrome://sogo-connector/content/general/mozilla.utils.inverse.ca.js",
-           "chrome://sogo-connector/content/general/preference.service.addressbook.groupdav.js",
-           "chrome://sogo-connector/content/general/sync.addressbook.groupdav.js",
-           "chrome://sogo-connector/content/messenger/folders-update.js",
-           "chrome://sogo-connector/content/global/sogo-config.js",
-           "chrome://global/content/globalOverlay.js",
-           "chrome://global/content/editMenuOverlay.js"], _this);
+registerJs = () => {
+  jsInclude(["chrome://sogo-connector/content/addressbook/folder-handling.js",
+    "chrome://sogo-connector/content/calendar/folder-handler.js",
+    "chrome://sogo-connector/content/general/creation-utils.js",
+    "chrome://sogo-connector/content/general/mozilla.utils.inverse.ca.js",
+    "chrome://sogo-connector/content/general/preference.service.addressbook.groupdav.js",
+    "chrome://sogo-connector/content/general/sync.addressbook.groupdav.js",
+    "chrome://sogo-connector/content/messenger/folders-update.js",
+    "chrome://sogo-connector/content/global/sogo-config.js",
+    "chrome://global/content/globalOverlay.js",
+    "chrome://global/content/editMenuOverlay.js"], _this);
 
-jsInclude(["chrome://sogo-connector/content/general/subscription-utils.js"], window);
+  jsInclude(["chrome://sogo-connector/content/general/subscription-utils.js"], window);
+}
+
+registerJs();
 
 function openCalendarCreationDialog() {
+  registerJs();
   window.openDialog("chrome://sogo-connector/content/calendar/creation-dialog.xhtml",
                     "calendarCreate",
 	            "chrome,titlebar,centerscreen,alwaysRaised=yes,dialog=yes",
@@ -68,6 +73,7 @@ function openCalendarCreationDialog() {
 }
 
 function openCalendarSubcriptionDialog() {
+  registerJs();
   window.openDialog("chrome://sogo-connector/content/general/subscription-dialog.xhtml",
                     "calendarSubscribe",
 	            "chrome,titlebar,centerscreen,alwaysRaised=yes,dialog=yes",
@@ -84,6 +90,7 @@ function manageCalendarACL() {
 
     let url = calendar.uri.spec;
     if (entry.userIsOwner) {
+      registerJs();
       window.openDialog("chrome://sogo-connector/content/general/acl-dialog.xhtml",
                         "calendarACL",
 	                "chrome,titlebar,centerscreen,alwaysRaised=yes,dialog=yes,resizable=yes",

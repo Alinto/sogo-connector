@@ -281,13 +281,16 @@ function checkFolders() {
   let abChecker = new directoryChecker("Contacts", abHandler);
   dump("abChecker type 1: " + abChecker.type + "\n");
 
-  abChecker.checkAvailability(function() {
-    abChecker.start();
-    //FIXME: abHandler.ensurePersonalIsRemote();
-    abHandler.ensureAutoComplete();
-    SIContactCategories.synchronizeFromServer();
-    startFolderSync();
-  });
+  if (abChecker.checkAvailability) {
+      abChecker.checkAvailability(function () {
+          abChecker.start();
+          //FIXME: abHandler.ensurePersonalIsRemote();
+          abHandler.ensureAutoComplete();
+          SIContactCategories.synchronizeFromServer();
+          startFolderSync();
+      });
+  }
+  
 
   //
   // We synchronize mail labels
@@ -311,7 +314,10 @@ function checkFolders() {
     calHandler.removeHomeCalendar();
 
     let CalendarChecker = new directoryChecker("Calendar", calHandler);
-    CalendarChecker.start();
+      if (CalendarChecker && CalendarChecker.start) {
+        CalendarChecker.start();
+    }
+    
   }
 
   //   let CalendarChecker = new directoryChecker("Calendar", calHandler);

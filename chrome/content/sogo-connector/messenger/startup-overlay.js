@@ -314,6 +314,7 @@ function sogoConnectorStartupOverlayOnLoad() {
   }
 
   checkFolders();
+
   //if (typeof(cal.view.getCompositeCalendar) == "undefined"
   //    || !_setupCalStartupObserver()) {
   //    dump("no calendar available: checking extensions update right now.\n");

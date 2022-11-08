@@ -96,8 +96,12 @@ AddressbookHandler.prototype = {
       let url = newDirs[i]['url'];
       let readOnly = (newDirs[i]['owner'] == "nobody");
       let directory = SCCreateCardDAVDirectory(description, url);
-      directory.fetchAllFromServer();
-      directory.setBoolValue("readOnly", readOnly);
+      try {
+        directory.fetchAllFromServer();
+        directory.setBoolValue("readOnly", readOnly);
+      } catch(e) {
+        dump(e);
+      }
 
       //if (readOnly) { 
       //  let directory = SCCreateCardDAVDirectory(description, url);
