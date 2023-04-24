@@ -82,3 +82,22 @@ sogo-connector.contacts.categories
 sogo-connector.identification.use_email_address
 sogo-connector.sogo-prefix
 ```
+
+# mitigation for "empty calendar days" bug (https://bugs.sogo.nu/view.php?id=5711) in Thunderbird 102+
+
+patch file **omni.ja** (found in user's Thunderbird profile) like this:
+
+```
+--- a/chrome/calendar/content/calendar-editable-item.js 2010-01-01 00:00:00.000000000 +0100
++++ b/chrome/calendar/content/calendar-editable-item.js 2023-03-22 18:31:33.000000000 +0100
+@@ -390,7 +390,7 @@
+       this.setAttribute("calendar", item.calendar.name.toLowerCase());
+ 
+       // Invitation.
+-      if (cal.itip.isInvitation(item)) {
++      if (cal.itip.isInvitation(item) && cal.itip.getInvitedAttendee(item)) {
+         this.setAttribute(
+           "invitation-status",
+           cal.itip.getInvitedAttendee(item).participationStatus
+```
+this is only a temporary fix until Mozilla patches this in TB's source: https://bugzilla.mozilla.org/show_bug.cgi?id=1741801
