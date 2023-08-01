@@ -61,7 +61,7 @@ function sogoHostname() {
 function sogoBaseURL() {
   if (!sogoConfig['baseURL']) {
     let prefix = Services.prefs.getCharPref("sogo-connector.baseURL");
-    sogoConfig['baseURL'] = (prefix + "/dav/" + sogoUserName() + "/");
+    sogoConfig['baseURL'] = (prefix + "/dav/" + sogoUserName() + "/").replace('//dav', '/dav');
   }
 
   return sogoConfig['baseURL'];

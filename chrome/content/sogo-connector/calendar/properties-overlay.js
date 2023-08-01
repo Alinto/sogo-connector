@@ -245,4 +245,5 @@ function onLoad(activatedWhileWindowOpen) {
 
   window.SCOriginalOnLoad = window.onLoad;
   window.onLoad = onLoadOverlay;
+  onLoadOverlay();
 }
