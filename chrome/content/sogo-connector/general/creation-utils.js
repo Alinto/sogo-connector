@@ -85,7 +85,8 @@ createOperation.prototype = {
 };
 
 function createFolder(displayName, handler) {
-  window.setTimeout(_realCreateFolder, 100, displayName, handler);
+  //window.setTimeout(_realCreateFolder, 100, displayName, handler);
+  _realCreateFolder(displayName, handler);
 }
 
 function _realCreateFolder(displayName, handler) {

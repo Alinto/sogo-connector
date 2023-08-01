@@ -476,15 +476,15 @@ function registerCalDAVACLManager() {
   let contractID = "@inverse.ca/calendar/caldav-acl-manager;1";
   
   jsInclude(["resource://sogo-connector/components/CalDAVACLManager.js"]);
-  
-  let factory = ComponentUtils.generateNSGetFactory([CalDAVACLManager])(classID);
 
   try {
+    let factory = ComponentUtils.generateNSGetFactory([CalDAVACLManager])(classID);
     Components.manager.registerFactory(classID, "CalDAVACLManager", contractID, factory);
     //context.callOnClose({close(){
     //  Components.manager.unregisterFactory(classID, factory);
     //}});
   } catch (e) {
+    dump(e);
     dump("startup - CalDAVACLManager already registered\n");
   }
 }
