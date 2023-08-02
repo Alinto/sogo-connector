@@ -203,8 +203,6 @@ function onOverlayAccept() {
 
       query += "</prop></set></propertyupdate>";
       proppatch.proppatch(query);
-
-      event.preventDefault();
     }
     else
       window.onAcceptDialog();
