@@ -389,21 +389,11 @@ window.openABACLDialog = function() {
 }
 
 function openDeletePersonalDirectoryForbiddenDialog() {
-  let promptService = Components.classes["@mozilla.org/embedcomp/prompt-service;1"]
-      .getService(Components.interfaces.nsIPromptService);
-
-  promptService.alert(window,
-                      document.getElementById("cmd_delete").getAttribute("valueAddressBook"),
-                      WL.extension.localeData.localizeMessage("deletePersonalABError"));
+  window.alert(WL.extension.localeData.localizeMessage("deletePersonalABError"));
 }
 
 function openDeletePublicDirectoryForbiddenDialog() {
-  let promptService = Components.classes["@mozilla.org/embedcomp/prompt-service;1"]
-      .getService(Components.interfaces.nsIPromptService);
-
-  promptService.alert(window,
-                      document.getElementById("cmd_delete").getAttribute("valueAddressBook"),
-                      WL.extension.localeData.localizeMessage("deletePublicABError"));
+  window.alert(WL.extension.localeData.localizeMessage("deletePublicABError"));
 }
 
 window.SIAbDeleteDirectory = function(aURI) {

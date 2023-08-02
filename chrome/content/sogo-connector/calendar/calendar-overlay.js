@@ -105,21 +105,11 @@ function manageCalendarACL() {
 }
 
 function _confirmDelete(name) {
-  let promptService = Components.classes["@mozilla.org/embedcomp/prompt-service;1"]
-      .getService(Components.interfaces.nsIPromptService);
-
-  return promptService.confirm(window,
-                               WL.extension.localeData.localizeMessage("deleteCalendarTitle"),
-                               WL.extension.localeData.localizeMessage("deleteCalendarMessage"),
-                               {});
+  return window.confirm(WL.extension.localeData.localizeMessage("deleteCalendarMessage"));
 }
 
 function openDeletePersonalDirectoryForbiddenDialog() {
-  let promptService = Components.classes["@mozilla.org/embedcomp/prompt-service;1"]
-      .getService(Components.interfaces.nsIPromptService);
-  promptService.alert(window,
-                      WL.extension.localeData.localizeMessage("deleteCalendarTitle"),
-                      WL.extension.localeData.localizeMessage("deletePersonalCalendarError"));
+  window.alert(WL.extension.localeData.localizeMessage("deletePersonalCalendarError"));
 }
 
 function openCalendarUnsubscriptionDialog() {
@@ -158,9 +148,7 @@ function SIpromptDeleteCalendar(calendar) {
     else {
       let title = cal.l10n.getCalString("removeCalendarButtonUnsubscribe");
       let msg = cal.l10n.getCalString("removeCalendarMessageDeleteOrUnsubscribe", [calendar.name]);
-      let promptService = Components.classes["@mozilla.org/embedcomp/prompt-service;1"]
-          .getService(Components.interfaces.nsIPromptService);
-      if (promptService.confirm(window, title, msg, {})) {
+      if (window.confirm(msg)) {
         window.unsubscribeFromFolder(url, handler);
       }
     }

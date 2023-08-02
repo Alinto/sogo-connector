@@ -1,6 +1,6 @@
 #inverseSubscriptionDialog
 { width: 400px;
-  height: 200px; }
+  height: 400px; }
 
 #throbber-box image
 {
@@ -18,7 +18,7 @@
 { color: #f00; }
 
 tree
-{ background-color: -moz-dialog !important; }
+{ background-color: -moz-dialog !important;}
 
 tree[searching="done"]
 { background-color: -moz-field !important; }
