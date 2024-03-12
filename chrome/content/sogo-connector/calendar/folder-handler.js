@@ -65,7 +65,7 @@ CalendarHandler.prototype = {
 
     let cals = this.mgr.getCalendars({});
     for (let i = 0; i < cals.length; i++) {
-      if (cals[i].type == "caldav") {
+      if (cals[i].type == "caldav" && cals[i].uri.spec.indexOf(sogoBaseURL()) != -1) {
         if (existing[cals[i].uri.spec]) {
           this.doubles.push(cals[i]);
         }

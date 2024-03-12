@@ -38,6 +38,7 @@ function jsInclude(files, target) {
 
 jsInclude(["chrome://sogo-connector/content/general/preference.service.addressbook.groupdav.js",
            "chrome://sogo-connector/content/addressbook/folder-handling.js"]);
+jsInclude(["chrome://sogo-connector/content/global/sogo-config.js"]);
 
 function AddressbookHandler() {
   this.doubles = {};
@@ -62,17 +63,17 @@ AddressbookHandler.prototype = {
       //  abURL = service.getURL();
       //          // dump("  GroupDAV existing: " + ab.dirPrefId + " - " + abURL + "\n");
       //}
-      if (isCardDavDirectory(abURI)) {
+      if (isCardDavDirectory(abURI) && ab.getStringValue("carddav.url", "").indexOf(sogoBaseURL()) != -1) {
         abURL = ab.getStringValue("carddav.url", "");
         //abURL = ab.wrappedJSObject.serverURL;
         //dump("  CardDAV existing: " + ab.dirPrefId + " - " + abURL + "\n");
-      }
-      if (abURL) {
+
         if (existing[abURL])
           this.doubles[abURI] = ab;
         else
           existing[abURL] = ab;
       }
+      
     }
     dump("   end getExistingDirectories\n");
 
