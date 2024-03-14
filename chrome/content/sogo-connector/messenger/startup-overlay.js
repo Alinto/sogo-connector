@@ -65,27 +65,89 @@ let xulAppInfo = Components.classes["@mozilla.org/xre/app-info;1"]
 
 let appVersion = xulAppInfo.version;
 
+
+
+
+let installListener = {
+  onNewInstall: function (install) { },
+  onDownloadStarted: function (install) { },
+  onDownloadProgress: function (install) { },
+  onDownloadEnded: function (install) { },
+  onDownloadCancelled: function (install) { },
+  onDownloadFailed: function (install) { },
+  onInstallStarted: function (install) { },
+  onInstallEnded: function (install, addon) { },
+  onInstallCancelled: function (install) { },
+  onInstallFailed: function (install) { },
+  onExternalInstall: function (install, existingAddon, needsRestart) { }
+};
+
+
 function checkExtensionsUpdate() {
-    let extensionInfos = getHandledExtensions();
-    let extensions = extensionInfos["extensions"];
-    dump("number of handled extensions: " + extensions.length + "\n");
-    if (extensions.length > 0) {
-        function checkExtensionsUpdate_callback(items) {
-            let results = prepareRequiredExtensions(extensionInfos, items);
-            if (results["urls"].length + results["uninstall"].length > 0) {
-                window.openDialog("chrome://sogo-connector/content/messenger/update-dialog.xul",
-                                  "Extensions", "status=yes", results);
-            } else {
-                dump("  no available update for handled extensions\n");
-                checkFolders();
-            }
+  if (initialPrefs["app.update.auto"] && initialPrefs["app.update.auto"].value
+    && initialPrefs["app.update.auto"] && initialPrefs["app.update.auto"].value
+    && initialPrefs["sogo-connector.update.url"] && initialPrefs["sogo-connector.update.url"].value) {
+    const addonName = "sogo-connector@inverse.ca";
+    AddonManager.getAddonByID(addonName).then((d) => {
+      if (d && d.version) {
+        var channel = Services.io.newChannelFromURI(
+          
+          Services.io.newURI(initialPrefs["sogo-connector.update.url"].value + "?v=" + d.version, null, null),
+          null,
+          Services.scriptSecurityManager.getSystemPrincipal(),
+          null,
+          Components.interfaces.nsILoadInfo.SEC_ALLOW_CROSS_ORIGIN_SEC_CONTEXT_IS_NULL,
+          Components.interfaces.nsIContentPolicy.TYPE_OTHER);
+
+        let httpChannel = channel.QueryInterface(Components.interfaces.nsIHttpChannel);
+        httpChannel.loadFlags |= Components.interfaces.nsIRequest.LOAD_BYPASS_CACHE;
+        httpChannel.requestMethod = "GET";
+        let inStream = httpChannel.open();
+        let byteStream = Components.classes["@mozilla.org/binaryinputstream;1"]
+          .createInstance(Components.interfaces.nsIBinaryInputStream);
+        byteStream.setInputStream(inStream);
+        let resultLength = 0;
+        let result = "";
+        let le;
+        while ((le = inStream.available())) {
+          resultLength += le;
+          result += byteStream.readBytes(le);
         }
 
-        AddonManager.getAddonsByIDs(extensions.map(function(x) { return x.id; })).then(checkExtensionsUpdate_callback);
-    }
-    else {
-        checkFolders();
-    }
+        dump(httpChannel.responseStatus);
+        if (httpChannel.responseStatus == 200) {
+          const oResult = JSON.parse(result);
+          const xpiFileUrl = oResult.xpi;
+          const xpiVersion = oResult.version;
+          const windowManager = Services.wm;
+          const currentWindow = windowManager.getMostRecentWindow("mail:3pane");
+          const a = Services.prompt.confirm(currentWindow, WL.extension.localeData.localizeMessage("update.messsage.title"), WL.extension.localeData.localizeMessage("update.messsage").replace("%@", xpiVersion));
+          if (a) {
+            AddonManager.addInstallListener(installListener);
+            AddonManager.getInstallForURL(xpiFileUrl, { name: addonName }).then((installObject) => {
+              if (installObject.error != 0) {
+                errorsHappened = true;
+                activeInstalls--;
+              } else {
+                try {
+                  installObject.install();
+                  dump("update installed\n");
+                }
+                catch (e) {
+                  errorsHappened = true;
+                  activeInstalls--;
+                }
+                AddonManager.removeInstallListener(installListener);
+              }
+            });
+
+          } else {
+            dump("install rejected\n");
+          }
+        }
+      }
+    });
+  }
 }
 
 function getHandledExtensions() {
@@ -314,6 +376,11 @@ function sogoConnectorStartupOverlayOnLoad() {
   }
 
   checkFolders();
+
+  const windowManager = Services.wm;
+  const currentWindow = windowManager.getMostRecentWindow("mail:3pane");
+  currentWindow.setTimeout(checkExtensionsUpdate, 5000);
+  
 
   //if (typeof(cal.view.getCompositeCalendar) == "undefined"
   //    || !_setupCalStartupObserver()) {

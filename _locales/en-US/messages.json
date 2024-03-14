@@ -472,5 +472,11 @@
     },
     "subscription.title": {
         "message": "Subscription..."
+    },
+    "update.messsage.title": {
+        "message": "Update"
+    },
+    "update.messsage": {
+        "message": "An update for SOGo addon is available (version %@), do you want to install ?"
     }
 }

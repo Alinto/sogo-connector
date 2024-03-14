@@ -101,3 +101,28 @@ patch file **omni.ja** (found in user's Thunderbird profile) like this:
            cal.itip.getInvitedAttendee(item).participationStatus
 ```
 this is only a temporary fix until Mozilla patches this in TB's source: https://bugzilla.mozilla.org/show_bug.cgi?id=1741801
+
+# Addon auto update
+
+An auto update mechanism will check if a new version is available on a server, and suggest to install it (suggested when the addon starts).
+
+To enable this feature, you need to host this [PHP script](scripts/sogo-tb-update.php) on a server.
+
+In the script, you need to put the xpi file on the same level than the PHP script.
+You need to edit the top of the file and set the version and the file name :
+
+```
+$latestVersion = array(
+				   "version" => "115.0.0",
+           "filename" => "sogo-connector-116.0.0-0468b81969.xpi" 
+);
+```
+
+In the extension, you need to add the following directive :
+
+```
+bool_pref("app.update.auto", true);
+bool_pref("app.update.enabled", true);
+char_pref("sogo-connector.update.url", "https://yourdomaine.com/sogo-tb-update.php");
+```
+

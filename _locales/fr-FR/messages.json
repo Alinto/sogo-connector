@@ -472,5 +472,11 @@
     },
     "subscription.title": {
         "message": "Inscription..."
+    },
+    "update.messsage.title": {
+        "message": "Mise à jour"
+    },
+    "update.messsage": {
+        "message": "Une mise à jour de l'extension SOGo est disponible (version %@), souhaitez-vous l'installer ?"
     }
 }
