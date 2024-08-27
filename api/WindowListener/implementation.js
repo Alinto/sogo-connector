@@ -1,6 +1,6 @@
 /*
  * This file is provided by the addon-developer-support repository at
- * https://github.com/thundernest/addon-developer-support
+ * https://github.com/thunderbird/addon-developer-support
  *
  * Version 1.62
  *
@@ -1147,7 +1147,7 @@ var WindowListener_102 = class extends ExtensionCommon.ExtensionAPI {
       }
     }
 
-    // Unload JSMs of this add-on
+    // Unload system modules of this add-on.
     const rootURI = this.extension.rootURI.spec;
     for (let module of Cu.loadedModules) {
       if (
@@ -2131,7 +2131,7 @@ var WindowListener_115 = class extends ExtensionCommon.ExtensionAPI {
       }
     }
 
-    // Unload JSMs of this add-on
+    // Unload system modules of this add-on.
     const rootURI = this.extension.rootURI.spec;
     for (let module of Cu.loadedModules) {
       if (

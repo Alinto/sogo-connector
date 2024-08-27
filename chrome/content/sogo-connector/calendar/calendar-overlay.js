@@ -18,7 +18,8 @@
  * Franklin St, Fifth Floor, Boston, MA 02110-1301 USA
  */
 var { cal } = ChromeUtils.import("resource:///modules/calendar/calUtils.jsm");
-var { Services } = ChromeUtils.import("resource://gre/modules/Services.jsm");
+var Services = globalThis.Services ||
+  ChromeUtils.import("resource://gre/modules/Services.jsm").Services;
 
 var _this = this;
 
@@ -256,13 +257,13 @@ function SIOnCalendarOverlayLoad() {
   //popup.insertBefore(showonly, popup.firstChild);
 
   let list_calendars_context_delete = document.getElementById("list-calendars-context-delete");
-  list_calendars_context_delete.setAttribute("deletelabel", WL.extension.localeData.localizeMessage("calendar.context.sogo-delete.label"));
+  list_calendars_context_delete.setAttribute("label", WL.extension.localeData.localizeMessage("calendar.context.sogo-delete.label"));
   list_calendars_context_delete.setAttribute("unsubscribelabel", WL.extension.localeData.localizeMessage("calendar.context.sogo-unsubscribe.label"));
   list_calendars_context_delete.addEventListener("command", openCalendarUnsubscriptionDialog, false);
-  
+
   let acls = document.createXULElement("menuitem");
   acls.id = "list-calendars-context-sogo-acls";
-  acls.setAttribute("managelabel", WL.extension.localeData.localizeMessage("calendar.context.sogo-acls.label"));
+  acls.setAttribute("label", WL.extension.localeData.localizeMessage("calendar.context.sogo-acls.label")); // Utilisez "label" pour le texte du menu
   acls.setAttribute("reloadlabel", WL.extension.localeData.localizeMessage("calendar.context.sogo-reload-acls.label"));
   acls.addEventListener("command", manageCalendarACL, false);
   popup.appendChild(acls);

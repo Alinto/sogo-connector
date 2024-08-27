@@ -21,7 +21,8 @@
 var EXPORTED_SYMBOLS = ["contextManagerInstance"];
 
 var { XPCOMUtils } = ChromeUtils.import("resource://gre/modules/XPCOMUtils.jsm");
-var { Services } = ChromeUtils.import("resource://gre/modules/Services.jsm");
+var Services = globalThis.Services ||
+  ChromeUtils.import("resource://gre/modules/Services.jsm").Services;
 
 function ContextManager() {
     this.contexts = {};

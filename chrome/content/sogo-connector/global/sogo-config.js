@@ -18,7 +18,8 @@
  * Franklin St, Fifth Floor, Boston, MA 02110-1301 USA
  */
 
-var { Services } = ChromeUtils.import("resource://gre/modules/Services.jsm");
+var Services = globalThis.Services ||
+  ChromeUtils.import("resource://gre/modules/Services.jsm").Services;
 
 var sogoConfig = { username: null, baseURL: null };
 
@@ -34,6 +35,7 @@ function sogoUserName() {
     catch(e) {
       useEmail = false;
     }
+    
     try {
       if (useEmail)
 	      sogoConfig['username'] = mgr.defaultAccount.defaultIdentity.email;

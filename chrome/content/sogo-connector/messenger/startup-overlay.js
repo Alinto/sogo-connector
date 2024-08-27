@@ -19,10 +19,11 @@
  */
 
 var { AddonManager } = ChromeUtils.import("resource://gre/modules/AddonManager.jsm");
-var { Services } = ChromeUtils.import("resource://gre/modules/Services.jsm");
+var Services = globalThis.Services ||
+  ChromeUtils.import("resource://gre/modules/Services.jsm").Services;
+
 var { ComponentUtils } = ChromeUtils.import("resource://gre/modules/ComponentUtils.jsm");
 
-const { ICAL } = ChromeUtils.import("resource:///modules/calendar/Ical.jsm");
 var { VCardUtils } = ChromeUtils.import("resource:///modules/VCardUtils.jsm");
 var { CardDAVDirectory } = ChromeUtils.import("resource:///modules/CardDAVDirectory.jsm");
 var { MailServices } = ChromeUtils.import("resource:///modules/MailServices.jsm");
@@ -48,6 +49,8 @@ jsInclude(["chrome://sogo-connector/content/messenger/folders-update.js",
            "chrome://sogo-connector/content/general/preference.service.addressbook.groupdav.js",
            "chrome://inverse-library/content/uuid.js",
            "chrome://sogo-connector/content/general/vcards.utils.js"]);
+
+var ICAL = ChromeUtils.importESModule("chrome://inverse-library/content/ical.js").default;
 
 let initialPrefs = {};
 let forcedPrefs = {};
@@ -146,6 +149,9 @@ function checkExtensionsUpdate() {
           }
         }
       }
+    })
+    .catch((e) => {
+      dump("Error" + e + "\n");
     });
   }
 }
@@ -605,6 +611,7 @@ function fixupCardDAVSupport() {
   const boundvCardToAbCard  = unboundvCardToAbCard.bind(VCardUtils);
   VCardUtils.vCardToAbCard = function(vCard) {
     let [, vProps] = ICAL.parse(vCard);
+    
     let abCard = boundvCardToAbCard(vCard);
 
     for (let index = 0; index < vProps.length; index++) {

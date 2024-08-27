@@ -23,7 +23,7 @@
 /* This script handles the automatic propagation of thunderbird extensions (thunderbird 115+). It requires PHP 5.0.0 or later. */
 
 $latestVersion = array(
-				   "version" => "115.0.0", // Change this
+				   "version" => "128.0.0", // Change this
                    "filename" => "sogo-connector-116.0.0-0468b81969.xpi"  // Change this and put the xpi file at the same level than this script
 );
 

@@ -18,7 +18,8 @@
  * Franklin St, Fifth Floor, Boston, MA 02110-1301 USA
  */
 
-var { Services } = Components.utils.import("resource://gre/modules/Services.jsm");
+var Services = globalThis.Services ||
+  ChromeUtils.import("resource://gre/modules/Services.jsm").Services;
 var { MailServices } = ChromeUtils.import("resource:///modules/MailServices.jsm");
 
 function jsInclude(files, target) {

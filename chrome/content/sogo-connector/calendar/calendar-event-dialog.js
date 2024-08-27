@@ -17,7 +17,8 @@
  * "SOGo Connector"; if not, write to the Free Software Foundation, Inc., 51
  * Franklin St, Fifth Floor, Boston, MA 02110-1301 USA
  */
-var { Services } = ChromeUtils.import("resource://gre/modules/Services.jsm");
+var Services = globalThis.Services ||
+  ChromeUtils.import("resource://gre/modules/Services.jsm").Services;
 
 function lightningItemPanelHasLoaded(win, value) {
   let iframe = document.getElementById("lightning-item-panel-iframe");

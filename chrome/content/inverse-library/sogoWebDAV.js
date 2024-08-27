@@ -16,7 +16,8 @@
  * Franklin St, Fifth Floor, Boston, MA 02110-1301 USA
  */
 
-var { Services } = ChromeUtils.import("resource://gre/modules/Services.jsm");
+var Services = globalThis.Services ||
+    ChromeUtils.import("resource://gre/modules/Services.jsm").Services;
 var { cal } = ChromeUtils.import("resource:///modules/calendar/calUtils.jsm");
 
 try { Components.utils.importGlobalProperties(["TextDecoder", "TextEncoder", "DOMParser", "Node"]); } catch(e) {}
@@ -200,11 +201,14 @@ sogoWebDAV.prototype = {
             let converter = Components.classes["@mozilla.org/intl/scriptableunicodeconverter"]
                                       .createInstance(Components.interfaces.nsIScriptableUnicodeConverter);
             converter.charset = "UTF-8";
-            let stream = converter.convertToInputStream(body);
+            let stream = Cc["@mozilla.org/io/string-input-stream;1"].createInstance(Ci.nsIStringInputStream);
+            stream.setData(body, body.length);
+
             let contentType = headers["content-type"];
             if (!contentType) {
                 contentType = "text/plain; charset=utf-8";
             }
+
             httpChannel.setUploadStream(stream, contentType, -1);
         }
 
@@ -257,7 +261,8 @@ sogoWebDAV.prototype = {
         }
         catch(e) {
             dump("sogoWebDAV: trapped exception: " + e + "\n");
-            setTimeout("throw new Error('sogoWebDAV could not download calendar " + this.url + ". Try disabling proxy server.')",0); 
+            let globalObj = (typeof window !== "undefined") ? window : this;
+            globalObj.setTimeout("throw new Error('sogoWebDAV could not download calendar " + this.url + ". Try disabling proxy server.')",0);
             status = 499;
         }
         dump("GOT STATUS: " + status + "\n");

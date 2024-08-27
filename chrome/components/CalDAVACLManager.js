@@ -19,7 +19,8 @@
  */
 
 var { XPCOMUtils } = Components.utils.import("resource://gre/modules/XPCOMUtils.jsm");
-var { Services } = Components.utils.import("resource://gre/modules/Services.jsm");
+var Services = globalThis.Services ||
+  ChromeUtils.import("resource://gre/modules/Services.jsm").Services;
 var { cal } = ChromeUtils.import("resource:///modules/calendar/calUtils.jsm");
 var { Preferences } = Components.utils.import("resource://gre/modules/Preferences.jsm");
 
@@ -1317,14 +1318,12 @@ CalDAVACLManager.prototype = {
     }
 
     if (body) {
-      let converter = Components.classes["@mozilla.org/intl/scriptableunicodeconverter"]
-          .createInstance(Components.interfaces.nsIScriptableUnicodeConverter);
-      converter.charset = "UTF-8";
-      let stream = converter.convertToInputStream(body);
-      let contentType = headers["content-type"];
-      if (!contentType) {
-        contentType = "text/plain; charset=utf-8";
-      }
+      let encoder = new TextEncoder();
+      let encodedBody = encoder.encode(body);
+      let stream = Components.classes["@mozilla.org/io/arraybuffer-input-stream;1"]
+        .createInstance(Components.interfaces.nsIArrayBufferInputStream);
+      stream.setData(encodedBody.buffer, 0, encodedBody.byteLength);
+      let contentType = headers["content-type"] || "text/plain; charset=utf-8";
       httpChannel = httpChannel.QueryInterface(Components.interfaces.nsIUploadChannel);
       httpChannel.setUploadStream(stream, contentType, -1);
     }

@@ -18,7 +18,8 @@
  * Franklin St, Fifth Floor, Boston, MA 02110-1301 USA
  */
 
-var { Services } = ChromeUtils.import("resource://gre/modules/Services.jsm");
+var Services = globalThis.Services ||
+    ChromeUtils.import("resource://gre/modules/Services.jsm").Services;
 
 function jsInclude(files, target) {
     let loader = Components.classes["@mozilla.org/moz/jssubscript-loader;1"]
@@ -157,6 +158,7 @@ let SIContactCategories = {
                         let propstat = propstats[i];
                         if (propstat["status"][0].indexOf("200") > 0
                             && propstat["prop"][0]
+                            && propstat["prop"][0]["contacts-categories"]
                             && propstat["prop"][0]["contacts-categories"][0]) {
                             let cats = propstat["prop"][0]["contacts-categories"][0]["category"];
                             SCContactCategories.setCategoriesAsArray(cats);

@@ -18,9 +18,10 @@
  * Franklin St, Fifth Floor, Boston, MA 02110-1301 USA
  */
 
-let kPhotoImageCache = "SOGoImageCache";
+var kPhotoImageCache = "SOGoImageCache";
 
-Components.utils.import("resource://gre/modules/Services.jsm");
+var Services = globalThis.Services ||
+    ChromeUtils.import("resource://gre/modules/Services.jsm").Services;
 
 function jsInclude(files, target) {
     let loader = Components.classes["@mozilla.org/moz/jssubscript-loader;1"]
@@ -292,7 +293,7 @@ function CreateCardFromVCF(vcard) {
     return card;
 }
 
-let _insertCardMethods = {
+var _insertCardMethods = {
     _upperTypes: function(types) {
         let upperTypes = [];
         if (types && types.length > 0) {
