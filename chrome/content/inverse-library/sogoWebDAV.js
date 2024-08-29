@@ -261,8 +261,7 @@ sogoWebDAV.prototype = {
         }
         catch(e) {
             dump("sogoWebDAV: trapped exception: " + e + "\n");
-            let globalObj = (typeof window !== "undefined") ? window : this;
-            globalObj.setTimeout("throw new Error('sogoWebDAV could not download calendar " + this.url + ". Try disabling proxy server.')",0);
+            console.error("throw new Error('sogoWebDAV could not download calendar " + this.url + ". Try disabling proxy server.')");
             status = 499;
         }
         dump("GOT STATUS: " + status + "\n");

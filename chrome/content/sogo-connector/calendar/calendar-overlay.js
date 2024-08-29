@@ -57,8 +57,7 @@ registerJs = () => {
     "chrome://sogo-connector/content/general/sync.addressbook.groupdav.js",
     "chrome://sogo-connector/content/messenger/folders-update.js",
     "chrome://sogo-connector/content/global/sogo-config.js",
-    "chrome://global/content/globalOverlay.js",
-    "chrome://global/content/editMenuOverlay.js"], _this);
+    "chrome://global/content/globalOverlay.js"], _this);
 
   jsInclude(["chrome://sogo-connector/content/general/subscription-utils.js"], window);
 }
@@ -143,7 +142,12 @@ function SIpromptDeleteCalendar(calendar) {
         openDeletePersonalDirectoryForbiddenDialog();
       }
       else if (_confirmDelete(calendar.name)) {
-        deleteFolder(url, handler);
+        deleteFolder(url, handler, (httpCode) => {
+          if (403 == httpCode) {
+            // Fallback to unsubscribe
+            window.unsubscribeFromFolder(url, handler);
+          }
+        });
       }
     }
     else {

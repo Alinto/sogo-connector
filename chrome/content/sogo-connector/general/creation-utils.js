@@ -95,7 +95,7 @@ function _realCreateFolder(displayName, handler) {
   creation.start();
 }
 
-function deleteFolder(nodeURL, handler) {
+function deleteFolder(nodeURL, handler, errHandler) {
   dump("deleteFolder: " + nodeURL + "\n");
   var existingFolder = null;
   var existing = handler.getExistingDirectories();
@@ -117,6 +117,9 @@ function deleteFolder(nodeURL, handler) {
       if ((status > 199 && status < 400)
 	  || status == 404)
 	handler.removeDirectories([existingFolder]);
+
+      if (errHandler)
+        errHandler(status);
     };
 
     var deleteOP = new sogoWebDAV(nodeURL, target);

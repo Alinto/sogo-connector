@@ -103,6 +103,8 @@ AddressbookHandler.prototype = {
         directory.setBoolValue("readOnly", readOnly);
       } catch(e) {
         dump(e);
+        console.error(newDirs);
+        console.error(directory);
       }
 
       //if (readOnly) { 
