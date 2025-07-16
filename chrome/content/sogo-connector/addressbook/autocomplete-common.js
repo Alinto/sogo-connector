@@ -1,4 +1,4 @@
-Components.utils.import("resource://gre/modules/Preferences.jsm");
+ChromeUtils.importESModule("resource://gre/modules/Preferences.sys.mjs");
 
 function SCACLoad() {
     //let prefService = Components.classes["@mozilla.org/preferences-service;1"]

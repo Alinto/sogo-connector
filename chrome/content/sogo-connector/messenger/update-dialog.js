@@ -1,6 +1,6 @@
 /* -*- Mode: java; c-tab-always-indent: t; indent-tabs-mode: nil; c-basic-offset: 4 -*- */
 
-var { AddonManager } = ChromeUtils.import("resource://gre/modules/AddonManager.jsm");
+var { AddonManager } = ChromeUtils.importESModule("resource://gre/modules/AddonManager.sys.mjs");
 
 var iCc = Components.classes;
 var iCi = Components.interfaces;

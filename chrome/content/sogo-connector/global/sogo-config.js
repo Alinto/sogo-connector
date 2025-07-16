@@ -19,7 +19,7 @@
  */
 
 var Services = globalThis.Services ||
-  ChromeUtils.import("resource://gre/modules/Services.jsm").Services;
+  ChromeUtils.importESModule("resource://gre/modules/Services.sys.mjs").Services;
 
 var sogoConfig = { username: null, baseURL: null };
 

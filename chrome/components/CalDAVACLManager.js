@@ -18,11 +18,10 @@
  * Franklin St, Fifth Floor, Boston, MA 02110-1301 USA
  */
 
-var { XPCOMUtils } = Components.utils.import("resource://gre/modules/XPCOMUtils.jsm");
 var Services = globalThis.Services ||
-  ChromeUtils.import("resource://gre/modules/Services.jsm").Services;
-var { cal } = ChromeUtils.import("resource:///modules/calendar/calUtils.jsm");
-var { Preferences } = Components.utils.import("resource://gre/modules/Preferences.jsm");
+  ChromeUtils.importESModule("resource://gre/modules/Services.sys.mjs").Services;
+var { cal } = ChromeUtils.importESModule("resource:///modules/calendar/calUtils.sys.mjs");
+var { Preferences } = ChromeUtils.importESModule("resource://gre/modules/Preferences.sys.mjs");
 
 function jsInclude(files, target) {
   let loader = Components.classes["@mozilla.org/moz/jssubscript-loader;1"]
@@ -1439,7 +1438,6 @@ CalDAVACLManager.prototype = {
   QueryInterface: function cDACLM_QueryInterface(aIID) {
     return doQueryInterface(this, CalDAVACLManager.prototype, aIID, null, this);
   }
-  //QueryInterface: XPCOMUtils.generateQI([Components.interfaces.CalDAVACLManager])
 };
 
 function CalDAVAclCalendarEntry(calendar, manager) {
@@ -1628,7 +1626,6 @@ CalDAVAclItemEntry.prototype = {
   },
 
   /* nsISupports */
-  //QueryInterface: XPCOMUtils.generateQI([Components.interfaces.calIItemACLEntry])
   QueryInterface: function(aIID) {
     return doQueryInterface(this, null,
                             aIID, [Components.interfaces.calIItemACLEntry],

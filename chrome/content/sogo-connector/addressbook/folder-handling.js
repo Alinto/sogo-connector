@@ -19,9 +19,9 @@
  */
 
 var Services = globalThis.Services ||
-  ChromeUtils.import("resource://gre/modules/Services.jsm").Services;
-var { MailServices } = ChromeUtils.import("resource:///modules/MailServices.jsm");
-var { CardDAVDirectory } = ChromeUtils.import("resource:///modules/CardDAVDirectory.jsm");
+  ChromeUtils.importESModule("resource://gre/modules/Services.sys.mjs").Services;
+var { MailServices } = ChromeUtils.importESModule("resource:///modules/MailServices.sys.mjs");
+var { CardDAVDirectory } = ChromeUtils.importESModule("resource:///modules/CardDAVDirectory.sys.mjs");
 
 function jsInclude(files, target) {
     let loader = Components.classes["@mozilla.org/moz/jssubscript-loader;1"]

@@ -26,7 +26,7 @@ function jsInclude(files, target) {
       loader.loadSubScript(files[i], target);
     }
     catch(e) {
-      //dump("subscription-utils.js: failed to include '" + files[i] + "'\n" + e + "\n");
+      dump("subscription-utils.js: failed to include '" + files[i] + "'\n" + e + "\n");
     }
   }
 }

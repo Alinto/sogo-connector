@@ -19,7 +19,7 @@
  */
 
 var Services = globalThis.Services ||
-    ChromeUtils.import("resource://gre/modules/Services.jsm").Services;
+    ChromeUtils.importESModule("resource://gre/modules/Services.sys.mjs").Services;
 
 function jsInclude(files, target) {
     let loader = Components.classes["@mozilla.org/moz/jssubscript-loader;1"]

@@ -18,9 +18,9 @@
  * Franklin St, Fifth Floor, Boston, MA 02110-1301 USA
  */
 
-var { contextManagerInstance } = ChromeUtils.import("resource://sogo-connector/components/ContextManager.jsm");
+var { contextManagerInstance } = ChromeUtils.importESModule("resource://sogo-connector/components/ContextManager.sys.mjs");
 var Services = globalThis.Services ||
-    ChromeUtils.import("resource://gre/modules/Services.jsm").Services;
+    ChromeUtils.importESModule("resource://gre/modules/Services.sys.mjs").Services;
 
 function jsInclude(files, target) {
     let loader = Components.classes["@mozilla.org/moz/jssubscript-loader;1"]
@@ -30,9 +30,9 @@ function jsInclude(files, target) {
             loader.loadSubScript(files[i], target);
         }
         catch(e) {
-            //dump("folders-update.js: failed to include '" + files[i] + "'\n" + e +
-            //     "\nFile: " + e.fileName +
-            //     "\nLine: " + e.lineNumber + "\n\n Stack:\n\n" + e.stack);
+            dump("folders-update.js: failed to include '" + files[i] + "'\n" + e +
+                "\nFile: " + e.fileName +
+                "\nLine: " + e.lineNumber + "\n\n Stack:\n\n" + e.stack);
         }
     }
 }

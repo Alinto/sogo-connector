@@ -26,10 +26,10 @@ function jsInclude(files, target) {
       loader.loadSubScript(files[i], target);
     }
     catch(e) {
-      //dump("sync.addressbook.groupdav.js: failed to include '" + files[i] +
-      //     "'\n" + e
-      //     + "\nFile: " + e.fileName
-      //    + "\nLine: " + e.lineNumber + "\n\n Stack:\n\n" + e.stack);
+      dump("sync.addressbook.groupdav.js: failed to include '" + files[i] +
+          "'\n" + e
+          + "\nFile: " + e.fileName
+         + "\nLine: " + e.lineNumber + "\n\n Stack:\n\n" + e.stack);
     }
   }
 }

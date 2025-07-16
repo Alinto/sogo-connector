@@ -1,4 +1,4 @@
-Components.utils.import("resource://gre/modules/Preferences.jsm");
+ChromeUtils.importESModule("resource://gre/modules/Preferences.sys.mjs");
 
 function reloadCalendarCache(aCalendar) {
     if (aCalendar.type == "caldav") {

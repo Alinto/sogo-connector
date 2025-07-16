@@ -18,9 +18,9 @@
  * Franklin St, Fifth Floor, Boston, MA 02110-1301 USA
  */
 
-var { MailServices } = ChromeUtils.import("resource:///modules/MailServices.jsm");
+var { MailServices } = ChromeUtils.importESModule("resource:///modules/MailServices.sys.mjs");
 var Services = globalThis.Services ||
-  ChromeUtils.import("resource://gre/modules/Services.jsm").Services;
+  ChromeUtils.importESModule("resource://gre/modules/Services.sys.mjs").Services;
 
 var _this = this;
 
@@ -32,12 +32,12 @@ function jsInclude(files, target) {
       loader.loadSubScript(files[i], target);
     }
     catch(e) {
-      //dump("addressbook.groupdav.overlay.js: failed to include '" + files[i] +
-      //     "'\n" + e);
-      //if (e.fileName)
-      //    dump ("\nFile: " + e.fileName
-      //          + "\nLine: " + e.lineNumber
-      //          + "\n\n Stack:\n\n" + e.stack);
+      dump("addressbook.groupdav.overlay.js: failed to include '" + files[i] +
+          "'\n" + e);
+      if (e.fileName)
+         dump ("\nFile: " + e.fileName
+               + "\nLine: " + e.lineNumber
+               + "\n\n Stack:\n\n" + e.stack);
     }
   }
 }

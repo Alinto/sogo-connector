@@ -18,17 +18,17 @@
  * Franklin St, Fifth Floor, Boston, MA 02110-1301 USA
  */
 
-var { AddonManager } = ChromeUtils.import("resource://gre/modules/AddonManager.jsm");
+var { AddonManager } = ChromeUtils.importESModule("resource://gre/modules/AddonManager.sys.mjs");
 var Services = globalThis.Services ||
-  ChromeUtils.import("resource://gre/modules/Services.jsm").Services;
+  ChromeUtils.importESModule("resource://gre/modules/Services.sys.mjs").Services;
 
-var { ComponentUtils } = ChromeUtils.import("resource://gre/modules/ComponentUtils.jsm");
+var { ComponentUtils } = ChromeUtils.importESModule("resource://gre/modules/ComponentUtils.sys.mjs");
 
-var { VCardUtils } = ChromeUtils.import("resource:///modules/VCardUtils.jsm");
-var { CardDAVDirectory } = ChromeUtils.import("resource:///modules/CardDAVDirectory.jsm");
-var { MailServices } = ChromeUtils.import("resource:///modules/MailServices.jsm");
-var { AddrBookDirectory } = ChromeUtils.import("resource:///modules/AddrBookDirectory.jsm");
-var { AddrBookManager } = ChromeUtils.import("resource:///modules/AddrBookManager.jsm");
+var { VCardUtils } = ChromeUtils.importESModule("resource:///modules/VCardUtils.sys.mjs");
+var { CardDAVDirectory } = ChromeUtils.importESModule("resource:///modules/CardDAVDirectory.sys.mjs");
+var { MailServices } = ChromeUtils.importESModule("resource:///modules/MailServices.sys.mjs");
+var { AddrBookDirectory } = ChromeUtils.importESModule("resource:///modules/AddrBookDirectory.sys.mjs");
+var { AddrBookManager } = ChromeUtils.importESModule("resource:///modules/AddrBookManager.sys.mjs");
 
 function jsInclude(files, target) {
   let loader = Components.classes["@mozilla.org/moz/jssubscript-loader;1"]

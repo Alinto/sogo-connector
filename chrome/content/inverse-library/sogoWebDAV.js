@@ -17,8 +17,8 @@
  */
 
 var Services = globalThis.Services ||
-    ChromeUtils.import("resource://gre/modules/Services.jsm").Services;
-var { cal } = ChromeUtils.import("resource:///modules/calendar/calUtils.jsm");
+    ChromeUtils.importESModule("resource://gre/modules/Services.sys.mjs").Services;
+var { cal } = ChromeUtils.importESModule("resource:///modules/calendar/calUtils.sys.mjs");
 
 try { Components.utils.importGlobalProperties(["TextDecoder", "TextEncoder", "DOMParser", "Node"]); } catch(e) {}
 
@@ -202,7 +202,7 @@ sogoWebDAV.prototype = {
                                       .createInstance(Components.interfaces.nsIScriptableUnicodeConverter);
             converter.charset = "UTF-8";
             let stream = Cc["@mozilla.org/io/string-input-stream;1"].createInstance(Ci.nsIStringInputStream);
-            stream.setData(body, body.length);
+            stream.setUTF8Data(body);
 
             let contentType = headers["content-type"];
             if (!contentType) {

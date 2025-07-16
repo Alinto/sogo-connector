@@ -19,8 +19,8 @@
  */
 
 var Services = globalThis.Services ||
-  ChromeUtils.import("resource://gre/modules/Services.jsm").Services;
-var { MailServices } = ChromeUtils.import("resource:///modules/MailServices.jsm");
+  ChromeUtils.importESModule("resource://gre/modules/Services.sys.mjs").Services;
+var { MailServices } = ChromeUtils.importESModule("resource:///modules/MailServices.sys.mjs");
 
 function jsInclude(files, target) {
   let loader = Components.classes["@mozilla.org/moz/jssubscript-loader;1"]

@@ -18,7 +18,7 @@
  * Franklin St, Fifth Floor, Boston, MA 02110-1301 USA
  */
 var Services = globalThis.Services ||
-  ChromeUtils.import("resource://gre/modules/Services.jsm").Services;
+  ChromeUtils.importESModule("resource://gre/modules/Services.sys.mjs").Services;
 
 function lightningItemPanelHasLoaded(win, value) {
   let iframe = document.getElementById("lightning-item-panel-iframe");

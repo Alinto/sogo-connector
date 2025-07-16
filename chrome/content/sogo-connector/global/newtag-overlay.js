@@ -26,7 +26,7 @@ function jsInclude(files, target) {
       loader.loadSubScript(files[i], target);
     }
     catch(e) {
-      //dump("newtag-overlay.js: failed to include '" + files[i] + "'\n" + e + "\n");
+      dump("newtag-overlay.js: failed to include '" + files[i] + "'\n" + e + "\n");
     }
   }
 }

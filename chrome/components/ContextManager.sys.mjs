@@ -18,11 +18,10 @@
  * Franklin St, Fifth Floor, Boston, MA 02110-1301 USA
  */
 
-var EXPORTED_SYMBOLS = ["contextManagerInstance"];
+//var EXPORTED_SYMBOLS = ["contextManagerInstance"];
 
-var { XPCOMUtils } = ChromeUtils.import("resource://gre/modules/XPCOMUtils.jsm");
 var Services = globalThis.Services ||
-  ChromeUtils.import("resource://gre/modules/Services.jsm").Services;
+  ChromeUtils.importESModule("resource://gre/modules/Services.sys.mjs").Services;
 
 function ContextManager() {
     this.contexts = {};
@@ -86,8 +85,5 @@ ContextManager.prototype = {
 
 var contextManagerInstance = new ContextManager();
 
-/** Module Registration */
-//function NSGetFactory(cid) {
-//    return (XPCOMUtils.generateNSGetFactory([ContextManager]))(cid);
-//}
-//this.NSGetFactory = XPCOMUtils.generateNSGetFactory([ContextManager]);
+export {contextManagerInstance}
+
